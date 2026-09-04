@@ -1,0 +1,47 @@
+name: Outatime
+options:
+  bundleIdPrefix: com.dbarkan
+  deploymentTarget:
+    macOS: "26.0"
+  xcodeVersion: "26.0"
+  generateEmptyDirectories: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_APPROACHABLE_CONCURRENCY: YES
+    SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+    SWIFT_STRICT_CONCURRENCY: complete
+    DEVELOPMENT_TEAM: L26TPPMPF3
+    CODE_SIGN_STYLE: Automatic
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  Outatime:
+    type: application
+    platform: macOS
+    sources: [Outatime]
+    entitlements:
+      path: Outatime/Outatime.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.files.user-selected.read-write: true
+    info:
+      path: Outatime/Info.plist
+      properties:
+        CFBundleDisplayName: Outatime
+        LSUIElement: true
+        LSApplicationCategoryType: public.app-category.productivity
+        NSHumanReadableCopyright: © 2026 David Barkan
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.dbarkan.Outatime
+        ENABLE_HARDENED_RUNTIME: YES
+  OutatimeTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources: [OutatimeTests]
+    dependencies:
+      - target: Outatime
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
