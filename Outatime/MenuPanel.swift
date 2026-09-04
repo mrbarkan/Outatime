@@ -4,6 +4,7 @@ import ServiceManagement
 struct MenuPanel: View {
     @Environment(Store.self) private var store
     @Environment(\.openWindow) private var openWindow
+    @Environment(\.dismiss) private var dismiss
     @AppStorage("targetHours") private var targetHours = 8.0
 
     var body: some View {
@@ -77,8 +78,13 @@ struct MenuPanel: View {
         VStack(spacing: 8) {
             HStack {
                 Button("Edit Days…") {
+                    dismiss()
                     openWindow(id: "editor")
-                    NSApp.activate()
+                    // openWindow doesn't raise an already-open window while the menu bar panel is key.
+                    DispatchQueue.main.async {
+                        NSApp.activate()
+                        NSApp.windows.first { $0.identifier?.rawValue == "editor" }?.makeKeyAndOrderFront(nil)
+                    }
                 }
                 Spacer()
                 Menu("Export") {
