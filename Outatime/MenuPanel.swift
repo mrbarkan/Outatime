@@ -2,6 +2,7 @@ import SwiftUI
 
 struct MenuPanel: View {
     @Environment(Store.self) private var store
+    @Environment(Updater.self) private var updater
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openSettings) private var openSettings
@@ -27,6 +28,7 @@ struct MenuPanel: View {
         }
         .padding(14)
         .frame(width: 300)
+        .task { await updater.check() }
     }
 
     private var status: some View {
@@ -70,6 +72,11 @@ struct MenuPanel: View {
 
     private var footer: some View {
         VStack(spacing: 8) {
+            if let (version, url) = updater.available {
+                Button("Update to \(version)…", systemImage: "arrow.down.circle.fill") { NSWorkspace.shared.open(url) }
+                    .buttonStyle(.glassProminent)
+                    .frame(maxWidth: .infinity)
+            }
             HStack {
                 Button("Logbook…") {
                     dismiss()

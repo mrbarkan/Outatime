@@ -50,6 +50,7 @@ enum MenuBarStyle: String, CaseIterable {
 }
 
 struct SettingsView: View {
+    @Environment(Updater.self) private var updater
     @AppStorage("appearance") private var appearance = Appearance.system
     @AppStorage("language") private var language = Language.system
     @AppStorage("menuBarStyle") private var menuBarStyle = MenuBarStyle.iconAndTime
@@ -76,6 +77,19 @@ struct SettingsView: View {
                     try? on ? SMAppService.mainApp.register() : SMAppService.mainApp.unregister()
                     launchAtLogin = SMAppService.mainApp.status == .enabled
                 }
+
+            LabeledContent("Version \(Updater.current)") {
+                HStack {
+                    switch updater.status {
+                    case .idle: EmptyView()
+                    case .checking: ProgressView().controlSize(.small)
+                    case .upToDate: Text("Up to date").foregroundStyle(.secondary)
+                    case .failed: Text("Couldn't check for updates").foregroundStyle(.secondary)
+                    case let .available(v, url): Button("Download \(v)…") { NSWorkspace.shared.open(url) }
+                    }
+                    Button("Check for Updates…") { Task { await updater.check(force: true) } }
+                }
+            }
         }
         .formStyle(.grouped)
         .frame(width: 380)

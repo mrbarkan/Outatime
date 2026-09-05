@@ -3,6 +3,7 @@ import SwiftUI
 @main
 struct OutatimeApp: App {
     @State private var store = Store()
+    @State private var updater = Updater()
     @AppStorage("language") private var language = Language.system
 
     init() {
@@ -11,7 +12,7 @@ struct OutatimeApp: App {
 
     var body: some Scene {
         MenuBarExtra {
-            MenuPanel().environment(store).environment(\.locale, language.locale)
+            MenuPanel().environment(store).environment(updater).environment(\.locale, language.locale)
         } label: {
             MenuBarLabel(store: store).environment(\.locale, language.locale)
         }
@@ -23,7 +24,7 @@ struct OutatimeApp: App {
         .defaultSize(width: 900, height: 560)
 
         Settings {
-            SettingsView().environment(\.locale, language.locale)
+            SettingsView().environment(updater).environment(\.locale, language.locale)
         }
     }
 }

@@ -24,6 +24,10 @@ if xcrun notarytool history --keychain-profile "$PROFILE" >/dev/null 2>&1; then
   xcrun stapler staple "$DMG"
   spctl -a -vv -t open --context context:primary-signature "$DMG"
   echo "Notarized: $DMG"
+  # Publish so the in-app update check (Updater.swift) can find it.
+  VERSION=$(sed -n 's/.*MARKETING_VERSION: "\(.*\)"/\1/p' project.yml)
+  gh release create "v$VERSION" "$DMG" --title "Outatime $VERSION" --generate-notes \
+    || echo "Release v$VERSION exists; upload with: gh release upload v$VERSION $DMG --clobber"
 else
   echo "Built (not notarized): $DMG — runs locally, but downloads will be blocked by Gatekeeper."
   echo "Store credentials once, then rerun:  xcrun notarytool store-credentials $PROFILE --apple-id <apple-id> --team-id L26TPPMPF3"
