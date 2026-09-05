@@ -4,7 +4,14 @@ nonisolated enum Activity: String, Codable, CaseIterable, Identifiable {
     case work, `break`, lunch, extra
 
     var id: String { rawValue }
-    var label: String { rawValue.capitalized }
+    var label: LocalizedStringKey {
+        switch self {
+        case .work: "Work"
+        case .break: "Break"
+        case .lunch: "Lunch"
+        case .extra: "Extra"
+        }
+    }
 
     var symbol: String {
         switch self {
@@ -67,6 +74,11 @@ nonisolated struct DayTemplate: Codable, Identifiable, Hashable {
                   tag: s.tag)
         }
     }
+}
+
+nonisolated extension Dictionary where Key == Activity, Value == TimeInterval {
+    /// Time that counts toward the daily target: everything but lunch (coffee breaks are paid).
+    var worked: TimeInterval { filter { $0.key != .lunch }.values.reduce(0, +) }
 }
 
 nonisolated extension TimeInterval {

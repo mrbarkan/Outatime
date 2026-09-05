@@ -1,10 +1,10 @@
 import SwiftUI
-import ServiceManagement
 
 struct MenuPanel: View {
     @Environment(Store.self) private var store
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.openSettings) private var openSettings
     @AppStorage("targetHours") private var targetHours = 8.0
 
     var body: some View {
@@ -19,12 +19,6 @@ struct MenuPanel: View {
                     GridRow { ActivityButton(.work); ActivityButton(.break) }
                     GridRow { ActivityButton(.lunch); ActivityButton(.extra) }
                 }
-            }
-
-            if store.running != nil {
-                Button("Stop", systemImage: "stop.fill") { store.stop() }
-                    .buttonStyle(.glass)
-                    .frame(maxWidth: .infinity)
             }
 
             totals
@@ -52,7 +46,7 @@ struct MenuPanel: View {
 
     private var totals: some View {
         let t = store.totals(on: .now)
-        let balance = t[.work, default: 0] + t[.extra, default: 0] - targetHours * 3600
+        let balance = t.worked - targetHours * 3600
         return VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 12) {
                 ForEach(Activity.allCases) { a in
@@ -77,13 +71,17 @@ struct MenuPanel: View {
     private var footer: some View {
         VStack(spacing: 8) {
             HStack {
-                Button("Edit Days…") {
+                Button("Logbook…") {
                     dismiss()
                     openWindow(id: "editor")
-                    // openWindow doesn't raise an already-open window while the menu bar panel is key.
+                    // openWindow doesn't raise an already-open window from an accessory app; do it by hand.
                     DispatchQueue.main.async {
                         NSApp.activate()
-                        NSApp.windows.first { $0.identifier?.rawValue == "editor" }?.makeKeyAndOrderFront(nil)
+                        if let w = NSApp.windows.first(where: { $0.identifier?.rawValue.hasPrefix("editor") == true }) {
+                            w.deminiaturize(nil)
+                            w.orderFrontRegardless()
+                            w.makeKey()
+                        }
                     }
                 }
                 Spacer()
@@ -100,7 +98,13 @@ struct MenuPanel: View {
                 .fixedSize()
             }
             HStack {
-                LaunchAtLoginToggle()
+                Button("About", action: showAbout)
+                Button("Settings…") {
+                    dismiss()
+                    NSApp.activate()
+                    openSettings()
+                }
+                .keyboardShortcut(",")
                 Spacer()
                 Button("Quit") { NSApp.terminate(nil) }.keyboardShortcut("q")
             }
@@ -116,7 +120,7 @@ private struct ActivityButton: View {
 
     var body: some View {
         let active = store.running?.activity == activity
-        Button { store.start(activity) } label: {
+        Button { active ? store.stop() : store.start(activity) } label: {
             VStack(spacing: 4) {
                 Image(systemName: activity.symbol).font(.title2)
                     .foregroundStyle(active ? AnyShapeStyle(.primary) : AnyShapeStyle(activity.color))
@@ -133,18 +137,5 @@ private struct GlassStyle: ViewModifier {
     let color: Color
     func body(content: Content) -> some View {
         if prominent { content.buttonStyle(.glassProminent).tint(color) } else { content.buttonStyle(.glass) }
-    }
-}
-
-private struct LaunchAtLoginToggle: View {
-    @State private var enabled = SMAppService.mainApp.status == .enabled
-
-    var body: some View {
-        Toggle("Open at Login", isOn: $enabled)
-            .toggleStyle(.checkbox)
-            .onChange(of: enabled) { _, on in
-                try? on ? SMAppService.mainApp.register() : SMAppService.mainApp.unregister()
-                enabled = SMAppService.mainApp.status == .enabled
-            }
     }
 }

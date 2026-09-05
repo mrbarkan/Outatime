@@ -14,7 +14,7 @@ nonisolated enum CSV {
         let time = Date.FormatStyle(date: .omitted, time: .shortened)
         var lines = [row(["Date", "Activity", "Tag", "Start", "End", "Hours"])]
         for e in entries {
-            lines.append(row([e.start.formatted(day), e.activity.label, e.tag,
+            lines.append(row([e.start.formatted(day), e.activity.rawValue.capitalized, e.tag,
                               e.start.formatted(time), e.end?.formatted(time) ?? "", hours(e.duration)]))
         }
         return lines.joined(separator: "\n") + "\n"
@@ -27,7 +27,7 @@ nonisolated enum CSV {
         for (date, es) in byDay.sorted(by: { $0.key < $1.key }) {
             let t = Store.totals(es)
             let work = t[.work, default: 0], extra = t[.extra, default: 0]
-            let balance = (work + extra) / 3600 - targetHours
+            let balance = t.worked / 3600 - targetHours
             let tags = Set(es.map(\.tag).filter { !$0.isEmpty }).sorted().joined(separator: "; ")
             lines.append(row([date.formatted(day), hours(work), hours(t[.break, default: 0]),
                               hours(t[.lunch, default: 0]), hours(extra), String(format: "%+.2f", balance), tags]))

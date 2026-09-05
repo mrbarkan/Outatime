@@ -30,10 +30,29 @@ nonisolated struct OutatimeTests {
         #expect(lines[1] == "2026-09-03,8.00,0.00,0.00,1.50,+1.50,\"a, \"\"b\"\"\"")
     }
 
+    @Test func breakCountsAsWork() {
+        #expect([Activity.work: 3600.0, .break: 600, .lunch: 1800, .extra: 300].worked == 4500)
+    }
+
     @Test func totals() {
         #expect(1.5 * 3600 == TimeInterval(5400))
         #expect(TimeInterval(5400).hm == "1h 30m")
         #expect(Store.totals([Entry(activity: .work, start: at(9), end: at(10)),
                               Entry(activity: .work, start: at(11), end: at(11, 5))])[.work] == 3900)
+    }
+}
+
+nonisolated struct LocalizationTests {
+    /// Every user-facing key must carry both translations, so a new string can't ship half-localized.
+    @Test func catalogIsComplete() throws {
+        let url = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
+            .appending(path: "../Outatime/Localizable.xcstrings")
+        let root = try #require(try JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
+        let strings = try #require(root["strings"] as? [String: [String: Any]])
+        #expect(strings.count > 40)
+        for (key, entry) in strings where entry["shouldTranslate"] as? Bool != false {
+            let locs = entry["localizations"] as? [String: Any] ?? [:]
+            #expect(locs["es"] != nil && locs["pt-BR"] != nil, "missing translation for \(key)")
+        }
     }
 }

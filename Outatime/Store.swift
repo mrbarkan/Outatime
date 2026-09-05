@@ -75,9 +75,8 @@ final class Store {
 
     // MARK: Editing
 
-    func addEntry(on day: Date) {
-        let last = entries(on: day).last?.end
-        let start = last ?? Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: day)!
+    func addEntry(on day: Date, at start: Date? = nil) {
+        let start = start ?? entries(on: day).last?.end ?? Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: day)!
         entries.append(Entry(activity: .work, start: start, end: start.addingTimeInterval(3600)))
     }
 

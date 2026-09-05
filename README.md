@@ -18,11 +18,17 @@ Tests: `xcodebuild -project Outatime.xcodeproj -scheme Outatime test`
 One JSON file: `~/Library/Containers/com.dbarkan.Outatime/Data/Library/Application Support/Outatime/data.json`.
 
 ## Export
-Menu bar → Export, or the editor toolbar. Two CSVs per month:
-- **Daily summary** — Date, Work, Break, Lunch, Extra, Balance (work + extra − target), Tags. Import this into Notion.
+Menu bar → Export, or the Logbook toolbar. Two CSVs per month:
+- **Daily summary** — Date, Work, Break, Lunch, Extra, Balance (work + break + extra − target; lunch is unpaid), Tags. Import this into Notion.
 - **Entries** — one row per entry with start, end, hours.
 
-Daily target hours: stepper in the editor's bottom bar (default 8).
+Daily target hours: stepper in the Logbook's bottom bar (default 8).
+
+## Settings & About
+Menu bar → Settings… (⌘,): appearance (system/light/dark), language (system/English/Español/Português BR), what the menu bar shows while tracking (icon + time, icon only, time only), open at login. Translations live in `Outatime/Localizable.xcstrings`; a test fails if any key is missing `es` or `pt-BR`. About uses the standard panel (version/copyright from Info.plist).
+
+## App icon
+`swift scripts/make-icon.swift` (from the repo root) regenerates `Outatime/Assets.xcassets/AppIcon.appiconset` from AppKit drawing code.
 
 ## Release (Developer ID + notarization)
 One-time: store notarization credentials (app-specific password from appleid.apple.com):
@@ -31,6 +37,6 @@ xcrun notarytool store-credentials outatime-notary --apple-id <apple-id> --team-
 ```
 Then:
 ```sh
-scripts/release.sh     # archive → export → notarize → staple → build/Outatime.zip
+scripts/release.sh     # archive → export → DMG → notarize → staple → build/Outatime.dmg (skips notarization if no profile)
 ```
-For the App Store, change `method` in `scripts/ExportOptions.plist` to `app-store-connect` and add an app icon.
+For the App Store, change `method` in `scripts/ExportOptions.plist` to `app-store-connect`.
