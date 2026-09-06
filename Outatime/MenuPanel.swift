@@ -77,22 +77,9 @@ struct MenuPanel: View {
                     .buttonStyle(.glassProminent)
                     .frame(maxWidth: .infinity)
             }
-            HStack {
-                Button("Logbook…") {
-                    dismiss()
-                    openWindow(id: "editor")
-                    // openWindow doesn't raise an already-open window from an accessory app; do it by hand.
-                    DispatchQueue.main.async {
-                        NSApp.activate()
-                        if let w = NSApp.windows.first(where: { $0.identifier?.rawValue.hasPrefix("editor") == true }) {
-                            w.deminiaturize(nil)
-                            w.orderFrontRegardless()
-                            w.makeKey()
-                        }
-                    }
-                }
-                Spacer()
-                Menu("Export") {
+            HStack(spacing: 2) {
+                Button("Logbook", systemImage: "calendar", action: showLogbook)
+                Menu("Export", systemImage: "square.and.arrow.up") {
                     let month = Date.now.startOfMonth
                     let name = month.formatted(.dateTime.year().month(.twoDigits))
                     Button("This Month — Daily Summary…") {
@@ -102,20 +89,40 @@ struct MenuPanel: View {
                         saveCSV(CSV.entries(store.entries(inMonth: month)), suggestedName: "Outatime \(name) entries.csv")
                     }
                 }
-                .fixedSize()
-            }
-            HStack {
-                Button("About", action: showAbout)
-                Button("Settings…") {
-                    dismiss()
-                    NSApp.activate()
-                    openSettings()
-                }
-                .keyboardShortcut(",")
                 Spacer()
-                Button("Quit") { NSApp.terminate(nil) }.keyboardShortcut("q")
+                Menu {
+                    Button("About", action: showAbout)
+                    Button("Settings…") {
+                        dismiss()
+                        NSApp.activate()
+                        openSettings()
+                    }
+                    .keyboardShortcut(",")
+                    Divider()
+                    Button("Quit") { NSApp.terminate(nil) }.keyboardShortcut("q")
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                }
+                .menuIndicator(.hidden)
             }
-            .controlSize(.small)
+            .buttonStyle(.accessoryBar)
+            .menuStyle(.button)
+            .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    private func showLogbook() {
+        dismiss()
+        // An LSUIElement app can't take focus from the frontmost app; become a regular app while the Logbook is open
+        // (EditorView flips back on close), then raise the window ourselves — openWindow won't if it already exists.
+        NSApp.setActivationPolicy(.regular)
+        NSApp.activate()
+        openWindow(id: "editor")
+        DispatchQueue.main.async {
+            if let w = NSApp.windows.first(where: { $0.identifier?.rawValue.hasPrefix("editor") == true }) {
+                w.deminiaturize(nil)
+                w.makeKeyAndOrderFront(nil)
+            }
         }
     }
 }

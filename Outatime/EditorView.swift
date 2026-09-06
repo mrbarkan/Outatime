@@ -30,6 +30,8 @@ struct EditorView: View {
                 ContentUnavailableView("Select a day", systemImage: "calendar")
             }
         }
+        .onAppear { NSApp.setActivationPolicy(.regular); NSApp.activate() }
+        .onDisappear { NSApp.setActivationPolicy(.accessory) }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Menu("Export", systemImage: "square.and.arrow.up") {
@@ -142,11 +144,10 @@ private struct DayTimeline: View {
     @Environment(Store.self) private var store
     let day: Date
     let entries: [Entry]
-    private let hourHeight: CGFloat = 44
+    private let hourHeight: CGFloat = 56
     private let gutter: CGFloat = 48
 
     var body: some View {
-        @Bindable var store = store
         let dayStart = Calendar.current.startOfDay(for: day)
         ScrollViewReader { proxy in
             ScrollView {
@@ -164,13 +165,12 @@ private struct DayTimeline: View {
                         }
                     }
                     ForEach(entries) { entry in
-                        if let i = store.entries.firstIndex(where: { $0.id == entry.id }) {
-                            TimelineBlock(entry: $store.entries[i], dayStart: dayStart, hourHeight: hourHeight) { store.delete(entry.id) }
-                                .padding(.leading, gutter).padding(.trailing, 12)
-                        }
+                        TimelineBlock(entry: store.binding(for: entry), dayStart: dayStart, hourHeight: hourHeight) { store.delete(entry.id) }
+                            .padding(.leading, gutter).padding(.trailing, 12)
                     }
                 }
                 .padding(.vertical, 10)
+                .coordinateSpace(name: "timeline")
                 .contentShape(Rectangle())
                 .onTapGesture(count: 2) { p in
                     let minutes = (((p.y - 10) / hourHeight * 4).rounded(.down) * 15).clamped(to: 0...(23 * 60))
@@ -192,17 +192,19 @@ private struct TimelineBlock: View {
     let dayStart: Date
     let hourHeight: CGFloat
     let onDelete: () -> Void
-    @State private var draft: Entry?  // live copy while dragging; the store is written once on release
-    @State private var mode: DragMode?
+    @State private var draft: Entry?  // follows the pointer unsnapped; snapped + written to the store on release
+    @State private var dragMode: DragMode?
+    @State private var hovering = false
     @State private var editing = false
     private enum DragMode { case move, start, end }
 
     var body: some View {
         let e = draft ?? entry
+        let dragging = draft != nil
         let top = CGFloat(e.start.timeIntervalSince(dayStart) / 3600) * hourHeight
-        let height = max(10, CGFloat(e.duration / 3600) * hourHeight)
+        let height = max(14, CGFloat(e.duration / 3600) * hourHeight)
         RoundedRectangle(cornerRadius: 6)
-            .fill(e.activity.color.opacity(draft == nil ? 0.22 : 0.35))
+            .fill(e.activity.color.opacity(dragging ? 0.4 : hovering ? 0.3 : 0.22))
             .overlay(alignment: .leading) { e.activity.color.frame(width: 3).clipShape(.rect(cornerRadius: 6)) }
             .overlay(alignment: .topLeading) {
                 VStack(alignment: .leading, spacing: 1) {
@@ -220,21 +222,46 @@ private struct TimelineBlock: View {
             .clipped()
             .frame(height: height)
             .contentShape(Rectangle())
-            .gesture(drag(blockHeight: height))
+            .pointerStyle(dragging ? .grabActive : .grabIdle)
+            .gesture(drag(entry.isRunning ? .start : .move))
             .onTapGesture { editing = true }
-            .popover(isPresented: $editing) { EntryForm(entry: $entry, onDelete: onDelete) }
+            .onHover { hovering = $0 }
+            .overlay(alignment: .top) { handle(.start) }
+            .overlay(alignment: .bottom) { if !entry.isRunning { handle(.end) } }
+            .overlay(alignment: dragMode == .end ? .bottomTrailing : .topTrailing) {
+                if dragging {
+                    Text(dragMode == .end ? e.end ?? e.start : e.start, style: .time)
+                        .font(.caption).fontWeight(.semibold).monospacedDigit()
+                        .padding(.horizontal, 6).padding(.vertical, 2)
+                        .background(.regularMaterial, in: Capsule())
+                        .padding(4)
+                }
+            }
+            .shadow(color: .black.opacity(dragging ? 0.25 : 0), radius: 6, y: 2)
+            .popover(isPresented: $editing) { EntryForm(entry: $entry) { editing = false; onDelete() } }
             .offset(y: top)
+            .zIndex(dragging ? 1 : 0)
     }
 
-    private func drag(blockHeight: CGFloat) -> some Gesture {
-        DragGesture(minimumDistance: 3)
+    /// Resize grip along an edge; its own gesture wins over the block's move gesture.
+    private func handle(_ mode: DragMode) -> some View {
+        Color.clear.frame(height: 8)
+            .contentShape(Rectangle())
+            .overlay {
+                Capsule().fill(.primary.opacity(hovering || dragMode == mode ? 0.35 : 0)).frame(width: 28, height: 3)
+            }
+            .pointerStyle(.frameResize(position: mode == .start ? .top : .bottom))
+            .gesture(drag(mode))
+    }
+
+    private func drag(_ mode: DragMode) -> some Gesture {
+        // Measured in the timeline's space: the block (and the grip on it) moves under the pointer during the drag,
+        // so a local-space translation would feed back into itself and jitter.
+        DragGesture(minimumDistance: 2, coordinateSpace: .named("timeline"))
             .onChanged { g in
-                if mode == nil {
-                    let y = g.startLocation.y
-                    mode = entry.isRunning ? .start : y < 10 ? .start : y > blockHeight - 10 ? .end : .move
-                }
+                dragMode = mode
                 let dayEnd = dayStart.addingTimeInterval(86400)
-                var delta = (g.translation.height / hourHeight * 3600 / 300).rounded() * 300  // snap to 5 min
+                var delta = TimeInterval(g.translation.height / hourHeight * 3600)
                 var d = entry
                 switch mode {
                 case .move:
@@ -246,15 +273,27 @@ private struct TimelineBlock: View {
                     d.start = min(max(entry.start + delta, dayStart), (entry.end ?? .now) - 300)
                 case .end:
                     d.end = max(min(entry.end! + delta, dayEnd), entry.start + 300)
-                case nil: break
                 }
-                draft = d
+                // Pointer-driven layout must not inherit an animation, or the box lags and stutters behind the mouse.
+                var t = Transaction()
+                t.disablesAnimations = true
+                withTransaction(t) { draft = d }
             }
             .onEnded { _ in
-                if let d = draft { entry = d }
-                draft = nil
-                mode = nil
+                guard var d = draft else { return }
+                d.start = snap(d.start)
+                d.end = d.end.map { max(snap($0), d.start + 300) }
+                withAnimation(.snappy(duration: 0.2)) {
+                    entry = d
+                    draft = nil
+                    dragMode = nil
+                }
             }
+    }
+
+    /// Nearest 5 minutes.
+    private func snap(_ t: Date) -> Date {
+        dayStart.addingTimeInterval((t.timeIntervalSince(dayStart) / 300).rounded() * 300)
     }
 }
 

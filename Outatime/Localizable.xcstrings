@@ -423,22 +423,6 @@
         }
       }
     },
-    "Logbook…": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bitácora…"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Diário de bordo…"
-          }
-        }
-      }
-    },
     "Lunch": {
       "localizations": {
         "es": {

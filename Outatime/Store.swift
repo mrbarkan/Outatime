@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import SwiftUI
 
 @Observable
 final class Store {
@@ -78,6 +79,12 @@ final class Store {
     func addEntry(on day: Date, at start: Date? = nil) {
         let start = start ?? entries(on: day).last?.end ?? Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: day)!
         entries.append(Entry(activity: .work, start: start, end: start.addingTimeInterval(3600)))
+    }
+
+    /// Id-based so a control that fires after the entry is deleted (e.g. a date picker on dismiss) can't index out of range.
+    func binding(for entry: Entry) -> Binding<Entry> {
+        Binding(get: { self.entries.first { $0.id == entry.id } ?? entry },
+                set: { new in if let i = self.entries.firstIndex(where: { $0.id == entry.id }) { self.entries[i] = new } })
     }
 
     func delete(_ id: Entry.ID) {
