@@ -31,7 +31,7 @@ Most time trackers want a project, a client, a billing rate and an account. Outa
 - **Day templates** — save a typical day and apply it to any date in one click.
 - **CSV export** — a daily summary and a full entry list per month. Drops straight into Notion, Numbers or a spreadsheet.
 - **Settings** — light/dark, language (English, Español, Português BR), what the menu bar shows, open at login.
-- **Updates** — the app tells you when a newer release is on GitHub.
+- **Updates** — [Sparkle](https://sparkle-project.org): signed updates install themselves, no visit to the download page.
 - **Native** — SwiftUI, Liquid Glass, sandboxed, notarized. No Electron, no accounts, no telemetry.
 
 ## Install
@@ -88,10 +88,10 @@ Outatime/
   Store.swift         entries, templates, JSON persistence
   Models.swift        Activity, Entry, DayTemplate
   Export.swift        CSV
-  Updater.swift       GitHub Releases check
+  Updater.swift       Sparkle updater
   Settings.swift      Settings window, appearance/language/login item
 scripts/
-  release.sh          archive → Developer ID export → DMG → notarize → GitHub release
+  release.sh          archive → Developer ID export → DMG → notarize → appcast → GitHub release
   make-icon.swift     regenerates the app icon from AppKit drawing code
 ```
 
@@ -103,7 +103,13 @@ One-time: store notarization credentials (app-specific password from appleid.app
 xcrun notarytool store-credentials outatime-notary --apple-id <apple-id> --team-id L26TPPMPF3
 ```
 
-Then bump `MARKETING_VERSION` in `project.yml` and run `scripts/release.sh`. It builds, signs, notarizes, staples, and publishes `build/Outatime.dmg` as GitHub release `v<version>` — which is what the in-app update check looks for.
+One-time: create the Sparkle signing key (kept in your login keychain) and paste the public half into `SUPublicEDKey` in `project.yml`:
+
+```sh
+.spm/artifacts/sparkle/Sparkle/bin/generate_keys
+```
+
+Then bump `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION` in `project.yml` and run `scripts/release.sh`. It builds, signs, notarizes, staples, generates a signed `appcast.xml`, and publishes both as GitHub release `v<version>`. Sparkle reads the feed at `releases/latest/download/appcast.xml`, which always redirects to the newest release.
 
 ## Contributing
 

@@ -15,6 +15,10 @@ settings:
     CODE_SIGN_STYLE: Automatic
     MARKETING_VERSION: "1.0.1"
     CURRENT_PROJECT_VERSION: "2"
+packages:
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: "2.9.0"
 targets:
   Outatime:
     type: application
@@ -26,17 +30,28 @@ targets:
         com.apple.security.app-sandbox: true
         com.apple.security.files.user-selected.read-write: true
         com.apple.security.network.client: true
+        com.apple.security.temporary-exception.mach-lookup.global-name:
+          - $(PRODUCT_BUNDLE_IDENTIFIER)-spks
+          - $(PRODUCT_BUNDLE_IDENTIFIER)-spki
     info:
       path: Outatime/Info.plist
       properties:
         CFBundleDisplayName: Outatime
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         LSUIElement: true
         LSApplicationCategoryType: public.app-category.productivity
         NSHumanReadableCopyright: © 2026 David Barkan
+        SUFeedURL: https://github.com/mrbarkan/Outatime/releases/latest/download/appcast.xml
+        SUPublicEDKey: Y95K8qPB+GjLM3ssC6l1jOFZqpETG3aVC3D1btrbmd8=
+        SUEnableInstallerLauncherService: true
+        SUEnableAutomaticChecks: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.dbarkan.Outatime
         ENABLE_HARDENED_RUNTIME: YES
+    dependencies:
+      - package: Sparkle
   OutatimeTests:
     type: bundle.unit-test
     platform: macOS

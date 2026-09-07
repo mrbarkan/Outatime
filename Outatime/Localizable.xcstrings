@@ -145,22 +145,6 @@
         }
       }
     },
-    "Couldn't check for updates": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo buscar actualizaciones"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Não foi possível verificar atualizações"
-          }
-        }
-      }
-    },
     "Daily Summary CSV…": {
       "localizations": {
         "es": {
@@ -237,22 +221,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Clique duas vezes para adicionar um registro"
-          }
-        }
-      }
-    },
-    "Download %@…": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Descargar %@…"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Baixar %@…"
           }
         }
       }
@@ -825,38 +793,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hoje"
-          }
-        }
-      }
-    },
-    "Up to date": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actualizado"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atualizado"
-          }
-        }
-      }
-    },
-    "Update to %@…": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actualizar a %@…"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atualizar para %@…"
           }
         }
       }

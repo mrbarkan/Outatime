@@ -12,7 +12,7 @@ struct OutatimeApp: App {
 
     var body: some Scene {
         MenuBarExtra {
-            MenuPanel().environment(store).environment(updater).environment(\.locale, language.locale)
+            MenuPanel().environment(store).environment(\.locale, language.locale)
         } label: {
             MenuBarLabel(store: store).environment(\.locale, language.locale)
         }

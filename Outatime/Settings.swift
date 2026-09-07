@@ -79,16 +79,7 @@ struct SettingsView: View {
                 }
 
             LabeledContent("Version \(Updater.current)") {
-                HStack {
-                    switch updater.status {
-                    case .idle: EmptyView()
-                    case .checking: ProgressView().controlSize(.small)
-                    case .upToDate: Text("Up to date").foregroundStyle(.secondary)
-                    case .failed: Text("Couldn't check for updates").foregroundStyle(.secondary)
-                    case let .available(v, url): Button("Download \(v)…") { NSWorkspace.shared.open(url) }
-                    }
-                    Button("Check for Updates…") { Task { await updater.check(force: true) } }
-                }
+                Button("Check for Updates…") { updater.check() }
             }
         }
         .formStyle(.grouped)

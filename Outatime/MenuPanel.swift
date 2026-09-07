@@ -2,7 +2,6 @@ import SwiftUI
 
 struct MenuPanel: View {
     @Environment(Store.self) private var store
-    @Environment(Updater.self) private var updater
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openSettings) private var openSettings
@@ -28,7 +27,6 @@ struct MenuPanel: View {
         }
         .padding(14)
         .frame(width: 300)
-        .task { await updater.check() }
     }
 
     private var status: some View {
@@ -71,44 +69,37 @@ struct MenuPanel: View {
     }
 
     private var footer: some View {
-        VStack(spacing: 8) {
-            if let (version, url) = updater.available {
-                Button("Update to \(version)…", systemImage: "arrow.down.circle.fill") { NSWorkspace.shared.open(url) }
-                    .buttonStyle(.glassProminent)
-                    .frame(maxWidth: .infinity)
-            }
-            HStack(spacing: 2) {
-                Button("Logbook", systemImage: "calendar", action: showLogbook)
-                Menu("Export", systemImage: "square.and.arrow.up") {
-                    let month = Date.now.startOfMonth
-                    let name = month.formatted(.dateTime.year().month(.twoDigits))
-                    Button("This Month — Daily Summary…") {
-                        saveCSV(CSV.daily(store.entries(inMonth: month), targetHours: targetHours), suggestedName: "Outatime \(name) daily.csv")
-                    }
-                    Button("This Month — Entries…") {
-                        saveCSV(CSV.entries(store.entries(inMonth: month)), suggestedName: "Outatime \(name) entries.csv")
-                    }
+        HStack(spacing: 2) {
+            Button("Logbook", systemImage: "calendar", action: showLogbook)
+            Menu("Export", systemImage: "square.and.arrow.up") {
+                let month = Date.now.startOfMonth
+                let name = month.formatted(.dateTime.year().month(.twoDigits))
+                Button("This Month — Daily Summary…") {
+                    saveCSV(CSV.daily(store.entries(inMonth: month), targetHours: targetHours), suggestedName: "Outatime \(name) daily.csv")
                 }
-                Spacer()
-                Menu {
-                    Button("About", action: showAbout)
-                    Button("Settings…") {
-                        dismiss()
-                        NSApp.activate()
-                        openSettings()
-                    }
-                    .keyboardShortcut(",")
-                    Divider()
-                    Button("Quit") { NSApp.terminate(nil) }.keyboardShortcut("q")
-                } label: {
-                    Image(systemName: "ellipsis.circle")
+                Button("This Month — Entries…") {
+                    saveCSV(CSV.entries(store.entries(inMonth: month)), suggestedName: "Outatime \(name) entries.csv")
                 }
-                .menuIndicator(.hidden)
             }
-            .buttonStyle(.accessoryBar)
-            .menuStyle(.button)
-            .fixedSize(horizontal: false, vertical: true)
+            Spacer()
+            Menu {
+                Button("About", action: showAbout)
+                Button("Settings…") {
+                    dismiss()
+                    NSApp.activate()
+                    openSettings()
+                }
+                .keyboardShortcut(",")
+                Divider()
+                Button("Quit") { NSApp.terminate(nil) }.keyboardShortcut("q")
+            } label: {
+                Image(systemName: "ellipsis.circle")
+            }
+            .menuIndicator(.hidden)
         }
+        .buttonStyle(.accessoryBar)
+        .menuStyle(.button)
+        .fixedSize(horizontal: false, vertical: true)
     }
 
     private func showLogbook() {
