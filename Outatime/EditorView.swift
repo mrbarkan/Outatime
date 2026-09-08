@@ -211,10 +211,10 @@ private struct TimelineBlock: View {
                     HStack(spacing: 4) {
                         Image(systemName: e.activity.symbol)
                         Text(e.activity.label).fontWeight(.semibold)
-                        if let n = e.notes.last { Text("· \(n)").foregroundStyle(.secondary) }
                     }
                     (Text(e.start, style: .time) + Text(" – ") + (e.end.map { Text($0, style: .time) } ?? Text("running")))
                         .foregroundStyle(.secondary)
+                    ForEach(Array(e.notes.enumerated()), id: \.offset) { Text("· \($0.element)").foregroundStyle(.secondary) }
                 }
                 .font(.caption).lineLimit(1)
                 .padding(.horizontal, 8).padding(.vertical, 3)
