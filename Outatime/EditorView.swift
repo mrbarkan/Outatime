@@ -211,7 +211,7 @@ private struct TimelineBlock: View {
                     HStack(spacing: 4) {
                         Image(systemName: e.activity.symbol)
                         Text(e.activity.label).fontWeight(.semibold)
-                        if !e.tag.isEmpty { Text("· \(e.tag)").foregroundStyle(.secondary) }
+                        if let n = e.notes.last { Text("· \(n)").foregroundStyle(.secondary) }
                     }
                     (Text(e.start, style: .time) + Text(" – ") + (e.end.map { Text($0, style: .time) } ?? Text("running")))
                         .foregroundStyle(.secondary)
@@ -313,7 +313,10 @@ private struct EntryForm: View {
                 DatePicker("End", selection: Binding(get: { entry.end ?? entry.start }, set: { entry.end = $0 }),
                            displayedComponents: .hourAndMinute)
             }
-            TextField("Tag", text: $entry.tag)
+            TextField("Notes", text: Binding(get: { entry.notes.joined(separator: "\n") },
+                                             set: { entry.notes = $0.split(separator: "\n", omittingEmptySubsequences: false).map(String.init) }),
+                      axis: .vertical)
+                .lineLimit(1...6)
             LabeledContent("Duration") { Text(entry.duration.hm).monospacedDigit() }
             Button("Delete", systemImage: "trash", role: .destructive, action: onDelete)
         }

@@ -6,13 +6,21 @@ struct MenuPanel: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openSettings) private var openSettings
     @AppStorage("targetHours") private var targetHours = 8.0
+    @State private var note = ""
 
     var body: some View {
-        @Bindable var store = store
         VStack(alignment: .leading, spacing: 14) {
             status
-            TextField("Tag (optional)", text: $store.currentTag)
+            TextField("What are you working on?", text: $note)
                 .textFieldStyle(.roundedBorder)
+                .disabled(store.running == nil)
+                .onSubmit { store.addNote(note); note = "" }
+            if let notes = store.running?.notes, !notes.isEmpty {
+                VStack(alignment: .leading, spacing: 2) {
+                    ForEach(Array(notes.enumerated()), id: \.offset) { Text("· \($0.element)") }
+                }
+                .font(.caption).foregroundStyle(.secondary).lineLimit(1)
+            }
 
             GlassEffectContainer(spacing: 10) {
                 Grid(horizontalSpacing: 10, verticalSpacing: 10) {

@@ -6,9 +6,6 @@ import SwiftUI
 final class Store {
     var entries: [Entry] = [] { didSet { if loaded { save() } } }
     var templates: [DayTemplate] = [] { didSet { if loaded { save() } } }
-    var currentTag = "" {
-        didSet { if let i = entries.firstIndex(where: \.isRunning) { entries[i].tag = currentTag } }
-    }
 
     private let url: URL
     private var loaded = false
@@ -28,7 +25,6 @@ final class Store {
             entries = file.entries
             templates = file.templates
         }
-        currentTag = running?.tag ?? ""
         loaded = true
     }
 
@@ -49,7 +45,13 @@ final class Store {
     func start(_ activity: Activity) {
         if running?.activity == activity { return }
         stop()
-        entries.append(Entry(activity: activity, start: .now, tag: currentTag))
+        entries.append(Entry(activity: activity, start: .now))
+    }
+
+    func addNote(_ text: String) {
+        let text = text.trimmingCharacters(in: .whitespaces)
+        guard !text.isEmpty, let i = entries.firstIndex(where: \.isRunning) else { return }
+        entries[i].notes.append(text)
     }
 
     func stop() {

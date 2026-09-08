@@ -12,9 +12,9 @@ nonisolated enum CSV {
     static func entries(_ entries: [Entry]) -> String {
         let day = Date.ISO8601FormatStyle(timeZone: .current).year().month().day()
         let time = Date.FormatStyle(date: .omitted, time: .shortened)
-        var lines = [row(["Date", "Activity", "Tag", "Start", "End", "Hours"])]
+        var lines = [row(["Date", "Activity", "Notes", "Start", "End", "Hours"])]
         for e in entries {
-            lines.append(row([e.start.formatted(day), e.activity.rawValue.capitalized, e.tag,
+            lines.append(row([e.start.formatted(day), e.activity.rawValue.capitalized, e.notes.joined(separator: "; "),
                               e.start.formatted(time), e.end?.formatted(time) ?? "", hours(e.duration)]))
         }
         return lines.joined(separator: "\n") + "\n"
@@ -23,12 +23,12 @@ nonisolated enum CSV {
     static func daily(_ entries: [Entry], targetHours: Double) -> String {
         let day = Date.ISO8601FormatStyle(timeZone: .current).year().month().day()
         let byDay = Dictionary(grouping: entries) { Calendar.current.startOfDay(for: $0.start) }
-        var lines = [row(["Date", "Work", "Break", "Lunch", "Extra", "Balance", "Tags"])]
+        var lines = [row(["Date", "Work", "Break", "Lunch", "Extra", "Balance", "Notes"])]
         for (date, es) in byDay.sorted(by: { $0.key < $1.key }) {
             let t = Store.totals(es)
             let work = t[.work, default: 0], extra = t[.extra, default: 0]
             let balance = t.worked / 3600 - targetHours
-            let tags = Set(es.map(\.tag).filter { !$0.isEmpty }).sorted().joined(separator: "; ")
+            let tags = es.flatMap(\.notes).joined(separator: "; ")
             lines.append(row([date.formatted(day), hours(work), hours(t[.break, default: 0]),
                               hours(t[.lunch, default: 0]), hours(extra), String(format: "%+.2f", balance), tags]))
         }
