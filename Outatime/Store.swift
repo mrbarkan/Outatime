@@ -21,9 +21,16 @@ final class Store {
 
     init(url: URL = Store.defaultURL) {
         self.url = url
-        if let data = try? Data(contentsOf: url), let file = try? JSONDecoder().decode(File.self, from: data) {
-            entries = file.entries
-            templates = file.templates
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        if let data = try? Data(contentsOf: url) {
+            if let file = try? decoder.decode(File.self, from: data) {
+                entries = file.entries
+                templates = file.templates
+            } else {
+                // Unreadable file: keep it aside so the next save can't silently destroy it.
+                try? FileManager.default.moveItem(at: url, to: url.appendingPathExtension("broken-\(Int(Date.now.timeIntervalSince1970))"))
+            }
         }
         loaded = true
     }

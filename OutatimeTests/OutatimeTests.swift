@@ -9,25 +9,38 @@ nonisolated struct OutatimeTests {
     func at(_ h: Int, _ m: Int = 0) -> Date { cal.date(bySettingHour: h, minute: m, second: 0, of: day)! }
 
     @Test func templateRoundTrip() {
-        let entries = [Entry(activity: .work, start: at(9), end: at(12, 30), tag: "acme"),
+        let entries = [Entry(activity: .work, start: at(9), end: at(12, 30), notes: ["acme"]),
                        Entry(activity: .lunch, start: at(12, 30), end: at(13, 15))]
         let t = DayTemplate(name: "Normal", entries: entries)
         let other = cal.date(byAdding: .day, value: -10, to: day)!
         let applied = t.entries(on: other)
         #expect(applied.count == 2)
-        #expect(applied[0].tag == "acme")
+        #expect(applied[0].notes == ["acme"])
         #expect(applied[0].duration == 3.5 * 3600)
         #expect(cal.isDate(applied[1].start, inSameDayAs: other))
         #expect(cal.component(.hour, from: applied[1].start) == 12)
     }
 
     @Test func dailyCSV() {
-        let entries = [Entry(activity: .work, start: at(9), end: at(17), tag: "a, \"b\""),
+        let entries = [Entry(activity: .work, start: at(9), end: at(17), notes: ["a, \"b\""]),
                        Entry(activity: .extra, start: at(20), end: at(21, 30))]
         let csv = CSV.daily(entries, targetHours: 8)
         let lines = csv.split(separator: "\n")
         #expect(lines.count == 2)
         #expect(lines[1] == "2026-09-03,8.00,0.00,0.00,1.50,+1.50,\"a, \"\"b\"\"\"")
+    }
+
+    /// The store must read back what it wrote, or every relaunch silently starts empty and overwrites the file.
+    @Test @MainActor func storeRoundTrip() throws {
+        let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        let store = Store(url: url)
+        store.start(.work)
+        store.addNote("hello")
+        let reloaded = Store(url: url)
+        #expect(reloaded.entries.count == 1)
+        #expect(reloaded.entries.first?.notes == ["hello"])
+        #expect(reloaded.running != nil)
     }
 
     @Test func breakCountsAsWork() {
