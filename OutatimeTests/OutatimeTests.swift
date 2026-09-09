@@ -43,6 +43,14 @@ nonisolated struct OutatimeTests {
         #expect(reloaded.running != nil)
     }
 
+    @Test @MainActor func noteLandsOnLastEntryAfterStop() {
+        let store = Store(url: FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json"))
+        store.start(.work)
+        store.stop()
+        store.addNote("late note")
+        #expect(store.entries.first?.notes == ["late note"])
+    }
+
     @Test func breakCountsAsWork() {
         #expect([Activity.work: 3600.0, .break: 600, .lunch: 1800, .extra: 300].worked == 4500)
     }

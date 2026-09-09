@@ -11,11 +11,11 @@ struct MenuPanel: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             status
-            TextField("What are you working on?", text: $note)
+            TextField(store.running != nil ? "What are you working on?" : "Add a note to the last entry", text: $note)
                 .textFieldStyle(.roundedBorder)
-                .disabled(store.running == nil)
+                .disabled(store.noteTarget == nil)
                 .onSubmit { store.addNote(note); note = "" }
-            if let notes = store.running?.notes, !notes.isEmpty {
+            if let notes = store.noteTarget?.notes, !notes.isEmpty {
                 VStack(alignment: .leading, spacing: 2) {
                     ForEach(Array(notes.enumerated()), id: \.offset) { Text("· \($0.element)") }
                 }

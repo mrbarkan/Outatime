@@ -55,9 +55,12 @@ final class Store {
         entries.append(Entry(activity: activity, start: .now))
     }
 
+    /// The running entry, or today's latest one so a note can still land on a block after it was stopped.
+    var noteTarget: Entry? { running ?? entries(on: .now).last }
+
     func addNote(_ text: String) {
         let text = text.trimmingCharacters(in: .whitespaces)
-        guard !text.isEmpty, let i = entries.firstIndex(where: \.isRunning) else { return }
+        guard !text.isEmpty, let id = noteTarget?.id, let i = entries.firstIndex(where: { $0.id == id }) else { return }
         entries[i].notes.append(text)
     }
 

@@ -207,17 +207,31 @@ private struct TimelineBlock: View {
             .fill(e.activity.color.opacity(dragging ? 0.4 : hovering ? 0.3 : 0.22))
             .overlay(alignment: .leading) { e.activity.color.frame(width: 3).clipShape(.rect(cornerRadius: 6)) }
             .overlay(alignment: .topLeading) {
-                VStack(alignment: .leading, spacing: 1) {
-                    HStack(spacing: 4) {
-                        Image(systemName: e.activity.symbol)
-                        Text(e.activity.label).fontWeight(.semibold)
+                let title = HStack(spacing: 4) {
+                    Image(systemName: e.activity.symbol)
+                    Text(e.activity.label).fontWeight(.semibold)
+                }
+                let span = (Text(e.start, style: .time) + Text(" – ") + (e.end.map { Text($0, style: .time) } ?? Text("running")))
+                    .foregroundStyle(.secondary)
+                let duration = Text(e.duration.hm).monospacedDigit().foregroundStyle(.secondary)
+                Group {
+                    if height < 40 {
+                        // ponytail: short block — everything on one line, notes joined.
+                        HStack(spacing: 6) {
+                            title; span; duration
+                            if !e.notes.isEmpty { Text("· " + e.notes.joined(separator: " · ")).foregroundStyle(.secondary) }
+                        }
+                    } else {
+                        VStack(alignment: .leading, spacing: 1) {
+                            HStack { title; Spacer(); duration }
+                            span
+                            ForEach(Array(e.notes.enumerated()), id: \.offset) { Text("· \($0.element)").foregroundStyle(.secondary) }
+                        }
                     }
-                    (Text(e.start, style: .time) + Text(" – ") + (e.end.map { Text($0, style: .time) } ?? Text("running")))
-                        .foregroundStyle(.secondary)
-                    ForEach(Array(e.notes.enumerated()), id: \.offset) { Text("· \($0.element)").foregroundStyle(.secondary) }
                 }
                 .font(.caption).lineLimit(1)
-                .padding(.horizontal, 8).padding(.vertical, 3)
+                .padding(.horizontal, 8).padding(.vertical, height < 40 ? 0 : 3)
+                .frame(height: height < 40 ? height : nil)
             }
             .clipped()
             .frame(height: height)
