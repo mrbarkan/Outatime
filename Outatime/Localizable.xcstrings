@@ -49,6 +49,22 @@
         }
       }
     },
+    "Add a note to the last entry": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir una nota a la última entrada"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar uma nota à última entrada"
+          }
+        }
+      }
+    },
     "Appearance": {
       "localizations": {
         "es": {
@@ -471,6 +487,22 @@
         }
       }
     },
+    "Notes": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notas"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notas"
+          }
+        }
+      }
+    },
     "Open at Login": {
       "localizations": {
         "es": {
@@ -483,6 +515,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Abrir ao iniciar sessão"
+          }
+        }
+      }
+    },
+    "Option-Return adds a line": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opción-Retorno añade una línea"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Option-Return adiciona uma linha"
           }
         }
       }
@@ -809,6 +857,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Versão %@"
+          }
+        }
+      }
+    },
+    "What are you working on?": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿En qué estás trabajando?"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No que você está trabalhando?"
           }
         }
       }

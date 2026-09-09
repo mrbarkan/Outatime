@@ -165,7 +165,7 @@ private struct DayTimeline: View {
                         }
                     }
                     ForEach(entries) { entry in
-                        TimelineBlock(entry: store.binding(for: entry), dayStart: dayStart, hourHeight: hourHeight) { store.delete(entry.id) }
+                        TimelineBlock(entry: store.binding(for: entry), others: entries.filter { $0.id != entry.id }, dayStart: dayStart, hourHeight: hourHeight) { store.delete(entry.id) }
                             .padding(.leading, gutter).padding(.trailing, 12)
                     }
                 }
@@ -188,7 +188,9 @@ private struct DayTimeline: View {
 }
 
 private struct TimelineBlock: View {
+    @Environment(Store.self) private var store
     @Binding var entry: Entry
+    let others: [Entry]  // same day, for magnetic snapping and shared borders
     let dayStart: Date
     let hourHeight: CGFloat
     let onDelete: () -> Void
@@ -281,12 +283,17 @@ private struct TimelineBlock: View {
                 case .move:
                     delta = max(delta, dayStart.timeIntervalSince(entry.start))
                     if let end = entry.end { delta = min(delta, dayEnd.timeIntervalSince(end)) }
+                    // Magnetic: pull the whole block so either edge lands on a neighbour's edge.
+                    if let m = edge(near: entry.start + delta).map({ $0.timeIntervalSince(entry.start) })
+                        ?? entry.end.flatMap({ e in edge(near: e + delta).map { $0.timeIntervalSince(e) } }) { delta = m }
                     d.start += delta
                     d.end = d.end.map { $0 + delta }
                 case .start:
-                    d.start = min(max(entry.start + delta, dayStart), (entry.end ?? .now) - 300)
+                    let floor = neighbour(.start).map { $0.start + 300 } ?? dayStart
+                    d.start = min(max(edge(near: entry.start + delta) ?? entry.start + delta, floor), (entry.end ?? .now) - 300)
                 case .end:
-                    d.end = max(min(entry.end! + delta, dayEnd), entry.start + 300)
+                    let ceiling = neighbour(.end)?.end.map { $0 - 300 } ?? dayEnd
+                    d.end = max(min(edge(near: entry.end! + delta) ?? entry.end! + delta, ceiling), entry.start + 300)
                 }
                 // Pointer-driven layout must not inherit an animation, or the box lags and stutters behind the mouse.
                 var t = Transaction()
@@ -295,8 +302,21 @@ private struct TimelineBlock: View {
             }
             .onEnded { _ in
                 guard var d = draft else { return }
-                d.start = snap(d.start)
-                d.end = d.end.map { max(snap($0), d.start + 300) }
+                if mode == .move {
+                    let shift = snap(d.start).timeIntervalSince(d.start)  // keep the duration; only the grid moves
+                    d.start += shift
+                    d.end = d.end.map { $0 + shift }
+                } else {
+                    d.start = snap(d.start)
+                    d.end = d.end.map { max(snap($0), d.start + 300) }
+                }
+                // ponytail: a shared border drags the neighbour with it, but only on release — writing the store
+                // per pointer move would save the file at 60 Hz. Neighbour clamping above keeps it ≥ 5 min long.
+                if let n = neighbour(mode) {
+                    var m = n
+                    if mode == .start { m.end = d.start } else { m.start = d.end! }
+                    store.binding(for: n).wrappedValue = m
+                }
                 withAnimation(.snappy(duration: 0.2)) {
                     entry = d
                     draft = nil
@@ -305,9 +325,26 @@ private struct TimelineBlock: View {
             }
     }
 
-    /// Nearest 5 minutes.
+    /// Another block's edge within ~10 px of `t`, so a drag can lock onto it.
+    private func edge(near t: Date) -> Date? {
+        let magnet = TimeInterval(10 / hourHeight * 3600)
+        let edges = others.flatMap { [$0.start, $0.end].compactMap { $0 } }
+        return edges.min { abs($0.timeIntervalSince(t)) < abs($1.timeIntervalSince(t)) }
+            .flatMap { abs($0.timeIntervalSince(t)) <= magnet ? $0 : nil }
+    }
+
+    /// Block that shares the edge being dragged: it ends where this one starts, or starts where this one ends.
+    private func neighbour(_ mode: DragMode) -> Entry? {
+        switch mode {
+        case .start: others.first { $0.end == entry.start }
+        case .end: others.first { $0.start == entry.end }
+        case .move: nil
+        }
+    }
+
+    /// Nearest neighbour edge if close, else nearest 5 minutes.
     private func snap(_ t: Date) -> Date {
-        dayStart.addingTimeInterval((t.timeIntervalSince(dayStart) / 300).rounded() * 300)
+        edge(near: t) ?? dayStart.addingTimeInterval((t.timeIntervalSince(dayStart) / 300).rounded() * 300)
     }
 }
 
@@ -327,10 +364,17 @@ private struct EntryForm: View {
                 DatePicker("End", selection: Binding(get: { entry.end ?? entry.start }, set: { entry.end = $0 }),
                            displayedComponents: .hourAndMinute)
             }
-            TextField("Notes", text: Binding(get: { entry.notes.joined(separator: "\n") },
-                                             set: { entry.notes = $0.split(separator: "\n", omittingEmptySubsequences: false).map(String.init) }),
-                      axis: .vertical)
-                .lineLimit(1...6)
+            LabeledContent("Notes") {
+                VStack(alignment: .leading, spacing: 4) {
+                    // Each line is shown with a leading bullet; the bullet is display-only and stripped on the way back.
+                    TextField("Notes", text: Binding(get: { entry.notes.map { "· " + $0 }.joined(separator: "\n") },
+                                                     set: { entry.notes = $0.split(separator: "\n", omittingEmptySubsequences: false)
+                                                         .map { $0.hasPrefix("· ") ? String($0.dropFirst(2)) : String($0) } }),
+                              axis: .vertical)
+                        .lineLimit(1...6)
+                    Text("Option-Return adds a line").font(.caption).foregroundStyle(.secondary)
+                }
+            }
             LabeledContent("Duration") { Text(entry.duration.hm).monospacedDigit() }
             Button("Delete", systemImage: "trash", role: .destructive, action: onDelete)
         }
