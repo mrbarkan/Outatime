@@ -1,6 +1,9 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    " – ": {
+      "shouldTranslate": false
+    },
     "About": {
       "localizations": {
         "es": {
@@ -455,6 +458,22 @@
         }
       }
     },
+    "Next Day": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Día siguiente"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Próximo dia"
+          }
+        }
+      }
+    },
     "Next Month": {
       "localizations": {
         "es": {
@@ -540,6 +559,22 @@
     },
     "Português (Brasil)": {
       "shouldTranslate": false
+    },
+    "Previous Day": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Día anterior"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dia anterior"
+          }
+        }
+      }
     },
     "Previous Month": {
       "localizations": {
@@ -653,22 +688,6 @@
         }
       }
     },
-    "Select a day": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Selecciona un día"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Selecione um dia"
-          }
-        }
-      }
-    },
     "Settings…": {
       "localizations": {
         "es": {
@@ -718,6 +737,7 @@
       }
     },
     "Tag": {
+      "extractionState": "stale",
       "localizations": {
         "es": {
           "stringUnit": {
@@ -734,6 +754,7 @@
       }
     },
     "Tag (optional)": {
+      "extractionState": "stale",
       "localizations": {
         "es": {
           "stringUnit": {
@@ -893,6 +914,38 @@
         }
       }
     },
+    "Zoom In": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acercar"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ampliar"
+          }
+        }
+      }
+    },
+    "Zoom Out": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alejar"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reduzir"
+          }
+        }
+      }
+    },
     "running": {
       "localizations": {
         "es": {
@@ -909,7 +962,7 @@
         }
       }
     },
-    "–": {
+    "· %@": {
       "shouldTranslate": false
     }
   },

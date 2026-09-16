@@ -51,6 +51,27 @@ nonisolated struct OutatimeTests {
         #expect(store.entries.first?.notes == ["late note"])
     }
 
+    @Test func blockDragSnapping() {
+        let magnet = 4.0 / 56 * 3600
+        let start = cal.startOfDay(for: day)
+        // Tracked back to back: a few ms apart, still one shared border.
+        let a = Entry(activity: .work, start: at(9), end: at(10).addingTimeInterval(-0.004))
+        let b = Entry(activity: .break, start: at(10), end: at(11, 3).addingTimeInterval(27))
+        #expect(BlockDrag.neighbour(of: b, .start, in: [a])?.id == a.id)
+
+        // A shared border can be nudged one grid step; the neighbour's own edge must not pull it back.
+        let nudged = BlockDrag.drag(b, .start, by: 200, others: [a], dayStart: start, magnet: magnet, drop: true)
+        #expect(nudged.start == at(10, 5))
+        // Resizing the top leaves an off-grid bottom alone.
+        #expect(nudged.end == b.end)
+
+        // Moving onto a block below: the end sticks to its start, and dropping keeps it there.
+        let c = Entry(activity: .lunch, start: at(12), end: at(13))
+        let moved = BlockDrag.drag(b, .move, by: 55 * 60, others: [c], dayStart: start, magnet: magnet, drop: true)
+        #expect(moved.end == at(12))
+        #expect(moved.duration == b.duration)
+    }
+
     @Test func breakCountsAsWork() {
         #expect([Activity.work: 3600.0, .break: 600, .lunch: 1800, .extra: 300].worked == 4500)
     }

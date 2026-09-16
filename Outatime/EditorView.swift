@@ -3,37 +3,69 @@ import SwiftUI
 struct EditorView: View {
     @Environment(Store.self) private var store
     @AppStorage("targetHours") private var targetHours = 8.0
-    @State private var month = Date.now.startOfMonth
-    @State private var selectedDay: Date? = Calendar.current.startOfDay(for: .now)
+    @AppStorage("hourHeight") private var hourHeight = 56.0
+    @State private var day = Calendar.current.startOfDay(for: .now)
+    @State private var naming = false
+    @State private var templateName = ""
+    @State private var pendingTemplate: DayTemplate?
+    private static let zoomLevels = [40.0, 56, 84, 126, 189]
 
     var body: some View {
+        let month = day.startOfMonth
+        let dayEntries = store.entries(on: day)
         NavigationSplitView {
-            List(month.daysInMonth, id: \.self, selection: $selectedDay) { day in
-                DayRow(day: day, totals: store.totals(on: day))
-            }
-            .navigationSplitViewColumnWidth(min: 230, ideal: 260)
-            .navigationTitle(month.formatted(.dateTime.month(.wide).year()))
-            .toolbar {
-                ToolbarItemGroup {
-                    Button("Previous Month", systemImage: "chevron.left") { shift(-1) }
-                    Button("Today") {
-                        month = Date.now.startOfMonth
-                        selectedDay = Calendar.current.startOfDay(for: .now)
+            // ⌘-click deselection is ignored, so there is always a day to show.
+            List(selection: Binding(get: { day }, set: { if let d = $0 { day = d } })) {
+                Section {
+                    ForEach(month.daysInMonth, id: \.self) { d in
+                        DayRow(day: d, totals: store.totals(on: d))
                     }
-                    Button("Next Month", systemImage: "chevron.right") { shift(1) }
+                } header: {
+                    HStack {
+                        Text(month, format: .dateTime.month(.wide).year())
+                        Spacer()
+                        Button("Previous Month", systemImage: "chevron.left") { shiftMonth(-1) }
+                        Button("Next Month", systemImage: "chevron.right") { shiftMonth(1) }
+                    }
+                    .buttonStyle(.borderless).labelStyle(.iconOnly)
                 }
             }
+            .navigationSplitViewColumnWidth(min: 230, ideal: 260)
         } detail: {
-            if let day = selectedDay {
-                DayEditor(day: day)
-            } else {
-                ContentUnavailableView("Select a day", systemImage: "calendar")
-            }
+            DayTimeline(day: day, entries: dayEntries)
+                .safeAreaInset(edge: .bottom) { summary(dayEntries) }
+                .navigationTitle(day.formatted(.dateTime.weekday(.wide).day().month(.wide)))
         }
-        .onAppear { NSApp.setActivationPolicy(.regular); NSApp.activate() }
-        .onDisappear { NSApp.setActivationPolicy(.accessory) }
+        // Finder-style toolbar: back/forward capsule and title on the left, grouped controls on the right.
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
+            ToolbarItemGroup(placement: .navigation) {
+                Button("Previous Day", systemImage: "chevron.left") { shiftDay(-1) }.keyboardShortcut("[")
+                Button("Today") { day = Calendar.current.startOfDay(for: .now) }
+                    .keyboardShortcut("t").disabled(Calendar.current.isDateInToday(day))
+                Button("Next Day", systemImage: "chevron.right") { shiftDay(1) }.keyboardShortcut("]")
+            }
+            ToolbarItemGroup {
+                Button("Zoom Out", systemImage: "minus.magnifyingglass") { zoom(-1) }
+                    .keyboardShortcut("-").disabled(hourHeight <= Self.zoomLevels.first!)
+                Button("Zoom In", systemImage: "plus.magnifyingglass") { zoom(1) }
+                    .keyboardShortcut("=").disabled(hourHeight >= Self.zoomLevels.last!)
+            }
+            ToolbarSpacer(.fixed)
+            ToolbarItemGroup {
+                Button("Add Entry", systemImage: "plus") { store.addEntry(on: day) }
+                Menu("Templates", systemImage: "doc.on.doc") {
+                    Button("Save Day as Template…") { templateName = ""; naming = true }
+                        .disabled(dayEntries.isEmpty)
+                    if !store.templates.isEmpty { Divider() }
+                    ForEach(store.templates) { t in
+                        Menu(t.name) {
+                            Button("Apply to This Day") {
+                                if dayEntries.isEmpty { store.apply(t, to: day) } else { pendingTemplate = t }
+                            }
+                            Button("Delete Template", role: .destructive) { store.templates.removeAll { $0.id == t.id } }
+                        }
+                    }
+                }
                 Menu("Export", systemImage: "square.and.arrow.up") {
                     let name = month.formatted(.dateTime.year().month(.twoDigits))
                     Button("Daily Summary CSV…") {
@@ -45,11 +77,52 @@ struct EditorView: View {
                 }
             }
         }
+        .alert("Save Day as Template", isPresented: $naming) {
+            TextField("Name", text: $templateName)
+            Button("Save") { store.templates.append(DayTemplate(name: templateName, entries: dayEntries)) }
+                .disabled(templateName.isEmpty)
+            Button("Cancel", role: .cancel) {}
+        }
+        .confirmationDialog("Replace this day's entries with “\(pendingTemplate?.name ?? "")”?",
+                            isPresented: Binding(get: { pendingTemplate != nil }, set: { if !$0 { pendingTemplate = nil } })) {
+            Button("Replace", role: .destructive) { if let t = pendingTemplate { store.apply(t, to: day) } }
+        }
+        .onAppear { NSApp.setActivationPolicy(.regular); NSApp.activate() }
+        .onDisappear { NSApp.setActivationPolicy(.accessory) }
     }
 
-    private func shift(_ months: Int) {
-        month = Calendar.current.date(byAdding: .month, value: months, to: month)!.startOfMonth
-        selectedDay = month
+    private func shiftDay(_ days: Int) {
+        day = Calendar.current.date(byAdding: .day, value: days, to: day)!
+    }
+
+    private func shiftMonth(_ months: Int) {
+        day = Calendar.current.date(byAdding: .month, value: months, to: day.startOfMonth)!
+    }
+
+    private func zoom(_ step: Int) {
+        let levels = Self.zoomLevels
+        let i = levels.lastIndex { $0 <= hourHeight } ?? 0
+        hourHeight = levels[(i + step).clamped(to: 0...(levels.count - 1))]
+    }
+
+    private func summary(_ entries: [Entry]) -> some View {
+        let t = Store.totals(entries)
+        let balance = t.worked - targetHours * 3600
+        return HStack(spacing: 14) {
+            ForEach(Activity.allCases) { a in
+                Label(t[a, default: 0].hm, systemImage: a.symbol).foregroundStyle(a.color)
+            }
+            Spacer()
+            Text("Balance \(balance >= 0 ? "+" : "−")\(abs(balance).hm)")
+                .fontWeight(.semibold)
+                .foregroundStyle(balance >= 0 ? .green : .secondary)
+            Stepper("Target \(targetHours.formatted())h", value: $targetHours, in: 0...16, step: 0.5)
+                .controlSize(.small)
+        }
+        .font(.callout).monospacedDigit()
+        .padding(.horizontal, 16).padding(.vertical, 8)
+        .glassEffect(.regular, in: .capsule)
+        .padding(12)
     }
 }
 
@@ -76,75 +149,12 @@ private struct DayRow: View {
     }
 }
 
-struct DayEditor: View {
-    @Environment(Store.self) private var store
-    @AppStorage("targetHours") private var targetHours = 8.0
-    let day: Date
-    @State private var naming = false
-    @State private var templateName = ""
-    @State private var pendingTemplate: DayTemplate?
-
-    var body: some View {
-        let dayEntries = store.entries(on: day)
-        DayTimeline(day: day, entries: dayEntries)
-            .safeAreaInset(edge: .bottom) { summary(dayEntries) }
-            .navigationTitle(day.formatted(date: .complete, time: .omitted))
-            .toolbar {
-                ToolbarItemGroup {
-                    Button("Add Entry", systemImage: "plus") { store.addEntry(on: day) }
-                    Menu("Templates", systemImage: "doc.on.doc") {
-                        Button("Save Day as Template…") { templateName = ""; naming = true }
-                            .disabled(dayEntries.isEmpty)
-                        if !store.templates.isEmpty { Divider() }
-                        ForEach(store.templates) { t in
-                            Menu(t.name) {
-                                Button("Apply to This Day") {
-                                    if dayEntries.isEmpty { store.apply(t, to: day) } else { pendingTemplate = t }
-                                }
-                                Button("Delete Template", role: .destructive) { store.templates.removeAll { $0.id == t.id } }
-                            }
-                        }
-                    }
-                }
-            }
-            .alert("Save Day as Template", isPresented: $naming) {
-                TextField("Name", text: $templateName)
-                Button("Save") { store.templates.append(DayTemplate(name: templateName, entries: dayEntries)) }
-                    .disabled(templateName.isEmpty)
-                Button("Cancel", role: .cancel) {}
-            }
-            .confirmationDialog("Replace this day's entries with “\(pendingTemplate?.name ?? "")”?",
-                                isPresented: Binding(get: { pendingTemplate != nil }, set: { if !$0 { pendingTemplate = nil } })) {
-                Button("Replace", role: .destructive) { if let t = pendingTemplate { store.apply(t, to: day) } }
-            }
-    }
-
-    private func summary(_ entries: [Entry]) -> some View {
-        let t = Store.totals(entries)
-        let balance = t.worked - targetHours * 3600
-        return HStack(spacing: 14) {
-            ForEach(Activity.allCases) { a in
-                Label(t[a, default: 0].hm, systemImage: a.symbol).foregroundStyle(a.color)
-            }
-            Spacer()
-            Text("Balance \(balance >= 0 ? "+" : "−")\(abs(balance).hm)")
-                .fontWeight(.semibold)
-                .foregroundStyle(balance >= 0 ? .green : .secondary)
-            Stepper("Target \(targetHours.formatted())h", value: $targetHours, in: 0...16, step: 0.5)
-                .controlSize(.small)
-        }
-        .font(.callout).monospacedDigit()
-        .padding(.horizontal, 16).padding(.vertical, 10)
-        .glassEffect(.regular, in: .rect)
-    }
-}
-
 /// Calendar-style day view: drag a block to move it, drag its top/bottom edge to resize, click to edit, double-click empty space to add.
 private struct DayTimeline: View {
     @Environment(Store.self) private var store
     let day: Date
     let entries: [Entry]
-    private let hourHeight: CGFloat = 56
+    @AppStorage("hourHeight") private var hourHeight = 56.0
     private let gutter: CGFloat = 48
 
     var body: some View {
@@ -194,17 +204,17 @@ private struct TimelineBlock: View {
     let dayStart: Date
     let hourHeight: CGFloat
     let onDelete: () -> Void
-    @State private var draft: Entry?  // follows the pointer unsnapped; snapped + written to the store on release
-    @State private var dragMode: DragMode?
+    @State private var draft: Entry?  // follows the pointer; settled + written to the store on release
+    @State private var dragMode: BlockDrag.Mode?
     @State private var hovering = false
     @State private var editing = false
-    private enum DragMode { case move, start, end }
 
     var body: some View {
         let e = draft ?? entry
         let dragging = draft != nil
         let top = CGFloat(e.start.timeIntervalSince(dayStart) / 3600) * hourHeight
-        let height = max(14, CGFloat(e.duration / 3600) * hourHeight)
+        let natural = CGFloat(e.duration / 3600) * hourHeight
+        let height = max(14, natural)
         RoundedRectangle(cornerRadius: 6)
             .fill(e.activity.color.opacity(dragging ? 0.4 : hovering ? 0.3 : 0.22))
             .overlay(alignment: .leading) { e.activity.color.frame(width: 3).clipShape(.rect(cornerRadius: 6)) }
@@ -242,8 +252,8 @@ private struct TimelineBlock: View {
             .gesture(drag(entry.isRunning ? .start : .move))
             .onTapGesture { editing = true }
             .onHover { hovering = $0 }
-            .overlay(alignment: .top) { handle(.start) }
-            .overlay(alignment: .bottom) { if !entry.isRunning { handle(.end) } }
+            .overlay(alignment: .top) { handle(.start, in: height) }
+            .overlay(alignment: .bottom) { if !entry.isRunning { handle(.end, in: height) } }
             .overlay(alignment: dragMode == .end ? .bottomTrailing : .topTrailing) {
                 if dragging {
                     Text(dragMode == .end ? e.end ?? e.start : e.start, style: .time)
@@ -256,66 +266,42 @@ private struct TimelineBlock: View {
             .shadow(color: .black.opacity(dragging ? 0.25 : 0), radius: 6, y: 2)
             .popover(isPresented: $editing) { EntryForm(entry: $entry) { editing = false; onDelete() } }
             .offset(y: top)
-            .zIndex(dragging ? 1 : 0)
+            // A block stretched to the minimum height overhangs the next one; keep it on top so it stays clickable.
+            .zIndex(dragging ? 2 : height > natural ? 1 : 0)
     }
 
-    /// Resize grip along an edge; its own gesture wins over the block's move gesture.
-    private func handle(_ mode: DragMode) -> some View {
-        Color.clear.frame(height: 8)
+    /// Resize grip along an edge; its own gesture wins over the block's move gesture. It shrinks on short blocks so
+    /// the middle stays grabbable, and a click on it still opens the editor.
+    private func handle(_ mode: BlockDrag.Mode, in height: CGFloat) -> some View {
+        Color.clear.frame(height: min(8, height / 4))
             .contentShape(Rectangle())
             .overlay {
                 Capsule().fill(.primary.opacity(hovering || dragMode == mode ? 0.35 : 0)).frame(width: 28, height: 3)
             }
             .pointerStyle(.frameResize(position: mode == .start ? .top : .bottom))
             .gesture(drag(mode))
+            .onTapGesture { editing = true }
     }
 
-    private func drag(_ mode: DragMode) -> some Gesture {
+    private func drag(_ mode: BlockDrag.Mode) -> some Gesture {
         // Measured in the timeline's space: the block (and the grip on it) moves under the pointer during the drag,
         // so a local-space translation would feed back into itself and jitter.
         DragGesture(minimumDistance: 2, coordinateSpace: .named("timeline"))
             .onChanged { g in
                 dragMode = mode
-                let dayEnd = dayStart.addingTimeInterval(86400)
-                var delta = TimeInterval(g.translation.height / hourHeight * 3600)
-                var d = entry
-                switch mode {
-                case .move:
-                    delta = max(delta, dayStart.timeIntervalSince(entry.start))
-                    if let end = entry.end { delta = min(delta, dayEnd.timeIntervalSince(end)) }
-                    // Magnetic: pull the whole block so either edge lands on a neighbour's edge.
-                    if let m = edge(near: entry.start + delta).map({ $0.timeIntervalSince(entry.start) })
-                        ?? entry.end.flatMap({ e in edge(near: e + delta).map { $0.timeIntervalSince(e) } }) { delta = m }
-                    d.start += delta
-                    d.end = d.end.map { $0 + delta }
-                case .start:
-                    let floor = neighbour(.start).map { $0.start + 300 } ?? dayStart
-                    d.start = min(max(edge(near: entry.start + delta) ?? entry.start + delta, floor), (entry.end ?? .now) - 300)
-                case .end:
-                    let ceiling = neighbour(.end)?.end.map { $0 - 300 } ?? dayEnd
-                    d.end = max(min(edge(near: entry.end! + delta) ?? entry.end! + delta, ceiling), entry.start + 300)
-                }
                 // Pointer-driven layout must not inherit an animation, or the box lags and stutters behind the mouse.
                 var t = Transaction()
                 t.disablesAnimations = true
-                withTransaction(t) { draft = d }
+                withTransaction(t) { draft = moved(g, mode, drop: false) }
             }
-            .onEnded { _ in
-                guard var d = draft else { return }
-                if mode == .move {
-                    let shift = snap(d.start).timeIntervalSince(d.start)  // keep the duration; only the grid moves
-                    d.start += shift
-                    d.end = d.end.map { $0 + shift }
-                } else {
-                    d.start = snap(d.start)
-                    d.end = d.end.map { max(snap($0), d.start + 300) }
-                }
+            .onEnded { g in
+                guard draft != nil else { return }
+                let d = moved(g, mode, drop: true)
                 // ponytail: a shared border drags the neighbour with it, but only on release — writing the store
-                // per pointer move would save the file at 60 Hz. Neighbour clamping above keeps it ≥ 5 min long.
-                if let n = neighbour(mode) {
-                    var m = n
-                    if mode == .start { m.end = d.start } else { m.start = d.end! }
-                    store.binding(for: n).wrappedValue = m
+                // per pointer move would save the file at 60 Hz. BlockDrag keeps the neighbour ≥ 5 min long.
+                if var n = BlockDrag.neighbour(of: entry, mode, in: others) {
+                    if mode == .start { n.end = d.start } else { n.start = d.end! }
+                    store.binding(for: n).wrappedValue = n
                 }
                 withAnimation(.snappy(duration: 0.2)) {
                     entry = d
@@ -325,26 +311,66 @@ private struct TimelineBlock: View {
             }
     }
 
-    /// Another block's edge within ~10 px of `t`, so a drag can lock onto it.
-    private func edge(near t: Date) -> Date? {
-        let magnet = TimeInterval(10 / hourHeight * 3600)
-        let edges = others.flatMap { [$0.start, $0.end].compactMap { $0 } }
-        return edges.min { abs($0.timeIntervalSince(t)) < abs($1.timeIntervalSince(t)) }
-            .flatMap { abs($0.timeIntervalSince(t)) <= magnet ? $0 : nil }
+    private func moved(_ g: DragGesture.Value, _ mode: BlockDrag.Mode, drop: Bool) -> Entry {
+        // ponytail: 4 pt magnet — under one 5-minute step at the default zoom, so a block can still sit 5 min off an edge.
+        BlockDrag.drag(entry, mode, by: g.translation.height / hourHeight * 3600, others: others,
+                       dayStart: dayStart, magnet: 4 / hourHeight * 3600, drop: drop)
     }
+}
 
-    /// Block that shares the edge being dragged: it ends where this one starts, or starts where this one ends.
-    private func neighbour(_ mode: DragMode) -> Entry? {
+/// Drag math for timeline blocks, kept free of views so it can be tested.
+nonisolated enum BlockDrag {
+    enum Mode { case move, start, end }
+    static let grid: TimeInterval = 300
+    static let minLength: TimeInterval = 300
+
+    /// The block sharing the dragged edge; it follows that edge on release. Blocks tracked back to back are
+    /// milliseconds apart (and lose sub-seconds when saved), so anything within a second counts as shared.
+    static func neighbour(of e: Entry, _ mode: Mode, in others: [Entry]) -> Entry? {
+        let touching = { (a: Date?, b: Date?) in a.flatMap { a in b.map { abs(a.timeIntervalSince($0)) < 1 } } ?? false }
         switch mode {
-        case .start: others.first { $0.end == entry.start }
-        case .end: others.first { $0.start == entry.end }
-        case .move: nil
+        case .start: return others.first { touching($0.end, e.start) }
+        case .end: return others.first { touching($0.start, e.end) }
+        case .move: return nil
         }
     }
 
-    /// Nearest neighbour edge if close, else nearest 5 minutes.
-    private func snap(_ t: Date) -> Date {
-        edge(near: t) ?? dayStart.addingTimeInterval((t.timeIntervalSince(dayStart) / 300).rounded() * 300)
+    /// `e` dragged by `delta` seconds. Edges within `magnet` seconds of another block's edge stick to it; on `drop`
+    /// every other dragged edge lands on the 5-minute grid. Only the dragged edge moves — a resize never nudges the
+    /// opposite edge, and a move keeps the duration.
+    static func drag(_ e: Entry, _ mode: Mode, by delta: TimeInterval, others: [Entry], dayStart: Date,
+                     magnet: TimeInterval, drop: Bool, now: Date = .now) -> Entry {
+        // The shared neighbour moves with this edge, so its edges can't attract it — they'd pin it in place.
+        let shared = neighbour(of: e, mode, in: others)
+        let edges = others.filter { $0.id != shared?.id }.flatMap { [$0.start, $0.end].compactMap { $0 } }
+        func pull(_ t: Date) -> TimeInterval? {
+            edges.map { $0.timeIntervalSince(t) }.filter { abs($0) <= magnet }.min { abs($0) < abs($1) }
+        }
+        func settle(_ t: Date) -> Date {
+            let offset = t.timeIntervalSince(dayStart)
+            return t + (pull(t) ?? (drop ? (offset / grid).rounded() * grid - offset : 0))
+        }
+        let dayEnd = dayStart + 86400
+        var d = e
+        switch mode {
+        case .move:
+            var delta = max(delta, dayStart.timeIntervalSince(e.start))
+            if let end = e.end { delta = min(delta, dayEnd.timeIntervalSince(end)) }
+            d.start += delta
+            d.end = d.end.map { $0 + delta }
+            // Whichever edge is nearer a magnet wins; otherwise the start settles.
+            let shift = [d.start, d.end].compactMap { $0 }.compactMap(pull).min { abs($0) < abs($1) }
+                ?? settle(d.start).timeIntervalSince(d.start)
+            d.start += shift
+            d.end = d.end.map { $0 + shift }
+        case .start:
+            let floor = shared.map { $0.start + minLength } ?? dayStart
+            d.start = min(max(settle(e.start + delta), floor), (e.end ?? now) - minLength)
+        case .end:
+            let ceiling = shared.map { ($0.end ?? now) - minLength } ?? dayEnd
+            d.end = max(min(settle((e.end ?? now) + delta), ceiling), e.start + minLength)
+        }
+        return d
     }
 }
 
