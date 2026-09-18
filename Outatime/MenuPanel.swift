@@ -6,6 +6,7 @@ struct MenuPanel: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openSettings) private var openSettings
     @AppStorage("targetHours") private var targetHours = 8.0
+    @AppStorage("excludedFromTarget") private var excluded = Activity.defaultExcluded
     @State private var note = ""
 
     var body: some View {
@@ -26,6 +27,7 @@ struct MenuPanel: View {
                 Grid(horizontalSpacing: 10, verticalSpacing: 10) {
                     GridRow { ActivityButton(.work); ActivityButton(.break) }
                     GridRow { ActivityButton(.lunch); ActivityButton(.extra) }
+                    GridRow { ActivityButton(.travel); ActivityButton(.outOfOffice) }
                 }
             }
 
@@ -54,10 +56,10 @@ struct MenuPanel: View {
 
     private var totals: some View {
         let t = store.totals(on: .now)
-        let balance = t.worked - targetHours * 3600
+        let balance = t.worked(excluding: excluded) - targetHours * 3600
         return VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 12) {
-                ForEach(Activity.allCases) { a in
+                ForEach(Activity.allCases.filter { $0 == .work || t[$0, default: 0] > 0 }) { a in
                     HStack(spacing: 4) {
                         Image(systemName: a.symbol).foregroundStyle(a.color)
                         Text(t[a, default: 0].hm).monospacedDigit()
@@ -83,7 +85,7 @@ struct MenuPanel: View {
                 let month = Date.now.startOfMonth
                 let name = month.formatted(.dateTime.year().month(.twoDigits))
                 Button("This Month — Daily Summary…") {
-                    saveCSV(CSV.daily(store.entries(inMonth: month), targetHours: targetHours), suggestedName: "Outatime \(name) daily.csv")
+                    saveCSV(CSV.daily(store.entries(inMonth: month), targetHours: targetHours, excluded: excluded), suggestedName: "Outatime \(name) daily.csv")
                 }
                 Button("This Month — Entries…") {
                     saveCSV(CSV.entries(store.entries(inMonth: month)), suggestedName: "Outatime \(name) entries.csv")

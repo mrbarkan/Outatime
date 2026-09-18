@@ -20,17 +20,16 @@ nonisolated enum CSV {
         return lines.joined(separator: "\n") + "\n"
     }
 
-    static func daily(_ entries: [Entry], targetHours: Double) -> String {
+    static func daily(_ entries: [Entry], targetHours: Double, excluded: String = Activity.defaultExcluded) -> String {
         let day = Date.ISO8601FormatStyle(timeZone: .current).year().month().day()
         let byDay = Dictionary(grouping: entries) { Calendar.current.startOfDay(for: $0.start) }
-        var lines = [row(["Date", "Work", "Break", "Lunch", "Extra", "Balance", "Notes"])]
+        var lines = [row(["Date", "Work", "Break", "Lunch", "Extra", "Travel", "Out of Office", "Balance", "Notes"])]
         for (date, es) in byDay.sorted(by: { $0.key < $1.key }) {
             let t = Store.totals(es)
-            let work = t[.work, default: 0], extra = t[.extra, default: 0]
-            let balance = t.worked / 3600 - targetHours
+            let balance = t.worked(excluding: excluded) / 3600 - targetHours
             let tags = es.flatMap(\.notes).joined(separator: "; ")
-            lines.append(row([date.formatted(day), hours(work), hours(t[.break, default: 0]),
-                              hours(t[.lunch, default: 0]), hours(extra), String(format: "%+.2f", balance), tags]))
+            lines.append(row([date.formatted(day)] + Activity.allCases.map { hours(t[$0, default: 0]) }
+                             + [String(format: "%+.2f", balance), tags]))
         }
         return lines.joined(separator: "\n") + "\n"
     }

@@ -54,6 +54,8 @@ struct SettingsView: View {
     @AppStorage("appearance") private var appearance = Appearance.system
     @AppStorage("language") private var language = Language.system
     @AppStorage("menuBarStyle") private var menuBarStyle = MenuBarStyle.iconAndTime
+    @AppStorage("targetHours") private var targetHours = 8.0
+    @AppStorage("excludedFromTarget") private var excluded = Activity.defaultExcluded
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
 
     var body: some View {
@@ -77,6 +79,18 @@ struct SettingsView: View {
                     try? on ? SMAppService.mainApp.register() : SMAppService.mainApp.unregister()
                     launchAtLogin = SMAppService.mainApp.status == .enabled
                 }
+
+            Section("Daily target") {
+                Stepper("Target \(targetHours.formatted())h", value: $targetHours, in: 0...16, step: 0.5)
+                // Work and extra always count; the rest is the user's call.
+                ForEach([Activity.break, .lunch, .travel, .outOfOffice]) { a in
+                    Toggle(isOn: Binding(get: { !excluded.split(separator: ",").contains(Substring(a.rawValue)) },
+                                         set: { on in
+                        let out = excluded.split(separator: ",").map(String.init).filter { $0 != a.rawValue }
+                        excluded = (on ? out : out + [a.rawValue]).joined(separator: ",")
+                    })) { Label(a.label, systemImage: a.symbol) }
+                }
+            }
 
             LabeledContent("Version \(Updater.current)") {
                 Button("Check for Updates…") { updater.check() }

@@ -1,15 +1,18 @@
 import SwiftUI
 
 nonisolated enum Activity: String, Codable, CaseIterable, Identifiable {
-    case work, `break`, lunch, extra
+    case work, `break`, lunch, extra, travel, outOfOffice
 
     var id: String { rawValue }
+    static let defaultExcluded = "lunch"
     var label: LocalizedStringKey {
         switch self {
         case .work: "Work"
         case .break: "Break"
         case .lunch: "Lunch"
         case .extra: "Extra"
+        case .travel: "Travel"
+        case .outOfOffice: "Out of Office"
         }
     }
 
@@ -19,6 +22,8 @@ nonisolated enum Activity: String, Codable, CaseIterable, Identifiable {
         case .break: "cup.and.saucer"
         case .lunch: "fork.knife"
         case .extra: "moon.stars"
+        case .travel: "car"
+        case .outOfOffice: "figure.walk"
         }
     }
 
@@ -28,6 +33,8 @@ nonisolated enum Activity: String, Codable, CaseIterable, Identifiable {
         case .break: .green
         case .lunch: .orange
         case .extra: .purple
+        case .travel: .teal
+        case .outOfOffice: .pink
         }
     }
 }
@@ -109,8 +116,12 @@ nonisolated struct DayTemplate: Codable, Identifiable, Hashable {
 }
 
 nonisolated extension Dictionary where Key == Activity, Value == TimeInterval {
-    /// Time that counts toward the daily target: everything but lunch (coffee breaks are paid).
-    var worked: TimeInterval { filter { $0.key != .lunch }.values.reduce(0, +) }
+    /// Time that counts toward the daily target. `excluded` is the "excludedFromTarget" setting: comma-separated
+    /// activity raw values, by default just lunch (coffee breaks are paid).
+    func worked(excluding excluded: String = Activity.defaultExcluded) -> TimeInterval {
+        let out = excluded.split(separator: ",")
+        return filter { !out.contains(Substring($0.key.rawValue)) }.values.reduce(0, +)
+    }
 }
 
 nonisolated extension TimeInterval {

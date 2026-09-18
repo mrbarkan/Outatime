@@ -3,26 +3,38 @@ import SwiftUI
 struct EditorView: View {
     @Environment(Store.self) private var store
     @AppStorage("targetHours") private var targetHours = 8.0
+    @AppStorage("excludedFromTarget") private var excluded = Activity.defaultExcluded
     @AppStorage("hourHeight") private var hourHeight = 56.0
     @State private var day = Calendar.current.startOfDay(for: .now)
     @State private var naming = false
     @State private var templateName = ""
     @State private var pendingTemplate: DayTemplate?
+    @FocusState private var sidebarFocused: Bool
+    @Environment(\.appearsActive) private var appearsActive
     private static let zoomLevels = [40.0, 56, 84, 126, 189]
 
     var body: some View {
         let month = day.startOfMonth
         let dayEntries = store.entries(on: day)
+        let target = targetHours * 3600
+        let rows = month.daysInMonth.map { d in (day: d, totals: store.totals(on: d)) }
+        // Days without entries (weekends, the future) don't owe anything.
+        let monthBalance = rows.filter { !$0.totals.isEmpty }.map { $0.totals.worked(excluding: excluded) - target }.reduce(0, +)
         NavigationSplitView {
             // ⌘-click deselection is ignored, so there is always a day to show.
             List(selection: Binding(get: { day }, set: { if let d = $0 { day = d } })) {
                 Section {
-                    ForEach(month.daysInMonth, id: \.self) { d in
-                        DayRow(day: d, totals: store.totals(on: d))
+                    ForEach(rows, id: \.day) { r in
+                        DayRow(day: r.day, totals: r.totals, worked: r.totals.worked(excluding: excluded), target: target,
+                               // The highlight is only accent-coloured while the list is focused in the active window;
+                               // backgroundProminence doesn't report that in a sidebar list.
+                               selected: r.day == day && sidebarFocused && appearsActive)
                     }
                 } header: {
                     HStack {
                         Text(month, format: .dateTime.month(.wide).year())
+                        Text(signed(monthBalance)).monospacedDigit()
+                            .foregroundStyle(monthBalance >= 0 ? .green : .red)
                         Spacer()
                         Button("Previous Month", systemImage: "chevron.left") { shiftMonth(-1) }
                         Button("Next Month", systemImage: "chevron.right") { shiftMonth(1) }
@@ -30,7 +42,8 @@ struct EditorView: View {
                     .buttonStyle(.borderless).labelStyle(.iconOnly)
                 }
             }
-            .navigationSplitViewColumnWidth(min: 230, ideal: 260)
+            .focused($sidebarFocused)
+            .navigationSplitViewColumnWidth(min: 250, ideal: 270)
         } detail: {
             DayTimeline(day: day, entries: dayEntries)
                 .safeAreaInset(edge: .bottom) { summary(dayEntries) }
@@ -69,7 +82,7 @@ struct EditorView: View {
                 Menu("Export", systemImage: "square.and.arrow.up") {
                     let name = month.formatted(.dateTime.year().month(.twoDigits))
                     Button("Daily Summary CSV…") {
-                        saveCSV(CSV.daily(store.entries(inMonth: month), targetHours: targetHours), suggestedName: "Outatime \(name) daily.csv")
+                        saveCSV(CSV.daily(store.entries(inMonth: month), targetHours: targetHours, excluded: excluded), suggestedName: "Outatime \(name) daily.csv")
                     }
                     Button("Entries CSV…") {
                         saveCSV(CSV.entries(store.entries(inMonth: month)), suggestedName: "Outatime \(name) entries.csv")
@@ -107,9 +120,9 @@ struct EditorView: View {
 
     private func summary(_ entries: [Entry]) -> some View {
         let t = Store.totals(entries)
-        let balance = t.worked - targetHours * 3600
+        let balance = t.worked(excluding: excluded) - targetHours * 3600
         return HStack(spacing: 14) {
-            ForEach(Activity.allCases) { a in
+            ForEach(Activity.allCases.filter { $0 == .work || t[$0, default: 0] > 0 }) { a in
                 Label(t[a, default: 0].hm, systemImage: a.symbol).foregroundStyle(a.color)
             }
             Spacer()
@@ -126,26 +139,51 @@ struct EditorView: View {
     }
 }
 
+/// "+0h 35m" / "−1h 05m"
+private func signed(_ t: TimeInterval) -> String { (t >= 0 ? "+" : "−") + abs(t).hm }
+
 private struct DayRow: View {
     let day: Date
     let totals: [Activity: TimeInterval]
+    let worked: TimeInterval
+    let target: TimeInterval
+    let selected: Bool  // on the accent highlight everything goes white
 
     var body: some View {
         let cal = Calendar.current
         let today = cal.isDateInToday(day)
-        HStack {
+        let balance = worked - target
+        HStack(spacing: 10) {
             Text(day, format: .dateTime.weekday(.abbreviated).day())
                 .fontWeight(today ? .bold : .regular)
-                .foregroundStyle(today ? Color.accentColor : cal.isDateInWeekend(day) ? Color.secondary : Color.primary)
+                .foregroundStyle(selected ? Color.white : today ? Color.accentColor : cal.isDateInWeekend(day) ? Color.secondary : Color.primary)
             Spacer()
-            HStack(spacing: 8) {
-                ForEach(Activity.allCases.filter { totals[$0, default: 0] > 0 }) { a in
-                    Label(totals[a]!.hm, systemImage: a.symbol).foregroundStyle(a.color)
-                }
+            if !totals.isEmpty {
+                bar(selected: selected)
+                Text(worked.hm).foregroundStyle(selected ? Color.white : Color.primary)
+                // Today is still in progress: a shortfall isn't alarming yet.
+                Text(signed(balance)).fontWeight(.medium)
+                    .foregroundStyle(selected ? Color.white : balance >= 0 ? Color.green : today ? Color.secondary : Color.red)
+                    .frame(width: 56, alignment: .trailing)
             }
-            .font(.caption).monospacedDigit()
         }
-        .padding(.vertical, 2)
+        .font(.callout).monospacedDigit()
+        .padding(.vertical, 3)
+    }
+
+    /// The day's activities stacked on a track that is one target long (or the whole day, if that ran longer).
+    private func bar(selected: Bool) -> some View {
+        let width: CGFloat = 48
+        let scale = max(target, totals.values.reduce(0, +), 1)
+        return HStack(spacing: 0) {
+            ForEach(Activity.allCases.filter { totals[$0, default: 0] > 0 }) { a in
+                (selected ? Color.white.opacity(a == .work ? 1 : 0.55) : a.color)
+                    .frame(width: width * totals[a]! / scale)
+            }
+        }
+        .frame(width: width, height: 5, alignment: .leading)
+        .background(selected ? AnyShapeStyle(.white.opacity(0.25)) : AnyShapeStyle(.quaternary))
+        .clipShape(.capsule)
     }
 }
 

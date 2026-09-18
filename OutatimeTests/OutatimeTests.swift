@@ -27,7 +27,7 @@ nonisolated struct OutatimeTests {
         let csv = CSV.daily(entries, targetHours: 8)
         let lines = csv.split(separator: "\n")
         #expect(lines.count == 2)
-        #expect(lines[1] == "2026-09-03,8.00,0.00,0.00,1.50,+1.50,\"a, \"\"b\"\"\"")
+        #expect(lines[1] == "2026-09-03,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,\"a, \"\"b\"\"\"")
     }
 
     /// The store must read back what it wrote, or every relaunch silently starts empty and overwrites the file.
@@ -73,7 +73,8 @@ nonisolated struct OutatimeTests {
     }
 
     @Test func breakCountsAsWork() {
-        #expect([Activity.work: 3600.0, .break: 600, .lunch: 1800, .extra: 300].worked == 4500)
+        #expect([Activity.work: 3600.0, .break: 600, .lunch: 1800, .extra: 300].worked() == 4500)
+        #expect([Activity.work: 3600.0, .break: 600, .lunch: 1800].worked(excluding: "break") == 5400)
     }
 
     @Test func totals() {
