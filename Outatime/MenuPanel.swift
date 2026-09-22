@@ -7,6 +7,7 @@ struct MenuPanel: View {
     @Environment(\.openSettings) private var openSettings
     @AppStorage("targetHours") private var targetHours = 8.0
     @AppStorage("excludedFromTarget") private var excluded = Activity.defaultExcluded
+    @AppStorage("bankSince") private var bankSince = 0.0
     @State private var note = ""
 
     var body: some View {
@@ -40,23 +41,35 @@ struct MenuPanel: View {
     }
 
     private var status: some View {
-        HStack {
-            if let running = store.running {
-                Image(systemName: running.activity.symbol).foregroundStyle(running.activity.color)
-                Text(running.activity.label).fontWeight(.semibold)
-                Spacer()
-                Text(running.start, style: .timer).monospacedDigit().foregroundStyle(.secondary)
-            } else {
-                Image(systemName: "clock").foregroundStyle(.secondary)
-                Text("Not tracking").foregroundStyle(.secondary)
+        VStack(alignment: .leading, spacing: 4) {
+            HStack {
+                if let running = store.running {
+                    Image(systemName: running.activity.symbol).foregroundStyle(running.activity.color)
+                    Text(running.activity.label).fontWeight(.semibold)
+                    Spacer()
+                    Text(store.runningSince ?? running.start, style: .timer).monospacedDigit().foregroundStyle(.secondary)
+                } else {
+                    Image(systemName: "clock").foregroundStyle(.secondary)
+                    Text("Not tracking").foregroundStyle(.secondary)
+                }
+            }
+            .font(.title3)
+            // Left running overnight: it was cut at midnight, and the Logbook shows where.
+            if let since = store.runningSince, !Calendar.current.isDateInToday(since) {
+                Label("Running since \(since, format: .dateTime.weekday().hour().minute())", systemImage: "exclamationmark.triangle.fill")
+                    .font(.caption).foregroundStyle(.orange)
             }
         }
-        .font(.title3)
     }
 
     private var totals: some View {
         let t = store.totals(on: .now)
-        let balance = t.worked(excluding: excluded) - targetHours * 3600
+        let target = store.target(hours: targetHours, excluded: excluded)
+        let cal = Calendar.current
+        let week = store.balance(cal.dateInterval(of: .weekOfYear, for: .now)!, target)
+        let month = store.balance(cal.dateInterval(of: .month, for: .now)!, target)
+        let since = bankSince > 0 ? Date(timeIntervalSinceReferenceDate: bankSince) : target.since
+        let bank = store.balance(DateInterval(start: cal.startOfDay(for: since), end: .now), target)
         return VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 12) {
                 ForEach(Activity.allCases.filter { $0 == .work || t[$0, default: 0] > 0 }) { a in
@@ -67,14 +80,24 @@ struct MenuPanel: View {
                 }
             }
             .font(.caption)
-            HStack {
-                Text("Today").foregroundStyle(.secondary)
-                Spacer()
-                Text((balance >= 0 ? "+" : "−") + abs(balance).hm)
-                    .monospacedDigit()
-                    .foregroundStyle(balance >= 0 ? .green : .secondary)
+            Grid(alignment: .trailing, horizontalSpacing: 12, verticalSpacing: 4) {
+                // Today is still in progress: a shortfall isn't alarming yet.
+                let worked = t.worked(excluding: excluded)
+                row("Today", worked: worked, balance: worked - target.owed(on: .now), shortfall: .secondary)
+                row("This Week", worked: week.worked, balance: week.balance, shortfall: .red)
+                row("This Month", worked: month.worked, balance: month.balance, shortfall: .red)
+                row("Since \(since, format: .dateTime.day().month(.abbreviated))", worked: bank.worked, balance: bank.balance, shortfall: .red)
             }
-            .font(.caption)
+            .font(.caption).monospacedDigit()
+        }
+    }
+
+    private func row(_ label: LocalizedStringKey, worked: TimeInterval, balance: TimeInterval, shortfall: Color) -> some View {
+        GridRow {
+            Text(label).foregroundStyle(.secondary).gridColumnAlignment(.leading)
+            Spacer()
+            Text(worked.hm)
+            Text((balance >= 0 ? "+" : "−") + abs(balance).hm).foregroundStyle(balance >= 0 ? .green : shortfall)
         }
     }
 
@@ -85,7 +108,7 @@ struct MenuPanel: View {
                 let month = Date.now.startOfMonth
                 let name = month.formatted(.dateTime.year().month(.twoDigits))
                 Button("This Month — Daily Summary…") {
-                    saveCSV(CSV.daily(store.entries(inMonth: month), targetHours: targetHours, excluded: excluded), suggestedName: "Outatime \(name) daily.csv")
+                    saveCSV(CSV.daily(store.entries(inMonth: month), month: month, target: store.target(hours: targetHours, excluded: excluded)), suggestedName: "Outatime \(name) daily.csv")
                 }
                 Button("This Month — Entries…") {
                     saveCSV(CSV.entries(store.entries(inMonth: month)), suggestedName: "Outatime \(name) entries.csv")

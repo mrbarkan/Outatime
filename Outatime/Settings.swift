@@ -38,24 +38,29 @@ enum Language: String, CaseIterable {
 }
 
 enum MenuBarStyle: String, CaseIterable {
-    case iconAndTime, icon, time
+    case iconAndTime, icon, time, remaining
 
     var label: LocalizedStringKey {
         switch self {
         case .iconAndTime: "Icon and time"
         case .icon: "Icon only"
         case .time: "Time only"
+        case .remaining: "Time left today"
         }
     }
 }
 
 struct SettingsView: View {
     @Environment(Updater.self) private var updater
+    @Environment(Store.self) private var store
     @AppStorage("appearance") private var appearance = Appearance.system
     @AppStorage("language") private var language = Language.system
     @AppStorage("menuBarStyle") private var menuBarStyle = MenuBarStyle.iconAndTime
     @AppStorage("targetHours") private var targetHours = 8.0
     @AppStorage("excludedFromTarget") private var excluded = Activity.defaultExcluded
+    @AppStorage("bankSince") private var bankSince = 0.0  // 0: since the first entry
+    @AppStorage("remindAfterHours") private var remindAfter = 10.0
+    @AppStorage("globalShortcuts") private var globalShortcuts = true
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
 
     var body: some View {
@@ -90,6 +95,22 @@ struct SettingsView: View {
                         excluded = (on ? out : out + [a.rawValue]).joined(separator: ",")
                     })) { Label(a.label, systemImage: a.symbol) }
                 }
+                DatePicker("Hours bank since", selection: Binding(
+                    get: { bankSince > 0 ? Date(timeIntervalSinceReferenceDate: bankSince) : store.target(hours: 0, excluded: "").since },
+                    set: { bankSince = Calendar.current.startOfDay(for: $0).timeIntervalSinceReferenceDate }), displayedComponents: .date)
+                Text("Weekends and days off owe nothing; mark a day off from the Logbook toolbar.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+
+            Section("Tracking") {
+                Stepper(value: $remindAfter, in: 0...24, step: 1) {
+                    Text(remindAfter > 0 ? "Remind me when a timer runs \(remindAfter.formatted())h" : "No long-timer reminder")
+                }
+                Toggle(isOn: $globalShortcuts) {
+                    Text("Global shortcuts")
+                    Text("⌃⌥⌘W starts or stops Work, ⌃⌥⌘B Break")
+                }
+                .onChange(of: globalShortcuts) { HotKeys.setEnabled(globalShortcuts) }
             }
 
             LabeledContent("Version \(Updater.current)") {

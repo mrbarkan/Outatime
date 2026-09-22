@@ -16,30 +16,39 @@ struct EditorView: View {
     var body: some View {
         let month = day.startOfMonth
         let dayEntries = store.entries(on: day)
-        let target = targetHours * 3600
-        let rows = month.daysInMonth.map { d in (day: d, totals: store.totals(on: d)) }
-        // Days without entries (weekends, the future) don't owe anything.
-        let monthBalance = rows.filter { !$0.totals.isEmpty }.map { $0.totals.worked(excluding: excluded) - target }.reduce(0, +)
+        let cal = Calendar.current
+        let target = store.target(hours: targetHours, excluded: excluded)
+        let monthBalance = store.balance(cal.dateInterval(of: .month, for: month)!, target).balance
+        let weeks = Dictionary(grouping: month.daysInMonth) { cal.dateInterval(of: .weekOfYear, for: $0)!.start }
+            .sorted { $0.key < $1.key }.map(\.value)
         NavigationSplitView {
             // ⌘-click deselection is ignored, so there is always a day to show.
             List(selection: Binding(get: { day }, set: { if let d = $0 { day = d } })) {
-                Section {
-                    ForEach(rows, id: \.day) { r in
-                        DayRow(day: r.day, totals: r.totals, worked: r.totals.worked(excluding: excluded), target: target,
-                               // The highlight is only accent-coloured while the list is focused in the active window;
-                               // backgroundProminence doesn't report that in a sidebar list.
-                               selected: r.day == day && sidebarFocused && appearsActive)
+                ForEach(weeks, id: \.first) { days in
+                    Section {
+                        ForEach(days, id: \.self) { d in
+                            let totals = store.totals(on: d)
+                            DayRow(day: d, totals: totals, worked: totals.worked(excluding: excluded), target: target.seconds,
+                                   owed: target.owed(on: d), dayOff: target.daysOff.contains(d.dayKey),
+                                   // The highlight is only accent-coloured while the list is focused in the active window;
+                                   // backgroundProminence doesn't report that in a sidebar list.
+                                   selected: d == day && sidebarFocused && appearsActive)
+                        }
+                    } header: {
+                        if days == weeks.first {
+                            HStack {
+                                Text(month, format: .dateTime.month(.wide).year())
+                                Text(signed(monthBalance)).monospacedDigit()
+                                    .foregroundStyle(monthBalance >= 0 ? .green : .red)
+                                Spacer()
+                                Button("Previous Month", systemImage: "chevron.left") { shiftMonth(-1) }
+                                Button("Next Month", systemImage: "chevron.right") { shiftMonth(1) }
+                            }
+                            .buttonStyle(.borderless).labelStyle(.iconOnly)
+                        }
+                    } footer: {
+                        weekTotal(days, target)
                     }
-                } header: {
-                    HStack {
-                        Text(month, format: .dateTime.month(.wide).year())
-                        Text(signed(monthBalance)).monospacedDigit()
-                            .foregroundStyle(monthBalance >= 0 ? .green : .red)
-                        Spacer()
-                        Button("Previous Month", systemImage: "chevron.left") { shiftMonth(-1) }
-                        Button("Next Month", systemImage: "chevron.right") { shiftMonth(1) }
-                    }
-                    .buttonStyle(.borderless).labelStyle(.iconOnly)
                 }
             }
             .focused($sidebarFocused)
@@ -65,6 +74,9 @@ struct EditorView: View {
             }
             ToolbarSpacer(.fixed)
             ToolbarItemGroup {
+                Toggle("Day Off", systemImage: "beach.umbrella", isOn: Binding(
+                    get: { store.daysOff.contains(day.dayKey) },
+                    set: { if $0 { store.daysOff.insert(day.dayKey) } else { store.daysOff.remove(day.dayKey) } }))
                 Button("Add Entry", systemImage: "plus") { store.addEntry(on: day) }
                 Menu("Templates", systemImage: "doc.on.doc") {
                     Button("Save Day as Template…") { templateName = ""; naming = true }
@@ -82,7 +94,7 @@ struct EditorView: View {
                 Menu("Export", systemImage: "square.and.arrow.up") {
                     let name = month.formatted(.dateTime.year().month(.twoDigits))
                     Button("Daily Summary CSV…") {
-                        saveCSV(CSV.daily(store.entries(inMonth: month), targetHours: targetHours, excluded: excluded), suggestedName: "Outatime \(name) daily.csv")
+                        saveCSV(CSV.daily(store.entries(inMonth: month), month: month, target: target), suggestedName: "Outatime \(name) daily.csv")
                     }
                     Button("Entries CSV…") {
                         saveCSV(CSV.entries(store.entries(inMonth: month)), suggestedName: "Outatime \(name) entries.csv")
@@ -118,9 +130,25 @@ struct EditorView: View {
         hourHeight = levels[(i + step).clamped(to: 0...(levels.count - 1))]
     }
 
+    /// The days of one week shown in this month: what was worked and the balance, once any of it is past.
+    @ViewBuilder private func weekTotal(_ days: [Date], _ target: Target) -> some View {
+        let cal = Calendar.current
+        let w = store.balance(DateInterval(start: days.first!, end: cal.date(byAdding: .day, value: 1, to: days.last!)!), target)
+        if days.first! <= .now {
+            HStack {
+                Text("Week \(cal.component(.weekOfYear, from: days.first!))")
+                Spacer()
+                Text(w.worked.hm)
+                Text(signed(w.balance)).foregroundStyle(w.balance >= 0 ? .green : .red)
+                    .frame(width: 56, alignment: .trailing)
+            }
+            .font(.caption).monospacedDigit()
+        }
+    }
+
     private func summary(_ entries: [Entry]) -> some View {
         let t = Store.totals(entries)
-        let balance = t.worked(excluding: excluded) - targetHours * 3600
+        let balance = t.worked(excluding: excluded) - store.target(hours: targetHours, excluded: excluded).owed(on: day)
         return HStack(spacing: 14) {
             ForEach(Activity.allCases.filter { $0 == .work || t[$0, default: 0] > 0 }) { a in
                 Label(t[a, default: 0].hm, systemImage: a.symbol).foregroundStyle(a.color)
@@ -146,19 +174,23 @@ private struct DayRow: View {
     let day: Date
     let totals: [Activity: TimeInterval]
     let worked: TimeInterval
-    let target: TimeInterval
+    let target: TimeInterval  // bar scale
+    let owed: TimeInterval
+    let dayOff: Bool
     let selected: Bool  // on the accent highlight everything goes white
 
     var body: some View {
         let cal = Calendar.current
         let today = cal.isDateInToday(day)
-        let balance = worked - target
+        let balance = worked - owed
         HStack(spacing: 10) {
             Text(day, format: .dateTime.weekday(.abbreviated).day())
                 .fontWeight(today ? .bold : .regular)
                 .foregroundStyle(selected ? Color.white : today ? Color.accentColor : cal.isDateInWeekend(day) ? Color.secondary : Color.primary)
             Spacer()
-            if !totals.isEmpty {
+            if dayOff { Image(systemName: "beach.umbrella").foregroundStyle(selected ? Color.white : Color.secondary) }
+            // A past workday with nothing logged shows its shortfall, so a forgotten day can't hide.
+            if !totals.isEmpty || owed > 0 {
                 bar(selected: selected)
                 Text(worked.hm).foregroundStyle(selected ? Color.white : Color.primary)
                 // Today is still in progress: a shortfall isn't alarming yet.
@@ -258,6 +290,9 @@ private struct TimelineBlock: View {
             .overlay(alignment: .leading) { e.activity.color.frame(width: 3).clipShape(.rect(cornerRadius: 6)) }
             .overlay(alignment: .topLeading) {
                 let title = HStack(spacing: 4) {
+                    // Touches midnight: the timer ran on from the day before, or into the next.
+                    if e.start == dayStart { Image(systemName: "arrow.up.to.line").foregroundStyle(.orange) }
+                    if e.end == dayStart + 86400 { Image(systemName: "arrow.down.to.line").foregroundStyle(.orange) }
                     Image(systemName: e.activity.symbol)
                     Text(e.activity.label).fontWeight(.semibold)
                 }
@@ -288,7 +323,12 @@ private struct TimelineBlock: View {
             .contentShape(Rectangle())
             .pointerStyle(dragging ? .grabActive : .grabIdle)
             .gesture(drag(entry.isRunning ? .start : .move))
+            // Double-click cuts a 15-minute break in at that spot (it waits out the double-click before opening the editor).
+            .onTapGesture(count: 2, coordinateSpace: .named("timeline")) { p in
+                store.insert(.break, at: dayStart + (((p.y - 10) / hourHeight * 12).rounded(.down) * 300), length: 900)
+            }
             .onTapGesture { editing = true }
+            .onAppear { if store.justAdded == entry.id { store.justAdded = nil; editing = true } }
             .onHover { hovering = $0 }
             .overlay(alignment: .top) { handle(.start, in: height) }
             .overlay(alignment: .bottom) { if !entry.isRunning { handle(.end, in: height) } }
@@ -439,7 +479,15 @@ private struct EntryForm: View {
                     Text("Option-Return adds a line").font(.caption).foregroundStyle(.secondary)
                 }
             }
-            LabeledContent("Duration") { Text(entry.duration.hm).monospacedDigit() }
+            LabeledContent("Duration") {
+                if entry.isRunning {
+                    Text(entry.duration.hm).monospacedDigit()
+                } else {
+                    // Steps land on the 5-minute grid; the start stays put.
+                    Stepper(value: Binding(get: { entry.duration / 60 }, set: { entry.end = entry.start + ($0 / 5).rounded() * 300 }),
+                            in: 5...1440, step: 5) { Text(entry.duration.hm).monospacedDigit() }
+                }
+            }
             Button("Delete", systemImage: "trash", role: .destructive, action: onDelete)
         }
         .formStyle(.columns)

@@ -124,6 +124,29 @@ nonisolated extension Dictionary where Key == Activity, Value == TimeInterval {
     }
 }
 
+/// The daily target and which days owe it.
+nonisolated struct Target {
+    var seconds: TimeInterval
+    var excluded: String = Activity.defaultExcluded
+    var daysOff: Set<String> = []
+    var since: Date  // tracking began; nothing is owed before it
+
+    /// Weekends, days off, days before tracking began and days still ahead owe nothing.
+    // ponytail: workdays are the locale's weekdays; a per-weekday schedule when someone works Saturdays.
+    func owed(on day: Date, now: Date = .now) -> TimeInterval {
+        let cal = Calendar.current
+        let d = cal.startOfDay(for: day)
+        guard !cal.isDateInWeekend(d), !daysOff.contains(d.dayKey), d <= now, d >= cal.startOfDay(for: since) else { return 0 }
+        return seconds
+    }
+
+    /// What a day adds to a week/month balance. Today is still in progress: it can add a surplus, not a shortfall yet.
+    func balance(worked: TimeInterval, on day: Date, now: Date = .now) -> TimeInterval {
+        let b = worked - owed(on: day, now: now)
+        return Calendar.current.isDate(day, inSameDayAs: now) ? max(0, b) : b
+    }
+}
+
 nonisolated extension TimeInterval {
     /// "6h 12m"
     var hm: String {
@@ -133,6 +156,8 @@ nonisolated extension TimeInterval {
 }
 
 nonisolated extension Date {
+    /// "2026-09-22" in the local time zone; how days off are stored.
+    var dayKey: String { formatted(Date.ISO8601FormatStyle(timeZone: .current).year().month().day()) }
     var startOfMonth: Date { Calendar.current.dateInterval(of: .month, for: self)!.start }
     var daysInMonth: [Date] {
         let cal = Calendar.current

@@ -212,6 +212,22 @@
         }
       }
     },
+    "Day Off": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Día libre"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folga"
+          }
+        }
+      }
+    },
     "Delete": {
       "localizations": {
         "es": {
@@ -342,6 +358,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "Extra"
+          }
+        }
+      }
+    },
+    "Global shortcuts": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atajos globales"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atalhos globais"
+          }
+        }
+      }
+    },
+    "Hours bank since": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Banco de horas desde"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Banco de horas desde"
           }
         }
       }
@@ -506,6 +554,22 @@
         }
       }
     },
+    "No long-timer reminder": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin aviso de temporizador largo"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sem aviso de cronômetro longo"
+          }
+        }
+      }
+    },
     "Not tracking": {
       "localizations": {
         "es": {
@@ -640,6 +704,22 @@
         }
       }
     },
+    "Remind me when a timer runs %@h": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avisarme cuando un temporizador lleve %@ h"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avisar quando um cronômetro passar de %@ h"
+          }
+        }
+      }
+    },
     "Replace": {
       "localizations": {
         "es": {
@@ -668,6 +748,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Substituir os registros deste dia por “%@”?"
+          }
+        }
+      }
+    },
+    "Running since %@": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En marcha desde %@"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rodando desde %@"
           }
         }
       }
@@ -736,6 +832,22 @@
         }
       }
     },
+    "Since %@": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desde %@"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desde %@"
+          }
+        }
+      }
+    },
     "Start": {
       "localizations": {
         "es": {
@@ -748,6 +860,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Início"
+          }
+        }
+      }
+    },
+    "Still tracking?": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Sigues registrando?"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ainda registrando?"
           }
         }
       }
@@ -834,6 +962,38 @@
         }
       }
     },
+    "The timer has been running for %@.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El temporizador lleva %@ en marcha."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O cronômetro está rodando há %@."
+          }
+        }
+      }
+    },
+    "This Month": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este mes"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este mês"
+          }
+        }
+      }
+    },
     "This Month — Daily Summary…": {
       "localizations": {
         "es": {
@@ -862,6 +1022,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "Este mês — Registros…"
+          }
+        }
+      }
+    },
+    "This Week": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta semana"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta semana"
+          }
+        }
+      }
+    },
+    "Time left today": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tiempo restante hoy"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tempo restante hoje"
           }
         }
       }
@@ -898,6 +1090,22 @@
         }
       }
     },
+    "Tracking": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registro"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registro"
+          }
+        }
+      }
+    },
     "Travel": {
       "localizations": {
         "es": {
@@ -926,6 +1134,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "Versão %@"
+          }
+        }
+      }
+    },
+    "Week %lld": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Semana %lld"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Semana %lld"
+          }
+        }
+      }
+    },
+    "Weekends and days off owe nothing; mark a day off from the Logbook toolbar.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los fines de semana y días libres no deben horas; marca un día libre desde la barra de la Bitácora."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fins de semana e folgas não devem horas; marque uma folga na barra do Diário de bordo."
           }
         }
       }
@@ -1012,6 +1252,22 @@
     },
     "· %@": {
       "shouldTranslate": false
+    },
+    "⌃⌥⌘W starts or stops Work, ⌃⌥⌘B Break": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥⌘W inicia o detiene Trabajo, ⌃⌥⌘B Pausa"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥⌘W inicia ou para Trabalho, ⌃⌥⌘B Pausa"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
