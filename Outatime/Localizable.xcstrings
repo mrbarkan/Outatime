@@ -490,6 +490,22 @@
         }
       }
     },
+    "Master Workbook (Excel)…": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Libro maestro (Excel)…"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planilha mestre (Excel)…"
+          }
+        }
+      }
+    },
     "Menu bar": {
       "localizations": {
         "es": {
@@ -502,6 +518,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Barra de menus"
+          }
+        }
+      }
+    },
+    "Monthly Report (Excel)…": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Informe mensual (Excel)…"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Relatório mensal (Excel)…"
           }
         }
       }
@@ -1022,6 +1054,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Este mês — Registros…"
+          }
+        }
+      }
+    },
+    "This Month — Report (Excel)…": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este mes — Informe (Excel)…"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este mês — Relatório (Excel)…"
           }
         }
       }

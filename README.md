@@ -29,7 +29,7 @@ Most time trackers want a project, a client, a billing rate and an account. Outa
 - **Logbook** — a calendar-style day view. Drag an entry to move it, drag its edge to resize, click to edit, double-click empty space to add one. Jump between days and months.
 - **Daily balance** — worked time (work + break + extra; lunch is unpaid) against a target you set, shown in the menu and the logbook.
 - **Day templates** — save a typical day and apply it to any date in one click.
-- **CSV export** — a daily summary and a full entry list per month. Drops straight into Notion, Numbers or a spreadsheet.
+- **Excel reports** — a monthly report, or a master workbook of everything with a dashboard up front. CSVs too, for Notion or Numbers.
 - **Settings** — light/dark, language (English, Español, Português BR), what the menu bar shows, open at login.
 - **Updates** — [Sparkle](https://sparkle-project.org): signed updates install themselves, no visit to the download page.
 - **Native** — SwiftUI, Liquid Glass, sandboxed, notarized. No Electron, no accounts, no telemetry.
@@ -52,14 +52,13 @@ Back it up, sync it, `jq` it — it's just entries and templates.
 
 ## Export
 
-Menu bar → **Export**, or the Logbook toolbar. Two CSVs per month:
+Menu bar → **Export**, or the Logbook toolbar.
 
-| File | Columns |
-|------|---------|
-| Daily summary | Date, Work, Break, Lunch, Extra, Balance, Tags |
-| Entries | Date, Activity, Tag, Start, End, Hours |
+- **Monthly Report (Excel)** — `Outatime 2026-09.xlsx`. *Summary*: one row per day (Date, Work, Break, Lunch, Extra, Travel, Out of Office, Worked, Target, Balance, Notes) with a totals row. *Entries*: every block (Date, Activity, Start, End, Hours, Notes).
+- **Master Workbook (Excel)** — `Outatime Master.xlsx`, everything since you started tracking: a *Dashboard* (hours worked, hours bank, days worked, average day, a worked-vs-target chart, breakdowns by activity and by month), then the same *Summary* and *Entries* sheets. Both are Excel tables, so pasting a month report's day rows right under them grows the tables and the dashboard follows. Re-exporting the master does the same in one step.
+- **CSV** — the daily summary and the entry list per month, for tools that want plain text.
 
-Balance = work + break + extra − daily target. The target is a stepper at the bottom of the Logbook (default 8 h).
+Worked = everything but lunch (Settings decides what counts); Balance = worked − daily target. The target is a stepper at the bottom of the Logbook (default 8 h).
 
 ## Build from source
 
@@ -87,7 +86,8 @@ Outatime/
   EditorView.swift    Logbook: month sidebar + draggable day timeline
   Store.swift         entries, templates, JSON persistence
   Models.swift        Activity, Entry, DayTemplate
-  Export.swift        CSV
+  Export.swift        CSV and the Excel reports' content
+  Workbook.swift      minimal .xlsx writer: tables, styles, a chart, zip
   Updater.swift       Sparkle updater
   Settings.swift      Settings window, appearance/language/login item
 scripts/

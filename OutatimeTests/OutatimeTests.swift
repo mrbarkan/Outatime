@@ -31,6 +31,40 @@ nonisolated struct OutatimeTests {
         #expect(lines[2] == "Total,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,")
     }
 
+    /// A slash in an export name (the en_BR month "09/2026") lands on disk as a colon and Excel can't open the file.
+    @Test func exportNameIsFileSafe() {
+        #expect(exportName(day, ".xlsx") == "Outatime 2026-09.xlsx")
+    }
+
+    @Test func monthReportWorkbook() {
+        #expect(Zip.crc32(Data("123456789".utf8)) == 0xCBF4_3926)
+        #expect(XLSX.serial(at(12)) == 46268.5)
+        let entries = [Entry(activity: .work, start: at(9), end: at(17), notes: ["R&D <q>"]),
+                       Entry(activity: .outOfOffice, start: at(17), end: at(18))]
+        let data = Report.month(entries, month: day, target: Target(seconds: 8 * 3600, since: day), now: at(22))
+        #expect(data.prefix(4) == Data([0x50, 0x4B, 0x03, 0x04]))
+        let text = String(decoding: data, as: UTF8.self)
+        #expect(text.contains(#"<c r="J2" s="5"><v>1.0</v></c>"#))  // balance: 9h worked, 8h owed
+        #expect(text.contains(#"<f>SUBTOTAL(109,tblDays[Balance])</f><v>1.0</v>"#))
+        #expect(text.contains(#"name="tblDays" displayName="tblDays" ref="A1:K3" totalsRowCount="1""#))
+        #expect(text.contains("R&amp;D &lt;q&gt;"))
+        #expect(text.contains(">Out of Office<"))
+        #expect(!text.contains("Dashboard"))
+    }
+
+    /// The master holds the same tables (no totals row, so pasted month rows extend them) behind a dashboard.
+    @Test func masterWorkbook() {
+        let start = cal.date(byAdding: .day, value: -1, to: day)!  // Wednesday: owes 8h, nothing logged
+        let entries = [Entry(activity: .work, start: at(9), end: at(18))]
+        let data = Report.master(entries, target: Target(seconds: 8 * 3600, since: start), now: at(22))
+        let text = String(decoding: data, as: UTF8.self)
+        #expect(text.contains(#"<sheet name="Dashboard" sheetId="1""#))
+        #expect(text.contains(#"name="tblDays" displayName="tblDays" ref="A1:K3" totalsRowShown="0""#))
+        #expect(text.contains("<f>SUM(tblDays[Balance])</f><v>-7.0</v>"))  // +1 today, -8 yesterday
+        #expect(text.contains(#"<f>COUNTIF(tblDays[Worked],&quot;&gt;0&quot;)</f><v>1.0</v>"#))
+        #expect(text.contains("<c:f>Dashboard!$C$38:"))
+    }
+
     /// The store must read back what it wrote, or every relaunch silently starts empty and overwrites the file.
     @Test @MainActor func storeRoundTrip() throws {
         let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")

@@ -92,12 +92,18 @@ struct EditorView: View {
                     }
                 }
                 Menu("Export", systemImage: "square.and.arrow.up") {
-                    let name = month.formatted(.dateTime.year().month(.twoDigits))
+                    Button("Monthly Report (Excel)…") {
+                        save(Report.month(store.entries(inMonth: month), month: month, target: target), as: .xlsx, suggestedName: exportName(month, ".xlsx"))
+                    }
+                    Button("Master Workbook (Excel)…") {
+                        save(Report.master(store.entries, target: target), as: .xlsx, suggestedName: "Outatime Master.xlsx")
+                    }
+                    Divider()
                     Button("Daily Summary CSV…") {
-                        saveCSV(CSV.daily(store.entries(inMonth: month), month: month, target: target), suggestedName: "Outatime \(name) daily.csv")
+                        save(Data(CSV.daily(store.entries(inMonth: month), month: month, target: target).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " daily.csv"))
                     }
                     Button("Entries CSV…") {
-                        saveCSV(CSV.entries(store.entries(inMonth: month)), suggestedName: "Outatime \(name) entries.csv")
+                        save(Data(CSV.entries(store.entries(inMonth: month)).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " entries.csv"))
                     }
                 }
             }

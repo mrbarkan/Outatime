@@ -106,12 +106,19 @@ struct MenuPanel: View {
             Button("Logbook", systemImage: "calendar", action: showLogbook)
             Menu("Export", systemImage: "square.and.arrow.up") {
                 let month = Date.now.startOfMonth
-                let name = month.formatted(.dateTime.year().month(.twoDigits))
+                let target = store.target(hours: targetHours, excluded: excluded)
+                Button("This Month — Report (Excel)…") {
+                    save(Report.month(store.entries(inMonth: month), month: month, target: target), as: .xlsx, suggestedName: exportName(month, ".xlsx"))
+                }
+                Button("Master Workbook (Excel)…") {
+                    save(Report.master(store.entries, target: target), as: .xlsx, suggestedName: "Outatime Master.xlsx")
+                }
+                Divider()
                 Button("This Month — Daily Summary…") {
-                    saveCSV(CSV.daily(store.entries(inMonth: month), month: month, target: store.target(hours: targetHours, excluded: excluded)), suggestedName: "Outatime \(name) daily.csv")
+                    save(Data(CSV.daily(store.entries(inMonth: month), month: month, target: target).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " daily.csv"))
                 }
                 Button("This Month — Entries…") {
-                    saveCSV(CSV.entries(store.entries(inMonth: month)), suggestedName: "Outatime \(name) entries.csv")
+                    save(Data(CSV.entries(store.entries(inMonth: month)).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " entries.csv"))
                 }
             }
             Spacer()
