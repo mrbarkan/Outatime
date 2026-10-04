@@ -260,6 +260,24 @@ nonisolated struct OutatimeTests {
         #expect(shown(lastSeen: nil, current: "1.0.13", hasData: true) == ["1.0.13"])
     }
 
+    /// At launch the window is opened with the version to catch up from — its content can't come from shared state,
+    /// which the window reads before the launch check runs.
+    @Test func launchOpensFromLastSeen() {
+        let releases = [WhatsNew.Release(version: "1.1")]
+        #expect(WhatsNew.catchUpFrom(releases, lastSeen: "1.0.12", current: "1.1", hasData: true) == "1.0.12")
+        #expect(WhatsNew.catchUpFrom(releases, lastSeen: nil, current: "1.1", hasData: true) == "0")  // updated from before 1.1
+        #expect(WhatsNew.catchUpFrom(releases, lastSeen: "1.1", current: "1.1", hasData: true) == nil)
+        #expect(WhatsNew.catchUpFrom(releases, lastSeen: nil, current: "1.1", hasData: false) == nil)  // fresh install
+        #expect(WhatsNew.catchUpFrom(releases, lastSeen: "1.1.1", current: "1.1.2", hasData: true) == nil)  // no notes for 1.1.2
+    }
+
+    /// 1.1 opened the window empty, so its users get 1.1's notes again with the next release.
+    @Test func catchesUpAfterEmpty11() {
+        let releases = ["1.1.1", "1.1"].map { WhatsNew.Release(version: $0) }
+        #expect(WhatsNew.unseen(releases, lastSeen: "1.1", current: "1.1.1", hasData: true).map(\.version) == ["1.1.1", "1.1"])
+        #expect(WhatsNew.unseen(releases, lastSeen: "1.1.1", current: "1.1.1", hasData: true).isEmpty)
+    }
+
     @Test func everyReleaseHasNotes() {
         #expect(WhatsNew.releases.allSatisfy { !$0.new.isEmpty || !$0.fixed.isEmpty })
     }

@@ -18,6 +18,10 @@ enum WhatsNew {
 
     /// Newest first.
     static let releases = [
+        Release(version: "1.1.1", fixed: [
+            Item(symbol: "sparkles", color: .orange, title: "What's New window",
+                 detail: "It opened empty after the last update. It now lists what changed, including everything new in 1.1."),
+        ]),
         Release(version: "1.1", new: [
             Item(symbol: "timer", color: .red, title: "Tomato timer",
                  detail: "Turn it on from the menu for focus rounds and breaks. A notification at the end of each round switches Work and Break for you."),
@@ -30,31 +34,35 @@ enum WhatsNew {
         ]),
     ]
 
-    /// What the window shows; set just before it opens.
-    static var showing: [Release] = []
-
     /// Releases after `lastSeen` up to `current`, newest first. With no `lastSeen` it's either a fresh install (no data:
     /// nothing to catch up on) or an update from before What's New existed (show everything listed).
     static func unseen(_ releases: [Release], lastSeen: String?, current: String, hasData: Bool) -> [Release] {
         guard lastSeen != nil || hasData else { return [] }
         let after = { (a: String, b: String) in a.compare(b, options: .numeric) == .orderedDescending }
-        return releases.filter { after($0.version, lastSeen ?? "0") && !after($0.version, current) }
+        let from = lastSeen == "1.1" && after(current, "1.1") ? "1.0.12" : lastSeen ?? "0"  // 1.1 opened the window empty
+        return releases.filter { after($0.version, from) && !after($0.version, current) }
     }
 
-    /// At launch: open the window if this version (or one skipped on the way) has notes the user hasn't seen.
-    static func openIfUpdated(hasData: Bool, open: () -> Void) {
+    /// The version the window catches up from ("0": from before What's New existed), or nil when there's nothing new.
+    static func catchUpFrom(_ releases: [Release], lastSeen: String?, current: String, hasData: Bool) -> String? {
+        unseen(releases, lastSeen: lastSeen, current: current, hasData: hasData).isEmpty ? nil : lastSeen ?? "0"
+    }
+
+    /// At launch: open the window if this version (or one skipped on the way) has notes the user hasn't seen. The
+    /// window gets the version to catch up from as its value; it builds its content before this runs, so shared state
+    /// would reach it empty.
+    static func openIfUpdated(hasData: Bool, open: (String) -> Void) {
         let defaults = UserDefaults.standard
-        let unseen = unseen(releases, lastSeen: defaults.string(forKey: "lastSeenVersion"), current: Updater.current, hasData: hasData)
+        let from = catchUpFrom(releases, lastSeen: defaults.string(forKey: "lastSeenVersion"), current: Updater.current, hasData: hasData)
         defaults.set(Updater.current, forKey: "lastSeenVersion")
-        guard !unseen.isEmpty else { return }
-        showing = unseen
-        open()
+        if let from { open(from) }
     }
 }
 
 struct WhatsNewView: View {
-    let releases: [WhatsNew.Release]
-    @Environment(\.dismissWindow) private var dismissWindow
+    let since: String
+    private var releases: [WhatsNew.Release] { WhatsNew.unseen(WhatsNew.releases, lastSeen: since, current: Updater.current, hasData: true) }
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         VStack(alignment: .leading, spacing: 22) {
@@ -65,7 +73,7 @@ struct WhatsNewView: View {
             let new = releases.flatMap(\.new), fixed = releases.flatMap(\.fixed)
             if !new.isEmpty { section("New", new) }
             if !fixed.isEmpty { section("Fixed", fixed) }
-            Button { dismissWindow(id: "whats-new") } label: { Text("Continue").frame(maxWidth: .infinity) }
+            Button { dismiss() } label: { Text("Continue").frame(maxWidth: .infinity) }
                 .buttonStyle(.glassProminent).controlSize(.large)
                 .keyboardShortcut(.defaultAction)
         }

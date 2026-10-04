@@ -618,6 +618,22 @@
         }
       }
     },
+    "It opened empty after the last update. It now lists what changed, including everything new in 1.1.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se abría vacía tras la última actualización. Ahora muestra los cambios, incluido todo lo nuevo de la 1.1."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abria vazia após a última atualização. Agora mostra o que mudou, incluindo tudo o que chegou na 1.1."
+          }
+        }
+      }
+    },
     "Language": {
       "localizations": {
         "es": {
@@ -1790,6 +1806,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Novidades do Outatime %@"
+          }
+        }
+      }
+    },
+    "What's New window": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ventana de novedades"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Janela de novidades"
           }
         }
       }

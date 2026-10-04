@@ -30,13 +30,14 @@ struct OutatimeApp: App {
         }
         .defaultSize(width: 900, height: 560)
 
-        Window("What's New", id: "whats-new") {
-            WhatsNewView(releases: WhatsNew.showing).environment(\.locale, language.locale)
+        WindowGroup("What's New", id: "whats-new", for: String.self) { $since in
+            WhatsNewView(since: since ?? "0").environment(\.locale, language.locale)
         }
         .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
         .defaultPosition(.center)
         .restorationBehavior(.disabled)
+        .commandsRemoved()  // opens by itself after an update, never from a menu
 
         Settings {
             SettingsView().environment(updater).environment(store).environment(\.locale, language.locale)
@@ -95,7 +96,7 @@ struct MenuBarLabel: View {
         }
         .id(tick)
         .task(id: store.tomatoRound) { Tomato.schedule(store.tomatoRound) }  // outside .id(tick), so it runs on change only
-        .task { WhatsNew.openIfUpdated(hasData: !store.entries.isEmpty) { show(window: "whats-new", openWindow) } }
+        .task { WhatsNew.openIfUpdated(hasData: !store.entries.isEmpty) { show(window: "whats-new", value: $0, openWindow) } }
     }
 
     /// Menu bar images are drawn as templates (one color); a non-template image keeps the activity's color.

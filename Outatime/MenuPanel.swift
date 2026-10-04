@@ -130,11 +130,6 @@ struct MenuPanel: View {
             Spacer()
             Menu {
                 Button("About", action: showAbout)
-                Button("What's New") {
-                    dismiss()
-                    WhatsNew.showing = Array(WhatsNew.releases.prefix(1))
-                    show(window: "whats-new", openWindow)
-                }
                 Button("Settings…") {
                     dismiss()
                     NSApp.activate()

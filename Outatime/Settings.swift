@@ -150,10 +150,10 @@ func showAbout() {
 
 /// An LSUIElement app can't take focus from the frontmost app; become a regular app while the window is open (the
 /// window flips back on close), then raise it ourselves — openWindow won't if it already exists.
-func show(window id: String, _ openWindow: OpenWindowAction) {
+func show(window id: String, value: String? = nil, _ openWindow: OpenWindowAction) {
     NSApp.setActivationPolicy(.regular)
     NSApp.activate()
-    openWindow(id: id)
+    if let value { openWindow(id: id, value: value) } else { openWindow(id: id) }
     DispatchQueue.main.async {
         if let w = NSApp.windows.first(where: { $0.identifier?.rawValue.hasPrefix(id) == true }) {
             w.deminiaturize(nil)
