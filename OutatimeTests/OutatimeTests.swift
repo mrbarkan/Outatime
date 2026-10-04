@@ -6,7 +6,7 @@ nonisolated struct OutatimeTests {
     let cal = Calendar.current
     let day = Calendar.current.date(from: DateComponents(year: 2026, month: 9, day: 3))!
 
-    func at(_ h: Int, _ m: Int = 0) -> Date { cal.date(bySettingHour: h, minute: m, second: 0, of: day)! }
+    func at(_ h: Int, _ m: Int = 0, _ s: Int = 0) -> Date { cal.date(bySettingHour: h, minute: m, second: s, of: day)! }
 
     @Test func templateRoundTrip() {
         let entries = [Entry(activity: .work, start: at(9), end: at(12, 30), notes: ["acme"]),
@@ -153,11 +153,115 @@ nonisolated struct OutatimeTests {
         #expect(store.entries.last?.end == at(13))
     }
 
+    /// Work runs a focus round, Break a short one; the break after every 4th finished focus round is long.
+    @Test func tomatoRounds() throws {
+        let p = Pomodoro(focus: 25 * 60, shortBreak: 5 * 60, longBreak: 15 * 60)
+        let on = at(9)
+        var entries = [Entry(activity: .work, start: at(8, 50))]  // already working when the tomato went on
+        var r = try #require(p.round(entries, since: on))
+        #expect(r.phase == .focus && r.number == 1 && r.start == on && r.end == at(9, 25))
+
+        entries[0].end = at(9, 25)
+        entries.append(Entry(activity: .break, start: at(9, 25)))
+        r = try #require(p.round(entries, since: on))
+        #expect(r.phase == .shortBreak && r.end == at(9, 30))
+
+        // A focus round cut short doesn't count.
+        entries[1].end = at(9, 30)
+        entries += [Entry(activity: .work, start: at(9, 30), end: at(9, 40)), Entry(activity: .lunch, start: at(9, 40))]
+        #expect(p.round(entries, since: on) == nil)  // paused on another activity
+
+        entries[3].end = at(10)
+        for h in [10, 11, 12] { entries.append(Entry(activity: .work, start: at(h), end: at(h, 25))) }
+        entries.append(Entry(activity: .break, start: at(12, 25)))
+        r = try #require(p.round(entries, since: on))
+        #expect(r.phase == .longBreak && r.end == at(12, 40))
+
+        entries[entries.count - 1].end = at(12, 40)
+        entries.append(Entry(activity: .work, start: at(12, 40)))
+        #expect(p.round(entries, since: on)?.number == 5)
+    }
+
+    /// The switch to Extra at the daily target doesn't restart the focus round.
+    @Test func tomatoRoundSpansExtra() throws {
+        let p = Pomodoro()
+        let entries = [Entry(activity: .work, start: at(16, 50), end: at(17)), Entry(activity: .extra, start: at(17))]
+        let r = try #require(p.round(entries, since: at(16, 50)))
+        #expect(r.phase == .focus && r.number == 1 && r.start == at(16, 50))
+    }
+
+    /// Work past the daily target is cut where the target was reached and carries on as Extra; lunch doesn't count.
+    @Test @MainActor func workShiftsToExtraAtTarget() {
+        let store = Store(url: FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json"))
+        let target = Target(seconds: 8 * 3600, since: at(0))
+        store.entries = [Entry(activity: .work, start: at(9), end: at(12)), Entry(activity: .lunch, start: at(12), end: at(13)),
+                         Entry(activity: .work, start: at(13), notes: ["acme"])]
+        #expect(!store.shiftToExtra(target, now: at(17, 59)))
+        #expect(store.shiftToExtra(target, now: at(18, 0, 30)))
+        #expect(store.entries[2].end == at(18))
+        #expect(store.running?.activity == .extra && store.running?.start == at(18) && store.running?.notes == ["acme"])
+        #expect(!store.shiftToExtra(target, now: at(18, 1)))  // already Extra
+
+        // Work started after the target is reached just becomes Extra.
+        store.stop()
+        store.entries.append(Entry(activity: .work, start: at(19)))
+        #expect(store.shiftToExtra(target, now: at(19, 1)))
+        #expect(store.running?.activity == .extra && store.running?.start == at(19))
+    }
+
+    @Test @MainActor func breakAndDaysOffAtTarget() {
+        let store = Store(url: FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json"))
+        let target = Target(seconds: 8 * 3600, since: at(0))
+        store.entries = [Entry(activity: .work, start: at(9), end: at(16, 50)), Entry(activity: .break, start: at(16, 50))]
+        #expect(!store.shiftToExtra(target, now: at(17, 30)))  // only Work switches
+        #expect(store.running?.activity == .break)
+
+        // A day off owes nothing: Work there is Extra from the start.
+        let dayOff = Target(seconds: 8 * 3600, daysOff: [day.dayKey], since: at(0))
+        store.entries = [Entry(activity: .work, start: at(10))]
+        #expect(store.shiftToExtra(dayOff, now: at(10, 1)))
+        #expect(store.entries.count == 1 && store.running?.activity == .extra && store.running?.start == at(10))
+    }
+
+    @Test func stretchReminders() {
+        #expect(Stretch.reminders(activity: .work, since: at(9), every: 50, now: at(9, 49)) == 0)
+        #expect(Stretch.reminders(activity: .work, since: at(9), every: 50, now: at(9, 50)) == 1)
+        #expect(Stretch.reminders(activity: .extra, since: at(9), every: 50, now: at(10, 45)) == 2)
+        #expect(Stretch.reminders(activity: .break, since: at(9), every: 50, now: at(11)) == 0)
+        #expect(Stretch.reminders(activity: .work, since: at(9), every: 0, now: at(11)) == 0)
+    }
+
     @Test func totals() {
         #expect(1.5 * 3600 == TimeInterval(5400))
         #expect(TimeInterval(5400).hm == "1h 30m")
         #expect(Store.totals([Entry(activity: .work, start: at(9), end: at(10)),
                               Entry(activity: .work, start: at(11), end: at(11, 5))])[.work] == 3900)
+    }
+}
+
+@MainActor struct WhatsNewTests {
+    let releases = ["1.0.15", "1.0.14", "1.0.13"].map { WhatsNew.Release(version: $0) }
+
+    func shown(lastSeen: String?, current: String, hasData: Bool = true) -> [String] {
+        WhatsNew.unseen(releases, lastSeen: lastSeen, current: current, hasData: hasData).map(\.version)
+    }
+
+    @Test func showsWhatsNewerThanLastSeen() {
+        #expect(shown(lastSeen: "1.0.14", current: "1.0.15") == ["1.0.15"])
+        #expect(shown(lastSeen: "1.0.12", current: "1.0.15") == ["1.0.15", "1.0.14", "1.0.13"])  // skipped releases too
+        #expect(shown(lastSeen: "1.0.14", current: "1.0.14").isEmpty)
+        #expect(shown(lastSeen: "1.0.13", current: "1.0.14") == ["1.0.14"])  // notes for an unreleased version stay hidden
+        #expect(shown(lastSeen: "1.0.9", current: "1.0.13") == ["1.0.13"])  // numeric, not alphabetical
+    }
+
+    /// A fresh install has nothing to catch up on; an update from before What's New existed has no last-seen version but has data.
+    @Test func firstLaunch() {
+        #expect(shown(lastSeen: nil, current: "1.0.13", hasData: false).isEmpty)
+        #expect(shown(lastSeen: nil, current: "1.0.13", hasData: true) == ["1.0.13"])
+    }
+
+    @Test func everyReleaseHasNotes() {
+        #expect(WhatsNew.releases.allSatisfy { !$0.new.isEmpty || !$0.fixed.isEmpty })
     }
 }
 

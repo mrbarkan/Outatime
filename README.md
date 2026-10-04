@@ -28,6 +28,10 @@ Most time trackers want a project, a client, a billing rate and an account. Outa
 - **Optional tag** — type a project or ticket while tracking; it's saved with the entry.
 - **Logbook** — a calendar-style day view. Drag an entry to move it, drag its edge to resize, click to edit, double-click empty space to add one. Jump between days and months.
 - **Daily balance** — worked time (work + break + extra; lunch is unpaid) against a target you set, shown in the menu and the logbook.
+- **Extra after the target** — once a day's worked time reaches the target, Work switches itself to Extra, cut at the exact minute. Weekends and days off are all Extra. Can be turned off.
+- **Tomato timer** — turn it on from the menu for 25-minute focus rounds and 5-minute breaks (15 after every fourth). Each round ends with a notification whose button switches Work ↔ Break for you, and the menu bar counts down the round.
+- **Stretch reminder** — a nudge to get up every 50 minutes of unbroken work (adjustable, or off).
+- **Colored menu bar** — the icon takes the activity's color: blue for Work, green for Break, orange for Lunch…
 - **Day templates** — save a typical day and apply it to any date in one click.
 - **Excel reports** — a monthly report, or a master workbook of everything with a dashboard up front. CSVs too, for Notion or Numbers.
 - **Settings** — light/dark, language (English, Español, Português BR), what the menu bar shows, open at login.

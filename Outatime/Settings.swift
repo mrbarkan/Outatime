@@ -61,6 +61,12 @@ struct SettingsView: View {
     @AppStorage("bankSince") private var bankSince = 0.0  // 0: since the first entry
     @AppStorage("remindAfterHours") private var remindAfter = 10.0
     @AppStorage("globalShortcuts") private var globalShortcuts = true
+    @AppStorage("coloredIcon") private var coloredIcon = true
+    @AppStorage("autoExtra") private var autoExtra = true
+    @AppStorage("stretchMinutes") private var stretchEvery = 50
+    @AppStorage("focusMinutes") private var focus = 25
+    @AppStorage("shortBreakMinutes") private var shortBreak = 5
+    @AppStorage("longBreakMinutes") private var longBreak = 15
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
 
     var body: some View {
@@ -78,6 +84,7 @@ struct SettingsView: View {
             Picker("Menu bar", selection: $menuBarStyle) {
                 ForEach(MenuBarStyle.allCases, id: \.self) { Text($0.label) }
             }
+            Toggle("Colored menu bar icon", isOn: $coloredIcon)
 
             Toggle("Open at Login", isOn: $launchAtLogin)
                 .onChange(of: launchAtLogin) { _, on in
@@ -98,6 +105,7 @@ struct SettingsView: View {
                 DatePicker("Hours bank since", selection: Binding(
                     get: { bankSince > 0 ? Date(timeIntervalSinceReferenceDate: bankSince) : store.target(hours: 0, excluded: "").since },
                     set: { bankSince = Calendar.current.startOfDay(for: $0).timeIntervalSinceReferenceDate }), displayedComponents: .date)
+                Toggle("Switch to Extra after the target", isOn: $autoExtra)
                 Text("Weekends and days off owe nothing; mark a day off from the Logbook toolbar.")
                     .font(.caption).foregroundStyle(.secondary)
             }
@@ -106,11 +114,22 @@ struct SettingsView: View {
                 Stepper(value: $remindAfter, in: 0...24, step: 1) {
                     Text(remindAfter > 0 ? "Remind me when a timer runs \(remindAfter.formatted())h" : "No long-timer reminder")
                 }
+                Stepper(value: $stretchEvery, in: 0...120, step: 5) {
+                    Text(stretchEvery > 0 ? "Remind me to stretch every \(stretchEvery) min" : "No stretch reminder")
+                }
                 Toggle(isOn: $globalShortcuts) {
                     Text("Global shortcuts")
                     Text("⌃⌥⌘W starts or stops Work, ⌃⌥⌘B Break")
                 }
                 .onChange(of: globalShortcuts) { HotKeys.setEnabled(globalShortcuts) }
+            }
+
+            Section("Tomato timer") {
+                Stepper("Focus \(focus) min", value: $focus, in: 5...90, step: 5)
+                Stepper("Short break \(shortBreak) min", value: $shortBreak, in: 1...30)
+                Stepper("Long break \(longBreak) min", value: $longBreak, in: 5...60, step: 5)
+                Text("Turn it on with the timer button in the menu. Each round ends with a notification that can switch the tracker for you.")
+                    .font(.caption).foregroundStyle(.secondary)
             }
 
             LabeledContent("Version \(Updater.current)") {
@@ -127,4 +146,18 @@ struct SettingsView: View {
 func showAbout() {
     NSApp.activate()
     NSApp.orderFrontStandardAboutPanel(nil)
+}
+
+/// An LSUIElement app can't take focus from the frontmost app; become a regular app while the window is open (the
+/// window flips back on close), then raise it ourselves — openWindow won't if it already exists.
+func show(window id: String, _ openWindow: OpenWindowAction) {
+    NSApp.setActivationPolicy(.regular)
+    NSApp.activate()
+    openWindow(id: id)
+    DispatchQueue.main.async {
+        if let w = NSApp.windows.first(where: { $0.identifier?.rawValue.hasPrefix(id) == true }) {
+            w.deminiaturize(nil)
+            w.makeKeyAndOrderFront(nil)
+        }
+    }
 }

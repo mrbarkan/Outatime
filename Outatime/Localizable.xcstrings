@@ -4,6 +4,54 @@
     " – ": {
       "shouldTranslate": false
     },
+    "%@ left": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "quedan %@"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "faltam %@"
+          }
+        }
+      }
+    },
+    "%@ over": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ de más"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ a mais"
+          }
+        }
+      }
+    },
+    "A nudge to get up after every 50 minutes of work. Change it or turn it off in Settings.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un aviso para levantarte cada 50 minutos de trabajo. Cámbialo o desactívalo en Ajustes."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Um lembrete para levantar a cada 50 minutos de trabalho. Altere ou desative nos Ajustes."
+          }
+        }
+      }
+    },
     "About": {
       "localizations": {
         "es": {
@@ -100,6 +148,22 @@
         }
       }
     },
+    "Back to Work": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volver al trabajo"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voltar ao trabalho"
+          }
+        }
+      }
+    },
     "Balance %@%@": {
       "localizations": {
         "es": {
@@ -128,6 +192,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pausa"
+          }
+        }
+      }
+    },
+    "Break's over": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se acabó la pausa"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fim da pausa"
           }
         }
       }
@@ -164,6 +244,54 @@
         }
       }
     },
+    "Colored menu bar": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barra de menús en color"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barra de menus colorida"
+          }
+        }
+      }
+    },
+    "Colored menu bar icon": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Icono de la barra de menús en color"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ícone colorido na barra de menus"
+          }
+        }
+      }
+    },
+    "Continue": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar"
+          }
+        }
+      }
+    },
     "Daily Summary CSV…": {
       "localizations": {
         "es": {
@@ -192,6 +320,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Meta diária"
+          }
+        }
+      }
+    },
+    "Daily target reached": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meta diaria cumplida"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meta diária atingida"
           }
         }
       }
@@ -362,6 +506,54 @@
         }
       }
     },
+    "Extra after the target": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra después de la meta"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra após a meta"
+          }
+        }
+      }
+    },
+    "Fixed": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Corregido"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Corrigido"
+          }
+        }
+      }
+    },
+    "Focus %lld min": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enfoque %lld min"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Foco %lld min"
+          }
+        }
+      }
+    },
     "Global shortcuts": {
       "localizations": {
         "es": {
@@ -474,6 +666,38 @@
         }
       }
     },
+    "Long break": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausa larga"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausa longa"
+          }
+        }
+      }
+    },
+    "Long break %lld min": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausa larga %lld min"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausa longa %lld min"
+          }
+        }
+      }
+    },
     "Lunch": {
       "localizations": {
         "es": {
@@ -554,6 +778,22 @@
         }
       }
     },
+    "New": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nuevo"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Novo"
+          }
+        }
+      }
+    },
     "Next Day": {
       "localizations": {
         "es": {
@@ -602,6 +842,22 @@
         }
       }
     },
+    "No stretch reminder": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin recordatorio de estiramiento"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sem lembrete de alongamento"
+          }
+        }
+      }
+    },
     "Not tracking": {
       "localizations": {
         "es": {
@@ -630,6 +886,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "Notas"
+          }
+        }
+      }
+    },
+    "Now tracking Extra.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ahora registrando Extra."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Agora registrando Extra."
+          }
+        }
+      }
+    },
+    "Once your day reaches its target, Work carries on as Extra by itself. Weekends and days off count as Extra.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuando tu día alcanza la meta, Trabajo sigue como Extra por sí solo. Los fines de semana y días libres cuentan como Extra."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quando o dia atinge a meta, Trabalho continua como Extra sozinho. Fins de semana e folgas contam como Extra."
           }
         }
       }
@@ -685,6 +973,22 @@
     "Outatime": {
       "shouldTranslate": false
     },
+    "Paused": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En pausa"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausado"
+          }
+        }
+      }
+    },
     "Português (Brasil)": {
       "shouldTranslate": false
     },
@@ -736,6 +1040,38 @@
         }
       }
     },
+    "Ready for round %lld?": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Listo para la ronda %lld?"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pronto para a rodada %lld?"
+          }
+        }
+      }
+    },
+    "Remind me to stretch every %lld min": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recordarme estirarme cada %lld min"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lembrar de alongar a cada %lld min"
+          }
+        }
+      }
+    },
     "Remind me when a timer runs %@h": {
       "localizations": {
         "es": {
@@ -780,6 +1116,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "Substituir os registros deste dia por “%@”?"
+          }
+        }
+      }
+    },
+    "Round %lld": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ronda %lld"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rodada %lld"
+          }
+        }
+      }
+    },
+    "Round %lld done.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ronda %lld terminada."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rodada %lld concluída."
           }
         }
       }
@@ -864,6 +1232,22 @@
         }
       }
     },
+    "Short break %lld min": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausa corta %lld min"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausa curta %lld min"
+          }
+        }
+      }
+    },
     "Since %@": {
       "localizations": {
         "es": {
@@ -896,6 +1280,22 @@
         }
       }
     },
+    "Start Break": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empezar pausa"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar pausa"
+          }
+        }
+      }
+    },
     "Still tracking?": {
       "localizations": {
         "es": {
@@ -908,6 +1308,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ainda registrando?"
+          }
+        }
+      }
+    },
+    "Stretch reminder": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recordatorio de estiramiento"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lembrete de alongamento"
+          }
+        }
+      }
+    },
+    "Switch to Extra after the target": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pasar a Extra al cumplir la meta"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mudar para Extra após a meta"
           }
         }
       }
@@ -990,6 +1422,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Modelos"
+          }
+        }
+      }
+    },
+    "The menu bar icon takes the color of what you're tracking: blue for Work, green for Break and so on.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El icono de la barra de menús toma el color de lo que registras: azul para Trabajo, verde para Pausa, etc."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O ícone da barra de menus assume a cor do que você está registrando: azul para Trabalho, verde para Pausa e assim por diante."
           }
         }
       }
@@ -1090,6 +1538,22 @@
         }
       }
     },
+    "Time for a break": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hora de una pausa"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hora de uma pausa"
+          }
+        }
+      }
+    },
     "Time left today": {
       "localizations": {
         "es": {
@@ -1122,6 +1586,22 @@
         }
       }
     },
+    "Time to stretch": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hora de estirarse"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hora de alongar"
+          }
+        }
+      }
+    },
     "Today": {
       "localizations": {
         "es": {
@@ -1134,6 +1614,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hoje"
+          }
+        }
+      }
+    },
+    "Tomato timer": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temporizador Pomodoro"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Timer Pomodoro"
           }
         }
       }
@@ -1166,6 +1662,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "Deslocamento"
+          }
+        }
+      }
+    },
+    "Turn it on from the menu for focus rounds and breaks. A notification at the end of each round switches Work and Break for you.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actívalo desde el menú para rondas de enfoque y pausas. Una notificación al final de cada ronda cambia entre Trabajo y Pausa por ti."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ative pelo menu para rodadas de foco e pausas. Uma notificação no fim de cada rodada alterna entre Trabalho e Pausa para você."
+          }
+        }
+      }
+    },
+    "Turn it on with the timer button in the menu. Each round ends with a notification that can switch the tracker for you.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actívalo con el botón del temporizador en el menú. Cada ronda termina con una notificación que puede cambiar el registro por ti."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ative pelo botão de timer no menu. Cada rodada termina com uma notificação que pode trocar o registro para você."
           }
         }
       }
@@ -1234,6 +1762,38 @@
         }
       }
     },
+    "What's New": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Novedades"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Novidades"
+          }
+        }
+      }
+    },
+    "What's New in Outatime %@": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Novedades de Outatime %@"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Novidades do Outatime %@"
+          }
+        }
+      }
+    },
     "Work": {
       "localizations": {
         "es": {
@@ -1246,6 +1806,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Trabalho"
+          }
+        }
+      }
+    },
+    "You've been at it for %@. Get up and move a little.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Llevas %@ seguido. Levántate y muévete un poco."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Você está nisso há %@. Levante e se mexa um pouco."
           }
         }
       }

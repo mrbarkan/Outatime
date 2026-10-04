@@ -36,6 +36,21 @@ sed -i '' "s/MARKETING_VERSION: \"$OLD\"/MARKETING_VERSION: \"$NEW\"/;s/CURRENT_
 `gh release list` — if `v$NEW` already exists, pick the next one instead. The
 release script cannot overwrite a published tag.
 
+## 2b. What's New — the notes users see after updating
+
+```sh
+grep -q "version: \"$NEW\"" Outatime/WhatsNew.swift && echo "notes ok" || echo "no notes for $NEW"
+```
+
+Every release needs an entry in `WhatsNew.releases` (newest first): **New** and/or
+**Fixed** items, each an SF Symbol, a color, a short title and one line of detail,
+written for users rather than as commit subjects. If there's none for `$NEW` — or it
+was written ahead under another version number — draft one from
+`git log v$OLD..HEAD`, add the es and pt-BR translations to
+`Localizable.xcstrings` (`catalogIsComplete` fails without them), show the draft and
+wait for approval before committing. A version without an entry just doesn't open the
+window, so for a release with nothing user-facing, ask whether to skip the notes.
+
 ## 3. Commit and push
 
 ```sh

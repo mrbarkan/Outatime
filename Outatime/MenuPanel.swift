@@ -51,9 +51,15 @@ struct MenuPanel: View {
                 } else {
                     Image(systemName: "clock").foregroundStyle(.secondary)
                     Text("Not tracking").foregroundStyle(.secondary)
+                    Spacer()
                 }
+                Button("Tomato timer", systemImage: "timer", action: store.toggleTomato)
+                    .labelStyle(.iconOnly).buttonStyle(.borderless)
+                    .foregroundStyle(store.tomatoSince != nil ? AnyShapeStyle(.red) : AnyShapeStyle(.secondary))
+                    .help("Tomato timer")
             }
             .font(.title3)
+            if store.tomatoSince != nil { TomatoLine(round: store.tomatoRound) }
             // Left running overnight: it was cut at midnight, and the Logbook shows where.
             if let since = store.runningSince, !Calendar.current.isDateInToday(since) {
                 Label("Running since \(since, format: .dateTime.weekday().hour().minute())", systemImage: "exclamationmark.triangle.fill")
@@ -124,6 +130,11 @@ struct MenuPanel: View {
             Spacer()
             Menu {
                 Button("About", action: showAbout)
+                Button("What's New") {
+                    dismiss()
+                    WhatsNew.showing = Array(WhatsNew.releases.prefix(1))
+                    show(window: "whats-new", openWindow)
+                }
                 Button("Settings…") {
                     dismiss()
                     NSApp.activate()
@@ -144,17 +155,33 @@ struct MenuPanel: View {
 
     private func showLogbook() {
         dismiss()
-        // An LSUIElement app can't take focus from the frontmost app; become a regular app while the Logbook is open
-        // (EditorView flips back on close), then raise the window ourselves — openWindow won't if it already exists.
-        NSApp.setActivationPolicy(.regular)
-        NSApp.activate()
-        openWindow(id: "editor")
-        DispatchQueue.main.async {
-            if let w = NSApp.windows.first(where: { $0.identifier?.rawValue.hasPrefix("editor") == true }) {
-                w.deminiaturize(nil)
-                w.makeKeyAndOrderFront(nil)
+        show(window: "editor", openWindow)
+    }
+}
+
+/// "Round 3 · 12:04 left" under the status while the tomato is on.
+private struct TomatoLine: View {
+    let round: Pomodoro.Round?
+
+    var body: some View {
+        TimelineView(.periodic(from: .now, by: 1)) { context in
+            HStack {
+                if let round {
+                    let left = round.end.timeIntervalSince(context.date)
+                    let clock = Duration.seconds(Int(abs(left))).formatted(.time(pattern: .minuteSecond))
+                    switch round.phase {
+                    case .focus: Text("Round \(round.number)")
+                    case .shortBreak: Text("Break")
+                    case .longBreak: Text("Long break")
+                    }
+                    Spacer()
+                    Text(left > 0 ? "\(clock) left" : "\(clock) over").monospacedDigit()
+                } else {
+                    Text("Paused")  // tracking something other than Work or Break
+                }
             }
         }
+        .font(.caption).foregroundStyle(.secondary)
     }
 }
 

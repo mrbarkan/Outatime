@@ -9,6 +9,8 @@ final class Store {
     var daysOff: Set<String> = [] { didSet { if loaded { save() } } }
     /// A block added in the Logbook opens its editor once it appears.
     var justAdded: Entry.ID?
+    /// When the tomato timer was turned on; nil while it's off. Not saved: quitting turns it off.
+    var tomatoSince: Date?
 
     private let url: URL
     private var loaded = false
@@ -81,6 +83,26 @@ final class Store {
             entries[i].end = midnight
             entries.append(Entry(activity: entries[i].activity, start: midnight, notes: entries[i].notes))
         }
+    }
+
+    /// Work past the daily target carries on as Extra, cut where the target was reached rather than when this runs.
+    /// Days that owe nothing (weekends, days off) are all Extra.
+    @discardableResult
+    func shiftToExtra(_ target: Target, now: Date = .now) -> Bool {
+        guard target.seconds > 0, let i = entries.firstIndex(where: \.isRunning), entries[i].activity == .work else { return false }
+        let worked = entries(on: now)
+            .reduce(into: [Activity: TimeInterval]()) { $0[$1.activity, default: 0] += max(0, ($1.end ?? now).timeIntervalSince($1.start)) }
+            .worked(excluding: target.excluded)
+        let over = worked - target.owed(on: now, now: now)
+        guard over >= 0 else { return false }
+        let cut = now - over
+        if cut <= entries[i].start {
+            entries[i].activity = .extra
+        } else {
+            entries[i].end = cut
+            entries.append(Entry(activity: .extra, start: cut, notes: entries[i].notes))
+        }
+        return true
     }
 
     /// Start of the running stretch, followed back across midnight cuts.
