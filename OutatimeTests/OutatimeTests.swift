@@ -295,6 +295,35 @@ nonisolated struct OutatimeTests {
         #expect(store.currentProfile == nil && store.running?.profile == acme && store.entries.count == 1)
     }
 
+    /// Client column in the entries, a Clients sheet in the month report, and a client's own month for invoicing.
+    @Test func clientExports() {
+        let acme = UUID(), names = [acme: "Acme"]
+        let entries = [Entry(activity: .work, start: at(9), end: at(12), notes: ["api"], profile: acme),
+                       Entry(activity: .break, start: at(12), end: at(12, 15)),
+                       Entry(activity: .work, start: at(12, 15), end: at(13, 15)),
+                       Entry(activity: .travel, start: at(14), end: at(14, 30), profile: acme)]
+        let csv = CSV.entries(entries, names: names).split(separator: "\n")
+        #expect(csv[0].hasSuffix(",Hours,Client") && csv[1].hasSuffix(",3.00,Acme") && csv[2].hasSuffix(",0.25,"))
+
+        let target = Target(seconds: 8 * 3600, since: day)
+        let month = String(decoding: Report.month(entries, month: day, target: target, names: names, now: at(22)), as: UTF8.self)
+        #expect(month.contains(#"<sheet name="Clients""#))
+        #expect(month.contains(#"name="tblClients" displayName="tblClients" ref="A1:E4" totalsRowCount="1""#))  // Acme, No client, total
+        #expect(month.contains("<f>SUBTOTAL(109,tblClients[Total])</f><v>4.5</v>"))
+        #expect(month.contains(">No client<"))
+        let plain = String(decoding: Report.month([entries[1]], month: day, target: target, now: at(22)), as: UTF8.self)
+        #expect(!plain.contains("Clients"))  // not using clients: no sheet
+
+        let report = String(decoding: Report.client(entries.filter { $0.profile == acme }, name: "Acme", month: day), as: UTF8.self)
+        #expect(report.contains(#"<sheet name="Days""#))
+        #expect(report.contains("<f>SUBTOTAL(109,tblClientDays[Total])</f><v>3.5</v>"))
+        #expect(!report.contains("Balance"))
+    }
+
+    @Test func clientExportNameIsFileSafe() {
+        #expect(clientExportName(day, "A/B: C") == "Outatime 2026-09 A-B- C.xlsx")
+    }
+
     @Test func totals() {
         #expect(1.5 * 3600 == TimeInterval(5400))
         #expect(TimeInterval(5400).hm == "1h 30m")

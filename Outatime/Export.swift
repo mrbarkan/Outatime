@@ -36,12 +36,14 @@ nonisolated enum CSV {
     private static func hours(_ t: TimeInterval) -> String { String(format: "%.2f", t / 3600) }
     private static func signed(_ t: TimeInterval) -> String { String(format: "%+.2f", t / 3600) }
 
-    static func entries(_ entries: [Entry]) -> String {
+    /// `names`: client names by id, for the Client column.
+    static func entries(_ entries: [Entry], names: [Profile.ID: String] = [:]) -> String {
         let time = Date.FormatStyle(date: .omitted, time: .shortened)
-        var lines = [row(["Date", "Activity", "Notes", "Start", "End", "Hours"])]
+        var lines = [row(["Date", "Activity", "Notes", "Start", "End", "Hours", "Client"])]
         for e in entries {
             lines.append(row([e.start.dayKey, e.activity.title, e.notes.joined(separator: "; "),
-                              e.start.formatted(time), e.end?.formatted(time) ?? "", hours(e.duration)]))
+                              e.start.formatted(time), e.end?.formatted(time) ?? "", hours(e.duration),
+                              e.profile.flatMap { names[$0] } ?? ""]))
         }
         return lines.joined(separator: "\n") + "\n"
     }
@@ -64,18 +66,53 @@ nonisolated enum CSV {
 nonisolated enum Report {
     private typealias Cell = XLSX.Cell
 
-    static func month(_ entries: [Entry], month: Date, target: Target, now: Date = .now) -> Data {
+    static func month(_ entries: [Entry], month: Date, target: Target, names: [Profile.ID: String] = [:], now: Date = .now) -> Data {
         let days = DaySummary.days(month.daysInMonth, entries, target: target, now: now)
-        return XLSX.workbook([summary(days, totals: true), list(entries)])
+        return XLSX.workbook([summary(days, totals: true)] + [clients(entries, names: names)].compactMap { $0 } + [list(entries, names: names)])
+    }
+
+    /// A client's month: billable hours per day and the blocks behind them, to attach to an invoice. No target or
+    /// balance; `entries` are already that client's.
+    static func client(_ entries: [Entry], name: String, month: Date) -> Data {
+        let billed = entries.filter(\.activity.billable).sorted { $0.start < $1.start }
+        let byDay = Dictionary(grouping: billed) { Calendar.current.startOfDay(for: $0.start) }
+        let days = byDay.keys.sorted().map { (date: $0, hours: Store.totals(byDay[$0]!), notes: byDay[$0]!.flatMap(\.notes)) }
+        let columns = billable.map { a in { (h: [Activity: TimeInterval]) in h[a, default: 0] } } + [{ $0.values.reduce(0, +) }]
+        let rows = days.map { d -> [Cell] in
+            [.number(XLSX.serial(d.date), .date)] + columns.map { .number($0(d.hours) / 3600, .hours) } + [.text(d.notes.joined(separator: "; "))]
+        }
+        let sums = columns.enumerated().map { i, f in
+            (column: i + 1, total: days.map { f($0.hours) }.reduce(0, +) / 3600, style: XLSX.Style.totalHours)
+        }
+        let sheet = XLSX.tableSheet("Days", table: "tblClientDays", columns: ["Date"] + billable.map(\.title) + ["Total", "Notes"],
+                                    rows: rows, sums: sums, widths: [16] + columns.map { _ in 10 } + [40])
+        let id = UUID()
+        return XLSX.workbook([sheet, list(billed.map { var e = $0; e.profile = id; return e }, names: [id: name])])
+    }
+
+    private static let billable = Activity.allCases.filter(\.billable)
+
+    /// Billable hours per client, "No client" last; nil when no block has a client.
+    private static func clients(_ entries: [Entry], names: [Profile.ID: String]) -> XLSX.Sheet? {
+        let billed = entries.filter(\.activity.billable)
+        guard billed.contains(where: { $0.profile != nil }) else { return nil }
+        let groups = Dictionary(grouping: billed) { $0.profile.flatMap { names[$0] } }
+        let keys = groups.keys.sorted { ($0 == nil ? 1 : 0, $0 ?? "") < ($1 == nil ? 1 : 0, $1 ?? "") }
+        let totals = keys.map { Store.totals(groups[$0]!) }
+        let columns = billable.map { a in { (h: [Activity: TimeInterval]) in h[a, default: 0] } } + [{ $0.values.reduce(0, +) }]
+        let rows = zip(keys, totals).map { key, t -> [Cell] in [.text(key ?? "No client")] + columns.map { .number($0(t) / 3600, .hours) } }
+        let sums = columns.enumerated().map { i, f in (column: i + 1, total: totals.map(f).reduce(0, +) / 3600, style: XLSX.Style.totalHours) }
+        return XLSX.tableSheet("Clients", table: "tblClients", columns: ["Client"] + billable.map(\.title) + ["Total"],
+                               rows: rows, sums: sums, widths: [24] + columns.map { _ in 10 })
     }
 
     /// Everything since tracking began, opening on a dashboard.
-    static func master(_ entries: [Entry], target: Target, now: Date = .now) -> Data {
+    static func master(_ entries: [Entry], target: Target, names: [Profile.ID: String] = [:], now: Date = .now) -> Data {
         let cal = Calendar.current
         let dates = sequence(first: cal.startOfDay(for: target.since)) { cal.date(byAdding: .day, value: 1, to: $0) }.prefix { $0 <= now }
         let days = DaySummary.days(Array(dates), entries, target: target, now: now)
         return XLSX.workbook([dashboard(days, target: target, now: now), summary(days, totals: false),
-                              list(entries.sorted { $0.start < $1.start })])
+                              list(entries.sorted { $0.start < $1.start }, names: names)])
     }
 
     private typealias Column = (title: String, value: (DaySummary) -> Double)
@@ -98,14 +135,14 @@ nonisolated enum Report {
                                widths: [16] + values.map { max(10, Double($0.title.count) + 2) } + [40])
     }
 
-    private static func list(_ entries: [Entry]) -> XLSX.Sheet {
+    private static func list(_ entries: [Entry], names: [Profile.ID: String]) -> XLSX.Sheet {
         let rows = entries.map { e -> [Cell] in
             [.number(XLSX.serial(Calendar.current.startOfDay(for: e.start)), .date), .text(e.activity.title),
              .number(XLSX.serial(e.start), .time), e.end.map { .number(XLSX.serial($0), .time) } ?? .empty,
-             .number(e.duration / 3600, .hours), .text(e.notes.joined(separator: "; "))]
+             .number(e.duration / 3600, .hours), .text(e.notes.joined(separator: "; ")), .text(e.profile.flatMap { names[$0] } ?? "")]
         }
-        return XLSX.tableSheet("Entries", table: "tblEntries", columns: ["Date", "Activity", "Start", "End", "Hours", "Notes"],
-                               rows: rows, widths: [16, 14, 9, 9, 9, 40])
+        return XLSX.tableSheet("Entries", table: "tblEntries", columns: ["Date", "Activity", "Start", "End", "Hours", "Notes", "Client"],
+                               rows: rows, widths: [16, 14, 9, 9, 9, 40, 18])
     }
 
     /// Cards, a worked-vs-target chart, an activity breakdown and a month table, all formulas over `tblDays`.
@@ -195,6 +232,11 @@ extension UTType {
 /// Export file names use "2026-09", never the locale's month format: "09/2026" puts a slash in the name, which
 /// Finder stores as a colon and Excel then can't find the file.
 nonisolated func exportName(_ month: Date, _ suffix: String) -> String { "Outatime \(month.dayKey.prefix(7))\(suffix)" }
+
+/// "Outatime 2026-09 Acme.xlsx"; a slash or colon in the client's name would break the file name the same way.
+nonisolated func clientExportName(_ month: Date, _ name: String) -> String {
+    exportName(month, " " + String(name.map { "/:".contains($0) ? "-" : $0 }) + ".xlsx")
+}
 
 func save(_ data: Data, as type: UTType, suggestedName: String) {
     let panel = NSSavePanel()
