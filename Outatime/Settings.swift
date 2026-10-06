@@ -50,25 +50,32 @@ enum MenuBarStyle: String, CaseIterable {
     }
 }
 
+/// Four short tabs rather than one long form.
 struct SettingsView: View {
+    var body: some View {
+        TabView {
+            Tab("General", systemImage: "gearshape") { GeneralSettings() }
+            Tab("Tracking", systemImage: "clock") { TrackingSettings() }
+            Tab("Clients", systemImage: "person.2") { ClientSettings() }
+            Tab("Tomato timer", systemImage: "timer") { TomatoSettings() }
+        }
+        .scenePadding(.minimum, edges: .horizontal)
+        .frame(width: 420)
+    }
+}
+
+private extension View {
+    func settingsForm() -> some View { formStyle(.grouped).scrollDisabled(true).fixedSize(horizontal: false, vertical: true) }
+}
+
+private struct GeneralSettings: View {
     @Environment(Updater.self) private var updater
-    @Environment(Store.self) private var store
     @AppStorage("appearance") private var appearance = Appearance.system
     @AppStorage("language") private var language = Language.system
     @AppStorage("menuBarStyle") private var menuBarStyle = MenuBarStyle.iconAndTime
-    @AppStorage("targetHours") private var targetHours = 8.0
-    @AppStorage("excludedFromTarget") private var excluded = Activity.defaultExcluded
-    @AppStorage("bankSince") private var bankSince = 0.0  // 0: since the first entry
-    @AppStorage("remindAfterHours") private var remindAfter = 10.0
-    @AppStorage("globalShortcuts") private var globalShortcuts = true
     @AppStorage("coloredIcon") private var coloredIcon = true
-    @AppStorage("autoExtra") private var autoExtra = true
-    @AppStorage("stretchMinutes") private var stretchEvery = 50
-    @AppStorage("focusMinutes") private var focus = 25
-    @AppStorage("shortBreakMinutes") private var shortBreak = 5
-    @AppStorage("longBreakMinutes") private var longBreak = 15
+    @AppStorage(Updater.betaKey) private var beta = false
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
-    @State private var newClient = ""
 
     var body: some View {
         Form {
@@ -93,6 +100,33 @@ struct SettingsView: View {
                     launchAtLogin = SMAppService.mainApp.status == .enabled
                 }
 
+            Section("Updates") {
+                LabeledContent("Version \(Updater.current)") {
+                    Button("Check for Updates…") { updater.check() }
+                }
+                Toggle(isOn: $beta) {
+                    Text("Get beta updates")
+                    Text("Early builds of the next version. They may have rough edges.")
+                }
+                .onChange(of: beta) { if beta { updater.check() } }
+            }
+        }
+        .settingsForm()
+    }
+}
+
+private struct TrackingSettings: View {
+    @Environment(Store.self) private var store
+    @AppStorage("targetHours") private var targetHours = 8.0
+    @AppStorage("excludedFromTarget") private var excluded = Activity.defaultExcluded
+    @AppStorage("bankSince") private var bankSince = 0.0  // 0: since the first entry
+    @AppStorage("autoExtra") private var autoExtra = true
+    @AppStorage("remindAfterHours") private var remindAfter = 10.0
+    @AppStorage("stretchMinutes") private var stretchEvery = 50
+    @AppStorage("globalShortcuts") private var globalShortcuts = true
+
+    var body: some View {
+        Form {
             Section("Daily target") {
                 Stepper("Target \(targetHours.formatted())h", value: $targetHours, in: 0...16, step: 0.5)
                 // Work and extra always count; the rest is the user's call.
@@ -111,23 +145,7 @@ struct SettingsView: View {
                     .font(.caption).foregroundStyle(.secondary)
             }
 
-            Section("Clients") {
-                ForEach(store.activeProfiles) { p in
-                    HStack {
-                        TextField("Name", text: Binding(get: { p.name }, set: { store.rename(p.id, to: $0) })).labelsHidden()
-                        Button("Remove", systemImage: "minus.circle") { store.removeProfile(p.id) }
-                            .labelStyle(.iconOnly).buttonStyle(.borderless)
-                    }
-                }
-                HStack {
-                    TextField("New client", text: $newClient).labelsHidden().onSubmit(addClient)
-                    Button("Add", action: addClient).disabled(newClient.trimmingCharacters(in: .whitespaces).isEmpty)
-                }
-                Text("Pick the client in the menu. Work, Extra and Travel are tracked for it.")
-                    .font(.caption).foregroundStyle(.secondary)
-            }
-
-            Section("Tracking") {
+            Section("Reminders") {
                 Stepper(value: $remindAfter, in: 0...24, step: 1) {
                     Text(remindAfter > 0 ? "Remind me when a timer runs \(remindAfter.formatted())h" : "No long-timer reminder")
                 }
@@ -140,26 +158,59 @@ struct SettingsView: View {
                 }
                 .onChange(of: globalShortcuts) { HotKeys.setEnabled(globalShortcuts) }
             }
+        }
+        .settingsForm()
+    }
+}
 
-            Section("Tomato timer") {
-                Stepper("Focus \(focus) min", value: $focus, in: 5...90, step: 5)
-                Stepper("Short break \(shortBreak) min", value: $shortBreak, in: 1...30)
-                Stepper("Long break \(longBreak) min", value: $longBreak, in: 5...60, step: 5)
-                Text("Turn it on with the timer button in the menu. Each round ends with a notification that can switch the tracker for you.")
+private struct ClientSettings: View {
+    @Environment(Store.self) private var store
+    @State private var newClient = ""
+
+    var body: some View {
+        Form {
+            Section {
+                ForEach(store.activeProfiles) { p in
+                    HStack {
+                        TextField("Name", text: Binding(get: { p.name }, set: { store.rename(p.id, to: $0) })).labelsHidden()
+                        Button("Remove", systemImage: "minus.circle") { store.removeProfile(p.id) }
+                            .labelStyle(.iconOnly).buttonStyle(.borderless)
+                    }
+                }
+                HStack {
+                    TextField("New client", text: $newClient).labelsHidden().onSubmit(addClient)
+                    Button("Add", action: addClient).disabled(newClient.trimmingCharacters(in: .whitespaces).isEmpty)
+                }
+            } footer: {
+                Text("Pick the client in the menu. Work, Extra and Travel are tracked for it.")
                     .font(.caption).foregroundStyle(.secondary)
             }
-
-            LabeledContent("Version \(Updater.current)") {
-                Button("Check for Updates…") { updater.check() }
-            }
         }
-        .formStyle(.grouped)
-        .frame(width: 380)
-        .fixedSize(horizontal: false, vertical: true)
+        .settingsForm()
     }
 
     private func addClient() {
         if store.addProfile(newClient) != nil { newClient = "" }
+    }
+}
+
+private struct TomatoSettings: View {
+    @AppStorage("focusMinutes") private var focus = 25
+    @AppStorage("shortBreakMinutes") private var shortBreak = 5
+    @AppStorage("longBreakMinutes") private var longBreak = 15
+
+    var body: some View {
+        Form {
+            Section {
+                Stepper("Focus \(focus) min", value: $focus, in: 5...90, step: 5)
+                Stepper("Short break \(shortBreak) min", value: $shortBreak, in: 1...30)
+                Stepper("Long break \(longBreak) min", value: $longBreak, in: 5...60, step: 5)
+            } footer: {
+                Text("Turn it on with the timer button in the menu. Each round ends with a notification that can switch the tracker for you.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+        }
+        .settingsForm()
     }
 }
 

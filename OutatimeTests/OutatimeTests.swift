@@ -406,6 +406,14 @@ nonisolated struct OutatimeTests {
         #expect(WhatsNew.unseen(releases, lastSeen: "1.1.1", current: "1.1.1", hasData: true).isEmpty)
     }
 
+    /// A beta opens nothing and remembers nothing, so its testers still get the notes when the release ships.
+    @Test func betasLeaveWhatsNewAlone() {
+        let releases = [WhatsNew.Release(version: "1.3"), WhatsNew.Release(version: "1.2")]
+        #expect(WhatsNew.catchUpFrom(releases, lastSeen: "1.2", current: "1.3-beta.1", hasData: true) == nil)
+        #expect(WhatsNew.recordsLastSeen("1.3-beta.1") == false && WhatsNew.recordsLastSeen("1.3"))
+        #expect(WhatsNew.catchUpFrom(releases, lastSeen: "1.2", current: "1.3", hasData: true) == "1.2")
+    }
+
     @Test func everyReleaseHasNotes() {
         #expect(WhatsNew.releases.allSatisfy { !$0.new.isEmpty || !$0.fixed.isEmpty })
     }

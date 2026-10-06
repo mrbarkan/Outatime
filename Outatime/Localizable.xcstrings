@@ -516,6 +516,22 @@
         }
       }
     },
+    "Early builds of the next version. They may have rough edges.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versiones tempranas de la próxima versión. Pueden tener detalles sin pulir."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versões antecipadas da próxima versão. Podem ter arestas a aparar."
+          }
+        }
+      }
+    },
     "End": {
       "localizations": {
         "es": {
@@ -646,6 +662,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "Foco %lld min"
+          }
+        }
+      }
+    },
+    "General": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "General"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geral"
+          }
+        }
+      }
+    },
+    "Get beta updates": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recibir versiones beta"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Receber versões beta"
           }
         }
       }
@@ -1260,6 +1308,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Avisar quando um cronômetro passar de %@ h"
+          }
+        }
+      }
+    },
+    "Reminders": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recordatorios"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lembretes"
           }
         }
       }
@@ -1934,6 +1998,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ative pelo botão de timer no menu. Cada rodada termina com uma notificação que pode trocar o registro para você."
+          }
+        }
+      }
+    },
+    "Updates": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actualizaciones"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atualizações"
           }
         }
       }

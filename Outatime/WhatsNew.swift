@@ -54,8 +54,12 @@ enum WhatsNew {
 
     /// The version the window catches up from ("0": from before What's New existed), or nil when there's nothing new.
     static func catchUpFrom(_ releases: [Release], lastSeen: String?, current: String, hasData: Bool) -> String? {
-        unseen(releases, lastSeen: lastSeen, current: current, hasData: hasData).isEmpty ? nil : lastSeen ?? "0"
+        guard recordsLastSeen(current) else { return nil }
+        return unseen(releases, lastSeen: lastSeen, current: current, hasData: hasData).isEmpty ? nil : lastSeen ?? "0"
     }
+
+    /// Betas ("1.3-beta.1") neither show notes nor count as seen: the notes come with the release itself.
+    static func recordsLastSeen(_ version: String) -> Bool { !version.contains("-") }
 
     /// At launch: open the window if this version (or one skipped on the way) has notes the user hasn't seen. The
     /// window gets the version to catch up from as its value; it builds its content before this runs, so shared state
@@ -63,7 +67,7 @@ enum WhatsNew {
     static func openIfUpdated(hasData: Bool, open: (String) -> Void) {
         let defaults = UserDefaults.standard
         let from = catchUpFrom(releases, lastSeen: defaults.string(forKey: "lastSeenVersion"), current: Updater.current, hasData: hasData)
-        defaults.set(Updater.current, forKey: "lastSeenVersion")
+        if recordsLastSeen(Updater.current) { defaults.set(Updater.current, forKey: "lastSeenVersion") }
         if let from { open(from) }
     }
 }
