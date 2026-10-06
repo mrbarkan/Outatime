@@ -320,6 +320,35 @@ nonisolated struct OutatimeTests {
         #expect(!report.contains("Balance"))
     }
 
+    /// Both Export menus build from the store, so client names can't be left out; removed clients can still be billed.
+    @Test @MainActor func storeExportsCarryClientNames() throws {
+        let store = Store(url: FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json"))
+        let acme = try #require(store.addProfile("Acme")), globex = try #require(store.addProfile("Globex"))
+        _ = try #require(store.addProfile("Idle"))
+        store.entries = [Entry(activity: .work, start: at(9), end: at(12), profile: acme),
+                         Entry(activity: .travel, start: at(13), end: at(14), profile: globex)]
+        store.removeProfile(globex)
+        #expect(store.billedClients(inMonth: day).map(\.name) == ["Acme", "Globex"])
+        let target = Target(seconds: 8 * 3600, since: day)
+        let month = String(decoding: store.monthReport(day, target: target, now: at(22)), as: UTF8.self)
+        #expect(month.contains(">Acme<") && month.contains(">Globex<") && !month.contains(">No client<"))
+        #expect(String(decoding: store.masterWorkbook(target: target, now: at(22)), as: UTF8.self).contains(">Acme<"))
+        #expect(store.entriesCSV(day).contains(",3.00,Acme"))
+        let report = String(decoding: store.clientReport(store.profiles[0], month: day), as: UTF8.self)
+        #expect(report.contains(">Acme<") && !report.contains(">Globex<"))
+    }
+
+    /// Switching clients restarts the client's timer but not the stretch reminder.
+    @Test @MainActor func stretchCountsAcrossClientSwitch() throws {
+        let store = Store(url: FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json"))
+        let acme = try #require(store.addProfile("Acme")), globex = try #require(store.addProfile("Globex"))
+        store.entries = [Entry(activity: .break, start: at(8, 45), end: at(9)),
+                         Entry(activity: .work, start: at(9), end: at(9, 30), profile: acme),
+                         Entry(activity: .work, start: at(9, 30), profile: globex)]
+        #expect(store.runningSince == at(9, 30))
+        #expect(store.seatedSince == at(9))
+    }
+
     @Test func clientExportNameIsFileSafe() {
         #expect(clientExportName(day, "A/B: C") == "Outatime 2026-09 A-B- C.xlsx")
     }

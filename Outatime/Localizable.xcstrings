@@ -826,6 +826,22 @@
         }
       }
     },
+    "Monthly Report — %@ (Excel)…": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Informe mensual — %@ (Excel)…"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Relatório mensal — %@ (Excel)…"
+          }
+        }
+      }
+    },
     "Name": {
       "localizations": {
         "es": {

@@ -117,22 +117,17 @@ struct MenuPanel: View {
             Menu("Export", systemImage: "square.and.arrow.up") {
                 let month = Date.now.startOfMonth
                 let target = store.target(hours: targetHours, excluded: excluded)
-                let names = store.profileNames
                 Button("This Month — Report (Excel)…") {
-                    save(Report.month(store.entries(inMonth: month), month: month, target: target, names: names), as: .xlsx,
-                         suggestedName: exportName(month, ".xlsx"))
+                    save(store.monthReport(month, target: target), as: .xlsx, suggestedName: exportName(month, ".xlsx"))
                 }
                 Button("Master Workbook (Excel)…") {
-                    save(Report.master(store.entries, target: target, names: names), as: .xlsx, suggestedName: "Outatime Master.xlsx")
+                    save(store.masterWorkbook(target: target), as: .xlsx, suggestedName: "Outatime Master.xlsx")
                 }
-                // Removed clients too: there may still be a month to bill them for.
-                let billed = Set(store.entries(inMonth: month).filter(\.activity.billable).compactMap(\.profile))
-                let clients = store.profiles.filter { billed.contains($0.id) }
+                let clients = store.billedClients(inMonth: month)
                 if !clients.isEmpty { Divider() }
                 ForEach(clients) { p in
                     Button("This Month — \(p.name) (Excel)…") {
-                        save(Report.client(store.entries(inMonth: month).filter { $0.profile == p.id }, name: p.name, month: month),
-                             as: .xlsx, suggestedName: clientExportName(month, p.name))
+                        save(store.clientReport(p, month: month), as: .xlsx, suggestedName: clientExportName(month, p.name))
                     }
                 }
                 Divider()
@@ -140,7 +135,7 @@ struct MenuPanel: View {
                     save(Data(CSV.daily(store.entries(inMonth: month), month: month, target: target).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " daily.csv"))
                 }
                 Button("This Month — Entries…") {
-                    save(Data(CSV.entries(store.entries(inMonth: month), names: names).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " entries.csv"))
+                    save(Data(store.entriesCSV(month).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " entries.csv"))
                 }
             }
             Spacer()

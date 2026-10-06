@@ -93,17 +93,25 @@ struct EditorView: View {
                 }
                 Menu("Export", systemImage: "square.and.arrow.up") {
                     Button("Monthly Report (Excel)…") {
-                        save(Report.month(store.entries(inMonth: month), month: month, target: target), as: .xlsx, suggestedName: exportName(month, ".xlsx"))
+                        save(store.monthReport(month, target: target), as: .xlsx, suggestedName: exportName(month, ".xlsx"))
                     }
                     Button("Master Workbook (Excel)…") {
-                        save(Report.master(store.entries, target: target), as: .xlsx, suggestedName: "Outatime Master.xlsx")
+                        save(store.masterWorkbook(target: target), as: .xlsx, suggestedName: "Outatime Master.xlsx")
+                    }
+                    // The month on screen, so last month's clients can still be billed early in this one.
+                    let clients = store.billedClients(inMonth: month)
+                    if !clients.isEmpty { Divider() }
+                    ForEach(clients) { p in
+                        Button("Monthly Report — \(p.name) (Excel)…") {
+                            save(store.clientReport(p, month: month), as: .xlsx, suggestedName: clientExportName(month, p.name))
+                        }
                     }
                     Divider()
                     Button("Daily Summary CSV…") {
                         save(Data(CSV.daily(store.entries(inMonth: month), month: month, target: target).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " daily.csv"))
                     }
                     Button("Entries CSV…") {
-                        save(Data(CSV.entries(store.entries(inMonth: month)).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " entries.csv"))
+                        save(Data(store.entriesCSV(month).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " entries.csv"))
                     }
                 }
             }

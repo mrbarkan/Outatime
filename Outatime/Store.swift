@@ -128,11 +128,15 @@ final class Store {
     }
 
     /// Start of the running stretch, followed back across midnight cuts.
-    var runningSince: Date? {
+    var runningSince: Date? { since(sameClient: true) }
+    /// The same, across client switches too: switching clients doesn't get you out of the chair.
+    var seatedSince: Date? { since(sameClient: false) }
+
+    private func since(sameClient: Bool) -> Date? {
         guard let running else { return nil }
         var since = running.start
-        while let prev = entries.first(where: { $0.activity == running.activity && $0.profile == running.profile && $0.start < since
-                                                && $0.end.map { abs($0.timeIntervalSince(since)) < 1 } == true }) {
+        while let prev = entries.first(where: { $0.activity == running.activity && (!sameClient || $0.profile == running.profile)
+                                                && $0.start < since && $0.end.map { abs($0.timeIntervalSince(since)) < 1 } == true }) {
             since = prev.start
         }
         return since
@@ -161,6 +165,28 @@ final class Store {
         guard let i = profiles.firstIndex(where: { $0.id == id }) else { return }
         profiles[i].archived = true
         if currentProfile == id { currentProfile = nil }
+    }
+
+    // MARK: Exports
+
+    func monthReport(_ month: Date, target: Target, now: Date = .now) -> Data {
+        Report.month(entries(inMonth: month), month: month, target: target, names: profileNames, now: now)
+    }
+
+    func masterWorkbook(target: Target, now: Date = .now) -> Data {
+        Report.master(entries, target: target, names: profileNames, now: now)
+    }
+
+    func entriesCSV(_ month: Date) -> String { CSV.entries(entries(inMonth: month), names: profileNames) }
+
+    /// Clients with billable time in `month`, removed ones too: there may still be a month to bill them for.
+    func billedClients(inMonth month: Date) -> [Profile] {
+        let billed = Set(entries(inMonth: month).filter(\.activity.billable).compactMap(\.profile))
+        return profiles.filter { billed.contains($0.id) }
+    }
+
+    func clientReport(_ client: Profile, month: Date) -> Data {
+        Report.client(entries(inMonth: month).filter { $0.profile == client.id }, name: client.name, month: month)
     }
 
     // MARK: Queries

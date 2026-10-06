@@ -91,7 +91,7 @@ struct MenuBarLabel: View {
             }
             Reminder.check(since: store.runningSince, after: remindAfter)
             // The tomato's breaks already get you up.
-            Stretch.check(activity: store.running?.activity, since: store.runningSince,
+            Stretch.check(activity: store.running?.activity, since: store.seatedSince,
                           every: store.tomatoSince == nil ? Double(stretchEvery) : 0)
         }
         .id(tick)
