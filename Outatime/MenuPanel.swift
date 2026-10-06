@@ -141,6 +141,7 @@ struct MenuPanel: View {
             Spacer()
             Menu {
                 Button("About", action: showAbout)
+                Button("User Manual", action: showManual)
                 Button("Settings…") {
                     dismiss()
                     NSApp.activate()

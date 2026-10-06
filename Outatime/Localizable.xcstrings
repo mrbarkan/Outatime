@@ -1181,6 +1181,22 @@
     "Outatime": {
       "shouldTranslate": false
     },
+    "Outatime Manual": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manual de Outatime"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manual do Outatime"
+          }
+        }
+      }
+    },
     "Paused": {
       "localizations": {
         "es": {
@@ -2014,6 +2030,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Atualizações"
+          }
+        }
+      }
+    },
+    "User Manual": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manual de usuario"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manual do usuário"
           }
         }
       }

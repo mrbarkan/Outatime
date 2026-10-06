@@ -16,6 +16,8 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT"></a>
 </p>
 
+<p align="center"><a href="https://mrbarkan.github.io/Outatime/manual/"><strong>Read the manual</strong></a></p>
+
 ---
 
 ## Why

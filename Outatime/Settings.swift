@@ -214,6 +214,11 @@ private struct TomatoSettings: View {
     }
 }
 
+/// The manual is a web page (docs/manual in the repo, served by GitHub Pages), so it can change between releases.
+func showManual() {
+    NSWorkspace.shared.open(URL(string: "https://mrbarkan.github.io/Outatime/manual/")!)
+}
+
 /// LSUIElement apps don't come forward on their own; activate before showing any window.
 func showAbout() {
     NSApp.activate()

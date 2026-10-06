@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Outatime Manual</title>
+<meta name="description" content="How to track your day with Outatime, the menu bar time tracker for macOS.">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&family=Big+Shoulders+Display:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f3f6fb;
+  --sheet: #ffffff;
+  --ink: #18213a;
+  --muted: #5a6479;
+  --rule: #dae0ec;
+  --link: #1f5fd6;
+  --glass: rgba(255, 255, 255, .78);
+  --glass-edge: rgba(24, 33, 58, .12);
+  --work: #0a7aff;
+  --break: #2fb855;
+  --lunch: #f59300;
+  --extra: #a24fd8;
+  --travel: #1ea7bf;
+  --ooo: #f0386b;
+  --display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --body: "Atkinson Hyperlegible Next", -apple-system, "Helvetica Neue", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #111829; --sheet: #182136; --ink: #e7ecf6; --muted: #9aa5bb; --rule: #2a3550; --link: #7fb0ff;
+    --glass: rgba(30, 40, 64, .82); --glass-edge: rgba(231, 236, 246, .12); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #111829; --sheet: #182136; --ink: #e7ecf6; --muted: #9aa5bb; --rule: #2a3550; --link: #7fb0ff;
+  --glass: rgba(30, 40, 64, .82); --glass-edge: rgba(231, 236, 246, .12); color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 400 1.0625rem/1.65 var(--body); -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
+}
+a { color: var(--link); text-underline-offset: .18em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--work); outline-offset: 2px; border-radius: 4px; }
+
+/* Hero: the day ribbon */
+.hero { padding: 72px 24px 56px; max-width: 1180px; margin: 0 auto; }
+.hero-top { display: flex; align-items: flex-end; gap: 22px; flex-wrap: wrap; }
+.hero-top img { width: 84px; height: 84px; filter: drop-shadow(0 6px 14px rgba(10, 30, 80, .18)); }
+h1 {
+  font: 900 clamp(4rem, 13vw, 9.5rem)/.82 var(--display); letter-spacing: -.01em; margin: 0;
+  text-transform: none;
+}
+.lede { font-size: 1.25rem; line-height: 1.5; color: var(--muted); max-width: 34em; margin: 22px 0 0; }
+.lede strong { color: var(--ink); font-weight: 600; }
+
+.ribbon { margin: 52px 0 0; }
+.ribbon-track {
+  position: relative; height: 92px; border-radius: 14px; background: var(--sheet);
+  box-shadow: inset 0 0 0 1px var(--rule); overflow: hidden;
+}
+.ribbon-track .hour { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--rule); }
+.block {
+  position: absolute; top: 14px; bottom: 14px; border-radius: 7px;
+  background: color-mix(in srgb, var(--c) 24%, var(--sheet));
+  border-left: 3px solid var(--c);
+  transform-origin: left center; animation: grow .9s cubic-bezier(.2, .7, .2, 1) both; animation-delay: var(--d, 0s);
+}
+.block span {
+  position: absolute; left: 8px; top: 50%; transform: translateY(-50%); white-space: nowrap;
+  font: 700 .82rem/1 var(--body); color: color-mix(in srgb, var(--c) 70%, var(--ink));
+}
+.block.now::after {
+  content: ""; position: absolute; right: -2px; top: -14px; bottom: -14px; width: 2px; background: var(--ooo);
+}
+@keyframes grow { from { transform: scaleX(0); opacity: 0; } to { transform: scaleX(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .block { animation: none; } }
+.ribbon-scale { position: relative; height: 22px; margin-top: 8px; font-size: .78rem; color: var(--muted); }
+.ribbon-scale span { position: absolute; transform: translateX(-50%); }
+.ribbon-caption { margin: 10px 0 0; font-size: .92rem; color: var(--muted); }
+
+/* Page layout */
+.page {
+  max-width: 1180px; margin: 0 auto; padding: 0 24px 96px;
+  display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px;
+}
+nav.toc { position: sticky; top: 24px; align-self: start; padding-top: 8px; }
+nav.toc p { font: 800 1.35rem/1 var(--display); margin: 0 0 14px; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--rule); }
+nav.toc a {
+  display: block; padding: 5px 0 5px 16px; margin-left: -1px; color: var(--muted); text-decoration: none;
+  border-left: 2px solid transparent; font-size: .95rem; line-height: 1.35;
+}
+nav.toc a:hover { color: var(--ink); }
+nav.toc a.here { color: var(--ink); border-left-color: var(--ink); font-weight: 600; }
+.toc-mobile { display: none; }
+
+main { max-width: 44rem; }
+section { padding: 8px 0 40px; }
+section + section { border-top: 1px solid var(--rule); padding-top: 40px; }
+h2 { font: 800 clamp(2.4rem, 5vw, 3.2rem)/.95 var(--display); margin: 0 0 18px; letter-spacing: .005em; }
+h3 { font: 700 1.15rem/1.3 var(--body); margin: 32px 0 6px; }
+p { margin: 0 0 14px; }
+ul, ol.steps { padding-left: 1.25em; margin: 0 0 16px; }
+li { margin: 0 0 6px; }
+li::marker { color: var(--muted); }
+strong { font-weight: 600; }
+.note {
+  margin: 20px 0; padding: 14px 18px; border-radius: 10px; background: var(--sheet);
+  box-shadow: inset 3px 0 0 var(--work), inset 0 0 0 1px var(--rule); font-size: .98rem;
+}
+.note p:last-child { margin: 0; }
+
+kbd {
+  font: 600 .86rem/1 var(--body); padding: 3px 7px 4px; border-radius: 6px; white-space: nowrap;
+  background: var(--sheet); box-shadow: inset 0 0 0 1px var(--rule), 0 1px 0 var(--rule);
+}
+code {
+  font: .9em/1.4 ui-monospace, "SF Mono", Menlo, monospace; background: var(--sheet);
+  padding: 2px 5px; border-radius: 5px; box-shadow: inset 0 0 0 1px var(--rule); overflow-wrap: anywhere;
+}
+
+.swatch { display: inline-block; width: .75em; height: .75em; border-radius: 3px; background: var(--c); margin-right: .45em; vertical-align: -.02em; }
+table { width: 100%; border-collapse: collapse; margin: 6px 0 20px; font-size: .98rem; }
+th, td { text-align: left; padding: 9px 12px 9px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: .9rem; }
+td:first-child { white-space: nowrap; }
+
+/* Figures: drawings of the app, not screenshots */
+figure { margin: 26px 0 28px; }
+figcaption { font-size: .92rem; color: var(--muted); margin-top: 12px; }
+.callouts { list-style: none; counter-reset: c; padding: 0; margin: 14px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; font-size: .95rem; }
+.callouts li { counter-increment: c; display: flex; gap: 10px; margin: 0; }
+.callouts li::before, .pin {
+  content: counter(c); flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--paper);
+  font: 700 .75rem/22px var(--body); text-align: center;
+}
+.pin { position: absolute; z-index: 2; content: none; }
+.pin::before { content: attr(data-n); }
+
+.panel {
+  position: relative; width: 300px; max-width: 100%; padding: 14px; border-radius: 16px; background: var(--glass);
+  box-shadow: 0 0 0 1px var(--glass-edge), 0 18px 40px rgba(10, 25, 60, .16); font-size: .8rem; line-height: 1.3;
+  backdrop-filter: blur(20px);
+}
+.panel .row { display: flex; align-items: center; gap: 8px; }
+.panel .status { font-size: 1.05rem; font-weight: 600; margin-bottom: 12px; }
+.panel .status small { font-weight: 400; color: var(--muted); font-size: inherit; }
+.panel .status .t { margin-left: auto; font-weight: 400; color: var(--muted); }
+.panel .field { border-radius: 7px; padding: 6px 8px; box-shadow: inset 0 0 0 1px var(--glass-edge); background: var(--sheet); color: var(--muted); margin-bottom: 10px; }
+.panel .seg { display: flex; border-radius: 7px; box-shadow: inset 0 0 0 1px var(--glass-edge); margin-bottom: 12px; overflow: hidden; }
+.panel .seg span { flex: 1; text-align: center; padding: 4px 0; }
+.panel .seg .on { background: var(--sheet); font-weight: 700; box-shadow: 0 0 0 1px var(--glass-edge); border-radius: 6px; }
+.panel .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.panel .tile {
+  border-radius: 12px; padding: 9px 0 8px; text-align: center; background: var(--sheet);
+  box-shadow: inset 0 0 0 1px var(--glass-edge); font-size: .82rem;
+}
+.panel .dot, .panel .tile i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; background: var(--c); }
+.panel .tile i { display: block; margin: 2px auto 6px; }
+.panel .tile.on { background: var(--c); color: #fff; box-shadow: none; }
+.panel .tile.on i { background: #fff; }
+.panel .totals { display: grid; grid-template-columns: 1fr auto auto; gap: 3px 12px; color: var(--muted); margin-bottom: 10px; }
+.panel .totals b { font-weight: 400; color: var(--ink); text-align: right; }
+.panel .totals .plus { color: var(--break); text-align: right; }
+.panel .totals .today { text-align: right; }
+.panel .foot { display: flex; gap: 14px; padding-top: 9px; border-top: 1px solid var(--glass-edge); color: var(--muted); }
+.panel .foot :last-child { margin-left: auto; }
+.panel-wrap { display: flex; justify-content: center; padding: 34px 16px; border-radius: 18px; background:
+  radial-gradient(120% 90% at 20% 0%, color-mix(in srgb, var(--work) 22%, transparent), transparent 60%),
+  radial-gradient(90% 80% at 100% 100%, color-mix(in srgb, var(--extra) 18%, transparent), transparent 60%), var(--sheet);
+  box-shadow: inset 0 0 0 1px var(--rule); }
+
+.day {
+  position: relative; border-radius: 14px; background: var(--sheet); box-shadow: inset 0 0 0 1px var(--rule);
+  padding: 12px 18px 12px 64px; height: 340px; overflow: hidden; font-size: .8rem;
+}
+.day .h { position: absolute; left: 0; right: 0; height: 1px; background: var(--rule); }
+.day .h span { position: absolute; left: 14px; top: -8px; color: var(--muted); font-size: .72rem; }
+.day .b {
+  position: absolute; left: 64px; right: 18px; border-radius: 6px; padding: 4px 8px;
+  background: color-mix(in srgb, var(--c) 22%, var(--sheet)); border-left: 3px solid var(--c);
+}
+.day .b strong { display: block; font-size: .8rem; }
+.day .b small { color: var(--muted); font-size: .74rem; }
+.day .b.short { padding: 0 8px; display: flex; align-items: center; gap: 6px; }
+.day .b.short strong { display: inline; }
+.day .grip { position: absolute; left: 50%; width: 28px; height: 3px; margin-left: -14px; border-radius: 2px; background: var(--ink); opacity: .35; }
+
+.foot-page { max-width: 1180px; margin: 0 auto; padding: 28px 24px 48px; color: var(--muted); font-size: .9rem; display: flex; gap: 20px; flex-wrap: wrap; border-top: 1px solid var(--rule); }
+
+@media (max-width: 900px) {
+  .page { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0 16px 72px; }
+  table { display: block; overflow-x: auto; }
+  .hero { padding: 48px 16px 40px; }
+  nav.toc { display: none; }
+  .toc-mobile { display: block; margin: 0 0 28px; padding: 12px 16px; border-radius: 12px; background: var(--sheet); box-shadow: inset 0 0 0 1px var(--rule); }
+  .toc-mobile summary { font-weight: 600; cursor: pointer; }
+  .toc-mobile ol { margin: 10px 0 4px; padding-left: 1.2em; }
+  .callouts { grid-template-columns: 1fr; }
+  .ribbon-track { height: 72px; }
+  .block span { display: none; }
+  .ribbon-scale span:nth-child(even) { display: none; }
+  .foot-page { padding: 24px 16px 40px; }
+}
+@media (max-width: 520px) {
+  table, thead, tbody, tr, th, td { font-size: .94rem; }
+  td:first-child { white-space: normal; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-top">
+    <img src="icon.png" alt="" width="84" height="84">
+    <h1>Outatime</h1>
+  </div>
+  <p class="lede"><strong>The manual.</strong> Everything Outatime does, from the first click in the menu bar to the report you send a client at the end of the month.</p>
+
+  <figure class="ribbon" aria-label="A sample day: work from nine, a coffee break, lunch at half past twelve, more work, then extra hours in the evening.">
+    <div class="ribbon-track" id="ribbon"></div>
+    <div class="ribbon-scale" id="scale" aria-hidden="true"></div>
+    <figcaption class="ribbon-caption">A day in Outatime: every block is one stretch of one activity, from the moment you start it to the moment you stop or switch.</figcaption>
+  </figure>
+</header>
+
+<div class="page">
+  <nav class="toc" aria-label="Contents">
+    <p>Contents</p>
+    <ol id="toc"></ol>
+  </nav>
+
+  <main>
+    <details class="toc-mobile"><summary>Contents</summary><ol id="toc-mobile"></ol></details>
+
+    <section id="start">
+      <h2>Getting started</h2>
+      <p>Download <code>Outatime.dmg</code> from the <a href="https://github.com/mrbarkan/Outatime/releases/latest">latest release</a>, drag Outatime to Applications and open it. It needs macOS 26 Tahoe or later.</p>
+      <p>Outatime has no Dock icon and no main window. It lives in the menu bar as a small clock. Click the clock to open the menu panel, where all the tracking happens.</p>
+      <p>To have it waiting for you every morning, turn on <strong>Open at Login</strong> in Settings → General.</p>
+      <div class="note"><p>Allow notifications when macOS asks. The tomato timer, the stretch reminder and the “target reached” message all arrive as notifications.</p></div>
+    </section>
+
+    <section id="tracking">
+      <h2>Tracking time</h2>
+      <p>Click an activity to start it. Click it again to stop. Clicking a different activity stops the current one and starts the new one in the same moment, so your day has no gaps you didn't choose.</p>
+
+      <figure>
+        <div class="panel-wrap">
+          <div class="panel" aria-hidden="true">
+            <span class="pin" data-n="1" style="left:-11px;top:10px"></span>
+            <div class="row status"><i class="dot" style="--c:var(--work)"></i> Work <small>· Acme</small><span class="t">1:42:10</span></div>
+            <span class="pin" data-n="2" style="left:-11px;top:52px"></span>
+            <div class="field">What are you working on?</div>
+            <span class="pin" data-n="3" style="left:-11px;top:88px"></span>
+            <div class="seg"><span>No client</span><span class="on">Acme</span><span>Globex</span></div>
+            <span class="pin" data-n="4" style="left:-11px;top:150px"></span>
+            <div class="tiles">
+              <div class="tile on" style="--c:var(--work)"><i></i>Work</div>
+              <div class="tile" style="--c:var(--break)"><i></i>Break</div>
+              <div class="tile" style="--c:var(--lunch)"><i></i>Lunch</div>
+              <div class="tile" style="--c:var(--extra)"><i></i>Extra</div>
+              <div class="tile" style="--c:var(--travel)"><i></i>Travel</div>
+              <div class="tile" style="--c:var(--ooo)"><i></i>Out of Office</div>
+            </div>
+            <span class="pin" data-n="5" style="left:-11px;bottom:62px"></span>
+            <div class="totals">
+              <span>Today</span><b>6h 12m</b><span class="today">−1h 48m</span>
+              <span>This Week</span><b>30h 40m</b><span class="plus">+0h 40m</span>
+              <span>This Month</span><b>36h 52m</b><span class="plus">+0h 52m</span>
+            </div>
+            <span class="pin" data-n="6" style="left:-11px;bottom:6px"></span>
+            <div class="foot"><span>Logbook</span><span>Export</span><span>•••</span></div>
+          </div>
+        </div>
+        <ol class="callouts">
+          <li>What's running, for which client, and for how long.</li>
+          <li>A note for the running block, such as a ticket or a task.</li>
+          <li>The client new work is tracked for. Shown once you add clients.</li>
+          <li>The six activities. The running one is filled in.</li>
+          <li>Today, this week and this month against your target.</li>
+          <li>The Logbook, exports, and the menu with Settings and Quit.</li>
+        </ol>
+      </figure>
+
+      <h3>The six activities</h3>
+      <table>
+        <thead><tr><th>Activity</th><th>Use it for</th><th>Counts toward the target</th></tr></thead>
+        <tbody>
+          <tr><td><span class="swatch" style="--c:var(--work)"></span>Work</td><td>Your normal working hours.</td><td>Always</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--break)"></span>Break</td><td>Coffee, a walk, a short pause.</td><td>By default</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--lunch)"></span>Lunch</td><td>Your meal break.</td><td>If you turn it on</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--extra)"></span>Extra</td><td>Time past your daily target, and work on weekends and days off.</td><td>Always</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--travel)"></span>Travel</td><td>Getting to a client or a site.</td><td>By default</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--ooo)"></span>Out of Office</td><td>Appointments and errands during the day.</td><td>By default</td></tr>
+        </tbody>
+      </table>
+      <p>Choose what counts in Settings → Tracking. Work and Extra always count.</p>
+
+      <h3>Notes</h3>
+      <p>Type in the field under the status line and press Return. The note is saved on the running block, and you can add as many as you like. When nothing is running, the note goes on today's last block instead, so you can still jot down what you just finished.</p>
+
+      <h3>Timers left running</h3>
+      <p>A timer still running at midnight is cut there and carries on in the new day, so each day keeps its own hours. The panel warns you with “Running since…”, and after ten hours you get a “Still tracking?” notification. Change or turn off that reminder in Settings → Tracking.</p>
+    </section>
+
+    <section id="clients">
+      <h2>Clients</h2>
+      <p>If you work for more than one client, Outatime can keep their hours apart. Add your clients in Settings → Clients. A client picker then appears in the menu panel.</p>
+      <ul>
+        <li><strong>Pick a client</strong> and Work, Extra and Travel are tracked for them. Break, Lunch and Out of Office never belong to a client.</li>
+        <li><strong>Switch clients</strong> while working and the block ends right there; a new one starts for the new client. Switch within the first minute and Outatime treats it as a correction: it relabels the block instead.</li>
+        <li><strong>Remove a client</strong> and they leave the picker, but their past blocks keep their name, and you can still export their month.</li>
+      </ul>
+      <p>In the Logbook, each block shows its client (“Work · Acme”), and you can change it in the block editor.</p>
+    </section>
+
+    <section id="target">
+      <h2>Your daily target</h2>
+      <p>Set how many hours a day you aim to work in Settings → Tracking. Outatime compares what you've done against it everywhere: in the menu panel, in the Logbook and in reports. A green number is time ahead, a red one is time behind.</p>
+      <ul>
+        <li><strong>Weekends and days off owe nothing.</strong> Mark a day off with the umbrella button in the Logbook toolbar.</li>
+        <li><strong>Today never shows as behind in red.</strong> The day isn't over yet.</li>
+        <li><strong>The hours bank</strong> adds up every day's balance since a date you choose, which is handy if your hours are settled each quarter or year.</li>
+      </ul>
+      <h3>Extra after the target</h3>
+      <p>Once today's hours reach the target, a running Work block switches itself to Extra, cut at the exact minute you got there, and you get a notification. On weekends and days off, all work is Extra. Turn this off in Settings → Tracking if you prefer to switch by hand.</p>
+    </section>
+
+    <section id="logbook">
+      <h2>The Logbook</h2>
+      <p>Open it from the menu panel. The sidebar lists the month day by day, with each day's hours, a bar of what it was made of, the month's balance and each week's total. Pick a day to see it as a timeline.</p>
+
+      <figure>
+        <div class="day" aria-hidden="true">
+          <div class="h" style="top:12px"><span>9</span></div>
+          <div class="h" style="top:96px"><span>10</span></div>
+          <div class="h" style="top:180px"><span>11</span></div>
+          <div class="h" style="top:264px"><span>12</span></div>
+          <div class="b" style="--c:var(--work);top:12px;height:140px"><strong>Work · Acme</strong><small>09:00 – 10:40 · API review</small><span class="grip" style="bottom:3px"></span></div>
+          <span class="pin" data-n="1" style="right:8px;top:30px"></span>
+          <div class="b short" style="--c:var(--break);top:152px;height:21px"><strong>Break</strong><small>10:40 – 10:55</small></div>
+          <span class="pin" data-n="2" style="right:8px;top:152px"></span>
+          <div class="b" style="--c:var(--work);top:173px;height:105px"><strong>Work · Globex</strong><small>10:55 – 12:10</small></div>
+          <span class="pin" data-n="3" style="right:8px;top:200px"></span>
+          <div class="b" style="--c:var(--lunch);top:278px;height:80px"><strong>Lunch</strong><small>12:10 – 13:00</small></div>
+        </div>
+        <ol class="callouts">
+          <li>Drag a block to move it, or its top or bottom edge to resize it.</li>
+          <li>Double-click inside a block to cut a 15-minute break into it.</li>
+          <li>Click a block to edit it: activity, client, times, notes.</li>
+        </ol>
+      </figure>
+
+      <h3>Editing blocks</h3>
+      <ul>
+        <li>Blocks snap to five-minute steps and to the edges of their neighbours. Blocks that touch move together: drag a shared edge and both change.</li>
+        <li>Double-click empty space, or use the + button in the toolbar, to add a block. It's an hour of Work and stops at the next block rather than overlapping it.</li>
+        <li>In the editor, <kbd>⌥ Return</kbd> starts a new line of notes, and the duration stepper moves the end in five-minute steps.</li>
+        <li>Delete a block from its editor.</li>
+      </ul>
+
+      <h3>Templates</h3>
+      <p>When your days tend to look the same, set one up in the Logbook, then choose Templates → Save Day as Template. Apply it to any other day from the same menu. Applying a template to a day that already has blocks asks before replacing them.</p>
+
+      <h3>Getting around</h3>
+      <p>Use the arrows in the toolbar or <kbd>⌘ [</kbd> and <kbd>⌘ ]</kbd> to move a day at a time, and <kbd>⌘ T</kbd> to come back to today. Zoom the timeline with <kbd>⌘ −</kbd> and <kbd>⌘ =</kbd>.</p>
+    </section>
+
+    <section id="focus">
+      <h2>Focus and breaks</h2>
+      <h3>Tomato timer</h3>
+      <p>Click the timer button at the top of the menu panel to turn it on. It starts Work and runs focus rounds of 25 minutes with 5-minute breaks, and a 15-minute break after every fourth round. The menu bar counts down the round.</p>
+      <p>When a round ends, a notification offers <strong>Start Break</strong> or <strong>Back to Work</strong>, and switches the tracker for you. Lunch, Travel and Out of Office pause it until you're back. Change the durations in Settings → Tomato timer.</p>
+      <h3>Stretch reminder</h3>
+      <p>After 50 minutes of unbroken Work or Extra, Outatime nudges you to get up. Switching clients doesn't reset it; a break does. It stays quiet while the tomato timer is on, since the tomato's breaks already get you moving. Change the interval or turn it off in Settings → Tracking.</p>
+    </section>
+
+    <section id="reports">
+      <h2>Reports</h2>
+      <p>Export from the menu panel for the current month, or from the Logbook toolbar for the month you're looking at.</p>
+      <table>
+        <thead><tr><th>Export</th><th>What's in it</th></tr></thead>
+        <tbody>
+          <tr><td>Monthly report</td><td>An Excel workbook: a summary with a row per day and its balance, hours per client, and every block.</td></tr>
+          <tr><td>Client report</td><td>One client's month for invoicing: their hours per day and the blocks behind them, without targets or balances.</td></tr>
+          <tr><td>Master workbook</td><td>Everything since you started, opening on a dashboard of hours, balance and activity by month.</td></tr>
+          <tr><td>Daily summary</td><td>A CSV with a row per day, for Numbers, Notion or anything else.</td></tr>
+          <tr><td>Entries</td><td>A CSV with every block of the month.</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><p>The monthly report's rows can be pasted under the master workbook's tables, and its dashboard picks them up. If your master workbook was made before version 1.2, export a fresh one first: blocks now have a Client column.</p></div>
+    </section>
+
+    <section id="settings">
+      <h2>Settings</h2>
+      <p>Open Settings from the ••• menu in the menu panel, or press <kbd>⌘ ,</kbd> while the panel is open.</p>
+      <table>
+        <tbody>
+          <tr><td><strong>General</strong></td><td>Light or dark, language (English, Español, Português), what the menu bar shows, the colored menu bar icon, Open at Login, and updates.</td></tr>
+          <tr><td><strong>Tracking</strong></td><td>The daily target, what counts toward it, the hours bank, Extra after the target, reminders and global shortcuts.</td></tr>
+          <tr><td><strong>Clients</strong></td><td>Add, rename and remove clients.</td></tr>
+          <tr><td><strong>Tomato timer</strong></td><td>Focus, short break and long break durations.</td></tr>
+        </tbody>
+      </table>
+      <h3>What the menu bar shows</h3>
+      <p>The running activity's icon and how long it has been going, the icon only, the time only, or how far today is from the target. The icon takes the activity's color unless you turn colored icons off.</p>
+    </section>
+
+    <section id="updates">
+      <h2>Updates</h2>
+      <p>Outatime checks for new versions by itself and installs them in place; you never need to visit the download page again. To check right away, use Settings → General → Check for Updates. After an update, a What's New window lists what changed.</p>
+      <h3>Beta updates</h3>
+      <p>Turn on <strong>Get beta updates</strong> in Settings → General to receive early builds of the next version. They may have rough edges. Turn it off again and you'll move back to regular releases with the next one.</p>
+    </section>
+
+    <section id="data">
+      <h2>Your data</h2>
+      <p>Everything Outatime knows is in a single file on your Mac. Nothing is sent anywhere; the only time Outatime goes online is to check for updates.</p>
+      <p><code>~/Library/Containers/com.dbarkan.Outatime/Data/Library/Application Support/Outatime/data.json</code></p>
+      <p>Copy it to back up your history. If the file ever can't be read, Outatime sets it aside next to the original, named <code>data.json.broken-</code> plus a number, and starts fresh rather than overwriting it.</p>
+    </section>
+
+    <section id="shortcuts">
+      <h2>Keyboard shortcuts</h2>
+      <table>
+        <thead><tr><th>Keys</th><th>Does</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>⌃ ⌥ ⌘ W</kbd></td><td>Start or stop Work, from any app</td></tr>
+          <tr><td><kbd>⌃ ⌥ ⌘ B</kbd></td><td>Start or stop Break, from any app</td></tr>
+          <tr><td><kbd>⌘ [</kbd> <kbd>⌘ ]</kbd></td><td>Previous or next day in the Logbook</td></tr>
+          <tr><td><kbd>⌘ T</kbd></td><td>Today in the Logbook</td></tr>
+          <tr><td><kbd>⌘ −</kbd> <kbd>⌘ =</kbd></td><td>Zoom the Logbook timeline</td></tr>
+          <tr><td><kbd>⌘ ,</kbd></td><td>Settings, from the menu panel</td></tr>
+          <tr><td><kbd>⌘ Q</kbd></td><td>Quit, from the menu panel</td></tr>
+        </tbody>
+      </table>
+      <p>The global shortcuts can be turned off in Settings → Tracking if they clash with another app.</p>
+    </section>
+
+    <section id="help">
+      <h2>When something's off</h2>
+      <h3>No notifications arrive</h3>
+      <p>Open System Settings → Notifications → Outatime and allow notifications. The tomato timer, reminders and “Daily target reached” all depend on them.</p>
+      <h3>I can't see the clock in the menu bar</h3>
+      <p>On a crowded menu bar, macOS hides items that don't fit, especially beside the camera notch. Quit an app you don't need in the menu bar, or hold <kbd>⌘</kbd> and drag the clock further right.</p>
+      <h3>A day has the wrong hours</h3>
+      <p>Open it in the Logbook and fix the blocks: drag them, resize them, or click one to type exact times. Balances and reports update straight away.</p>
+      <h3>Something else</h3>
+      <p><a href="https://github.com/mrbarkan/Outatime/issues">Open an issue on GitHub</a> and describe what happened.</p>
+    </section>
+  </main>
+</div>
+
+<footer class="foot-page">
+  <span>Outatime is free and open source, under the MIT license.</span>
+  <a href="https://github.com/mrbarkan/Outatime">Source on GitHub</a>
+  <a href="https://github.com/mrbarkan/Outatime/releases/latest">Download</a>
+</footer>
+
+<script>
+// ?theme=light|dark overrides the system appearance.
+(() => {
+  const t = new URLSearchParams(location.search).get("theme");
+  if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+})();
+
+// The hero's sample day, in hours since midnight.
+(() => {
+  const day = [
+    [9, 10.67, "work", "Work · Acme"], [10.67, 10.92, "break", ""], [10.92, 12.5, "work", "Work · Globex"],
+    [12.5, 13.25, "lunch", "Lunch"], [13.25, 15.5, "work", "Work · Acme"], [15.5, 16.25, "travel", "Travel"],
+    [16.25, 17.5, "work", "Work · Acme"], [17.5, 17.75, "break", ""], [17.75, 19.6, "extra", "Extra"],
+  ];
+  const from = 7, to = 21, pct = h => (h - from) / (to - from) * 100;
+  const track = document.getElementById("ribbon"), scale = document.getElementById("scale");
+  for (let h = from + 1; h < to; h++) {
+    track.insertAdjacentHTML("beforeend", `<div class="hour" style="left:${pct(h)}%"></div>`);
+    scale.insertAdjacentHTML("beforeend", `<span style="left:${pct(h)}%">${String(h).padStart(2, "0")}:00</span>`);
+  }
+  day.forEach(([a, b, kind, label], i) => {
+    track.insertAdjacentHTML("beforeend",
+      `<div class="block${i === day.length - 1 ? " now" : ""}" style="--c:var(--${kind});left:${pct(a)}%;width:${pct(b) - pct(a)}%;--d:${i * 0.07}s">${label ? `<span>${label}</span>` : ""}</div>`);
+  });
+})();
+
+// Contents, built from the sections, and the current section highlighted while reading.
+(() => {
+  const sections = [...document.querySelectorAll("main section")];
+  const items = sections.map(s => `<li><a href="#${s.id}">${s.querySelector("h2").textContent}</a></li>`).join("");
+  document.getElementById("toc").innerHTML = items;
+  document.getElementById("toc-mobile").innerHTML = items;
+  const links = new Map([...document.querySelectorAll("#toc a")].map(a => [a.hash.slice(1), a]));
+  const seen = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      links.forEach(a => a.classList.remove("here"));
+      links.get(e.target.id)?.classList.add("here");
+    });
+  }, { rootMargin: "-20% 0px -70% 0px" });
+  sections.forEach(s => seen.observe(s));
+})();
+</script>
+</body>
+</html>

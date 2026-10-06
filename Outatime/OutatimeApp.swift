@@ -37,6 +37,10 @@ struct OutatimeApp: App {
             EditorView().environment(store).environment(\.locale, language.locale)
         }
         .defaultSize(width: 900, height: 560)
+        .commands {
+            // The Help menu appears while the Logbook makes the app a regular one.
+            CommandGroup(replacing: .help) { Button("Outatime Manual", action: showManual) }
+        }
 
         WindowGroup("What's New", id: "whats-new", for: String.self) { $since in
             WhatsNewView(since: since ?? "0").environment(\.locale, language.locale)
