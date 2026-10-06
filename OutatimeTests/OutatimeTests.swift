@@ -249,6 +249,52 @@ nonisolated struct OutatimeTests {
         #expect(DayTemplate(name: "t", entries: reloaded.entries).entries(on: day)[0].profile == acme)
     }
 
+    /// Picking another client mid-block ends the block there and carries on for the new client.
+    @Test @MainActor func switchingClientSplitsRunningBlock() throws {
+        let store = Store(url: FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json"))
+        let acme = try #require(store.addProfile("Acme")), globex = try #require(store.addProfile("Globex"))
+        store.select(acme)
+        store.start(.break)
+        #expect(store.running?.profile == nil)  // breaks are never billed
+        store.entries = [Entry(activity: .work, start: at(9), notes: ["x"], profile: acme)]
+        store.select(globex, now: at(9, 0, 40))  // a quick correction relabels
+        #expect(store.entries.count == 1 && store.running?.profile == globex)
+        store.select(acme, now: at(10))
+        #expect(store.entries.count == 2 && store.entries[0].end == at(10) && store.entries[0].profile == globex)
+        #expect(store.running?.start == at(10) && store.running?.profile == acme && store.running?.notes == [])
+        store.select(acme, now: at(11))
+        #expect(store.entries.count == 2)
+    }
+
+    @Test @MainActor func clientCarriesOverMidnightAndIntoExtra() throws {
+        let store = Store(url: FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json"))
+        let acme = try #require(store.addProfile("Acme")), globex = try #require(store.addProfile("Globex"))
+        store.entries = [Entry(activity: .work, start: at(17), profile: acme)]
+        store.rollOver(now: cal.date(byAdding: .hour, value: 16, to: at(17))!)
+        #expect(store.running?.profile == acme && store.runningSince == at(17))
+        store.entries = [Entry(activity: .work, start: at(9), end: at(10), profile: globex), Entry(activity: .work, start: at(10), profile: acme)]
+        #expect(store.runningSince == at(10))  // another client's block isn't the same stretch
+        store.shiftToExtra(Target(seconds: 8 * 3600, since: at(0)), now: at(17, 30))
+        #expect(store.running?.activity == .extra && store.running?.profile == acme)
+        store.entries[store.entries.count - 1].end = at(17, 45)
+        store.currentProfile = globex
+        store.insert(.travel, at: at(18), length: 600)
+        #expect(store.entries.last?.profile == globex)
+        store.insert(.break, at: at(18, 30), length: 600)
+        #expect(store.entries.last?.profile == nil)
+    }
+
+    /// A removed client leaves the picker but keeps its blocks and its name.
+    @Test @MainActor func removingClientArchives() throws {
+        let store = Store(url: FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json"))
+        let acme = try #require(store.addProfile("Acme"))
+        store.select(acme)
+        store.entries = [Entry(activity: .work, start: at(9), profile: acme)]
+        store.removeProfile(acme)
+        #expect(store.activeProfiles.isEmpty && store.profileNames[acme] == "Acme")
+        #expect(store.currentProfile == nil && store.running?.profile == acme && store.entries.count == 1)
+    }
+
     @Test func totals() {
         #expect(1.5 * 3600 == TimeInterval(5400))
         #expect(TimeInterval(5400).hm == "1h 30m")

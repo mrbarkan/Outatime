@@ -65,9 +65,23 @@ final class Store {
     var running: Entry? { entries.first(where: \.isRunning) }
 
     func start(_ activity: Activity) {
-        if running?.activity == activity { return }
+        let profile = activity.billable ? currentProfile : nil
+        if let running, running.activity == activity, running.profile == profile { return }
         stop()
-        entries.append(Entry(activity: activity, start: .now))
+        entries.append(Entry(activity: activity, start: .now, profile: profile))
+    }
+
+    /// Picks the client for billable blocks. A billable block running for another client ends here and carries on for
+    /// this one; within its first minute it's taken as a correction and just relabelled.
+    func select(_ profile: Profile.ID?, now: Date = .now) {
+        currentProfile = profile
+        guard let i = entries.firstIndex(where: \.isRunning), entries[i].activity.billable, entries[i].profile != profile else { return }
+        if now.timeIntervalSince(entries[i].start) < 60 {
+            entries[i].profile = profile
+        } else {
+            entries[i].end = now
+            entries.append(Entry(activity: entries[i].activity, start: now, profile: profile))
+        }
     }
 
     /// The running entry, or today's latest one so a note can still land on a block after it was stopped.
@@ -89,7 +103,7 @@ final class Store {
         while let i = entries.firstIndex(where: \.isRunning), cal.startOfDay(for: entries[i].start) < cal.startOfDay(for: now) {
             let midnight = cal.date(byAdding: .day, value: 1, to: cal.startOfDay(for: entries[i].start))!
             entries[i].end = midnight
-            entries.append(Entry(activity: entries[i].activity, start: midnight, notes: entries[i].notes))
+            entries.append(Entry(activity: entries[i].activity, start: midnight, notes: entries[i].notes, profile: entries[i].profile))
         }
     }
 
@@ -108,7 +122,7 @@ final class Store {
             entries[i].activity = .extra
         } else {
             entries[i].end = cut
-            entries.append(Entry(activity: .extra, start: cut, notes: entries[i].notes))
+            entries.append(Entry(activity: .extra, start: cut, notes: entries[i].notes, profile: entries[i].profile))
         }
         return true
     }
@@ -117,7 +131,7 @@ final class Store {
     var runningSince: Date? {
         guard let running else { return nil }
         var since = running.start
-        while let prev = entries.first(where: { $0.activity == running.activity && $0.start < since
+        while let prev = entries.first(where: { $0.activity == running.activity && $0.profile == running.profile && $0.start < since
                                                 && $0.end.map { abs($0.timeIntervalSince(since)) < 1 } == true }) {
             since = prev.start
         }
@@ -140,6 +154,13 @@ final class Store {
 
     func rename(_ id: Profile.ID, to name: String) {
         if let i = profiles.firstIndex(where: { $0.id == id }) { profiles[i].name = name }
+    }
+
+    /// Archived, not deleted: its blocks keep their client. A block running for it carries on.
+    func removeProfile(_ id: Profile.ID) {
+        guard let i = profiles.firstIndex(where: { $0.id == id }) else { return }
+        profiles[i].archived = true
+        if currentProfile == id { currentProfile = nil }
     }
 
     // MARK: Queries
@@ -208,7 +229,7 @@ final class Store {
         } else if let next = entries.map(\.start).filter({ $0 > start }).min() {
             end = min(end, next)
         }
-        let e = Entry(activity: activity, start: start, end: end)
+        let e = Entry(activity: activity, start: start, end: end, profile: activity.billable ? currentProfile : nil)
         entries.append(e)
         justAdded = e.id
     }
