@@ -353,6 +353,12 @@ nonisolated struct OutatimeTests {
         #expect(clientExportName(day, "A/B: C") == "Outatime 2026-09 A-B- C.xlsx")
     }
 
+    /// The tests run inside the app; that copy must leave the real data file and What's New state alone.
+    @Test @MainActor func testHostStaysOffRealData() {
+        #expect(OutatimeApp.isTestHost)
+        #expect(OutatimeApp.storeURL != Store.defaultURL)
+    }
+
     @Test func totals() {
         #expect(1.5 * 3600 == TimeInterval(5400))
         #expect(TimeInterval(5400).hm == "1h 30m")

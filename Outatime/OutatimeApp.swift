@@ -7,11 +7,19 @@ struct OutatimeApp: App {
     @State private var updater = Updater()
     @AppStorage("language") private var language = Language.system
 
+    /// The unit tests run inside the app. That copy shares the installed app's sandbox container, so it keeps off the
+    /// real data file, What's New, the shortcuts and notifications.
+    static let isTestHost = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+    static let storeURL = isTestHost
+        ? FileManager.default.temporaryDirectory.appending(path: "outatime-test-host-\(UUID().uuidString)/data.json")
+        : Store.defaultURL
+
     init() {
         Appearance(rawValue: UserDefaults.standard.string(forKey: "appearance") ?? "")?.apply()
-        let store = Store()
+        let store = Store(url: Self.storeURL)
         store.rollOver()
         _store = State(initialValue: store)
+        guard !Self.isTestHost else { return }
         HotKeys.install { a in store.running?.activity == a ? store.stop() : store.start(a) }
         HotKeys.setEnabled(UserDefaults.standard.object(forKey: "globalShortcuts") as? Bool ?? true)
         Notify.install { store.start($0) }
@@ -96,7 +104,10 @@ struct MenuBarLabel: View {
         }
         .id(tick)
         .task(id: store.tomatoRound) { Tomato.schedule(store.tomatoRound) }  // outside .id(tick), so it runs on change only
-        .task { WhatsNew.openIfUpdated(hasData: !store.entries.isEmpty) { show(window: "whats-new", value: $0, openWindow) } }
+        .task {
+            guard !OutatimeApp.isTestHost else { return }
+            WhatsNew.openIfUpdated(hasData: !store.entries.isEmpty) { show(window: "whats-new", value: $0, openWindow) }
+        }
     }
 
     /// Menu bar images are drawn as templates (one color); a non-template image keeps the activity's color.
