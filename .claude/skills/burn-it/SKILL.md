@@ -1,6 +1,6 @@
 ---
 name: burn-it
-description: Ship a signed, notarized Outatime release — bump the version, commit, push, then build, notarize, and publish to GitHub Releases with a Sparkle appcast. Use when the user says "burn it", "ship it", "cut a release", or "publish a release".
+description: Ship a signed, notarized Outatime release — bump the version, commit, push, then build, notarize, and publish to GitHub Releases with a Sparkle appcast. Use when the user says "burn it", "ship it", "cut a release", or "publish a release"; "burn it beta" ships a beta to opted-in users.
 ---
 
 # Burn it
@@ -9,6 +9,7 @@ One full release. Takes ~5 minutes, nearly all of it waiting on Apple's notary
 service. Every command runs from the repo root.
 
 Optional argument: an explicit version (`burn it 1.1`). With none, bump the patch.
+`burn it beta` follows the same steps with the changes in **Beta** at the end.
 
 ## 1. Preflight — bail here, not after the push
 
@@ -84,3 +85,34 @@ curl -sL https://github.com/mrbarkan/Outatime/releases/latest/download/appcast.x
 The feed must serve the new version with a signature. An `appcast.xml` missing
 from the assets means every installed copy silently stops seeing updates — that
 is the one failure worth interrupting the user about.
+
+## Beta
+
+Users who turn on Settings → General → "Get beta updates" accept appcast items on
+Sparkle's `beta` channel. Everyone else never sees them.
+
+- **Version:** `X.Y-beta.N`. From a stable `1.2.x` the next beta is `1.3-beta.1`; from
+  `1.3-beta.1` it's `1.3-beta.2`. An explicit argument wins (`burn it beta 2.0-beta.1`).
+  `CURRENT_PROJECT_VERSION` still goes up by one, exactly as in step 2.
+- **What's New:** skip 2b. Betas neither open the window nor record a last-seen version,
+  so testers get the full notes when the stable release ships. Draft that entry under
+  the stable number (`1.3`) whenever convenient.
+- **Commit:** `Version 1.3-beta.1` (or describe the work), push as in step 3.
+- **Publish:** `scripts/release.sh --beta`. It refuses a version without `-beta.`, and a
+  stable run refuses one with it. It creates a GitHub **pre-release** with the DMG, then
+  uploads the merged `appcast.xml` to the latest *stable* release — `releases/latest`
+  never points at a pre-release, and that's the feed every copy reads.
+- **Verify:**
+
+  ```sh
+  gh release view "v$NEW" --json isPrerelease,assets --jq '.isPrerelease, .assets[].name'   # true, Outatime.dmg
+  curl -sL https://github.com/mrbarkan/Outatime/releases/latest/download/appcast.xml | grep -E 'channel|shortVersionString'
+  ```
+
+  The feed must list the beta (with `<sparkle:channel>beta</sparkle:channel>`) *and* the
+  current stable.
+
+Every release, stable or beta, starts from the published feed and adds itself, so items
+accumulate. Sparkle offers each copy the newest build on its channels. Build numbers only
+go up, so a stable hotfix shipped while a beta is out outranks that beta: cut a fresh
+beta right after the hotfix, or testers drift back to stable.
