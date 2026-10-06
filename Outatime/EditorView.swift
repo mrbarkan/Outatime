@@ -306,6 +306,7 @@ private struct TimelineBlock: View {
                     if e.end == dayStart + 86400 { Image(systemName: "arrow.down.to.line").foregroundStyle(.orange) }
                     Image(systemName: e.activity.symbol)
                     Text(e.activity.label).fontWeight(.semibold)
+                    if let name = e.profile.flatMap({ store.profileNames[$0] }) { Text("· \(name)").fontWeight(.semibold) }
                 }
                 let span = (Text(e.start, style: .time) + Text(" – ") + (e.end.map { Text($0, style: .time) } ?? Text("running")))
                     .foregroundStyle(.secondary)
@@ -477,13 +478,23 @@ nonisolated enum BlockDrag {
 }
 
 private struct EntryForm: View {
+    @Environment(Store.self) private var store
     @Binding var entry: Entry
     let onDelete: () -> Void
 
     var body: some View {
+        // The block's own client stays listed after it was removed.
+        let clients = store.profiles.filter { !$0.archived || $0.id == entry.profile }
         Form {
             Picker("Activity", selection: $entry.activity) {
                 ForEach(Activity.allCases) { Label($0.label, systemImage: $0.symbol).tag($0) }
+            }
+            .onChange(of: entry.activity) { if !entry.activity.billable { entry.profile = nil } }
+            if entry.activity.billable && !clients.isEmpty {
+                Picker("Client", selection: $entry.profile) {
+                    Text("No client").tag(Profile.ID?.none)
+                    ForEach(clients) { Text($0.name).tag(Optional($0.id)) }
+                }
             }
             DatePicker("Start", selection: $entry.start, displayedComponents: .hourAndMinute)
             if entry.isRunning {

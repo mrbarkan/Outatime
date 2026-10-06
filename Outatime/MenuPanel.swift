@@ -23,6 +23,7 @@ struct MenuPanel: View {
                 }
                 .font(.caption).foregroundStyle(.secondary).lineLimit(1)
             }
+            if !store.activeProfiles.isEmpty { ClientPicker() }
 
             GlassEffectContainer(spacing: 10) {
                 Grid(horizontalSpacing: 10, verticalSpacing: 10) {
@@ -46,6 +47,9 @@ struct MenuPanel: View {
                 if let running = store.running {
                     Image(systemName: running.activity.symbol).foregroundStyle(running.activity.color)
                     Text(running.activity.label).fontWeight(.semibold)
+                    if let name = running.profile.flatMap({ store.profileNames[$0] }) {
+                        Text("· \(name)").foregroundStyle(.secondary).lineLimit(1)
+                    }
                     Spacer()
                     Text(store.runningSince ?? running.start, style: .timer).monospacedDigit().foregroundStyle(.secondary)
                 } else {
@@ -113,18 +117,30 @@ struct MenuPanel: View {
             Menu("Export", systemImage: "square.and.arrow.up") {
                 let month = Date.now.startOfMonth
                 let target = store.target(hours: targetHours, excluded: excluded)
+                let names = store.profileNames
                 Button("This Month — Report (Excel)…") {
-                    save(Report.month(store.entries(inMonth: month), month: month, target: target), as: .xlsx, suggestedName: exportName(month, ".xlsx"))
+                    save(Report.month(store.entries(inMonth: month), month: month, target: target, names: names), as: .xlsx,
+                         suggestedName: exportName(month, ".xlsx"))
                 }
                 Button("Master Workbook (Excel)…") {
-                    save(Report.master(store.entries, target: target), as: .xlsx, suggestedName: "Outatime Master.xlsx")
+                    save(Report.master(store.entries, target: target, names: names), as: .xlsx, suggestedName: "Outatime Master.xlsx")
+                }
+                // Removed clients too: there may still be a month to bill them for.
+                let billed = Set(store.entries(inMonth: month).filter(\.activity.billable).compactMap(\.profile))
+                let clients = store.profiles.filter { billed.contains($0.id) }
+                if !clients.isEmpty { Divider() }
+                ForEach(clients) { p in
+                    Button("This Month — \(p.name) (Excel)…") {
+                        save(Report.client(store.entries(inMonth: month).filter { $0.profile == p.id }, name: p.name, month: month),
+                             as: .xlsx, suggestedName: clientExportName(month, p.name))
+                    }
                 }
                 Divider()
                 Button("This Month — Daily Summary…") {
                     save(Data(CSV.daily(store.entries(inMonth: month), month: month, target: target).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " daily.csv"))
                 }
                 Button("This Month — Entries…") {
-                    save(Data(CSV.entries(store.entries(inMonth: month)).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " entries.csv"))
+                    save(Data(CSV.entries(store.entries(inMonth: month), names: names).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " entries.csv"))
                 }
             }
             Spacer()
@@ -151,6 +167,21 @@ struct MenuPanel: View {
     private func showLogbook() {
         dismiss()
         show(window: "editor", openWindow)
+    }
+}
+
+/// The client new Work, Extra and Travel blocks are tracked for. Segmented while it fits, a menu beyond that.
+private struct ClientPicker: View {
+    @Environment(Store.self) private var store
+
+    var body: some View {
+        let clients = store.activeProfiles
+        let picker = Picker("Client", selection: Binding(get: { store.currentProfile }, set: { store.select($0) })) {
+            Text("No client").tag(Profile.ID?.none)
+            ForEach(clients) { Text($0.name).tag(Optional($0.id)) }
+        }
+        .labelsHidden()
+        if clients.count <= 3 { picker.pickerStyle(.segmented) } else { picker.pickerStyle(.menu) }
     }
 }
 

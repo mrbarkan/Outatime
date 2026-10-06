@@ -84,6 +84,22 @@
         }
       }
     },
+    "Add": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar"
+          }
+        }
+      }
+    },
     "Add Entry": {
       "localizations": {
         "es": {
@@ -240,6 +256,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "Verificar atualizações…"
+          }
+        }
+      }
+    },
+    "Client": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cliente"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cliente"
+          }
+        }
+      }
+    },
+    "Clients": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clientes"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clientes"
           }
         }
       }
@@ -810,6 +858,22 @@
         }
       }
     },
+    "New client": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nuevo cliente"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Novo cliente"
+          }
+        }
+      }
+    },
     "Next Day": {
       "localizations": {
         "es": {
@@ -838,6 +902,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Próximo mês"
+          }
+        }
+      }
+    },
+    "No client": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin cliente"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sem cliente"
           }
         }
       }
@@ -1005,6 +1085,22 @@
         }
       }
     },
+    "Pick the client in the menu. Work, Extra and Travel are tracked for it.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elige el cliente en el menú. Trabajo, Extra y Viaje se registran para él."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolha o cliente no menu. Trabalho, Extra e Deslocamento são registrados para ele."
+          }
+        }
+      }
+    },
     "Português (Brasil)": {
       "shouldTranslate": false
     },
@@ -1100,6 +1196,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Avisar quando um cronômetro passar de %@ h"
+          }
+        }
+      }
+    },
+    "Remove": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitar"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remover"
           }
         }
       }
@@ -1486,6 +1598,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Este mês"
+          }
+        }
+      }
+    },
+    "This Month — %@ (Excel)…": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este mes — %@ (Excel)…"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este mês — %@ (Excel)…"
           }
         }
       }

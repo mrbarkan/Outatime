@@ -68,6 +68,7 @@ struct SettingsView: View {
     @AppStorage("shortBreakMinutes") private var shortBreak = 5
     @AppStorage("longBreakMinutes") private var longBreak = 15
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
+    @State private var newClient = ""
 
     var body: some View {
         Form {
@@ -110,6 +111,22 @@ struct SettingsView: View {
                     .font(.caption).foregroundStyle(.secondary)
             }
 
+            Section("Clients") {
+                ForEach(store.activeProfiles) { p in
+                    HStack {
+                        TextField("Name", text: Binding(get: { p.name }, set: { store.rename(p.id, to: $0) })).labelsHidden()
+                        Button("Remove", systemImage: "minus.circle") { store.removeProfile(p.id) }
+                            .labelStyle(.iconOnly).buttonStyle(.borderless)
+                    }
+                }
+                HStack {
+                    TextField("New client", text: $newClient).labelsHidden().onSubmit(addClient)
+                    Button("Add", action: addClient).disabled(newClient.trimmingCharacters(in: .whitespaces).isEmpty)
+                }
+                Text("Pick the client in the menu. Work, Extra and Travel are tracked for it.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+
             Section("Tracking") {
                 Stepper(value: $remindAfter, in: 0...24, step: 1) {
                     Text(remindAfter > 0 ? "Remind me when a timer runs \(remindAfter.formatted())h" : "No long-timer reminder")
@@ -139,6 +156,10 @@ struct SettingsView: View {
         .formStyle(.grouped)
         .frame(width: 380)
         .fixedSize(horizontal: false, vertical: true)
+    }
+
+    private func addClient() {
+        if store.addProfile(newClient) != nil { newClient = "" }
     }
 }
 
