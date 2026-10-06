@@ -18,6 +18,15 @@ enum WhatsNew {
 
     /// Newest first.
     static let releases = [
+        Release(version: "1.2", new: [
+            Item(symbol: "person.2", color: .indigo, title: "Clients",
+                 detail: "Add your clients in Settings and pick one in the menu. Work, Extra and Travel are tracked for it, and switching clients splits the block right there."),
+            Item(symbol: "tablecells", color: .green, title: "Reports per client",
+                 detail: "Export a client's month for invoicing from the Export menu. Reports also gain a Client column and a Clients sheet; export a fresh master workbook so new months paste in cleanly."),
+        ], fixed: [
+            Item(symbol: "calendar", color: .blue, title: "Short blocks in the Logbook",
+                 detail: "A block of a few minutes no longer covers the title of the one after it."),
+        ]),
         Release(version: "1.1.1", fixed: [
             Item(symbol: "sparkles", color: .orange, title: "What's New window",
                  detail: "It opened empty after the last update. It now lists what changed, including everything new in 1.1."),

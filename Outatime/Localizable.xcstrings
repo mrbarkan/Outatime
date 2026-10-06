@@ -36,6 +36,22 @@
         }
       }
     },
+    "A block of a few minutes no longer covers the title of the one after it.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un bloque de pocos minutos ya no tapa el título del siguiente."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Um bloco de poucos minutos não cobre mais o título do seguinte."
+          }
+        }
+      }
+    },
     "A nudge to get up after every 50 minutes of work. Change it or turn it off in Settings.": {
       "localizations": {
         "es": {
@@ -128,6 +144,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Adicionar uma nota à última entrada"
+          }
+        }
+      }
+    },
+    "Add your clients in Settings and pick one in the menu. Work, Extra and Travel are tracked for it, and switching clients splits the block right there.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añade tus clientes en Ajustes y elige uno en el menú. Trabajo, Extra y Viaje se registran para él, y cambiar de cliente divide el bloque en ese momento."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicione seus clientes nos Ajustes e escolha um no menu. Trabalho, Extra e Deslocamento são registrados para ele, e trocar de cliente divide o bloco na hora."
           }
         }
       }
@@ -534,6 +566,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Exportar"
+          }
+        }
+      }
+    },
+    "Export a client's month for invoicing from the Export menu. Reports also gain a Client column and a Clients sheet; export a fresh master workbook so new months paste in cleanly.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exporta el mes de un cliente para facturar desde el menú Exportar. Los informes ganan además una columna Cliente y una hoja Clientes; exporta un libro maestro nuevo para que los meses nuevos se peguen bien."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exporte o mês de um cliente para faturar pelo menu Exportar. Os relatórios também ganham uma coluna Cliente e uma planilha Clientes; exporte uma pasta de trabalho mestre nova para que os novos meses sejam colados certinho."
           }
         }
       }
@@ -1264,6 +1312,22 @@
         }
       }
     },
+    "Reports per client": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Informes por cliente"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Relatórios por cliente"
+          }
+        }
+      }
+    },
     "Round %lld": {
       "localizations": {
         "es": {
@@ -1372,6 +1436,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ajustes…"
+          }
+        }
+      }
+    },
+    "Short blocks in the Logbook": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bloques cortos en la Bitácora"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blocos curtos no Diário de bordo"
           }
         }
       }
