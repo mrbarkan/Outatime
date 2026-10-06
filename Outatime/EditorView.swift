@@ -250,8 +250,10 @@ private struct DayTimeline: View {
                             .id(h)
                         }
                     }
+                    let floors = TimelineBlock.floors(entries, dayStart: dayStart, hourHeight: hourHeight)
                     ForEach(entries) { entry in
-                        TimelineBlock(entry: store.binding(for: entry), others: entries.filter { $0.id != entry.id }, dayStart: dayStart, hourHeight: hourHeight) { store.delete(entry.id) }
+                        TimelineBlock(entry: store.binding(for: entry), others: entries.filter { $0.id != entry.id }, dayStart: dayStart,
+                                      hourHeight: hourHeight, floor: floors[entry.id] ?? 0) { store.delete(entry.id) }
                             .padding(.leading, gutter).padding(.trailing, 12)
                     }
                 }
@@ -279,6 +281,7 @@ private struct TimelineBlock: View {
     let others: [Entry]  // same day, for magnetic snapping and shared borders
     let dayStart: Date
     let hourHeight: CGFloat
+    let floor: CGFloat  // where the block above ends on screen; a short block stretched to the minimum height reaches past its end
     let onDelete: () -> Void
     @State private var draft: Entry?  // follows the pointer; settled + written to the store on release
     @State private var dragMode: BlockDrag.Mode?
@@ -288,9 +291,11 @@ private struct TimelineBlock: View {
     var body: some View {
         let e = draft ?? entry
         let dragging = draft != nil
-        let top = CGFloat(e.start.timeIntervalSince(dayStart) / 3600) * hourHeight
+        let start = CGFloat(e.start.timeIntervalSince(dayStart) / 3600) * hourHeight
         let natural = CGFloat(e.duration / 3600) * hourHeight
-        let height = max(14, natural)
+        // Starts below a stretched block above it rather than under it, so neither one's text is covered.
+        let top = dragging ? start : max(start, floor)
+        let height = max(Self.minHeight, start + natural - top)
         RoundedRectangle(cornerRadius: 6)
             .fill(e.activity.color.opacity(dragging ? 0.4 : hovering ? 0.3 : 0.22))
             .overlay(alignment: .leading) { e.activity.color.frame(width: 3).clipShape(.rect(cornerRadius: 6)) }
@@ -350,8 +355,21 @@ private struct TimelineBlock: View {
             .shadow(color: .black.opacity(dragging ? 0.25 : 0), radius: 6, y: 2)
             .popover(isPresented: $editing) { EntryForm(entry: $entry) { editing = false; onDelete() } }
             .offset(y: top)
-            // A block stretched to the minimum height overhangs the next one; keep it on top so it stays clickable.
-            .zIndex(dragging ? 2 : height > natural ? 1 : 0)
+            .zIndex(dragging ? 2 : 0)
+    }
+
+    static let minHeight: CGFloat = 14
+
+    /// Where each block's top edge goes when the one above it was stretched to the minimum height past its end.
+    static func floors(_ entries: [Entry], dayStart: Date, hourHeight: CGFloat) -> [Entry.ID: CGFloat] {
+        var floors: [Entry.ID: CGFloat] = [:], bottom: CGFloat = 0
+        for e in entries.sorted(by: { $0.start < $1.start }) {
+            let start = CGFloat(e.start.timeIntervalSince(dayStart) / 3600) * hourHeight
+            let top = max(start, bottom)
+            floors[e.id] = top
+            bottom = top + max(minHeight, start + CGFloat(e.duration / 3600) * hourHeight - top)
+        }
+        return floors
     }
 
     /// Resize grip along an edge; its own gesture wins over the block's move gesture. It shrinks on short blocks so
