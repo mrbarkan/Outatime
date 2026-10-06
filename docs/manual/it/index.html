@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manuale di Outatime</title>
+<meta name="description" content="Come registrare la tua giornata con Outatime, il time tracker per la barra dei menu di macOS.">
+<link rel="icon" href="../icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&family=Big+Shoulders+Display:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../manual.css">
+<link rel="alternate" hreflang="en" href="https://mrbarkan.github.io/Outatime/manual/">
+<link rel="alternate" hreflang="es" href="https://mrbarkan.github.io/Outatime/manual/es/">
+<link rel="alternate" hreflang="pt-BR" href="https://mrbarkan.github.io/Outatime/manual/pt-BR/">
+<link rel="alternate" hreflang="fr" href="https://mrbarkan.github.io/Outatime/manual/fr/">
+<link rel="alternate" hreflang="de" href="https://mrbarkan.github.io/Outatime/manual/de/">
+<link rel="alternate" hreflang="it" href="https://mrbarkan.github.io/Outatime/manual/it/">
+<link rel="alternate" hreflang="ja" href="https://mrbarkan.github.io/Outatime/manual/ja/">
+<link rel="alternate" hreflang="zh-Hans" href="https://mrbarkan.github.io/Outatime/manual/zh-Hans/">
+<link rel="alternate" hreflang="x-default" href="https://mrbarkan.github.io/Outatime/manual/">
+<script src="../manual.js"></script>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-top">
+    <img src="../icon.png" alt="" width="84" height="84">
+    <h1>Outatime</h1>
+    <select class="lang" aria-label="Lingua"></select>
+  </div>
+  <p class="lede"><strong>Il manuale.</strong> Tutto ciò che fa Outatime, dal primo clic nella barra dei menu al report che invii a un cliente a fine mese.</p>
+
+  <figure class="ribbon" aria-label="Una giornata tipo: lavoro dalle nove, una pausa caffè, pranzo alle dodici e mezza, altro lavoro, poi ore extra la sera.">
+    <div class="ribbon-track" id="ribbon" data-labels='{"work": "Lavoro", "lunch": "Pranzo", "travel": "Trasferta", "extra": "Extra"}'></div>
+    <div class="ribbon-scale" id="scale" aria-hidden="true"></div>
+    <figcaption class="ribbon-caption">Una giornata in Outatime: ogni blocco è un tratto di una sola attività, dal momento in cui la avvii a quando la fermi o cambi.</figcaption>
+  </figure>
+</header>
+
+<div class="page">
+  <nav class="toc" aria-label="Indice">
+    <p>Indice</p>
+    <ol id="toc"></ol>
+  </nav>
+
+  <main>
+    <details class="toc-mobile"><summary>Indice</summary><ol id="toc-mobile"></ol><select class="lang" aria-label="Lingua"></select></details>
+
+    <section id="start">
+      <h2>Per iniziare</h2>
+      <p>Scarica <code>Outatime.dmg</code> dall'<a href="https://github.com/mrbarkan/Outatime/releases/latest">ultima release</a>, trascina Outatime in Applicazioni e aprilo. Richiede macOS 26 Tahoe o versioni successive.</p>
+      <p>Outatime non ha un'icona nel Dock né una finestra principale. Vive nella barra dei menu sotto forma di piccolo orologio. Fai clic sull'orologio per aprire il pannello del menu, dove avviene tutta la registrazione.</p>
+      <p>Per trovarlo pronto ogni mattina, attiva <strong>Apri al login</strong> in Impostazioni → Generali.</p>
+      <div class="note"><p>Consenti le notifiche quando macOS lo chiede. Il timer Pomodoro, il promemoria stretching e il messaggio “obiettivo raggiunto” arrivano tutti come notifiche.</p></div>
+    </section>
+
+    <section id="tracking">
+      <h2>Registrare il tempo</h2>
+      <p>Fai clic su un'attività per avviarla. Fai di nuovo clic per fermarla. Facendo clic su un'altra attività, quella in corso si ferma e la nuova parte nello stesso istante, così la giornata non ha buchi che non hai scelto tu.</p>
+
+      <figure>
+        <div class="panel-wrap">
+          <div class="panel" aria-hidden="true">
+            <span class="pin" data-n="1" style="left:-11px;top:10px"></span>
+            <div class="row status"><i class="dot" style="--c:var(--work)"></i> Lavoro <small>· Acme</small><span class="t">1:42:10</span></div>
+            <span class="pin" data-n="2" style="left:-11px;top:52px"></span>
+            <div class="field">A cosa stai lavorando?</div>
+            <span class="pin" data-n="3" style="left:-11px;top:88px"></span>
+            <div class="seg"><span>Nessun cliente</span><span class="on">Acme</span><span>Globex</span></div>
+            <span class="pin" data-n="4" style="left:-11px;top:150px"></span>
+            <div class="tiles">
+              <div class="tile on" style="--c:var(--work)"><i></i>Lavoro</div>
+              <div class="tile" style="--c:var(--break)"><i></i>Pausa</div>
+              <div class="tile" style="--c:var(--lunch)"><i></i>Pranzo</div>
+              <div class="tile" style="--c:var(--extra)"><i></i>Extra</div>
+              <div class="tile" style="--c:var(--travel)"><i></i>Trasferta</div>
+              <div class="tile" style="--c:var(--ooo)"><i></i>Fuori sede</div>
+            </div>
+            <span class="pin" data-n="5" style="left:-11px;bottom:62px"></span>
+            <div class="totals">
+              <span>Oggi</span><b>6h 12m</b><span class="today">−1h 48m</span>
+              <span>Questa settimana</span><b>30h 40m</b><span class="plus">+0h 40m</span>
+              <span>Questo mese</span><b>36h 52m</b><span class="plus">+0h 52m</span>
+            </div>
+            <span class="pin" data-n="6" style="left:-11px;bottom:6px"></span>
+            <div class="foot"><span>Diario</span><span>Esporta</span><span>•••</span></div>
+          </div>
+        </div>
+        <ol class="callouts">
+          <li>Cosa è in corso, per quale cliente e da quanto tempo.</li>
+          <li>Una nota per il blocco in corso, come un ticket o un'attività.</li>
+          <li>Il cliente per cui viene registrato il nuovo lavoro. Compare dopo che hai aggiunto dei clienti.</li>
+          <li>Le sei attività. Quella in corso è piena.</li>
+          <li>Oggi, questa settimana e questo mese rispetto al tuo obiettivo.</li>
+          <li>Il Diario, le esportazioni e il menu con Impostazioni ed Esci.</li>
+        </ol>
+      </figure>
+
+      <h3>Le sei attività</h3>
+      <table>
+        <thead><tr><th>Attività</th><th>Usala per</th><th>Conta per l'obiettivo</th></tr></thead>
+        <tbody>
+          <tr><td><span class="swatch" style="--c:var(--work)"></span>Lavoro</td><td>Il tuo normale orario di lavoro.</td><td>Sempre</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--break)"></span>Pausa</td><td>Un caffè, una passeggiata, una breve sosta.</td><td>Di default</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--lunch)"></span>Pranzo</td><td>La pausa pranzo.</td><td>Se la attivi</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--extra)"></span>Extra</td><td>Il tempo oltre l'obiettivo giornaliero e il lavoro nei weekend e nei giorni liberi.</td><td>Sempre</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--travel)"></span>Trasferta</td><td>Gli spostamenti verso un cliente o un cantiere.</td><td>Di default</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--ooo)"></span>Fuori sede</td><td>Appuntamenti e commissioni durante la giornata.</td><td>Di default</td></tr>
+        </tbody>
+      </table>
+      <p>Scegli cosa conta in Impostazioni → Registrazione. Lavoro ed Extra contano sempre.</p>
+
+      <h3>Note</h3>
+      <p>Scrivi nel campo sotto la riga di stato e premi A capo. La nota viene salvata sul blocco in corso, e puoi aggiungerne quante vuoi. Se non c'è nulla in corso, la nota va sull'ultimo blocco di oggi, così puoi comunque annotare ciò che hai appena finito.</p>
+
+      <h3>Timer rimasti attivi</h3>
+      <p>Un timer ancora attivo a mezzanotte viene tagliato lì e prosegue nel nuovo giorno, così ogni giorno conserva le proprie ore. Il pannello te lo segnala con “In corso dalle…” e dopo dieci ore ricevi la notifica “Stai ancora registrando?”. Modifica o disattiva il promemoria in Impostazioni → Registrazione.</p>
+    </section>
+
+    <section id="clients">
+      <h2>Clienti</h2>
+      <p>Se lavori per più clienti, Outatime può tenere separate le loro ore. Aggiungi i clienti in Impostazioni → Clienti. Nel pannello del menu compare quindi un selettore dei clienti.</p>
+      <ul>
+        <li><strong>Scegli un cliente</strong> e Lavoro, Extra e Trasferta vengono registrati per lui. Pausa, Pranzo e Fuori sede non appartengono mai a un cliente.</li>
+        <li><strong>Cambia cliente</strong> mentre lavori e il blocco finisce in quel punto; ne parte uno nuovo per il nuovo cliente. Se cambi entro il primo minuto, Outatime lo considera una correzione e rinomina il blocco.</li>
+        <li><strong>Rimuovi un cliente</strong> e sparisce dal selettore, ma i suoi blocchi passati mantengono il nome e puoi ancora esportarne il mese.</li>
+      </ul>
+      <p>Nel Diario ogni blocco mostra il suo cliente (“Lavoro · Acme”) e puoi cambiarlo nell'editor del blocco.</p>
+    </section>
+
+    <section id="target">
+      <h2>Il tuo obiettivo giornaliero</h2>
+      <p>Imposta quante ore al giorno vuoi lavorare in Impostazioni → Registrazione. Outatime confronta con l'obiettivo ciò che hai fatto ovunque: nel pannello del menu, nel Diario e nei report. Un numero verde è tempo in anticipo, uno rosso è tempo in ritardo.</p>
+      <ul>
+        <li><strong>Weekend e giorni liberi non richiedono ore.</strong> Segna un giorno libero con il pulsante a ombrello nella barra strumenti del Diario.</li>
+        <li><strong>Oggi non appare mai in rosso come ritardo.</strong> La giornata non è ancora finita.</li>
+        <li><strong>La banca ore</strong> somma il saldo di ogni giorno a partire da una data che scegli tu, utile se le tue ore vengono conteggiate ogni trimestre o anno.</li>
+      </ul>
+      <h3>Extra dopo l'obiettivo</h3>
+      <p>Quando le ore di oggi raggiungono l'obiettivo, un blocco Lavoro in corso passa da solo a Extra, tagliato al minuto esatto in cui ci sei arrivato, e ricevi una notifica. Nei weekend e nei giorni liberi tutto il lavoro è Extra. Disattiva l'opzione in Impostazioni → Registrazione se preferisci cambiare a mano.</p>
+    </section>
+
+    <section id="logbook">
+      <h2>Il Diario</h2>
+      <p>Aprilo dal pannello del menu. La barra laterale elenca il mese giorno per giorno, con le ore di ogni giorno, una barra di come è stato composto, il saldo del mese e il totale di ogni settimana. Scegli un giorno per vederlo come timeline.</p>
+
+      <figure>
+        <div class="day" aria-hidden="true">
+          <div class="h" style="top:12px"><span>9</span></div>
+          <div class="h" style="top:96px"><span>10</span></div>
+          <div class="h" style="top:180px"><span>11</span></div>
+          <div class="h" style="top:264px"><span>12</span></div>
+          <div class="b" style="--c:var(--work);top:12px;height:140px"><strong>Lavoro · Acme</strong><small>09:00 – 10:40 · Revisione API</small><span class="grip" style="bottom:3px"></span></div>
+          <span class="pin" data-n="1" style="right:8px;top:30px"></span>
+          <div class="b short" style="--c:var(--break);top:152px;height:21px"><strong>Pausa</strong><small>10:40 – 10:55</small></div>
+          <span class="pin" data-n="2" style="right:8px;top:152px"></span>
+          <div class="b" style="--c:var(--work);top:173px;height:105px"><strong>Lavoro · Globex</strong><small>10:55 – 12:10</small></div>
+          <span class="pin" data-n="3" style="right:8px;top:200px"></span>
+          <div class="b" style="--c:var(--lunch);top:278px;height:80px"><strong>Pranzo</strong><small>12:10 – 13:00</small></div>
+        </div>
+        <ol class="callouts">
+          <li>Trascina un blocco per spostarlo, o il suo bordo superiore o inferiore per ridimensionarlo.</li>
+          <li>Fai doppio clic dentro un blocco per inserirvi una pausa di 15 minuti.</li>
+          <li>Fai clic su un blocco per modificarlo: attività, cliente, orari, note.</li>
+        </ol>
+      </figure>
+
+      <h3>Modificare i blocchi</h3>
+      <ul>
+        <li>I blocchi si agganciano a passi di cinque minuti e ai bordi dei blocchi vicini. I blocchi che si toccano si spostano insieme: trascina un bordo in comune e cambiano entrambi.</li>
+        <li>Fai doppio clic in uno spazio vuoto, o usa il pulsante + nella barra strumenti, per aggiungere un blocco. È un'ora di Lavoro e si ferma al blocco successivo invece di sovrapporsi.</li>
+        <li>Nell'editor, <kbd>⌥ Return</kbd> inizia una nuova riga di note, e il controllo della durata sposta la fine a passi di cinque minuti.</li>
+        <li>Elimina un blocco dal suo editor.</li>
+      </ul>
+
+      <h3>Modelli</h3>
+      <p>Se le tue giornate tendono a somigliarsi, preparane una nel Diario, poi scegli Modelli → Salva giorno come modello. Applicalo a qualsiasi altro giorno dallo stesso menu. Se applichi un modello a un giorno che ha già dei blocchi, Outatime chiede conferma prima di sostituirli.</p>
+
+      <h3>Spostarsi</h3>
+      <p>Usa le frecce nella barra strumenti oppure <kbd>⌘ [</kbd> e <kbd>⌘ ]</kbd> per spostarti di un giorno alla volta, e <kbd>⌘ T</kbd> per tornare a oggi. Ingrandisci o riduci la timeline con <kbd>⌘ −</kbd> e <kbd>⌘ =</kbd>.</p>
+    </section>
+
+    <section id="focus">
+      <h2>Concentrazione e pause</h2>
+      <h3>Timer Pomodoro</h3>
+      <p>Fai clic sul pulsante del timer in cima al pannello del menu per attivarlo. Avvia Lavoro ed esegue round di concentrazione di 25 minuti con pause di 5 minuti, e una pausa di 15 minuti ogni quattro round. La barra dei menu mostra il conto alla rovescia del round.</p>
+      <p>Alla fine di un round, una notifica propone <strong>Inizia pausa</strong> o <strong>Torna al lavoro</strong> e cambia attività al posto tuo. Pranzo, Trasferta e Fuori sede lo mettono in pausa finché non torni. Modifica le durate in Impostazioni → Timer Pomodoro.</p>
+      <h3>Promemoria stretching</h3>
+      <p>Dopo 50 minuti ininterrotti di Lavoro o Extra, Outatime ti invita ad alzarti. Cambiare cliente non lo azzera; una pausa sì. Resta in silenzio mentre il timer Pomodoro è attivo, perché le sue pause ti fanno già muovere. Modifica l'intervallo o disattivalo in Impostazioni → Registrazione.</p>
+    </section>
+
+    <section id="reports">
+      <h2>Report</h2>
+      <p>Esporta dal pannello del menu per il mese in corso, oppure dalla barra strumenti del Diario per il mese che stai guardando.</p>
+      <table>
+        <thead><tr><th>Esportazione</th><th>Cosa contiene</th></tr></thead>
+        <tbody>
+          <tr><td>Report mensile</td><td>Una cartella di lavoro Excel: un riepilogo con una riga per giorno e il relativo saldo, le ore per cliente e tutti i blocchi.</td></tr>
+          <tr><td>Report cliente</td><td>Il mese di un cliente per la fatturazione: le sue ore per giorno e i blocchi corrispondenti, senza obiettivi né saldi.</td></tr>
+          <tr><td>Cartella principale</td><td>Tutto da quando hai iniziato, con in apertura una dashboard di ore, saldo e attività per mese.</td></tr>
+          <tr><td>Riepilogo giornaliero</td><td>Un CSV con una riga per giorno, per Numbers, Notion o qualsiasi altra app.</td></tr>
+          <tr><td>Voci</td><td>Un CSV con tutti i blocchi del mese.</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><p>Le righe del report mensile si possono incollare sotto le tabelle della cartella principale, e la sua dashboard le include. Se la tua cartella principale è stata creata prima della versione 1.2, esportane prima una nuova: ora i blocchi hanno una colonna Cliente.</p></div>
+    </section>
+
+    <section id="settings">
+      <h2>Impostazioni</h2>
+      <p>Apri Impostazioni dal menu ••• nel pannello del menu, oppure premi <kbd>⌘ ,</kbd> mentre il pannello è aperto.</p>
+      <table>
+        <tbody>
+          <tr><td><strong>Generali</strong></td><td>Chiaro o scuro, lingua (English, Español, Português, Français, Deutsch, Italiano, 日本語, 简体中文), cosa mostra la barra dei menu, l'icona colorata nella barra dei menu, Apri al login e aggiornamenti.</td></tr>
+          <tr><td><strong>Registrazione</strong></td><td>L'obiettivo giornaliero, cosa conta per raggiungerlo, la banca ore, Extra dopo l'obiettivo, promemoria e abbreviazioni globali.</td></tr>
+          <tr><td><strong>Clienti</strong></td><td>Aggiungi, rinomina e rimuovi clienti.</td></tr>
+          <tr><td><strong>Timer Pomodoro</strong></td><td>Durata della concentrazione, della pausa breve e della pausa lunga.</td></tr>
+        </tbody>
+      </table>
+      <h3>Cosa mostra la barra dei menu</h3>
+      <p>L'icona dell'attività in corso e da quanto tempo è attiva, solo l'icona, solo il tempo, oppure quanto manca a oggi per raggiungere l'obiettivo. L'icona prende il colore dell'attività, a meno che tu non disattivi le icone colorate.</p>
+    </section>
+
+    <section id="updates">
+      <h2>Aggiornamenti</h2>
+      <p>Outatime cerca da solo le nuove versioni e le installa al posto di quella attuale; non dovrai più tornare alla pagina di download. Per controllare subito, usa Impostazioni → Generali → Verifica aggiornamenti. Dopo un aggiornamento, una finestra Novità elenca le modifiche.</p>
+      <h3>Versioni beta</h3>
+      <p>Attiva <strong>Ricevi versioni beta</strong> in Impostazioni → Generali per ricevere le versioni preliminari della prossima release. Potrebbero non essere del tutto rifinite. Se la disattivi, tornerai alle versioni normali con la prossima release.</p>
+    </section>
+
+    <section id="data">
+      <h2>I tuoi dati</h2>
+      <p>Tutto ciò che Outatime sa si trova in un unico file sul tuo Mac. Non viene inviato nulla da nessuna parte; Outatime va online solo per verificare la presenza di aggiornamenti.</p>
+      <p><code>~/Library/Containers/com.dbarkan.Outatime/Data/Library/Application Support/Outatime/data.json</code></p>
+      <p>Copialo per fare un backup della tua cronologia. Se il file non dovesse essere leggibile, Outatime lo mette da parte accanto all'originale, con il nome <code>data.json.broken-</code> seguito da un numero, e riparte da zero invece di sovrascriverlo.</p>
+    </section>
+
+    <section id="shortcuts">
+      <h2>Abbreviazioni da tastiera</h2>
+      <table>
+        <thead><tr><th>Tasti</th><th>Funzione</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>⌃ ⌥ ⌘ W</kbd></td><td>Avvia o ferma Lavoro, da qualsiasi app</td></tr>
+          <tr><td><kbd>⌃ ⌥ ⌘ B</kbd></td><td>Avvia o ferma Pausa, da qualsiasi app</td></tr>
+          <tr><td><kbd>⌘ [</kbd> <kbd>⌘ ]</kbd></td><td>Giorno precedente o successivo nel Diario</td></tr>
+          <tr><td><kbd>⌘ T</kbd></td><td>Oggi nel Diario</td></tr>
+          <tr><td><kbd>⌘ −</kbd> <kbd>⌘ =</kbd></td><td>Ingrandisci o riduci la timeline del Diario</td></tr>
+          <tr><td><kbd>⌘ ,</kbd></td><td>Impostazioni, dal pannello del menu</td></tr>
+          <tr><td><kbd>⌘ Q</kbd></td><td>Esci, dal pannello del menu</td></tr>
+        </tbody>
+      </table>
+      <p>Le abbreviazioni globali si possono disattivare in Impostazioni → Registrazione se entrano in conflitto con un'altra app.</p>
+    </section>
+
+    <section id="help">
+      <h2>Quando qualcosa non va</h2>
+      <h3>Non arriva nessuna notifica</h3>
+      <p>Apri Impostazioni di Sistema → Notifiche → Outatime e consenti le notifiche. Il timer Pomodoro, i promemoria e “Obiettivo giornaliero raggiunto” dipendono tutti da queste.</p>
+      <h3>Non vedo l'orologio nella barra dei menu</h3>
+      <p>Se la barra dei menu è affollata, macOS nasconde gli elementi che non ci stanno, soprattutto accanto alla tacca della fotocamera. Esci da un'app che non ti serve nella barra dei menu, oppure tieni premuto <kbd>⌘</kbd> e trascina l'orologio più a destra.</p>
+      <h3>Un giorno ha le ore sbagliate</h3>
+      <p>Aprilo nel Diario e correggi i blocchi: trascinali, ridimensionali o fai clic su uno per inserire gli orari esatti. Saldi e report si aggiornano subito.</p>
+      <h3>Altri problemi</h3>
+      <p><a href="https://github.com/mrbarkan/Outatime/issues">Apri una segnalazione su GitHub</a> e descrivi cosa è successo.</p>
+    </section>
+  </main>
+</div>
+
+<footer class="foot-page">
+  <span>Outatime è gratuito e open source, con licenza MIT.</span>
+  <a href="https://github.com/mrbarkan/Outatime">Codice sorgente su GitHub</a>
+  <a href="https://github.com/mrbarkan/Outatime/releases/latest">Download</a>
+</footer>
+
+</body>
+</html>

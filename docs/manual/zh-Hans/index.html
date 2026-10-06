@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Outatime 手册</title>
+<meta name="description" content="如何使用 Outatime 记录你的一天。Outatime 是一款 macOS 菜单栏计时工具。">
+<link rel="icon" href="../icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&family=Big+Shoulders+Display:wght@600;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../manual.css">
+<link rel="alternate" hreflang="en" href="https://mrbarkan.github.io/Outatime/manual/">
+<link rel="alternate" hreflang="es" href="https://mrbarkan.github.io/Outatime/manual/es/">
+<link rel="alternate" hreflang="pt-BR" href="https://mrbarkan.github.io/Outatime/manual/pt-BR/">
+<link rel="alternate" hreflang="fr" href="https://mrbarkan.github.io/Outatime/manual/fr/">
+<link rel="alternate" hreflang="de" href="https://mrbarkan.github.io/Outatime/manual/de/">
+<link rel="alternate" hreflang="it" href="https://mrbarkan.github.io/Outatime/manual/it/">
+<link rel="alternate" hreflang="ja" href="https://mrbarkan.github.io/Outatime/manual/ja/">
+<link rel="alternate" hreflang="zh-Hans" href="https://mrbarkan.github.io/Outatime/manual/zh-Hans/">
+<link rel="alternate" hreflang="x-default" href="https://mrbarkan.github.io/Outatime/manual/">
+<script src="../manual.js"></script>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-top">
+    <img src="../icon.png" alt="" width="84" height="84">
+    <h1>Outatime</h1>
+    <select class="lang" aria-label="语言"></select>
+  </div>
+  <p class="lede"><strong>使用手册。</strong>Outatime 的全部功能，从在菜单栏中的第一次点按，到月底发给客户的报告。</p>
+
+  <figure class="ribbon" aria-label="一天的示例：九点开始工作，中间喝杯咖啡休息一下，十二点半吃午餐，接着继续工作，晚上再加班几个小时。">
+    <div class="ribbon-track" id="ribbon" data-labels='{"work": "工作", "lunch": "午餐", "travel": "出差", "extra": "加班"}'></div>
+    <div class="ribbon-scale" id="scale" aria-hidden="true"></div>
+    <figcaption class="ribbon-caption">Outatime 中的一天：每个时段代表一项活动的一段连续时间，从你开始它的那一刻，到你停止或切换的那一刻。</figcaption>
+  </figure>
+</header>
+
+<div class="page">
+  <nav class="toc" aria-label="目录">
+    <p>目录</p>
+    <ol id="toc"></ol>
+  </nav>
+
+  <main>
+    <details class="toc-mobile"><summary>目录</summary><ol id="toc-mobile"></ol><select class="lang" aria-label="语言"></select></details>
+
+    <section id="start">
+      <h2>开始使用</h2>
+      <p>下载 <code>Outatime.dmg</code>（位于<a href="https://github.com/mrbarkan/Outatime/releases/latest">最新版本</a>页面），将 Outatime 拖到“应用程序”文件夹，然后打开它。需要 macOS 26 Tahoe 或更高版本。</p>
+      <p>Outatime 没有程序坞图标，也没有主窗口。它以一个小时钟的形式待在菜单栏中。点按时钟即可打开菜单面板，所有记录都在这里完成。</p>
+      <p>如果想让它每天早上都准备就绪，请在“设置”→“通用”中打开<strong>登录时打开</strong>。</p>
+      <div class="note"><p>macOS 询问时，请允许通知。番茄钟、伸展提醒和“达到目标”消息都会以通知的形式出现。</p></div>
+    </section>
+
+    <section id="tracking">
+      <h2>记录时间</h2>
+      <p>点按一项活动即可开始记录，再次点按即可停止。点按另一项活动会在同一时刻停止当前活动并开始新活动，因此你的一天不会出现意料之外的空档。</p>
+
+      <figure>
+        <div class="panel-wrap">
+          <div class="panel" aria-hidden="true">
+            <span class="pin" data-n="1" style="left:-11px;top:10px"></span>
+            <div class="row status"><i class="dot" style="--c:var(--work)"></i> 工作 <small>· Acme</small><span class="t">1:42:10</span></div>
+            <span class="pin" data-n="2" style="left:-11px;top:52px"></span>
+            <div class="field">你正在做什么？</div>
+            <span class="pin" data-n="3" style="left:-11px;top:88px"></span>
+            <div class="seg"><span>无客户</span><span class="on">Acme</span><span>Globex</span></div>
+            <span class="pin" data-n="4" style="left:-11px;top:150px"></span>
+            <div class="tiles">
+              <div class="tile on" style="--c:var(--work)"><i></i>工作</div>
+              <div class="tile" style="--c:var(--break)"><i></i>休息</div>
+              <div class="tile" style="--c:var(--lunch)"><i></i>午餐</div>
+              <div class="tile" style="--c:var(--extra)"><i></i>加班</div>
+              <div class="tile" style="--c:var(--travel)"><i></i>出差</div>
+              <div class="tile" style="--c:var(--ooo)"><i></i>外出</div>
+            </div>
+            <span class="pin" data-n="5" style="left:-11px;bottom:62px"></span>
+            <div class="totals">
+              <span>今天</span><b>6h 12m</b><span class="today">−1h 48m</span>
+              <span>本周</span><b>30h 40m</b><span class="plus">+0h 40m</span>
+              <span>本月</span><b>36h 52m</b><span class="plus">+0h 52m</span>
+            </div>
+            <span class="pin" data-n="6" style="left:-11px;bottom:6px"></span>
+            <div class="foot"><span>日志</span><span>导出</span><span>•••</span></div>
+          </div>
+        </div>
+        <ol class="callouts">
+          <li>正在运行的活动、所属客户以及已运行的时长。</li>
+          <li>当前时段的备注，例如工单或任务。</li>
+          <li>新工作计入的客户。添加客户后才会显示。</li>
+          <li>六项活动。正在运行的那一项会填充显示。</li>
+          <li>今天、本周和本月与目标的对比。</li>
+          <li>日志、导出，以及包含“设置”和“退出”的菜单。</li>
+        </ol>
+      </figure>
+
+      <h3>六项活动</h3>
+      <table>
+        <thead><tr><th>活动</th><th>用途</th><th>是否计入目标</th></tr></thead>
+        <tbody>
+          <tr><td><span class="swatch" style="--c:var(--work)"></span>工作</td><td>正常工作时间。</td><td>始终计入</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--break)"></span>休息</td><td>喝咖啡、散散步、短暂停歇。</td><td>默认计入</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--lunch)"></span>午餐</td><td>用餐时间。</td><td>打开后计入</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--extra)"></span>加班</td><td>超出每日目标的时间，以及周末和休息日的工作。</td><td>始终计入</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--travel)"></span>出差</td><td>前往客户处或现场的路上。</td><td>默认计入</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--ooo)"></span>外出</td><td>白天的预约和私事。</td><td>默认计入</td></tr>
+        </tbody>
+      </table>
+      <p>在“设置”→“记录”中选择计入哪些活动。工作和加班始终计入。</p>
+
+      <h3>备注</h3>
+      <p>在状态行下方的输入框中输入内容，然后按下 Return 键。备注会存储在当前运行的时段上，数量不限。没有活动在运行时，备注会添加到今天的最后一个时段，方便你随手记下刚完成的事情。</p>
+
+      <h3>未停止的计时器</h3>
+      <p>午夜时仍在运行的计时器会在零点被切开，并在新的一天继续运行，因此每一天都保留各自的时长。面板会显示“自…起运行中”提醒你；运行超过十小时后，你会收到“仍在记录吗？”通知。可在“设置”→“记录”中更改或关闭此提醒。</p>
+    </section>
+
+    <section id="clients">
+      <h2>客户</h2>
+      <p>如果你同时为多个客户工作，Outatime 可以分别记录他们的工时。在“设置”→“客户”中添加客户后，菜单面板中就会出现客户选择器。</p>
+      <ul>
+        <li><strong>选择客户</strong>后，工作、加班和出差都会计入该客户。休息、午餐和外出从不属于任何客户。</li>
+        <li>工作时<strong>切换客户</strong>，当前时段会在此刻结束，并为新客户开始一个新时段。如果在第一分钟内切换，Outatime 会将其视为更正，直接更改该时段的客户。</li>
+        <li><strong>移除客户</strong>后，该客户会从选择器中消失，但过去的时段仍保留其名称，你也仍可导出其月度数据。</li>
+      </ul>
+      <p>在日志中，每个时段都会显示其客户（“工作 · Acme”），你可以在时段编辑器中更改。</p>
+    </section>
+
+    <section id="target">
+      <h2>每日目标</h2>
+      <p>在“设置”→“记录”中设定你每天计划工作的小时数。Outatime 会在各处将你完成的时长与目标进行对比：菜单面板、日志和报告中都有。绿色数字表示超前，红色数字表示落后。</p>
+      <ul>
+        <li><strong>周末和休息日没有应工作时长。</strong>使用日志工具栏中的雨伞按钮标记休息日。</li>
+        <li><strong>今天永远不会以红色显示为落后。</strong>因为这一天还没有结束。</li>
+        <li><strong>工时结余</strong>会累计从你选定的日期起每一天的结余，适合按季度或按年度结算工时的情况。</li>
+      </ul>
+      <h3>达标后计为加班</h3>
+      <p>当今天的时长达到目标时，正在运行的工作时段会自动切换为加班，切换点精确到达标的那一分钟，同时你会收到通知。在周末和休息日，所有工作都计为加班。如果你更喜欢手动切换，可在“设置”→“记录”中关闭此功能。</p>
+    </section>
+
+    <section id="logbook">
+      <h2>日志</h2>
+      <p>从菜单面板打开日志。边栏按天列出整个月，显示每天的时长、一条显示当天构成的条形图、当月结余以及每周合计。选择某一天即可以时间线方式查看。</p>
+
+      <figure>
+        <div class="day" aria-hidden="true">
+          <div class="h" style="top:12px"><span>9</span></div>
+          <div class="h" style="top:96px"><span>10</span></div>
+          <div class="h" style="top:180px"><span>11</span></div>
+          <div class="h" style="top:264px"><span>12</span></div>
+          <div class="b" style="--c:var(--work);top:12px;height:140px"><strong>工作 · Acme</strong><small>09:00 – 10:40 · API 评审</small><span class="grip" style="bottom:3px"></span></div>
+          <span class="pin" data-n="1" style="right:8px;top:30px"></span>
+          <div class="b short" style="--c:var(--break);top:152px;height:21px"><strong>休息</strong><small>10:40 – 10:55</small></div>
+          <span class="pin" data-n="2" style="right:8px;top:152px"></span>
+          <div class="b" style="--c:var(--work);top:173px;height:105px"><strong>工作 · Globex</strong><small>10:55 – 12:10</small></div>
+          <span class="pin" data-n="3" style="right:8px;top:200px"></span>
+          <div class="b" style="--c:var(--lunch);top:278px;height:80px"><strong>午餐</strong><small>12:10 – 13:00</small></div>
+        </div>
+        <ol class="callouts">
+          <li>拖移时段可移动它，拖移其上边缘或下边缘可调整长短。</li>
+          <li>在时段内连按两次，可从中切出 15 分钟的休息。</li>
+          <li>点按时段即可编辑：活动、客户、时间、备注。</li>
+        </ol>
+      </figure>
+
+      <h3>编辑时段</h3>
+      <ul>
+        <li>时段会以五分钟为单位对齐，并吸附到相邻时段的边缘。相接的时段会一起移动：拖移共用的边缘，两个时段都会改变。</li>
+        <li>在空白处连按两次，或使用工具栏中的 + 按钮，即可添加时段。新时段为一小时的工作，遇到下一个时段时会停止，不会与之重叠。</li>
+        <li>在编辑器中，按 <kbd>⌥ Return</kbd> 可在备注中换行；时长步进器以五分钟为单位调整结束时间。</li>
+        <li>在时段的编辑器中可删除该时段。</li>
+      </ul>
+
+      <h3>模板</h3>
+      <p>如果你的每一天大同小异，可以先在日志中安排好一天，然后选取“模板”→“将这一天存储为模板”。之后可从同一菜单将其应用到其他任意一天。如果目标日期已有时段，应用模板前会先询问是否替换。</p>
+
+      <h3>浏览</h3>
+      <p>使用工具栏中的箭头或 <kbd>⌘ [</kbd> 和 <kbd>⌘ ]</kbd> 逐日前后移动，按 <kbd>⌘ T</kbd> 回到今天。使用 <kbd>⌘ −</kbd> 和 <kbd>⌘ =</kbd> 缩放时间线。</p>
+    </section>
+
+    <section id="focus">
+      <h2>专注与休息</h2>
+      <h3>番茄钟</h3>
+      <p>点按菜单面板顶部的计时器按钮即可打开番茄钟。它会开始记录工作，以 25 分钟专注、5 分钟休息为一轮，每四轮后休息 15 分钟。菜单栏会显示本轮的倒计时。</p>
+      <p>一轮结束时，通知会提供<strong>开始休息</strong>或<strong>回到工作</strong>，并替你切换记录。午餐、出差和外出会让番茄钟暂停，直到你回来。可在“设置”→“番茄钟”中更改各项时长。</p>
+      <h3>伸展提醒</h3>
+      <p>连续工作或加班 50 分钟后，Outatime 会提醒你起身活动。切换客户不会重置计时，休息才会。番茄钟打开时它不会打扰你，因为番茄钟的休息已经让你动起来了。可在“设置”→“记录”中更改间隔或将其关闭。</p>
+    </section>
+
+    <section id="reports">
+      <h2>报告</h2>
+      <p>从菜单面板导出当前月份，或从日志工具栏导出你正在查看的月份。</p>
+      <table>
+        <thead><tr><th>导出</th><th>包含内容</th></tr></thead>
+        <tbody>
+          <tr><td>月度报告</td><td>一个 Excel 工作簿：包含每天一行及其结余的汇总、每个客户的时长，以及所有时段。</td></tr>
+          <tr><td>客户报告</td><td>用于开票的单个客户月度数据：该客户每天的时长及对应的时段，不含目标和结余。</td></tr>
+          <tr><td>主工作簿</td><td>自你开始使用以来的全部数据，打开后首先显示按月汇总时长、结余和活动的仪表板。</td></tr>
+          <tr><td>每日汇总</td><td>每天一行的 CSV，可用于 Numbers、Notion 或其他任何工具。</td></tr>
+          <tr><td>记录</td><td>包含当月所有时段的 CSV。</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><p>月度报告中的行可以粘贴到主工作簿的表格下方，仪表板会自动纳入这些数据。如果你的主工作簿是在 1.2 版之前创建的，请先重新导出一份：时段现在多了“客户”列。</p></div>
+    </section>
+
+    <section id="settings">
+      <h2>设置</h2>
+      <p>从菜单面板中的 ••• 菜单打开“设置”，或在面板打开时按下 <kbd>⌘ ,</kbd>。</p>
+      <table>
+        <tbody>
+          <tr><td><strong>通用</strong></td><td>浅色或深色外观、语言（English、Español、Português、Français、Deutsch、Italiano、日本語、简体中文）、菜单栏显示内容、彩色菜单栏图标、登录时打开，以及更新。</td></tr>
+          <tr><td><strong>记录</strong></td><td>每日目标、计入目标的活动、工时结余、达标后计为加班、提醒和全局快捷键。</td></tr>
+          <tr><td><strong>客户</strong></td><td>添加、重命名和移除客户。</td></tr>
+          <tr><td><strong>番茄钟</strong></td><td>专注、短休息和长休息的时长。</td></tr>
+        </tbody>
+      </table>
+      <h3>菜单栏显示内容</h3>
+      <p>可以显示正在运行的活动图标及其已运行时长，或仅显示图标，或仅显示时间，或显示今天距离目标还差多少。图标会采用活动的颜色，除非你关闭彩色图标。</p>
+    </section>
+
+    <section id="updates">
+      <h2>更新</h2>
+      <p>Outatime 会自动检查新版本并直接安装，你无需再访问下载页面。如需立即检查，请前往“设置”→“通用”→“检查更新”。更新后，“新功能”窗口会列出更改内容。</p>
+      <h3>Beta 版更新</h3>
+      <p>在“设置”→“通用”中打开<strong>获取 Beta 版更新</strong>，即可收到下一版本的早期构建。它们可能还不够完善。再次关闭后，你会在下一个正式版本发布时回到正式版。</p>
+    </section>
+
+    <section id="data">
+      <h2>你的数据</h2>
+      <p>Outatime 掌握的所有信息都保存在你 Mac 上的一个文件中。不会向任何地方发送数据；Outatime 唯一联网的时候是检查更新。</p>
+      <p><code>~/Library/Containers/com.dbarkan.Outatime/Data/Library/Application Support/Outatime/data.json</code></p>
+      <p>拷贝此文件即可备份你的历史记录。如果文件无法读取，Outatime 会将其另存在原文件旁边，命名为 <code>data.json.broken-</code> 加一个数字，然后重新开始，而不会覆盖它。</p>
+    </section>
+
+    <section id="shortcuts">
+      <h2>键盘快捷键</h2>
+      <table>
+        <thead><tr><th>按键</th><th>作用</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>⌃ ⌥ ⌘ W</kbd></td><td>在任意 App 中开始或停止工作</td></tr>
+          <tr><td><kbd>⌃ ⌥ ⌘ B</kbd></td><td>在任意 App 中开始或停止休息</td></tr>
+          <tr><td><kbd>⌘ [</kbd> <kbd>⌘ ]</kbd></td><td>在日志中前往前一天或后一天</td></tr>
+          <tr><td><kbd>⌘ T</kbd></td><td>在日志中前往今天</td></tr>
+          <tr><td><kbd>⌘ −</kbd> <kbd>⌘ =</kbd></td><td>缩放日志时间线</td></tr>
+          <tr><td><kbd>⌘ ,</kbd></td><td>在菜单面板中打开“设置”</td></tr>
+          <tr><td><kbd>⌘ Q</kbd></td><td>在菜单面板中退出</td></tr>
+        </tbody>
+      </table>
+      <p>如果全局快捷键与其他 App 冲突，可在“设置”→“记录”中将其关闭。</p>
+    </section>
+
+    <section id="help">
+      <h2>遇到问题时</h2>
+      <h3>收不到通知</h3>
+      <p>打开“系统设置”→“通知”→“Outatime”，然后允许通知。番茄钟、各类提醒和“已达到每日目标”都依赖通知。</p>
+      <h3>菜单栏中看不到时钟</h3>
+      <p>菜单栏项目过多时，macOS 会隐藏放不下的项目，尤其是在摄像头所在的刘海旁边。退出一个不需要显示在菜单栏中的 App，或按住 <kbd>⌘</kbd> 将时钟向右拖移。</p>
+      <h3>某一天的时长不对</h3>
+      <p>在日志中打开这一天并修正时段：拖移、调整长短，或点按某个时段输入准确时间。结余和报告会立即更新。</p>
+      <h3>其他问题</h3>
+      <p><a href="https://github.com/mrbarkan/Outatime/issues">在 GitHub 上提交问题</a>，并描述发生了什么。</p>
+    </section>
+  </main>
+</div>
+
+<footer class="foot-page">
+  <span>Outatime 是基于 MIT 许可证的免费开源软件。</span>
+  <a href="https://github.com/mrbarkan/Outatime">GitHub 上的源代码</a>
+  <a href="https://github.com/mrbarkan/Outatime/releases/latest">下载</a>
+</footer>
+
+</body>
+</html>

@@ -427,9 +427,22 @@ nonisolated struct LocalizationTests {
         let root = try #require(try JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
         let strings = try #require(root["strings"] as? [String: [String: Any]])
         #expect(strings.count > 40)
+        let languages = Language.allCases.map(\.rawValue).filter { $0 != "system" && $0 != "en" }
+        #expect(languages.count == 7)
         for (key, entry) in strings where entry["shouldTranslate"] as? Bool != false {
             let locs = entry["localizations"] as? [String: Any] ?? [:]
-            #expect(locs["es"] != nil && locs["pt-BR"] != nil, "missing translation for \(key)")
+            for code in languages { #expect(locs[code] != nil, "missing \(code) translation for \(key)") }
         }
+    }
+
+    /// The manual opens in the app's language; on System, in the first preferred language it has.
+    @Test func manualFollowsLanguage() {
+        let base = "https://mrbarkan.github.io/Outatime/manual/"
+        #expect(Language.en.manualURL().absoluteString == base)
+        #expect(Language.de.manualURL().absoluteString == base + "de/")
+        #expect(Language.system.manualURL(preferred: ["pt-PT", "en"]).absoluteString == base + "pt-BR/")
+        #expect(Language.system.manualURL(preferred: ["zh-Hant-TW"]).absoluteString == base + "zh-Hans/")
+        #expect(Language.system.manualURL(preferred: ["ko-KR", "ja-JP"]).absoluteString == base + "ja/")
+        #expect(Language.system.manualURL(preferred: ["ko-KR"]).absoluteString == base)
     }
 }

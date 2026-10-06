@@ -36,7 +36,7 @@ Most time trackers want a project, a client, a billing rate and an account. Outa
 - **Colored menu bar** — the icon takes the activity's color: blue for Work, green for Break, orange for Lunch…
 - **Day templates** — save a typical day and apply it to any date in one click.
 - **Excel reports** — a monthly report, or a master workbook of everything with a dashboard up front. CSVs too, for Notion or Numbers.
-- **Settings** — light/dark, language (English, Español, Português BR), what the menu bar shows, open at login.
+- **Settings** — light/dark, language (English, Español, Português BR, Français, Deutsch, Italiano, 日本語, 简体中文), what the menu bar shows, open at login.
 - **Updates** — [Sparkle](https://sparkle-project.org): signed updates install themselves, no visit to the download page.
 - **Native** — SwiftUI, Liquid Glass, sandboxed, notarized. No Electron, no accounts, no telemetry.
 

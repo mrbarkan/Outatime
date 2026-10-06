@@ -6,10 +6,34 @@
     },
     "%@ left": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "noch %@"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "quedan %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "reste %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ rimanenti"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "残り%@"
           }
         },
         "pt-BR": {
@@ -17,15 +41,45 @@
             "state": "translated",
             "value": "faltam %@"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "剩余 %@"
+          }
         }
       }
     },
     "%@ over": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ über Ziel"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "%@ de más"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ de plus"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ in più"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@超過"
           }
         },
         "pt-BR": {
@@ -33,15 +87,45 @@
             "state": "translated",
             "value": "%@ a mais"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "超出 %@"
+          }
         }
       }
     },
     "A block of a few minutes no longer covers the title of the one after it.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein Block von wenigen Minuten verdeckt nicht mehr den Titel des nächsten."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Un bloque de pocos minutos ya no tapa el título del siguiente."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un bloc de quelques minutes ne masque plus le titre du suivant."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un blocco di pochi minuti non copre più il titolo di quello successivo."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "数分間のブロックが、次のブロックのタイトルに重ならなくなりました。"
           }
         },
         "pt-BR": {
@@ -49,15 +133,45 @@
             "state": "translated",
             "value": "Um bloco de poucos minutos não cobre mais o título do seguinte."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "几分钟的短时段不再遮挡下一个时段的标题。"
+          }
         }
       }
     },
     "A nudge to get up after every 50 minutes of work. Change it or turn it off in Settings.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein Hinweis, nach je 50 Minuten Arbeit aufzustehen. Ändere oder deaktiviere ihn in den Einstellungen."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Un aviso para levantarte cada 50 minutos de trabajo. Cámbialo o desactívalo en Ajustes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un rappel pour vous lever toutes les 50 minutes de travail. Modifiez-le ou désactivez-le dans les Réglages."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un promemoria per alzarti ogni 50 minuti di lavoro. Modificalo o disattivalo in Impostazioni."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "50分作業するごとに、立ち上がるよう知らせます。設定で変更したりオフにしたりできます。"
           }
         },
         "pt-BR": {
@@ -65,15 +179,45 @@
             "state": "translated",
             "value": "Um lembrete para levantar a cada 50 minutos de trabalho. Altere ou desative nos Ajustes."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每工作 50 分钟提醒你起身活动。可在“设置”中更改或关闭。"
+          }
         }
       }
     },
     "About": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Über"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Acerca de"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À propos"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Info"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "情報"
           }
         },
         "pt-BR": {
@@ -81,15 +225,45 @@
             "state": "translated",
             "value": "Sobre"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关于"
+          }
         }
       }
     },
     "Activity": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktivität"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Actividad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activité"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attività"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクティビティ"
           }
         },
         "pt-BR": {
@@ -97,15 +271,45 @@
             "state": "translated",
             "value": "Atividade"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "活动"
+          }
         }
       }
     },
     "Add": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hinzufügen"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Añadir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aggiungi"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "追加"
           }
         },
         "pt-BR": {
@@ -113,15 +317,45 @@
             "state": "translated",
             "value": "Adicionar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加"
+          }
         }
       }
     },
     "Add Entry": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eintrag hinzufügen"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Agregar registro"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter une entrée"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aggiungi voce"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "項目を追加"
           }
         },
         "pt-BR": {
@@ -129,15 +363,45 @@
             "state": "translated",
             "value": "Adicionar registro"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加记录"
+          }
         }
       }
     },
     "Add a note to the last entry": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notiz zum letzten Eintrag hinzufügen"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Añadir una nota a la última entrada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter une note à la dernière entrée"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aggiungi una nota all'ultima voce"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最後の項目にメモを追加"
           }
         },
         "pt-BR": {
@@ -145,15 +409,45 @@
             "state": "translated",
             "value": "Adicionar uma nota à última entrada"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "为上一条记录添加备注"
+          }
         }
       }
     },
     "Add your clients in Settings and pick one in the menu. Work, Extra and Travel are tracked for it, and switching clients splits the block right there.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Füge deine Kunden in den Einstellungen hinzu und wähle einen im Menü. Arbeit, Extra und Fahrt werden für ihn erfasst, und ein Kundenwechsel teilt den Block genau an dieser Stelle."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Añade tus clientes en Ajustes y elige uno en el menú. Trabajo, Extra y Viaje se registran para él, y cambiar de cliente divide el bloque en ese momento."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajoutez vos clients dans les Réglages et choisissez-en un dans le menu. Travail, Extra et Déplacement sont suivis pour ce client, et changer de client coupe le bloc à cet instant."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aggiungi i tuoi clienti in Impostazioni e scegline uno nel menu. Lavoro, Extra e Trasferta vengono registrati per quel cliente, e cambiando cliente il blocco si divide in quel punto."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定でクライアントを追加し、メニューで1つ選びます。仕事、残業、移動はそのクライアントの分として記録され、クライアントを切り替えるとその時点でブロックが分かれます。"
           }
         },
         "pt-BR": {
@@ -161,15 +455,45 @@
             "state": "translated",
             "value": "Adicione seus clientes nos Ajustes e escolha um no menu. Trabalho, Extra e Deslocamento são registrados para ele, e trocar de cliente divide o bloco na hora."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在“设置”中添加客户，然后在菜单中选择一个。工作、加班和出差会计入该客户，切换客户时会在当时拆分时段。"
+          }
         }
       }
     },
     "Appearance": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erscheinungsbild"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Apariencia"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apparence"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aspetto"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外観"
           }
         },
         "pt-BR": {
@@ -177,15 +501,45 @@
             "state": "translated",
             "value": "Aparência"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外观"
+          }
         }
       }
     },
     "Apply to This Day": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf diesen Tag anwenden"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Aplicar a este día"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appliquer à ce jour"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Applica a questo giorno"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この日に適用"
           }
         },
         "pt-BR": {
@@ -193,15 +547,45 @@
             "state": "translated",
             "value": "Aplicar a este dia"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用到这一天"
+          }
         }
       }
     },
     "Back to Work": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zurück an die Arbeit"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Volver al trabajo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reprendre le travail"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Torna al lavoro"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仕事に戻る"
           }
         },
         "pt-BR": {
@@ -209,31 +593,91 @@
             "state": "translated",
             "value": "Voltar ao trabalho"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回到工作"
+          }
         }
       }
     },
     "Balance %@%@": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saldo %1$@%2$@"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Saldo %1$@%2$@"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solde %@%@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saldo %1$@%2$@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "過不足 %@%@"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
             "value": "Saldo %1$@%2$@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "结余 %1$@%2$@"
           }
         }
       }
     },
     "Break": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Pausa"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausa"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "休憩"
           }
         },
         "pt-BR": {
@@ -241,15 +685,45 @@
             "state": "translated",
             "value": "Pausa"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "休息"
+          }
         }
       }
     },
     "Break's over": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause vorbei"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Se acabó la pausa"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La pause est finie"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausa finita"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "休憩終了"
           }
         },
         "pt-BR": {
@@ -257,15 +731,45 @@
             "state": "translated",
             "value": "Fim da pausa"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "休息结束"
+          }
         }
       }
     },
     "Cancel": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abbrechen"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Cancelar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annulla"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キャンセル"
           }
         },
         "pt-BR": {
@@ -273,15 +777,45 @@
             "state": "translated",
             "value": "Cancelar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
+          }
         }
       }
     },
     "Check for Updates…": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach Updates suchen …"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Buscar actualizaciones…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher les mises à jour…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifica aggiornamenti…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アップデートを確認…"
           }
         },
         "pt-BR": {
@@ -289,31 +823,91 @@
             "state": "translated",
             "value": "Verificar atualizações…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查更新…"
+          }
         }
       }
     },
     "Client": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kunde"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Cliente"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Client"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cliente"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "クライアント"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
             "value": "Cliente"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "客户"
           }
         }
       }
     },
     "Clients": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kunden"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Clientes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clients"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clienti"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "クライアント"
           }
         },
         "pt-BR": {
@@ -321,15 +915,45 @@
             "state": "translated",
             "value": "Clientes"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "客户"
+          }
         }
       }
     },
     "Colored menu bar": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbige Menüleiste"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Barra de menús en color"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barre des menus en couleur"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barra dei menu colorata"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "カラーのメニューバー"
           }
         },
         "pt-BR": {
@@ -337,15 +961,45 @@
             "state": "translated",
             "value": "Barra de menus colorida"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "彩色菜单栏"
+          }
         }
       }
     },
     "Colored menu bar icon": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbiges Menüleistensymbol"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Icono de la barra de menús en color"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Icône en couleur dans la barre des menus"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Icona colorata nella barra dei menu"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メニューバーアイコンをカラー表示"
           }
         },
         "pt-BR": {
@@ -353,15 +1007,45 @@
             "state": "translated",
             "value": "Ícone colorido na barra de menus"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "彩色菜单栏图标"
+          }
         }
       }
     },
     "Continue": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fortfahren"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Continuar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuer"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continua"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "続ける"
           }
         },
         "pt-BR": {
@@ -369,15 +1053,45 @@
             "state": "translated",
             "value": "Continuar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "继续"
+          }
         }
       }
     },
     "Daily Summary CSV…": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tagesübersicht (CSV) …"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "CSV resumen diario…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Résumé quotidien CSV…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CSV riepilogo giornaliero…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日別サマリーCSV…"
           }
         },
         "pt-BR": {
@@ -385,15 +1099,45 @@
             "state": "translated",
             "value": "CSV resumo diário…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每日汇总 CSV…"
+          }
         }
       }
     },
     "Daily target": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tagesziel"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Meta diaria"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objectif quotidien"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obiettivo giornaliero"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1日の目標"
           }
         },
         "pt-BR": {
@@ -401,15 +1145,45 @@
             "state": "translated",
             "value": "Meta diária"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每日目标"
+          }
         }
       }
     },
     "Daily target reached": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tagesziel erreicht"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Meta diaria cumplida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objectif quotidien atteint"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obiettivo giornaliero raggiunto"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1日の目標を達成"
           }
         },
         "pt-BR": {
@@ -417,15 +1191,45 @@
             "state": "translated",
             "value": "Meta diária atingida"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已达到每日目标"
+          }
         }
       }
     },
     "Dark": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dunkel"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Oscuro"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sombre"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scuro"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ダーク"
           }
         },
         "pt-BR": {
@@ -433,15 +1237,45 @@
             "state": "translated",
             "value": "Escuro"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "深色"
+          }
         }
       }
     },
     "Day Off": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Freier Tag"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Día libre"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jour de congé"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giorno libero"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "休日"
           }
         },
         "pt-BR": {
@@ -449,15 +1283,45 @@
             "state": "translated",
             "value": "Folga"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "休息日"
+          }
         }
       }
     },
     "Delete": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Löschen"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Eliminar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elimina"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "削除"
           }
         },
         "pt-BR": {
@@ -465,15 +1329,45 @@
             "state": "translated",
             "value": "Excluir"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除"
+          }
         }
       }
     },
     "Delete Template": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorlage löschen"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Eliminar plantilla"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer le modèle"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elimina modello"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テンプレートを削除"
           }
         },
         "pt-BR": {
@@ -481,15 +1375,45 @@
             "state": "translated",
             "value": "Excluir modelo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除模板"
+          }
         }
       }
     },
     "Double-click to add an entry": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doppelklicken, um einen Eintrag hinzuzufügen"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Haz doble clic para agregar un registro"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Double-cliquez pour ajouter une entrée"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fai doppio clic per aggiungere una voce"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ダブルクリックで項目を追加"
           }
         },
         "pt-BR": {
@@ -497,15 +1421,45 @@
             "state": "translated",
             "value": "Clique duas vezes para adicionar um registro"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连按两次以添加记录"
+          }
         }
       }
     },
     "Duration": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dauer"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Duración"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durée"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durata"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "時間"
           }
         },
         "pt-BR": {
@@ -513,15 +1467,45 @@
             "state": "translated",
             "value": "Duração"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "时长"
+          }
         }
       }
     },
     "Early builds of the next version. They may have rough edges.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frühe Builds der nächsten Version. Sie können noch Ecken und Kanten haben."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Versiones tempranas de la próxima versión. Pueden tener detalles sin pulir."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les premières versions de la prochaine mise à jour. Elles peuvent comporter des imperfections."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versioni preliminari della prossima release. Potrebbero non essere del tutto rifinite."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "次のバージョンの先行ビルドです。不完全な部分があるかもしれません。"
           }
         },
         "pt-BR": {
@@ -529,21 +1513,57 @@
             "state": "translated",
             "value": "Versões antecipadas da próxima versão. Podem ter arestas a aparar."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下一版本的早期构建，可能还不够完善。"
+          }
         }
       }
     },
     "End": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ende"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Fin"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fin"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fine"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "終了"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
             "value": "Fim"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "结束"
           }
         }
       }
@@ -553,16 +1573,46 @@
     },
     "Entries CSV…": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einträge (CSV) …"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "CSV de registros…"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entrées CSV…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CSV delle voci…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "項目CSV…"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
             "value": "CSV de registros…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "记录 CSV…"
           }
         }
       }
@@ -572,10 +1622,34 @@
     },
     "Export": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportieren"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Exportar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exporter"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esporta"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "書き出す"
           }
         },
         "pt-BR": {
@@ -583,15 +1657,45 @@
             "state": "translated",
             "value": "Exportar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导出"
+          }
         }
       }
     },
     "Export a client's month for invoicing from the Export menu. Reports also gain a Client column and a Clients sheet; export a fresh master workbook so new months paste in cleanly.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportiere den Monat eines Kunden zur Abrechnung über das Menü „Exportieren“. Berichte erhalten außerdem eine Spalte „Kunde“ und ein Blatt „Kunden“; exportiere eine neue Gesamtmappe, damit sich neue Monate sauber einfügen lassen."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Exporta el mes de un cliente para facturar desde el menú Exportar. Los informes ganan además una columna Cliente y una hoja Clientes; exporta un libro maestro nuevo para que los meses nuevos se peguen bien."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportez le mois d’un client pour le facturer depuis le menu Exporter. Les rapports gagnent aussi une colonne Client et une feuille Clients ; exportez un nouveau classeur principal pour que les nouveaux mois s’y collent proprement."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esporta il mese di un cliente per la fatturazione dal menu Esporta. I report ora hanno anche una colonna Cliente e un foglio Clienti; esporta una nuova cartella principale così i nuovi mesi si incollano senza problemi."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「書き出す」メニューから、請求用にクライアントの1か月分を書き出せます。レポートにはクライアント列とクライアントシートも加わりました。新しい月をきれいに貼り付けられるよう、マスターブックを新たに書き出してください。"
           }
         },
         "pt-BR": {
@@ -599,15 +1703,45 @@
             "state": "translated",
             "value": "Exporte o mês de um cliente para faturar pelo menu Exportar. Os relatórios também ganham uma coluna Cliente e uma planilha Clientes; exporte uma pasta de trabalho mestre nova para que os novos meses sejam colados certinho."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从“导出”菜单导出某个客户的月度数据用于开票。报告还新增了“客户”列和“客户”工作表；请重新导出主工作簿，以便顺利粘贴新月份。"
+          }
         }
       }
     },
     "Extra": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Extra"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "残業"
           }
         },
         "pt-BR": {
@@ -615,15 +1749,45 @@
             "state": "translated",
             "value": "Extra"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加班"
+          }
         }
       }
     },
     "Extra after the target": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra nach dem Ziel"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Extra después de la meta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra après l’objectif"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra dopo l'obiettivo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目標達成後は残業"
           }
         },
         "pt-BR": {
@@ -631,15 +1795,45 @@
             "state": "translated",
             "value": "Extra após a meta"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "达标后计为加班"
+          }
         }
       }
     },
     "Fixed": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Behoben"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Corregido"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Corrigé"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Risolto"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修正"
           }
         },
         "pt-BR": {
@@ -647,15 +1841,45 @@
             "state": "translated",
             "value": "Corrigido"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已修复"
+          }
         }
       }
     },
     "Focus %lld min": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fokus %lld Min."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Enfoque %lld min"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Concentration %lld min"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Concentrazione %lld min"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "集中 %lld分"
           }
         },
         "pt-BR": {
@@ -663,15 +1887,45 @@
             "state": "translated",
             "value": "Foco %lld min"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "专注 %lld 分钟"
+          }
         }
       }
     },
     "General": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allgemein"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "General"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Général"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Generali"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一般"
           }
         },
         "pt-BR": {
@@ -679,15 +1933,45 @@
             "state": "translated",
             "value": "Geral"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通用"
+          }
         }
       }
     },
     "Get beta updates": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beta-Updates erhalten"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Recibir versiones beta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recevoir les versions bêta"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ricevi versioni beta"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ベータ版のアップデートを受け取る"
           }
         },
         "pt-BR": {
@@ -695,15 +1979,45 @@
             "state": "translated",
             "value": "Receber versões beta"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "获取 Beta 版更新"
+          }
         }
       }
     },
     "Global shortcuts": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Globale Kurzbefehle"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Atajos globales"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raccourcis globaux"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abbreviazioni globali"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "グローバルショートカット"
           }
         },
         "pt-BR": {
@@ -711,15 +2025,45 @@
             "state": "translated",
             "value": "Atalhos globais"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全局快捷键"
+          }
         }
       }
     },
     "Hours bank since": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stundenkonto seit"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Banco de horas desde"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cumul d’heures depuis"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Banca ore dal"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "時間バンクの起算日"
           }
         },
         "pt-BR": {
@@ -727,15 +2071,45 @@
             "state": "translated",
             "value": "Banco de horas desde"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工时结余起算日"
+          }
         }
       }
     },
     "Icon and time": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Symbol und Zeit"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Icono y tiempo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Icône et durée"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Icona e tempo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アイコンと時間"
           }
         },
         "pt-BR": {
@@ -743,15 +2117,45 @@
             "state": "translated",
             "value": "Ícone e tempo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图标和时间"
+          }
         }
       }
     },
     "Icon only": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nur Symbol"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Solo icono"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Icône seule"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solo icona"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アイコンのみ"
           }
         },
         "pt-BR": {
@@ -759,15 +2163,45 @@
             "state": "translated",
             "value": "Só ícone"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅图标"
+          }
         }
       }
     },
     "It opened empty after the last update. It now lists what changed, including everything new in 1.1.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach dem letzten Update war es leer. Jetzt zeigt es, was sich geändert hat, auch alles Neue aus 1.1."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Se abría vacía tras la última actualización. Ahora muestra los cambios, incluido todo lo nuevo de la 1.1."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elle s’ouvrait vide après la dernière mise à jour. Elle liste désormais les changements, y compris toutes les nouveautés de la 1.1."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dopo l'ultimo aggiornamento si apriva vuota. Ora elenca le modifiche, comprese tutte le novità della 1.1."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前回のアップデート後、空のまま開いていました。現在は変更点が表示され、1.1の新機能もすべて確認できます。"
           }
         },
         "pt-BR": {
@@ -775,31 +2209,91 @@
             "state": "translated",
             "value": "Abria vazia após a última atualização. Agora mostra o que mudou, incluindo tudo o que chegou na 1.1."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上次更新后，此窗口打开时为空白。现在它会列出更改内容，包括 1.1 版的所有新功能。"
+          }
         }
       }
     },
     "Language": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sprache"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Idioma"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Langue"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lingua"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "言語"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
             "value": "Idioma"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语言"
           }
         }
       }
     },
     "Light": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hell"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Claro"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clair"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chiaro"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ライト"
           }
         },
         "pt-BR": {
@@ -807,15 +2301,45 @@
             "state": "translated",
             "value": "Claro"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "浅色"
+          }
         }
       }
     },
     "Logbook": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Logbuch"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Bitácora"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journal"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diario"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日誌"
           }
         },
         "pt-BR": {
@@ -823,15 +2347,45 @@
             "state": "translated",
             "value": "Diário de bordo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日志"
+          }
         }
       }
     },
     "Long break": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lange Pause"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Pausa larga"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause longue"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausa lunga"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "長い休憩"
           }
         },
         "pt-BR": {
@@ -839,15 +2393,45 @@
             "state": "translated",
             "value": "Pausa longa"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "长休息"
+          }
         }
       }
     },
     "Long break %lld min": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lange Pause %lld Min."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Pausa larga %lld min"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause longue %lld min"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausa lunga %lld min"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "長い休憩 %lld分"
           }
         },
         "pt-BR": {
@@ -855,15 +2439,45 @@
             "state": "translated",
             "value": "Pausa longa %lld min"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "长休息 %lld 分钟"
+          }
         }
       }
     },
     "Lunch": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mittag"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Almuerzo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déjeuner"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pranzo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "昼食"
           }
         },
         "pt-BR": {
@@ -871,15 +2485,45 @@
             "state": "translated",
             "value": "Almoço"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "午餐"
+          }
         }
       }
     },
     "Master Workbook (Excel)…": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gesamtmappe (Excel) …"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Libro maestro (Excel)…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classeur principal (Excel)…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cartella principale (Excel)…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "マスターブック (Excel)…"
           }
         },
         "pt-BR": {
@@ -887,15 +2531,45 @@
             "state": "translated",
             "value": "Planilha mestre (Excel)…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主工作簿（Excel）…"
+          }
         }
       }
     },
     "Menu bar": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menüleiste"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Barra de menús"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barre des menus"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barra dei menu"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メニューバー"
           }
         },
         "pt-BR": {
@@ -903,15 +2577,45 @@
             "state": "translated",
             "value": "Barra de menus"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "菜单栏"
+          }
         }
       }
     },
     "Monthly Report (Excel)…": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monatsbericht (Excel) …"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Informe mensual (Excel)…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rapport mensuel (Excel)…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Report mensile (Excel)…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "月次レポート (Excel)…"
           }
         },
         "pt-BR": {
@@ -919,15 +2623,45 @@
             "state": "translated",
             "value": "Relatório mensal (Excel)…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "月度报告（Excel）…"
+          }
         }
       }
     },
     "Monthly Report — %@ (Excel)…": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monatsbericht — %@ (Excel) …"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Informe mensual — %@ (Excel)…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rapport mensuel — %@ (Excel)…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Report mensile — %@ (Excel)…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "月次レポート — %@ (Excel)…"
           }
         },
         "pt-BR": {
@@ -935,15 +2669,45 @@
             "state": "translated",
             "value": "Relatório mensal — %@ (Excel)…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "月度报告 — %@（Excel）…"
+          }
         }
       }
     },
     "Name": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Nombre"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nom"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nome"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名前"
           }
         },
         "pt-BR": {
@@ -951,15 +2715,45 @@
             "state": "translated",
             "value": "Nome"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名称"
+          }
         }
       }
     },
     "New": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neu"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Nuevo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nouveau"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nuovo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新規"
           }
         },
         "pt-BR": {
@@ -967,15 +2761,45 @@
             "state": "translated",
             "value": "Novo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新建"
+          }
         }
       }
     },
     "New client": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neuer Kunde"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Nuevo cliente"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nouveau client"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nuovo cliente"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新規クライアント"
           }
         },
         "pt-BR": {
@@ -983,15 +2807,45 @@
             "state": "translated",
             "value": "Novo cliente"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新客户"
+          }
         }
       }
     },
     "Next Day": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nächster Tag"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Día siguiente"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jour suivant"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giorno successivo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翌日"
           }
         },
         "pt-BR": {
@@ -999,15 +2853,45 @@
             "state": "translated",
             "value": "Próximo dia"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "后一天"
+          }
         }
       }
     },
     "Next Month": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nächster Monat"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Mes siguiente"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mois suivant"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mese successivo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翌月"
           }
         },
         "pt-BR": {
@@ -1015,15 +2899,45 @@
             "state": "translated",
             "value": "Próximo mês"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下个月"
+          }
         }
       }
     },
     "No client": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kein Kunde"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Sin cliente"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun client"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun cliente"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "クライアントなし"
           }
         },
         "pt-BR": {
@@ -1031,15 +2945,45 @@
             "state": "translated",
             "value": "Sem cliente"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无客户"
+          }
         }
       }
     },
     "No long-timer reminder": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Erinnerung bei langen Timern"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Sin aviso de temporizador largo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun rappel de suivi long"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun avviso timer lungo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "長時間タイマーの通知なし"
           }
         },
         "pt-BR": {
@@ -1047,15 +2991,45 @@
             "state": "translated",
             "value": "Sem aviso de cronômetro longo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无长时计时提醒"
+          }
         }
       }
     },
     "No stretch reminder": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Dehnerinnerung"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Sin recordatorio de estiramiento"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun rappel d’étirement"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun promemoria stretching"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ストレッチの通知なし"
           }
         },
         "pt-BR": {
@@ -1063,15 +3037,45 @@
             "state": "translated",
             "value": "Sem lembrete de alongamento"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无伸展提醒"
+          }
         }
       }
     },
     "Not tracking": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Erfassung"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Sin seguimiento"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun suivi"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non attivo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "記録していません"
           }
         },
         "pt-BR": {
@@ -1079,15 +3083,45 @@
             "state": "translated",
             "value": "Sem registro"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未在记录"
+          }
         }
       }
     },
     "Notes": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notizen"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Notas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notes"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Note"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メモ"
           }
         },
         "pt-BR": {
@@ -1095,15 +3129,45 @@
             "state": "translated",
             "value": "Notas"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "备注"
+          }
         }
       }
     },
     "Now tracking Extra.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jetzt wird Extra erfasst."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Ahora registrando Extra."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suivi passé en Extra."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ora registra Extra."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "残業として記録中です。"
           }
         },
         "pt-BR": {
@@ -1111,15 +3175,45 @@
             "state": "translated",
             "value": "Agora registrando Extra."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "现在记录为加班。"
+          }
         }
       }
     },
     "Once your day reaches its target, Work carries on as Extra by itself. Weekends and days off count as Extra.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sobald dein Tag das Ziel erreicht, läuft Arbeit von selbst als Extra weiter. Wochenenden und freie Tage zählen als Extra."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Cuando tu día alcanza la meta, Trabajo sigue como Extra por sí solo. Los fines de semana y días libres cuentan como Extra."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une fois l’objectif du jour atteint, Travail continue automatiquement en Extra. Les week-ends et les jours de congé comptent en Extra."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quando la giornata raggiunge l'obiettivo, Lavoro prosegue da solo come Extra. Weekend e giorni liberi contano come Extra."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1日の目標に達すると、仕事は自動的に残業として続きます。週末と休日は残業として扱われます。"
           }
         },
         "pt-BR": {
@@ -1127,15 +3221,45 @@
             "state": "translated",
             "value": "Quando o dia atinge a meta, Trabalho continua como Extra sozinho. Fins de semana e folgas contam como Extra."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当天达到目标后，工作会自动转为加班。周末和休息日均计为加班。"
+          }
         }
       }
     },
     "Open at Login": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bei der Anmeldung öffnen"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Abrir al iniciar sesión"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir à l’ouverture de session"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apri al login"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ログイン時に開く"
           }
         },
         "pt-BR": {
@@ -1143,15 +3267,45 @@
             "state": "translated",
             "value": "Abrir ao iniciar sessão"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "登录时打开"
+          }
         }
       }
     },
     "Option-Return adds a line": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wahl-Zeilenschalter für neue Zeile"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Opción-Retorno añade una línea"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Option + Retour ajoute une ligne"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opzione-A capo aggiunge una riga"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Option-Returnで改行"
           }
         },
         "pt-BR": {
@@ -1159,21 +3313,57 @@
             "state": "translated",
             "value": "Option-Return adiciona uma linha"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按 Option-Return 换行"
+          }
         }
       }
     },
     "Out of Office": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abwesend"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Fuera de la oficina"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Absent"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fuori sede"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外出"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
             "value": "Fora do escritório"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外出"
           }
         }
       }
@@ -1183,10 +3373,34 @@
     },
     "Outatime Manual": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outatime-Handbuch"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Manual de Outatime"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manuel d’Outatime"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manuale di Outatime"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outatime マニュアル"
           }
         },
         "pt-BR": {
@@ -1194,15 +3408,45 @@
             "state": "translated",
             "value": "Manual do Outatime"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outatime 手册"
+          }
         }
       }
     },
     "Paused": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausiert"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "En pausa"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En pause"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In pausa"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一時停止中"
           }
         },
         "pt-BR": {
@@ -1210,21 +3454,57 @@
             "state": "translated",
             "value": "Pausado"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已暂停"
+          }
         }
       }
     },
     "Pick the client in the menu. Work, Extra and Travel are tracked for it.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wähle den Kunden im Menü. Arbeit, Extra und Fahrt werden für ihn erfasst."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Elige el cliente en el menú. Trabajo, Extra y Viaje se registran para él."
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez le client dans le menu. Travail, Extra et Déplacement sont suivis pour lui."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scegli il cliente nel menu. Lavoro, Extra e Trasferta vengono registrati per quel cliente."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メニューでクライアントを選びます。仕事、残業、移動はそのクライアントの分として記録されます。"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
             "value": "Escolha o cliente no menu. Trabalho, Extra e Deslocamento são registrados para ele."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在菜单中选择客户。工作、加班和出差会计入该客户。"
           }
         }
       }
@@ -1234,10 +3514,34 @@
     },
     "Previous Day": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorheriger Tag"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Día anterior"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jour précédent"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giorno precedente"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前日"
           }
         },
         "pt-BR": {
@@ -1245,15 +3549,45 @@
             "state": "translated",
             "value": "Dia anterior"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前一天"
+          }
         }
       }
     },
     "Previous Month": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorheriger Monat"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Mes anterior"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mois précédent"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mese precedente"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前月"
           }
         },
         "pt-BR": {
@@ -1261,15 +3595,45 @@
             "state": "translated",
             "value": "Mês anterior"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上个月"
+          }
         }
       }
     },
     "Quit": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beenden"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Salir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitter"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esci"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "終了"
           }
         },
         "pt-BR": {
@@ -1277,15 +3641,45 @@
             "state": "translated",
             "value": "Sair"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出"
+          }
         }
       }
     },
     "Ready for round %lld?": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bereit für Runde %lld?"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "¿Listo para la ronda %lld?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lancer la session %lld ?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pronto per il round %lld?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ラウンド%lldを始めますか？"
           }
         },
         "pt-BR": {
@@ -1293,15 +3687,45 @@
             "state": "translated",
             "value": "Pronto para a rodada %lld?"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "准备好开始第 %lld 轮了吗？"
+          }
         }
       }
     },
     "Remind me to stretch every %lld min": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle %lld Min. ans Dehnen erinnern"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Recordarme estirarme cada %lld min"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Me rappeler de m’étirer toutes les %lld min"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ricordami di sgranchirmi ogni %lld min"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld分ごとにストレッチを通知"
           }
         },
         "pt-BR": {
@@ -1309,15 +3733,45 @@
             "state": "translated",
             "value": "Lembrar de alongar a cada %lld min"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每 %lld 分钟提醒我伸展"
+          }
         }
       }
     },
     "Remind me when a timer runs %@h": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erinnern, wenn ein Timer %@ Std. läuft"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Avisarme cuando un temporizador lleve %@ h"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "M’avertir quand un suivi dure %@ h"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avvisami quando un timer supera %@ h"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "タイマーが%@時間を超えたら通知"
           }
         },
         "pt-BR": {
@@ -1325,15 +3779,45 @@
             "state": "translated",
             "value": "Avisar quando um cronômetro passar de %@ h"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "计时器运行 %@ 小时时提醒我"
+          }
         }
       }
     },
     "Reminders": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erinnerungen"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Recordatorios"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rappels"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Promemoria"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "リマインダー"
           }
         },
         "pt-BR": {
@@ -1341,15 +3825,45 @@
             "state": "translated",
             "value": "Lembretes"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提醒"
+          }
         }
       }
     },
     "Remove": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entfernen"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Quitar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirer"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rimuovi"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取り除く"
           }
         },
         "pt-BR": {
@@ -1357,15 +3871,45 @@
             "state": "translated",
             "value": "Remover"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除"
+          }
         }
       }
     },
     "Replace": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ersetzen"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Reemplazar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remplacer"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sostituisci"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "置き換える"
           }
         },
         "pt-BR": {
@@ -1373,15 +3917,45 @@
             "state": "translated",
             "value": "Substituir"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "替换"
+          }
         }
       }
     },
     "Replace this day's entries with “%@”?": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einträge dieses Tages durch „%@“ ersetzen?"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "¿Reemplazar los registros de este día con “%@”?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remplacer les entrées de ce jour par « %@ » ?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sostituire le voci di questo giorno con “%@”?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この日の項目を「%@」で置き換えますか？"
           }
         },
         "pt-BR": {
@@ -1389,15 +3963,45 @@
             "state": "translated",
             "value": "Substituir os registros deste dia por “%@”?"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要用“%@”替换这一天的记录吗？"
+          }
         }
       }
     },
     "Reports per client": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berichte pro Kunde"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Informes por cliente"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rapports par client"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Report per cliente"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "クライアント別レポート"
           }
         },
         "pt-BR": {
@@ -1405,15 +4009,45 @@
             "state": "translated",
             "value": "Relatórios por cliente"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按客户生成报告"
+          }
         }
       }
     },
     "Round %lld": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Runde %lld"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Ronda %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Session %lld"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Round %lld"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ラウンド%lld"
           }
         },
         "pt-BR": {
@@ -1421,15 +4055,45 @@
             "state": "translated",
             "value": "Rodada %lld"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %lld 轮"
+          }
         }
       }
     },
     "Round %lld done.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Runde %lld geschafft."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Ronda %lld terminada."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Session %lld terminée."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Round %lld completato."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ラウンド%lldが終了しました。"
           }
         },
         "pt-BR": {
@@ -1437,15 +4101,45 @@
             "state": "translated",
             "value": "Rodada %lld concluída."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %lld 轮完成。"
+          }
         }
       }
     },
     "Running since %@": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Läuft seit %@"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "En marcha desde %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En cours depuis %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In corso dalle %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@から記録中"
           }
         },
         "pt-BR": {
@@ -1453,15 +4147,45 @@
             "state": "translated",
             "value": "Rodando desde %@"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自 %@ 起运行中"
+          }
         }
       }
     },
     "Save": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sichern"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Guardar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salva"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存"
           }
         },
         "pt-BR": {
@@ -1469,15 +4193,45 @@
             "state": "translated",
             "value": "Salvar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "存储"
+          }
         }
       }
     },
     "Save Day as Template": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tag als Vorlage sichern"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Guardar día como plantilla"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer le jour comme modèle"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salva giorno come modello"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この日をテンプレートとして保存"
           }
         },
         "pt-BR": {
@@ -1485,15 +4239,45 @@
             "state": "translated",
             "value": "Salvar dia como modelo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将这一天存储为模板"
+          }
         }
       }
     },
     "Save Day as Template…": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tag als Vorlage sichern …"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Guardar día como plantilla…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer le jour comme modèle…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salva giorno come modello…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この日をテンプレートとして保存…"
           }
         },
         "pt-BR": {
@@ -1501,15 +4285,45 @@
             "state": "translated",
             "value": "Salvar dia como modelo…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将这一天存储为模板…"
+          }
         }
       }
     },
     "Settings…": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen …"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Ajustes…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impostazioni…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定…"
           }
         },
         "pt-BR": {
@@ -1517,15 +4331,45 @@
             "state": "translated",
             "value": "Ajustes…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置…"
+          }
         }
       }
     },
     "Short blocks in the Logbook": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kurze Blöcke im Logbuch"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Bloques cortos en la Bitácora"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blocs courts dans le Journal"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blocchi brevi nel Diario"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日誌の短いブロック"
           }
         },
         "pt-BR": {
@@ -1533,15 +4377,45 @@
             "state": "translated",
             "value": "Blocos curtos no Diário de bordo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日志中的短时段"
+          }
         }
       }
     },
     "Short break %lld min": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kurze Pause %lld Min."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Pausa corta %lld min"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause courte %lld min"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausa breve %lld min"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "短い休憩 %lld分"
           }
         },
         "pt-BR": {
@@ -1549,15 +4423,45 @@
             "state": "translated",
             "value": "Pausa curta %lld min"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "短休息 %lld 分钟"
+          }
         }
       }
     },
     "Since %@": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seit %@"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Desde %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Depuis %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dalle %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@から"
           }
         },
         "pt-BR": {
@@ -1565,15 +4469,45 @@
             "state": "translated",
             "value": "Desde %@"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自 %@ 起"
+          }
         }
       }
     },
     "Start": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beginn"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Inicio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Début"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inizio"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開始"
           }
         },
         "pt-BR": {
@@ -1581,15 +4515,45 @@
             "state": "translated",
             "value": "Início"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开始"
+          }
         }
       }
     },
     "Start Break": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause starten"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Empezar pausa"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commencer la pause"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inizia pausa"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "休憩を開始"
           }
         },
         "pt-BR": {
@@ -1597,15 +4561,45 @@
             "state": "translated",
             "value": "Iniciar pausa"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开始休息"
+          }
         }
       }
     },
     "Still tracking?": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch dabei?"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "¿Sigues registrando?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toujours en cours ?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stai ancora registrando?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "まだ記録中ですか？"
           }
         },
         "pt-BR": {
@@ -1613,15 +4607,45 @@
             "state": "translated",
             "value": "Ainda registrando?"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仍在记录吗？"
+          }
         }
       }
     },
     "Stretch reminder": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dehnerinnerung"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Recordatorio de estiramiento"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rappel d’étirement"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Promemoria stretching"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ストレッチの通知"
           }
         },
         "pt-BR": {
@@ -1629,15 +4653,45 @@
             "state": "translated",
             "value": "Lembrete de alongamento"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "伸展提醒"
+          }
         }
       }
     },
     "Switch to Extra after the target": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach dem Ziel zu Extra wechseln"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Pasar a Extra al cumplir la meta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passer en Extra après l’objectif"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passa a Extra dopo l'obiettivo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目標達成後に残業に切り替える"
           }
         },
         "pt-BR": {
@@ -1645,21 +4699,57 @@
             "state": "translated",
             "value": "Mudar para Extra após a meta"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "达到目标后切换为加班"
+          }
         }
       }
     },
     "System": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Sistema"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Système"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistema"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システム"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
             "value": "Sistema"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跟随系统"
           }
         }
       }
@@ -1667,16 +4757,46 @@
     "Tag": {
       "extractionState": "stale",
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlagwort"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Etiqueta"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Étiquette"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etichetta"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "タグ"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
             "value": "Etiqueta"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "标签"
           }
         }
       }
@@ -1684,26 +4804,80 @@
     "Tag (optional)": {
       "extractionState": "stale",
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlagwort (optional)"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Etiqueta (opcional)"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Étiquette (facultative)"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etichetta (facoltativa)"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "タグ（オプション）"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
             "value": "Etiqueta (opcional)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "标签（可选）"
           }
         }
       }
     },
     "Target %@h": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ziel %@ Std."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Meta %@h"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objectif %@ h"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obiettivo %@h"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目標 %@時間"
           }
         },
         "pt-BR": {
@@ -1711,15 +4885,45 @@
             "state": "translated",
             "value": "Meta %@h"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目标 %@ 小时"
+          }
         }
       }
     },
     "Templates": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorlagen"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Plantillas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modèles"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modelli"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テンプレート"
           }
         },
         "pt-BR": {
@@ -1727,15 +4931,45 @@
             "state": "translated",
             "value": "Modelos"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模板"
+          }
         }
       }
     },
     "The menu bar icon takes the color of what you're tracking: blue for Work, green for Break and so on.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Menüleistensymbol nimmt die Farbe dessen an, was du erfasst: Blau für Arbeit, Grün für Pause und so weiter."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "El icono de la barra de menús toma el color de lo que registras: azul para Trabajo, verde para Pausa, etc."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’icône de la barre des menus prend la couleur de l’activité suivie : bleu pour Travail, vert pour Pause, etc."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L'icona nella barra dei menu prende il colore di ciò che stai registrando: blu per Lavoro, verde per Pausa e così via."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メニューバーのアイコンが、記録中のアクティビティの色になります。仕事は青、休憩は緑などです。"
           }
         },
         "pt-BR": {
@@ -1743,15 +4977,45 @@
             "state": "translated",
             "value": "O ícone da barra de menus assume a cor do que você está registrando: azul para Trabalho, verde para Pausa e assim por diante."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "菜单栏图标会采用当前记录活动的颜色：工作为蓝色，休息为绿色，依此类推。"
+          }
         }
       }
     },
     "The timer has been running for %@.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Timer läuft seit %@."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "El temporizador lleva %@ en marcha."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le suivi est en cours depuis %@."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il timer è attivo da %@."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "タイマーが%@動き続けています。"
           }
         },
         "pt-BR": {
@@ -1759,15 +5023,45 @@
             "state": "translated",
             "value": "O cronômetro está rodando há %@."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "计时器已运行 %@。"
+          }
         }
       }
     },
     "This Month": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Monat"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Este mes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce mois-ci"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questo mese"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今月"
           }
         },
         "pt-BR": {
@@ -1775,15 +5069,45 @@
             "state": "translated",
             "value": "Este mês"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本月"
+          }
         }
       }
     },
     "This Month — %@ (Excel)…": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Monat — %@ (Excel) …"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Este mes — %@ (Excel)…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce mois-ci — %@ (Excel)…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questo mese — %@ (Excel)…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今月 — %@ (Excel)…"
           }
         },
         "pt-BR": {
@@ -1791,15 +5115,45 @@
             "state": "translated",
             "value": "Este mês — %@ (Excel)…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本月 — %@（Excel）…"
+          }
         }
       }
     },
     "This Month — Daily Summary…": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Monat — Tagesübersicht …"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Este mes — Resumen diario…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce mois-ci — Résumé quotidien…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questo mese — Riepilogo giornaliero…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今月 — 日別サマリー…"
           }
         },
         "pt-BR": {
@@ -1807,15 +5161,45 @@
             "state": "translated",
             "value": "Este mês — Resumo diário…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本月 — 每日汇总…"
+          }
         }
       }
     },
     "This Month — Entries…": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Monat — Einträge …"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Este mes — Registros…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce mois-ci — Entrées…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questo mese — Voci…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今月 — 項目…"
           }
         },
         "pt-BR": {
@@ -1823,15 +5207,45 @@
             "state": "translated",
             "value": "Este mês — Registros…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本月 — 记录…"
+          }
         }
       }
     },
     "This Month — Report (Excel)…": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Monat — Bericht (Excel) …"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Este mes — Informe (Excel)…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce mois-ci — Rapport (Excel)…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questo mese — Report (Excel)…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今月 — レポート (Excel)…"
           }
         },
         "pt-BR": {
@@ -1839,15 +5253,45 @@
             "state": "translated",
             "value": "Este mês — Relatório (Excel)…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本月 — 报告（Excel）…"
+          }
         }
       }
     },
     "This Week": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Woche"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Esta semana"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette semaine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questa settimana"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今週"
           }
         },
         "pt-BR": {
@@ -1855,15 +5299,45 @@
             "state": "translated",
             "value": "Esta semana"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本周"
+          }
         }
       }
     },
     "Time for a break": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeit für eine Pause"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Hora de una pausa"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "C’est l’heure de la pause"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "È ora di una pausa"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "休憩の時間です"
           }
         },
         "pt-BR": {
@@ -1871,15 +5345,45 @@
             "state": "translated",
             "value": "Hora de uma pausa"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "该休息了"
+          }
         }
       }
     },
     "Time left today": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heute noch übrig"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Tiempo restante hoy"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temps restant aujourd’hui"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tempo rimanente oggi"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今日の残り時間"
           }
         },
         "pt-BR": {
@@ -1887,15 +5391,45 @@
             "state": "translated",
             "value": "Tempo restante hoje"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今日剩余时间"
+          }
         }
       }
     },
     "Time only": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nur Zeit"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Solo tiempo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durée seule"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solo tempo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "時間のみ"
           }
         },
         "pt-BR": {
@@ -1903,15 +5437,45 @@
             "state": "translated",
             "value": "Só tempo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅时间"
+          }
         }
       }
     },
     "Time to stretch": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeit zum Dehnen"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Hora de estirarse"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il est temps de s’étirer"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "È ora di sgranchirsi"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ストレッチの時間です"
           }
         },
         "pt-BR": {
@@ -1919,15 +5483,45 @@
             "state": "translated",
             "value": "Hora de alongar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "该伸展一下了"
+          }
         }
       }
     },
     "Today": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heute"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Hoy"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aujourd’hui"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oggi"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今日"
           }
         },
         "pt-BR": {
@@ -1935,15 +5529,45 @@
             "state": "translated",
             "value": "Hoje"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今天"
+          }
         }
       }
     },
     "Tomato timer": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pomodoro-Timer"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Temporizador Pomodoro"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minuteur Pomodoro"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Timer Pomodoro"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "トマトタイマー"
           }
         },
         "pt-BR": {
@@ -1951,15 +5575,45 @@
             "state": "translated",
             "value": "Timer Pomodoro"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "番茄钟"
+          }
         }
       }
     },
     "Tracking": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erfassung"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Registro"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suivi"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registrazione"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "記録"
           }
         },
         "pt-BR": {
@@ -1967,15 +5621,45 @@
             "state": "translated",
             "value": "Registro"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "记录"
+          }
         }
       }
     },
     "Travel": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fahrt"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Viaje"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déplacement"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trasferta"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移動"
           }
         },
         "pt-BR": {
@@ -1983,15 +5667,45 @@
             "state": "translated",
             "value": "Deslocamento"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出差"
+          }
         }
       }
     },
     "Turn it on from the menu for focus rounds and breaks. A notification at the end of each round switches Work and Break for you.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiviere ihn im Menü für Fokusrunden und Pausen. Eine Mitteilung am Ende jeder Runde wechselt für dich zwischen Arbeit und Pause."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Actívalo desde el menú para rondas de enfoque y pausas. Una notificación al final de cada ronda cambia entre Trabajo y Pausa por ti."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activez-le depuis le menu pour enchaîner sessions de concentration et pauses. Une notification à la fin de chaque session bascule entre Travail et Pause pour vous."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attivalo dal menu per alternare round di concentrazione e pause. Una notifica alla fine di ogni round passa da Lavoro a Pausa e viceversa al posto tuo."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メニューからオンにすると、集中ラウンドと休憩を繰り返せます。各ラウンドの終わりに届く通知から、仕事と休憩を切り替えられます。"
           }
         },
         "pt-BR": {
@@ -1999,15 +5713,45 @@
             "state": "translated",
             "value": "Ative pelo menu para rodadas de foco e pausas. Uma notificação no fim de cada rodada alterna entre Trabalho e Pausa para você."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从菜单中打开，即可交替进行专注和休息。每轮结束时会发送通知，帮你在工作和休息之间切换。"
+          }
         }
       }
     },
     "Turn it on with the timer button in the menu. Each round ends with a notification that can switch the tracker for you.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiviere ihn mit der Timer-Taste im Menü. Jede Runde endet mit einer Mitteilung, die die Erfassung für dich umschalten kann."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Actívalo con el botón del temporizador en el menú. Cada ronda termina con una notificación que puede cambiar el registro por ti."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activez-le avec le bouton du minuteur dans le menu. Chaque session se termine par une notification qui peut changer d’activité pour vous."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attivalo con il pulsante del timer nel menu. Ogni round termina con una notifica che può cambiare attività al posto tuo."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メニューのタイマーボタンでオンにします。各ラウンドの終わりに通知が届き、そこから記録を切り替えられます。"
           }
         },
         "pt-BR": {
@@ -2015,15 +5759,45 @@
             "state": "translated",
             "value": "Ative pelo botão de timer no menu. Cada rodada termina com uma notificação que pode trocar o registro para você."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用菜单中的计时器按钮打开。每轮结束时都会发送通知，可帮你切换记录。"
+          }
         }
       }
     },
     "Updates": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Actualizaciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mises à jour"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aggiornamenti"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アップデート"
           }
         },
         "pt-BR": {
@@ -2031,15 +5805,45 @@
             "state": "translated",
             "value": "Atualizações"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更新"
+          }
         }
       }
     },
     "User Manual": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benutzerhandbuch"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Manual de usuario"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manuel d’utilisation"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manuale utente"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ユーザマニュアル"
           }
         },
         "pt-BR": {
@@ -2047,15 +5851,45 @@
             "state": "translated",
             "value": "Manual do usuário"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用手册"
+          }
         }
       }
     },
     "Version %@": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Versión %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versione %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "バージョン %@"
           }
         },
         "pt-BR": {
@@ -2063,15 +5897,45 @@
             "state": "translated",
             "value": "Versão %@"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "版本 %@"
+          }
         }
       }
     },
     "Week %lld": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Woche %lld"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Semana %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Semaine %lld"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settimana %lld"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第%lld週"
           }
         },
         "pt-BR": {
@@ -2079,15 +5943,45 @@
             "state": "translated",
             "value": "Semana %lld"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %lld 周"
+          }
         }
       }
     },
     "Weekends and days off owe nothing; mark a day off from the Logbook toolbar.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wochenenden und freie Tage haben kein Soll; markiere einen freien Tag in der Symbolleiste des Logbuchs."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Los fines de semana y días libres no deben horas; marca un día libre desde la barra de la Bitácora."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les week-ends et les jours de congé ne doivent rien ; marquez un jour de congé depuis la barre d’outils du Journal."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weekend e giorni liberi non richiedono ore; segna un giorno libero dalla barra strumenti del Diario."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "週末と休日は目標時間がありません。休日は日誌のツールバーから設定できます。"
           }
         },
         "pt-BR": {
@@ -2095,15 +5989,45 @@
             "state": "translated",
             "value": "Fins de semana e folgas não devem horas; marque uma folga na barra do Diário de bordo."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "周末和休息日没有应工作时长；可在日志工具栏中标记休息日。"
+          }
         }
       }
     },
     "What are you working on?": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Woran arbeitest du?"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "¿En qué estás trabajando?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sur quoi travaillez-vous ?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A cosa stai lavorando?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "何の作業をしていますか？"
           }
         },
         "pt-BR": {
@@ -2111,15 +6035,45 @@
             "state": "translated",
             "value": "No que você está trabalhando?"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你正在做什么？"
+          }
         }
       }
     },
     "What's New": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neuigkeiten"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Novedades"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nouveautés"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Novità"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新機能"
           }
         },
         "pt-BR": {
@@ -2127,15 +6081,45 @@
             "state": "translated",
             "value": "Novidades"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新功能"
+          }
         }
       }
     },
     "What's New in Outatime %@": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neu in Outatime %@"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Novedades de Outatime %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nouveautés d’Outatime %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Novità di Outatime %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outatime %@の新機能"
           }
         },
         "pt-BR": {
@@ -2143,15 +6127,45 @@
             "state": "translated",
             "value": "Novidades do Outatime %@"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outatime %@ 新功能"
+          }
         }
       }
     },
     "What's New window": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fenster „Neuigkeiten“"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Ventana de novedades"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fenêtre Nouveautés"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finestra Novità"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新機能ウインドウ"
           }
         },
         "pt-BR": {
@@ -2159,15 +6173,45 @@
             "state": "translated",
             "value": "Janela de novidades"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“新功能”窗口"
+          }
         }
       }
     },
     "Work": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arbeit"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Trabajo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Travail"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lavoro"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仕事"
           }
         },
         "pt-BR": {
@@ -2175,15 +6219,45 @@
             "state": "translated",
             "value": "Trabalho"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工作"
+          }
         }
       }
     },
     "You've been at it for %@. Get up and move a little.": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du bist seit %@ dran. Steh auf und beweg dich ein wenig."
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Llevas %@ seguido. Levántate y muévete un poco."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous êtes à la tâche depuis %@. Levez-vous et bougez un peu."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sei all'opera da %@. Alzati e muoviti un po'."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@続けて作業しています。立ち上がって少し体を動かしましょう。"
           }
         },
         "pt-BR": {
@@ -2191,15 +6265,45 @@
             "state": "translated",
             "value": "Você está nisso há %@. Levante e se mexa um pouco."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已连续工作 %@。起来活动一下吧。"
+          }
         }
       }
     },
     "Zoom In": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vergrößern"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Acercar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zoom avant"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ingrandisci"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拡大"
           }
         },
         "pt-BR": {
@@ -2207,15 +6311,45 @@
             "state": "translated",
             "value": "Ampliar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放大"
+          }
         }
       }
     },
     "Zoom Out": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verkleinern"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Alejar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zoom arrière"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riduci"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "縮小"
           }
         },
         "pt-BR": {
@@ -2223,21 +6357,57 @@
             "state": "translated",
             "value": "Reduzir"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "缩小"
+          }
         }
       }
     },
     "running": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "läuft"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "en curso"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "en cours"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "in corso"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "記録中"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
             "value": "em andamento"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行中"
           }
         }
       }
@@ -2247,16 +6417,46 @@
     },
     "⌃⌥⌘W starts or stops Work, ⌃⌥⌘B Break": {
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥⌘W startet oder stoppt Arbeit, ⌃⌥⌘B Pause"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
             "value": "⌃⌥⌘W inicia o detiene Trabajo, ⌃⌥⌘B Pausa"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥⌘W lance ou arrête Travail, ⌃⌥⌘B Pause"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥⌘W avvia o ferma Lavoro, ⌃⌥⌘B Pausa"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥⌘Wで仕事、⌃⌥⌘Bで休憩を開始・停止"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
             "value": "⌃⌥⌘W inicia ou para Trabalho, ⌃⌥⌘B Pausa"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥⌘W 开始或停止工作，⌃⌥⌘B 休息"
           }
         }
       }

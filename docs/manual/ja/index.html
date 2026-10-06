@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Outatime マニュアル</title>
+<meta name="description" content="macOSのメニューバー用タイムトラッカー、Outatimeで1日を記録する方法。">
+<link rel="icon" href="../icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&family=Big+Shoulders+Display:wght@600;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../manual.css">
+<link rel="alternate" hreflang="en" href="https://mrbarkan.github.io/Outatime/manual/">
+<link rel="alternate" hreflang="es" href="https://mrbarkan.github.io/Outatime/manual/es/">
+<link rel="alternate" hreflang="pt-BR" href="https://mrbarkan.github.io/Outatime/manual/pt-BR/">
+<link rel="alternate" hreflang="fr" href="https://mrbarkan.github.io/Outatime/manual/fr/">
+<link rel="alternate" hreflang="de" href="https://mrbarkan.github.io/Outatime/manual/de/">
+<link rel="alternate" hreflang="it" href="https://mrbarkan.github.io/Outatime/manual/it/">
+<link rel="alternate" hreflang="ja" href="https://mrbarkan.github.io/Outatime/manual/ja/">
+<link rel="alternate" hreflang="zh-Hans" href="https://mrbarkan.github.io/Outatime/manual/zh-Hans/">
+<link rel="alternate" hreflang="x-default" href="https://mrbarkan.github.io/Outatime/manual/">
+<script src="../manual.js"></script>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-top">
+    <img src="../icon.png" alt="" width="84" height="84">
+    <h1>Outatime</h1>
+    <select class="lang" aria-label="言語"></select>
+  </div>
+  <p class="lede"><strong>マニュアル。</strong>メニューバーでの最初のクリックから、月末にクライアントへ送るレポートまで。Outatimeでできることをすべて説明します。</p>
+
+  <figure class="ribbon" aria-label="1日の例：9時から仕事、コーヒー休憩、12時半に昼食、また仕事、夜は残業。">
+    <div class="ribbon-track" id="ribbon" data-labels='{"work": "仕事", "lunch": "昼食", "travel": "移動", "extra": "残業"}'></div>
+    <div class="ribbon-scale" id="scale" aria-hidden="true"></div>
+    <figcaption class="ribbon-caption">Outatimeでの1日。ブロックはそれぞれ1つのアクティビティの1区間で、開始した瞬間から、停止または切り替えた瞬間までを表します。</figcaption>
+  </figure>
+</header>
+
+<div class="page">
+  <nav class="toc" aria-label="目次">
+    <p>目次</p>
+    <ol id="toc"></ol>
+  </nav>
+
+  <main>
+    <details class="toc-mobile"><summary>目次</summary><ol id="toc-mobile"></ol><select class="lang" aria-label="言語"></select></details>
+
+    <section id="start">
+      <h2>はじめに</h2>
+      <p><code>Outatime.dmg</code>を<a href="https://github.com/mrbarkan/Outatime/releases/latest">最新リリース</a>からダウンロードし、Outatimeを「アプリケーション」にドラッグして開きます。macOS 26 Tahoe以降が必要です。</p>
+      <p>OutatimeにはDockアイコンもメインウインドウもありません。小さな時計としてメニューバーに常駐します。時計をクリックするとメニューパネルが開き、記録はすべてここで行います。</p>
+      <p>毎朝自動で起動させるには、設定 → 一般で<strong>ログイン時に開く</strong>をオンにします。</p>
+      <div class="note"><p>macOSに確認されたら、通知を許可してください。トマトタイマー、ストレッチの通知、「1日の目標を達成」のメッセージは、すべて通知で届きます。</p></div>
+    </section>
+
+    <section id="tracking">
+      <h2>時間の記録</h2>
+      <p>アクティビティをクリックすると開始し、もう一度クリックすると停止します。別のアクティビティをクリックすると、現在のものが停止して新しいものが同時に開始されるので、意図しない空白が1日に生まれません。</p>
+
+      <figure>
+        <div class="panel-wrap">
+          <div class="panel" aria-hidden="true">
+            <span class="pin" data-n="1" style="left:-11px;top:10px"></span>
+            <div class="row status"><i class="dot" style="--c:var(--work)"></i> 仕事 <small>· Acme</small><span class="t">1:42:10</span></div>
+            <span class="pin" data-n="2" style="left:-11px;top:52px"></span>
+            <div class="field">何の作業をしていますか？</div>
+            <span class="pin" data-n="3" style="left:-11px;top:88px"></span>
+            <div class="seg"><span>クライアントなし</span><span class="on">Acme</span><span>Globex</span></div>
+            <span class="pin" data-n="4" style="left:-11px;top:150px"></span>
+            <div class="tiles">
+              <div class="tile on" style="--c:var(--work)"><i></i>仕事</div>
+              <div class="tile" style="--c:var(--break)"><i></i>休憩</div>
+              <div class="tile" style="--c:var(--lunch)"><i></i>昼食</div>
+              <div class="tile" style="--c:var(--extra)"><i></i>残業</div>
+              <div class="tile" style="--c:var(--travel)"><i></i>移動</div>
+              <div class="tile" style="--c:var(--ooo)"><i></i>外出</div>
+            </div>
+            <span class="pin" data-n="5" style="left:-11px;bottom:62px"></span>
+            <div class="totals">
+              <span>今日</span><b>6h 12m</b><span class="today">−1h 48m</span>
+              <span>今週</span><b>30h 40m</b><span class="plus">+0h 40m</span>
+              <span>今月</span><b>36h 52m</b><span class="plus">+0h 52m</span>
+            </div>
+            <span class="pin" data-n="6" style="left:-11px;bottom:6px"></span>
+            <div class="foot"><span>日誌</span><span>書き出す</span><span>•••</span></div>
+          </div>
+        </div>
+        <ol class="callouts">
+          <li>実行中のアクティビティ、そのクライアント、経過時間。</li>
+          <li>実行中のブロックに付けるメモ。チケットやタスクなど。</li>
+          <li>新しい作業を記録するクライアント。クライアントを追加すると表示されます。</li>
+          <li>6つのアクティビティ。実行中のものは塗りつぶされます。</li>
+          <li>今日、今週、今月の時間と目標との差。</li>
+          <li>日誌、書き出し、設定と終了があるメニュー。</li>
+        </ol>
+      </figure>
+
+      <h3>6つのアクティビティ</h3>
+      <table>
+        <thead><tr><th>アクティビティ</th><th>用途</th><th>目標に含めるか</th></tr></thead>
+        <tbody>
+          <tr><td><span class="swatch" style="--c:var(--work)"></span>仕事</td><td>通常の勤務時間。</td><td>常に含める</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--break)"></span>休憩</td><td>コーヒー、散歩、ちょっとした中断。</td><td>デフォルトで含める</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--lunch)"></span>昼食</td><td>食事の休憩。</td><td>オンにした場合</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--extra)"></span>残業</td><td>1日の目標を超えた時間と、週末や休日の作業。</td><td>常に含める</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--travel)"></span>移動</td><td>クライアント先や現場への移動。</td><td>デフォルトで含める</td></tr>
+          <tr><td><span class="swatch" style="--c:var(--ooo)"></span>外出</td><td>日中の予約や用事。</td><td>デフォルトで含める</td></tr>
+        </tbody>
+      </table>
+      <p>何を含めるかは設定 → 記録で選べます。仕事と残業は常に含まれます。</p>
+
+      <h3>メモ</h3>
+      <p>ステータス行の下のフィールドに入力して、Returnキーを押します。メモは実行中のブロックに保存され、いくつでも追加できます。何も実行していないときは、今日の最後のブロックにメモが付くので、終えたばかりの作業も書き留められます。</p>
+
+      <h3>動いたままのタイマー</h3>
+      <p>午前0時になってもタイマーが動いている場合は、そこで区切られて新しい日に引き継がれるので、各日の時間は分かれたままです。パネルには「…から記録中」と表示され、10時間を過ぎると「まだ記録中ですか？」という通知が届きます。この通知は設定 → 記録で変更したりオフにしたりできます。</p>
+    </section>
+
+    <section id="clients">
+      <h2>クライアント</h2>
+      <p>複数のクライアントの仕事をしている場合、Outatimeでそれぞれの時間を分けて管理できます。設定 → クライアントでクライアントを追加すると、メニューパネルにクライアントの選択肢が表示されます。</p>
+      <ul>
+        <li><strong>クライアントを選ぶ</strong>と、仕事、残業、移動がそのクライアントの分として記録されます。休憩、昼食、外出はクライアントには属しません。</li>
+        <li>作業中に<strong>クライアントを切り替える</strong>と、ブロックはその時点で終わり、新しいクライアントの新しいブロックが始まります。最初の1分以内に切り替えた場合は修正とみなされ、ブロックのラベルが付け替えられます。</li>
+        <li><strong>クライアントを取り除く</strong>と選択肢から消えますが、過去のブロックには名前が残り、その月の分も引き続き書き出せます。</li>
+      </ul>
+      <p>日誌では各ブロックにクライアントが表示され（「仕事 · Acme」）、ブロックの編集画面で変更できます。</p>
+    </section>
+
+    <section id="target">
+      <h2>1日の目標</h2>
+      <p>1日に何時間働くかを設定 → 記録で設定します。Outatimeは、メニューパネル、日誌、レポートのあらゆる場所で実績と目標を比べます。緑の数字は目標より進んでいる時間、赤の数字は足りない時間です。</p>
+      <ul>
+        <li><strong>週末と休日は目標時間がありません。</strong>日誌のツールバーにある傘のボタンで休日に設定できます。</li>
+        <li><strong>今日の不足分は赤で表示されません。</strong>1日はまだ終わっていないからです。</li>
+        <li><strong>時間バンク</strong>は、選んだ日付以降の毎日の過不足を合計します。四半期や1年ごとに時間を精算する場合に便利です。</li>
+      </ul>
+      <h3>目標達成後は残業</h3>
+      <p>今日の時間が目標に達すると、実行中の仕事ブロックは達成したちょうどその分で区切られて残業に切り替わり、通知が届きます。週末と休日の作業はすべて残業です。手動で切り替えたい場合は、設定 → 記録でオフにできます。</p>
+    </section>
+
+    <section id="logbook">
+      <h2>日誌</h2>
+      <p>メニューパネルから開きます。サイドバーにはその月が1日ずつ並び、各日の時間、内訳を示すバー、月の過不足、週ごとの合計が表示されます。日を選ぶとタイムラインで表示されます。</p>
+
+      <figure>
+        <div class="day" aria-hidden="true">
+          <div class="h" style="top:12px"><span>9</span></div>
+          <div class="h" style="top:96px"><span>10</span></div>
+          <div class="h" style="top:180px"><span>11</span></div>
+          <div class="h" style="top:264px"><span>12</span></div>
+          <div class="b" style="--c:var(--work);top:12px;height:140px"><strong>仕事 · Acme</strong><small>09:00 – 10:40 · APIレビュー</small><span class="grip" style="bottom:3px"></span></div>
+          <span class="pin" data-n="1" style="right:8px;top:30px"></span>
+          <div class="b short" style="--c:var(--break);top:152px;height:21px"><strong>休憩</strong><small>10:40 – 10:55</small></div>
+          <span class="pin" data-n="2" style="right:8px;top:152px"></span>
+          <div class="b" style="--c:var(--work);top:173px;height:105px"><strong>仕事 · Globex</strong><small>10:55 – 12:10</small></div>
+          <span class="pin" data-n="3" style="right:8px;top:200px"></span>
+          <div class="b" style="--c:var(--lunch);top:278px;height:80px"><strong>昼食</strong><small>12:10 – 13:00</small></div>
+        </div>
+        <ol class="callouts">
+          <li>ブロックをドラッグすると移動し、上端や下端をドラッグするとサイズを変えられます。</li>
+          <li>ブロックの中をダブルクリックすると、15分の休憩を挟み込めます。</li>
+          <li>ブロックをクリックすると、アクティビティ、クライアント、時刻、メモを編集できます。</li>
+        </ol>
+      </figure>
+
+      <h3>ブロックの編集</h3>
+      <ul>
+        <li>ブロックは5分単位で、隣のブロックの端に吸着します。接しているブロックは一緒に動きます。共有している端をドラッグすると、両方が変わります。</li>
+        <li>空いている場所をダブルクリックするか、ツールバーの＋ボタンを使うとブロックを追加できます。追加されるのは1時間の仕事で、次のブロックと重ならないよう、その手前で止まります。</li>
+        <li>編集画面では、<kbd>⌥ Return</kbd>でメモを改行でき、時間のステッパーで終了時刻を5分単位で動かせます。</li>
+        <li>ブロックは編集画面から削除できます。</li>
+      </ul>
+
+      <h3>テンプレート</h3>
+      <p>毎日の流れが似ている場合は、日誌で1日分を整えてから、テンプレート → この日をテンプレートとして保存を選びます。同じメニューから、ほかの日に適用できます。すでにブロックがある日にテンプレートを適用すると、置き換える前に確認されます。</p>
+
+      <h3>移動のしかた</h3>
+      <p>ツールバーの矢印か、<kbd>⌘ [</kbd>と<kbd>⌘ ]</kbd>で1日ずつ移動し、<kbd>⌘ T</kbd>で今日に戻ります。タイムラインは<kbd>⌘ −</kbd>と<kbd>⌘ =</kbd>で拡大・縮小できます。</p>
+    </section>
+
+    <section id="focus">
+      <h2>集中と休憩</h2>
+      <h3>トマトタイマー</h3>
+      <p>メニューパネル上部のタイマーボタンをクリックするとオンになります。仕事が開始され、25分の集中ラウンドと5分の休憩を繰り返し、4ラウンドごとに15分の休憩が入ります。メニューバーにはラウンドの残り時間が表示されます。</p>
+      <p>ラウンドが終わると、通知に<strong>休憩を開始</strong>または<strong>仕事に戻る</strong>が表示され、記録を切り替えてくれます。昼食、移動、外出の間は、戻るまで一時停止します。各時間の長さは設定 → トマトタイマーで変更できます。</p>
+      <h3>ストレッチの通知</h3>
+      <p>仕事または残業を50分続けると、Outatimeが立ち上がるよう知らせます。クライアントを切り替えてもリセットされませんが、休憩を取るとリセットされます。トマトタイマーの休憩で体を動かせるので、トマトタイマーがオンの間は通知しません。間隔の変更やオフは設定 → 記録で行えます。</p>
+    </section>
+
+    <section id="reports">
+      <h2>レポート</h2>
+      <p>メニューパネルからは今月の分を、日誌のツールバーからは表示中の月の分を書き出せます。</p>
+      <table>
+        <thead><tr><th>書き出し</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>月次レポート</td><td>Excelブック。1日1行で過不足を示すサマリー、クライアント別の時間、すべてのブロック。</td></tr>
+          <tr><td>クライアントレポート</td><td>請求用の、1クライアントの1か月分。1日ごとの時間とその内訳のブロック。目標や過不足は含みません。</td></tr>
+          <tr><td>マスターブック</td><td>使い始めてからのすべて。開くと、月ごとの時間、過不足、アクティビティのダッシュボードが表示されます。</td></tr>
+          <tr><td>日別サマリー</td><td>1日1行のCSV。Numbers、Notionなどで使えます。</td></tr>
+          <tr><td>項目</td><td>その月のすべてのブロックを含むCSV。</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><p>月次レポートの行はマスターブックの表の下に貼り付けられ、ダッシュボードに反映されます。マスターブックをバージョン1.2より前に作成した場合は、先に新しく書き出してください。ブロックにクライアント列が加わっています。</p></div>
+    </section>
+
+    <section id="settings">
+      <h2>設定</h2>
+      <p>メニューパネルの•••メニューから設定を開くか、パネルを開いた状態で<kbd>⌘ ,</kbd>を押します。</p>
+      <table>
+        <tbody>
+          <tr><td><strong>一般</strong></td><td>ライトまたはダーク、言語（English、Español、Português、Français、Deutsch、Italiano、日本語、简体中文）、メニューバーの表示内容、メニューバーアイコンのカラー表示、ログイン時に開く、アップデート。</td></tr>
+          <tr><td><strong>記録</strong></td><td>1日の目標、目標に含めるもの、時間バンク、目標達成後は残業、リマインダー、グローバルショートカット。</td></tr>
+          <tr><td><strong>クライアント</strong></td><td>クライアントの追加、名前の変更、取り除き。</td></tr>
+          <tr><td><strong>トマトタイマー</strong></td><td>集中、短い休憩、長い休憩の長さ。</td></tr>
+        </tbody>
+      </table>
+      <h3>メニューバーの表示内容</h3>
+      <p>実行中のアクティビティのアイコンと経過時間、アイコンのみ、時間のみ、または今日の目標までの残り時間を選べます。カラーのアイコンをオフにしない限り、アイコンはアクティビティの色になります。</p>
+    </section>
+
+    <section id="updates">
+      <h2>アップデート</h2>
+      <p>Outatimeは新しいバージョンを自動で確認し、その場でインストールします。ダウンロードページに再びアクセスする必要はありません。すぐに確認したいときは、設定 → 一般 → アップデートを確認を使います。アップデート後は、新機能ウインドウに変更点が表示されます。</p>
+      <h3>ベータ版のアップデート</h3>
+      <p>設定 → 一般で<strong>ベータ版のアップデートを受け取る</strong>をオンにすると、次のバージョンの先行ビルドを受け取れます。不完全な部分があるかもしれません。もう一度オフにすると、次の正式リリースから通常のリリースに戻ります。</p>
+    </section>
+
+    <section id="data">
+      <h2>データについて</h2>
+      <p>Outatimeが保持するデータは、すべてMac上の1つのファイルにあります。どこにも送信されません。Outatimeがオンラインになるのは、アップデートを確認するときだけです。</p>
+      <p><code>~/Library/Containers/com.dbarkan.Outatime/Data/Library/Application Support/Outatime/data.json</code></p>
+      <p>履歴をバックアップするには、このファイルをコピーします。万一ファイルを読み込めない場合、Outatimeは上書きせずに、元のファイルの隣に<code>data.json.broken-</code>と番号を付けた名前で退避し、新しく始めます。</p>
+    </section>
+
+    <section id="shortcuts">
+      <h2>キーボードショートカット</h2>
+      <table>
+        <thead><tr><th>キー</th><th>動作</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>⌃ ⌥ ⌘ W</kbd></td><td>どのアプリからでも仕事を開始・停止</td></tr>
+          <tr><td><kbd>⌃ ⌥ ⌘ B</kbd></td><td>どのアプリからでも休憩を開始・停止</td></tr>
+          <tr><td><kbd>⌘ [</kbd> <kbd>⌘ ]</kbd></td><td>日誌で前日・翌日へ移動</td></tr>
+          <tr><td><kbd>⌘ T</kbd></td><td>日誌で今日に戻る</td></tr>
+          <tr><td><kbd>⌘ −</kbd> <kbd>⌘ =</kbd></td><td>日誌のタイムラインを拡大・縮小</td></tr>
+          <tr><td><kbd>⌘ ,</kbd></td><td>メニューパネルから設定を開く</td></tr>
+          <tr><td><kbd>⌘ Q</kbd></td><td>メニューパネルから終了</td></tr>
+        </tbody>
+      </table>
+      <p>ほかのアプリと重なる場合は、設定 → 記録でグローバルショートカットをオフにできます。</p>
+    </section>
+
+    <section id="help">
+      <h2>うまくいかないとき</h2>
+      <h3>通知が届かない</h3>
+      <p>システム設定 → 通知 → Outatimeを開き、通知を許可してください。トマトタイマー、リマインダー、「1日の目標を達成」は、すべて通知を使います。</p>
+      <h3>メニューバーに時計が見当たらない</h3>
+      <p>メニューバーが混み合っていると、macOSは収まらない項目を隠します。カメラのノッチの横では特にそうです。メニューバーに置く必要のないアプリを終了するか、<kbd>⌘</kbd>を押しながら時計を右側へドラッグしてください。</p>
+      <h3>1日の時間が正しくない</h3>
+      <p>日誌でその日を開いてブロックを直します。ドラッグしたり、サイズを変えたり、クリックして正確な時刻を入力したりできます。過不足とレポートはすぐに更新されます。</p>
+      <h3>その他の問題</h3>
+      <p><a href="https://github.com/mrbarkan/Outatime/issues">GitHubでIssueを作成</a>し、何が起きたかを説明してください。</p>
+    </section>
+  </main>
+</div>
+
+<footer class="foot-page">
+  <span>Outatimeは無料のオープンソースソフトウェアで、MITライセンスで提供されています。</span>
+  <a href="https://github.com/mrbarkan/Outatime">GitHubのソースコード</a>
+  <a href="https://github.com/mrbarkan/Outatime/releases/latest">ダウンロード</a>
+</footer>
+
+</body>
+</html>

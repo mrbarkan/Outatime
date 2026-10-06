@@ -22,7 +22,7 @@ enum Appearance: String, CaseIterable {
 }
 
 enum Language: String, CaseIterable {
-    case system, en, es, ptBR = "pt-BR"
+    case system, en, es, ptBR = "pt-BR", fr, de, it, ja, zhHans = "zh-Hans"
 
     /// Native names on purpose: you should be able to find your language when the UI is in one you can't read.
     var label: LocalizedStringKey {
@@ -31,10 +31,25 @@ enum Language: String, CaseIterable {
         case .en: "English"
         case .es: "Español"
         case .ptBR: "Português (Brasil)"
+        case .fr: "Français"
+        case .de: "Deutsch"
+        case .it: "Italiano"
+        case .ja: "日本語"
+        case .zhHans: "简体中文"
         }
     }
 
     var locale: Locale { self == .system ? .current : Locale(identifier: rawValue) }
+
+    /// The manual in this language (docs/manual in the repo, served by GitHub Pages). On System, the first of the
+    /// Mac's preferred languages the manual has: any Portuguese reads the Brazilian one, any Chinese the simplified one.
+    nonisolated func manualURL(preferred: [String] = Locale.preferredLanguages) -> URL {
+        let base = "https://mrbarkan.github.io/Outatime/manual/"
+        let code = self != .system ? rawValue : preferred.lazy.compactMap { tag in
+            Language.allCases.first { $0 != .system && $0.rawValue.split(separator: "-")[0] == tag.split(separator: "-")[0] }
+        }.first?.rawValue ?? "en"
+        return URL(string: code == "en" ? base : base + code + "/")!
+    }
 }
 
 enum MenuBarStyle: String, CaseIterable {
@@ -214,9 +229,9 @@ private struct TomatoSettings: View {
     }
 }
 
-/// The manual is a web page (docs/manual in the repo, served by GitHub Pages), so it can change between releases.
+/// The manual is a web page, so it can change between releases.
 func showManual() {
-    NSWorkspace.shared.open(URL(string: "https://mrbarkan.github.io/Outatime/manual/")!)
+    NSWorkspace.shared.open(Language(rawValue: UserDefaults.standard.string(forKey: "language") ?? "")?.manualURL() ?? Language.system.manualURL())
 }
 
 /// LSUIElement apps don't come forward on their own; activate before showing any window.
