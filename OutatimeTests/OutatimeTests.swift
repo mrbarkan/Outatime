@@ -231,6 +231,24 @@ nonisolated struct OutatimeTests {
         #expect(Stretch.reminders(activity: .work, since: at(9), every: 0, now: at(11)) == 0)
     }
 
+    /// Files from before clients load as before; clients, the selection and each block's client survive a relaunch.
+    @Test @MainActor func clientsRoundTrip() throws {
+        let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try Data(#"{"entries":[{"id":"\#(UUID())","activity":"work","start":"2026-09-03T09:00:00Z","notes":[]}],"templates":[]}"#.utf8).write(to: url)
+        let store = Store(url: url)
+        #expect(store.entries.first?.profile == nil && store.profiles.isEmpty)
+        let acme = try #require(store.addProfile("  Acme "))
+        #expect(store.addProfile("  ") == nil)
+        store.currentProfile = acme
+        store.entries[0].profile = acme
+        let reloaded = Store(url: url)
+        #expect(reloaded.profiles.map(\.name) == ["Acme"])
+        #expect(reloaded.currentProfile == acme && reloaded.entries[0].profile == acme)
+        #expect(DayTemplate(name: "t", entries: reloaded.entries).entries(on: day)[0].profile == acme)
+    }
+
     @Test func totals() {
         #expect(1.5 * 3600 == TimeInterval(5400))
         #expect(TimeInterval(5400).hm == "1h 30m")

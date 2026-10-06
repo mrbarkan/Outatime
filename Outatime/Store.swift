@@ -7,6 +7,9 @@ final class Store {
     var entries: [Entry] = [] { didSet { if loaded { save() } } }
     var templates: [DayTemplate] = [] { didSet { if loaded { save() } } }
     var daysOff: Set<String> = [] { didSet { if loaded { save() } } }
+    var profiles: [Profile] = [] { didSet { if loaded { save() } } }
+    /// The client picked in the menu; new billable blocks get it.
+    var currentProfile: Profile.ID? { didSet { if loaded { save() } } }
     /// A block added in the Logbook opens its editor once it appears.
     var justAdded: Entry.ID?
     /// When the tomato timer was turned on; nil while it's off. Not saved: quitting turns it off.
@@ -19,6 +22,8 @@ final class Store {
         var entries: [Entry]
         var templates: [DayTemplate]
         var daysOff: [String]?  // added in 1.0.11
+        var profiles: [Profile]?  // added in 1.2
+        var current: UUID?
     }
 
     static let defaultURL = FileManager.default
@@ -34,6 +39,8 @@ final class Store {
                 entries = file.entries
                 templates = file.templates
                 daysOff = Set(file.daysOff ?? [])
+                profiles = file.profiles ?? []
+                currentProfile = file.current
             } else {
                 // Unreadable file: keep it aside so the next save can't silently destroy it.
                 try? FileManager.default.moveItem(at: url, to: url.appendingPathExtension("broken-\(Int(Date.now.timeIntervalSince1970))"))
@@ -47,7 +54,8 @@ final class Store {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         encoder.dateEncodingStrategy = .iso8601
-        guard let data = try? encoder.encode(File(entries: entries, templates: templates, daysOff: daysOff.sorted())) else { return }
+        guard let data = try? encoder.encode(File(entries: entries, templates: templates, daysOff: daysOff.sorted(),
+                                                profiles: profiles, current: currentProfile)) else { return }
         try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         try? data.write(to: url, options: .atomic)
     }
@@ -114,6 +122,24 @@ final class Store {
             since = prev.start
         }
         return since
+    }
+
+    // MARK: Clients
+
+    var activeProfiles: [Profile] { profiles.filter { !$0.archived } }
+    var profileNames: [Profile.ID: String] { Dictionary(profiles.map { ($0.id, $0.name) }) { a, _ in a } }
+
+    @discardableResult
+    func addProfile(_ name: String) -> Profile.ID? {
+        let name = name.trimmingCharacters(in: .whitespaces)
+        guard !name.isEmpty else { return nil }
+        let p = Profile(name: name)
+        profiles.append(p)
+        return p.id
+    }
+
+    func rename(_ id: Profile.ID, to name: String) {
+        if let i = profiles.firstIndex(where: { $0.id == id }) { profiles[i].name = name }
     }
 
     // MARK: Queries

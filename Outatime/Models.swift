@@ -5,6 +5,8 @@ nonisolated enum Activity: String, Codable, CaseIterable, Identifiable {
 
     var id: String { rawValue }
     static let defaultExcluded = "lunch"
+    /// Time billed to a client.
+    var billable: Bool { self == .work || self == .extra || self == .travel }
     var label: LocalizedStringKey {
         switch self {
         case .work: "Work"
@@ -39,16 +41,24 @@ nonisolated enum Activity: String, Codable, CaseIterable, Identifiable {
     }
 }
 
+/// A client billable blocks are tracked for. Removing one archives it, so old blocks keep its name.
+nonisolated struct Profile: Codable, Identifiable, Hashable {
+    var id = UUID()
+    var name: String
+    var archived = false
+}
+
 nonisolated struct Entry: Codable, Identifiable, Hashable {
     var id = UUID()
     var activity: Activity
     var start: Date
     var end: Date?
     var notes: [String] = []
+    var profile: Profile.ID?  // the client; only billable activities have one
 
-    enum CodingKeys: String, CodingKey { case id, activity, start, end, notes, tag }
-    init(id: UUID = UUID(), activity: Activity, start: Date, end: Date? = nil, notes: [String] = []) {
-        self.id = id; self.activity = activity; self.start = start; self.end = end; self.notes = notes
+    enum CodingKeys: String, CodingKey { case id, activity, start, end, notes, tag, profile }
+    init(id: UUID = UUID(), activity: Activity, start: Date, end: Date? = nil, notes: [String] = [], profile: Profile.ID? = nil) {
+        self.id = id; self.activity = activity; self.start = start; self.end = end; self.notes = notes; self.profile = profile
     }
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -59,12 +69,13 @@ nonisolated struct Entry: Codable, Identifiable, Hashable {
         // ponytail: pre-1.1 files stored a single "tag"; fold it into notes.
         notes = try c.decodeIfPresent([String].self, forKey: .notes)
             ?? [try c.decodeIfPresent(String.self, forKey: .tag) ?? ""].filter { !$0.isEmpty }
+        profile = try c.decodeIfPresent(UUID.self, forKey: .profile)  // added in 1.2
     }
     func encode(to encoder: Encoder) throws {
         var c = encoder.container(keyedBy: CodingKeys.self)
         try c.encode(id, forKey: .id); try c.encode(activity, forKey: .activity)
         try c.encode(start, forKey: .start); try c.encodeIfPresent(end, forKey: .end)
-        try c.encode(notes, forKey: .notes)
+        try c.encode(notes, forKey: .notes); try c.encodeIfPresent(profile, forKey: .profile)
     }
 
     var isRunning: Bool { end == nil }
@@ -78,9 +89,10 @@ nonisolated struct DayTemplate: Codable, Identifiable, Hashable {
         var startMinute: Int
         var endMinute: Int
         var notes: [String] = []
+        var profile: Profile.ID?
 
-        init(activity: Activity, startMinute: Int, endMinute: Int, notes: [String]) {
-            self.activity = activity; self.startMinute = startMinute; self.endMinute = endMinute; self.notes = notes
+        init(activity: Activity, startMinute: Int, endMinute: Int, notes: [String], profile: Profile.ID? = nil) {
+            self.activity = activity; self.startMinute = startMinute; self.endMinute = endMinute; self.notes = notes; self.profile = profile
         }
         init(from decoder: Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -88,6 +100,7 @@ nonisolated struct DayTemplate: Codable, Identifiable, Hashable {
             startMinute = try c.decode(Int.self, forKey: .startMinute)
             endMinute = try c.decode(Int.self, forKey: .endMinute)
             notes = try c.decodeIfPresent([String].self, forKey: .notes) ?? []  // pre-1.1 slots had "tag"; templates drop it
+            profile = try c.decodeIfPresent(UUID.self, forKey: .profile)
         }
     }
 
@@ -100,7 +113,7 @@ nonisolated struct DayTemplate: Codable, Identifiable, Hashable {
         slots = entries.map { e in
             let day = calendar.startOfDay(for: e.start)
             let minute = { (d: Date) in Int(d.timeIntervalSince(day) / 60) }
-            return Slot(activity: e.activity, startMinute: minute(e.start), endMinute: minute(e.end ?? .now), notes: e.notes)
+            return Slot(activity: e.activity, startMinute: minute(e.start), endMinute: minute(e.end ?? .now), notes: e.notes, profile: e.profile)
         }
     }
 
@@ -110,7 +123,7 @@ nonisolated struct DayTemplate: Codable, Identifiable, Hashable {
             Entry(activity: s.activity,
                   start: base.addingTimeInterval(TimeInterval(s.startMinute * 60)),
                   end: base.addingTimeInterval(TimeInterval(s.endMinute * 60)),
-                  notes: s.notes)
+                  notes: s.notes, profile: s.profile)
         }
     }
 }
