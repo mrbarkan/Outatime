@@ -97,6 +97,23 @@ struct MenuPanel: View {
                 row("This Week", worked: week.worked, balance: week.balance, shortfall: .red)
                 row("This Month", worked: month.worked, balance: month.balance, shortfall: .red)
                 row("Since \(since, format: .dateTime.day().month(.abbreviated))", worked: bank.worked, balance: bank.balance, shortfall: .red)
+                let stats = Stats(store.entries, target: target, bankSince: since)
+                if stats.weekGoal > 0 {
+                    GridRow {
+                        Text("Left this week").foregroundStyle(.secondary).gridColumnAlignment(.leading)
+                        Spacer()
+                        if stats.weekLeft > 0 { Text(stats.weekLeft.hm) } else { Text("Done").foregroundStyle(.green) }
+                        Text("of \(stats.weekGoal.hm)").foregroundStyle(.secondary)
+                    }
+                }
+                if stats.dayTarget > 0 {
+                    GridRow {
+                        Text("To next day off").foregroundStyle(.secondary)
+                        Spacer()
+                        Text(stats.toDayOff.hm)
+                        if stats.daysOffBanked > 0 { Text("\(stats.daysOffBanked) banked").foregroundStyle(.green) } else { Text(verbatim: "") }
+                    }
+                }
             }
             .font(.caption).monospacedDigit()
         }

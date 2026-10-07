@@ -9,6 +9,9 @@ struct EditorView: View {
     @State private var naming = false
     @State private var templateName = ""
     @State private var pendingTemplate: DayTemplate?
+    @State private var selection: Set<Entry.ID> = []
+    @State private var showStats = false
+    @AppStorage("bankSince") private var bankSince = 0.0
     @FocusState private var sidebarFocused: Bool
     @Environment(\.appearsActive) private var appearsActive
     private static let zoomLevels = [40.0, 56, 84, 126, 189]
@@ -21,6 +24,9 @@ struct EditorView: View {
         let monthBalance = store.balance(cal.dateInterval(of: .month, for: month)!, target).balance
         let weeks = Dictionary(grouping: month.daysInMonth) { cal.dateInterval(of: .weekOfYear, for: $0)!.start }
             .sorted { $0.key < $1.key }.map(\.value)
+        // One scale for the month's bars, so a longer day draws a longer bar.
+        let scale = max(target.seconds * 1.25, store.entries(inMonth: month).reduce(into: [Date: TimeInterval]()) {
+            $0[cal.startOfDay(for: $1.start), default: 0] += $1.duration }.values.max() ?? 0, 3600)
         NavigationSplitView {
             // ⌘-click deselection is ignored, so there is always a day to show.
             List(selection: Binding(get: { day }, set: { if let d = $0 { day = d } })) {
@@ -28,7 +34,7 @@ struct EditorView: View {
                     Section {
                         ForEach(days, id: \.self) { d in
                             let totals = store.totals(on: d)
-                            DayRow(day: d, totals: totals, worked: totals.worked(excluding: excluded), target: target.seconds,
+                            DayRow(day: d, totals: totals, worked: totals.worked(excluding: excluded), scale: scale,
                                    owed: target.owed(on: d), dayOff: target.daysOff.contains(d.dayKey),
                                    // The highlight is only accent-coloured while the list is focused in the active window;
                                    // backgroundProminence doesn't report that in a sidebar list.
@@ -52,9 +58,9 @@ struct EditorView: View {
                 }
             }
             .focused($sidebarFocused)
-            .navigationSplitViewColumnWidth(min: 250, ideal: 270)
+            .navigationSplitViewColumnWidth(min: 280, ideal: 300)
         } detail: {
-            DayTimeline(day: day, entries: dayEntries)
+            DayTimeline(day: day, entries: dayEntries, selection: $selection)
                 .safeAreaInset(edge: .bottom) { summary(dayEntries) }
                 .navigationTitle(day.formatted(.dateTime.weekday(.wide).day().month(.wide)))
         }
@@ -73,6 +79,13 @@ struct EditorView: View {
                     .keyboardShortcut("=").disabled(hourHeight >= Self.zoomLevels.last!)
             }
             ToolbarSpacer(.fixed)
+            ToolbarItem {
+                Button("Stats", systemImage: "chart.bar.xaxis") { showStats.toggle() }
+                    .popover(isPresented: $showStats) {
+                        StatsView(stats: Stats(store.entries, target: target,
+                                               bankSince: bankSince > 0 ? Date(timeIntervalSinceReferenceDate: bankSince) : target.since))
+                    }
+            }
             ToolbarItemGroup {
                 Toggle("Day Off", systemImage: "beach.umbrella", isOn: Binding(
                     get: { store.daysOff.contains(day.dayKey) },
@@ -126,6 +139,7 @@ struct EditorView: View {
                             isPresented: Binding(get: { pendingTemplate != nil }, set: { if !$0 { pendingTemplate = nil } })) {
             Button("Replace", role: .destructive) { if let t = pendingTemplate { store.apply(t, to: day) } }
         }
+        .onChange(of: day) { selection = [] }
         .onAppear { NSApp.setActivationPolicy(.regular); NSApp.activate() }
         .onDisappear { NSApp.setActivationPolicy(.accessory) }
     }
@@ -188,7 +202,7 @@ private struct DayRow: View {
     let day: Date
     let totals: [Activity: TimeInterval]
     let worked: TimeInterval
-    let target: TimeInterval  // bar scale
+    let scale: TimeInterval  // the month's longest bar
     let owed: TimeInterval
     let dayOff: Bool
     let selected: Bool  // on the accent highlight everything goes white
@@ -206,7 +220,9 @@ private struct DayRow: View {
             // A past workday with nothing logged shows its shortfall, so a forgotten day can't hide.
             if !totals.isEmpty || owed > 0 {
                 bar(selected: selected)
+                // Fixed widths keep every bar in one column.
                 Text(worked.hm).foregroundStyle(selected ? Color.white : Color.primary)
+                    .frame(width: 58, alignment: .trailing)
                 // Today is still in progress: a shortfall isn't alarming yet.
                 Text(signed(balance)).fontWeight(.medium)
                     .foregroundStyle(selected ? Color.white : balance >= 0 ? Color.green : today ? Color.secondary : Color.red)
@@ -217,19 +233,25 @@ private struct DayRow: View {
         .padding(.vertical, 3)
     }
 
-    /// The day's activities stacked on a track that is one target long (or the whole day, if that ran longer).
+    /// The day's activities stacked on the month's scale, with a tick at the target on days that owe one.
     private func bar(selected: Bool) -> some View {
-        let width: CGFloat = 48
-        let scale = max(target, totals.values.reduce(0, +), 1)
+        let width: CGFloat = 64
         return HStack(spacing: 0) {
             ForEach(Activity.allCases.filter { totals[$0, default: 0] > 0 }) { a in
                 (selected ? Color.white.opacity(a == .work ? 1 : 0.55) : a.color)
-                    .frame(width: width * totals[a]! / scale)
+                    .frame(width: width * min(1, totals[a]! / scale))
             }
         }
-        .frame(width: width, height: 5, alignment: .leading)
+        .frame(width: width, height: 6, alignment: .leading)
         .background(selected ? AnyShapeStyle(.white.opacity(0.25)) : AnyShapeStyle(.quaternary))
         .clipShape(.capsule)
+        .overlay(alignment: .leading) {
+            if owed > 0 {
+                Capsule().fill(selected ? AnyShapeStyle(.white) : AnyShapeStyle(.primary.opacity(0.6)))
+                    .frame(width: 2, height: 12)
+                    .offset(x: width * min(1, owed / scale) - 1)
+            }
+        }
     }
 }
 
@@ -238,6 +260,8 @@ private struct DayTimeline: View {
     @Environment(Store.self) private var store
     let day: Date
     let entries: [Entry]
+    @Binding var selection: Set<Entry.ID>
+    @State private var anchor: Entry.ID?  // where a ⇧-click range starts
     @AppStorage("hourHeight") private var hourHeight = 56.0
     private let gutter: CGFloat = 48
 
@@ -260,8 +284,12 @@ private struct DayTimeline: View {
                     }
                     let floors = TimelineBlock.floors(entries, dayStart: dayStart, hourHeight: hourHeight)
                     ForEach(entries) { entry in
+                        let selected = selection.contains(entry.id)
                         TimelineBlock(entry: store.binding(for: entry), others: entries.filter { $0.id != entry.id }, dayStart: dayStart,
-                                      hourHeight: hourHeight, floor: floors[entry.id] ?? 0) { store.delete(entry.id) }
+                                      hourHeight: hourHeight, floor: floors[entry.id] ?? 0, selected: selected,
+                                      // Right-clicking a selected block acts on the whole selection.
+                                      actionIDs: selected ? selection : [entry.id],
+                                      onClick: { select(entry.id, $0) }, onDelete: { store.delete(entry.id) })
                             .padding(.leading, gutter).padding(.trailing, 12)
                     }
                 }
@@ -272,6 +300,12 @@ private struct DayTimeline: View {
                     let minutes = (((p.y - 10) / hourHeight * 4).rounded(.down) * 15).clamped(to: 0...(23 * 60))
                     store.addEntry(on: day, at: dayStart.addingTimeInterval(minutes * 60))
                 }
+                .onTapGesture { selection = [] }
+            }
+            // ⌘A and Esc, without buttons of their own.
+            .background {
+                Button { selection = Set(entries.map(\.id)) } label: { EmptyView() }.keyboardShortcut("a")
+                Button { selection = [] } label: { EmptyView() }.keyboardShortcut(.cancelAction).disabled(selection.isEmpty)
             }
             .overlay {
                 if entries.isEmpty {
@@ -280,6 +314,46 @@ private struct DayTimeline: View {
             }
             .onAppear { proxy.scrollTo(entries.first.map { Calendar.current.component(.hour, from: $0.start) } ?? 8, anchor: .top) }
         }
+    }
+
+    /// ⌘-click toggles a block, ⇧-click adds the run from the last one clicked; a plain click starts over.
+    private func select(_ id: Entry.ID, _ click: BlockClick) {
+        switch click {
+        case .plain:
+            selection = []
+            anchor = id
+        case .toggle:
+            if selection.remove(id) == nil { selection.insert(id) }
+            anchor = id
+        case .extend:
+            let ids = entries.map(\.id)  // by start
+            guard let a = anchor.flatMap(ids.firstIndex), let b = ids.firstIndex(of: id) else { return select(id, .toggle) }
+            selection.formUnion(ids[min(a, b)...max(a, b)])
+        }
+    }
+}
+
+enum BlockClick { case plain, toggle, extend }
+
+/// Right-click actions for one block or the selection.
+private struct BlockActions: View {
+    @Environment(Store.self) private var store
+    let ids: Set<Entry.ID>
+    let onDelete: () -> Void
+
+    var body: some View {
+        // Clients only go on billable blocks, so the menu is offered when there's one among them.
+        if !store.activeProfiles.isEmpty, store.entries.contains(where: { ids.contains($0.id) && $0.activity.billable }) {
+            Menu("Client") {
+                Button("No client") { store.assign(ids, to: nil) }
+                ForEach(store.activeProfiles) { p in Button(p.name) { store.assign(ids, to: p.id) } }
+            }
+        }
+        Menu("Activity") {
+            ForEach(Activity.allCases) { a in Button(a.label, systemImage: a.symbol) { store.setActivity(ids, a) } }
+        }
+        Divider()
+        Button("Delete", role: .destructive) { store.delete(ids); onDelete() }
     }
 }
 
@@ -290,6 +364,9 @@ private struct TimelineBlock: View {
     let dayStart: Date
     let hourHeight: CGFloat
     let floor: CGFloat  // where the block above ends on screen; a short block stretched to the minimum height reaches past its end
+    let selected: Bool
+    let actionIDs: Set<Entry.ID>
+    let onClick: (BlockClick) -> Void
     let onDelete: () -> Void
     @State private var draft: Entry?  // follows the pointer; settled + written to the store on release
     @State private var dragMode: BlockDrag.Mode?
@@ -347,7 +424,9 @@ private struct TimelineBlock: View {
             .onTapGesture(count: 2, coordinateSpace: .named("timeline")) { p in
                 store.insert(.break, at: dayStart + (((p.y - 10) / hourHeight * 12).rounded(.down) * 300), length: 900)
             }
-            .onTapGesture { editing = true }
+            .onTapGesture(perform: click)
+            .contextMenu { BlockActions(ids: actionIDs) { onClick(.plain) } }
+            .overlay { if selected { RoundedRectangle(cornerRadius: 6).strokeBorder(Color.accentColor, lineWidth: 2) } }
             .onAppear { if store.justAdded == entry.id { store.justAdded = nil; editing = true } }
             .onHover { hovering = $0 }
             .overlay(alignment: .top) { handle(.start, in: height) }
@@ -368,6 +447,12 @@ private struct TimelineBlock: View {
     }
 
     static let minHeight: CGFloat = 14
+
+    /// A plain click opens the editor; with ⌘ or ⇧ it selects instead.
+    private func click() {
+        let flags = NSEvent.modifierFlags
+        if flags.contains(.command) { onClick(.toggle) } else if flags.contains(.shift) { onClick(.extend) } else { onClick(.plain); editing = true }
+    }
 
     /// Where each block's top edge goes when the one above it was stretched to the minimum height past its end.
     static func floors(_ entries: [Entry], dayStart: Date, hourHeight: CGFloat) -> [Entry.ID: CGFloat] {
@@ -391,7 +476,7 @@ private struct TimelineBlock: View {
             }
             .pointerStyle(.frameResize(position: mode == .start ? .top : .bottom))
             .gesture(drag(mode))
-            .onTapGesture { editing = true }
+            .onTapGesture(perform: click)
     }
 
     private func drag(_ mode: BlockDrag.Mode) -> some Gesture {

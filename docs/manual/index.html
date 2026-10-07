@@ -137,13 +137,14 @@
         <li><strong>Today never shows as behind in red.</strong> The day isn't over yet.</li>
         <li><strong>The hours bank</strong> adds up every day's balance since a date you choose, which is handy if your hours are settled each quarter or year.</li>
       </ul>
+      <p>Under the balances, the menu panel shows what's left of this week's goal (your daily target times the week's workdays) and how much more you need to bank for a day off. For averages, your usual start and finish times and this month's figures, click <strong>Stats</strong> in the Logbook toolbar.</p>
       <h3>Extra after the target</h3>
       <p>Once today's hours reach the target, a running Work block switches itself to Extra, cut at the exact minute you got there, and you get a notification. On weekends and days off, all work is Extra. Turn this off in Settings → Tracking if you prefer to switch by hand.</p>
     </section>
 
     <section id="logbook">
       <h2>The Logbook</h2>
-      <p>Open it from the menu panel. The sidebar lists the month day by day, with each day's hours, a bar of what it was made of, the month's balance and each week's total. Pick a day to see it as a timeline.</p>
+      <p>Open it from the menu panel. The sidebar lists the month day by day, with each day's hours, a bar of what it was made of (the tick on it is your target), the month's balance and each week's total. Pick a day to see it as a timeline.</p>
 
       <figure>
         <div class="day" aria-hidden="true">
@@ -168,11 +169,14 @@
 
       <h3>Editing blocks</h3>
       <ul>
-        <li>Blocks snap to five-minute steps and to the edges of their neighbours. Blocks that touch move together: drag a shared edge and both change.</li>
+        <li>Blocks snap to five-minute steps and to the edges of their neighbours. Dragging an edge resizes only that block and stops at the next one. To move the border between two blocks that touch, hold <kbd>⌥</kbd> while you drag it.</li>
         <li>Double-click empty space, or use the + button in the toolbar, to add a block. It's an hour of Work and stops at the next block rather than overlapping it.</li>
         <li>In the editor, <kbd>⌥ Return</kbd> starts a new line of notes, and the duration stepper moves the end in five-minute steps.</li>
         <li>Delete a block from its editor.</li>
       </ul>
+
+      <h3>Several blocks at once</h3>
+      <p><kbd>⌘</kbd>-click blocks to select them, or <kbd>⇧</kbd>-click to select every block between the last one you clicked and this one. <kbd>⌘ A</kbd> selects the whole day and <kbd>Esc</kbd> clears the selection. Right-click the selection to give it a client, change its activity or delete it. Clients only go on Work, Extra and Travel blocks.</p>
 
       <h3>Templates</h3>
       <p>When your days tend to look the same, set one up in the Logbook, then choose Templates → Save Day as Template. Apply it to any other day from the same menu. Applying a template to a day that already has blocks asks before replacing them.</p>
@@ -245,6 +249,8 @@
           <tr><td><kbd>⌘ [</kbd> <kbd>⌘ ]</kbd></td><td>Previous or next day in the Logbook</td></tr>
           <tr><td><kbd>⌘ T</kbd></td><td>Today in the Logbook</td></tr>
           <tr><td><kbd>⌘ −</kbd> <kbd>⌘ =</kbd></td><td>Zoom the Logbook timeline</td></tr>
+          <tr><td><kbd>⌘ A</kbd> <kbd>Esc</kbd></td><td>Select every block of the day, or clear the selection</td></tr>
+          <tr><td><kbd>⌥</kbd> + drag</td><td>Move the border between two blocks that touch</td></tr>
           <tr><td><kbd>⌘ ,</kbd></td><td>Settings, from the menu panel</td></tr>
           <tr><td><kbd>⌘ Q</kbd></td><td>Quit, from the menu panel</td></tr>
         </tbody>
