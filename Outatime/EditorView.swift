@@ -408,9 +408,9 @@ private struct TimelineBlock: View {
             .onEnded { g in
                 guard draft != nil else { return }
                 let d = moved(g, mode, drop: true)
-                // ponytail: a shared border drags the neighbour with it, but only on release — writing the store
-                // per pointer move would save the file at 60 Hz. BlockDrag keeps the neighbour ≥ 5 min long.
-                if var n = BlockDrag.neighbour(of: entry, mode, in: others) {
+                // ponytail: with ⌥ a shared border drags the neighbour with it, but only on release — writing the
+                // store per pointer move would save the file at 60 Hz. BlockDrag keeps the neighbour ≥ 5 min long.
+                if Self.together, var n = BlockDrag.neighbour(of: entry, mode, in: others) {
                     if mode == .start { n.end = d.start } else { n.start = d.end! }
                     store.binding(for: n).wrappedValue = n
                 }
@@ -425,8 +425,11 @@ private struct TimelineBlock: View {
     private func moved(_ g: DragGesture.Value, _ mode: BlockDrag.Mode, drop: Bool) -> Entry {
         // ponytail: 4 pt magnet — under one 5-minute step at the default zoom, so a block can still sit 5 min off an edge.
         BlockDrag.drag(entry, mode, by: g.translation.height / hourHeight * 3600, others: others,
-                       dayStart: dayStart, magnet: 4 / hourHeight * 3600, drop: drop)
+                       dayStart: dayStart, magnet: 4 / hourHeight * 3600, drop: drop, together: Self.together)
     }
+
+    /// ⌥ held: a shared border moves both blocks.
+    private static var together: Bool { NSEvent.modifierFlags.contains(.option) }
 }
 
 /// Drag math for timeline blocks, kept free of views so it can be tested.
@@ -448,11 +451,15 @@ nonisolated enum BlockDrag {
 
     /// `e` dragged by `delta` seconds. Edges within `magnet` seconds of another block's edge stick to it; on `drop`
     /// every other dragged edge lands on the 5-minute grid. Only the dragged edge moves — a resize never nudges the
-    /// opposite edge, and a move keeps the duration.
+    /// opposite edge, and a move keeps the duration. A resize stops at the next block; `together` (⌥) moves a shared
+    /// border instead, and the neighbour follows on release.
     static func drag(_ e: Entry, _ mode: Mode, by delta: TimeInterval, others: [Entry], dayStart: Date,
-                     magnet: TimeInterval, drop: Bool, now: Date = .now) -> Entry {
+                     magnet: TimeInterval, drop: Bool, together: Bool = false, now: Date = .now) -> Entry {
         // The shared neighbour moves with this edge, so its edges can't attract it — they'd pin it in place.
-        let shared = neighbour(of: e, mode, in: others)
+        let shared = together ? neighbour(of: e, mode, in: others) : nil
+        let walls = others.filter { $0.id != shared?.id }
+        let above = walls.compactMap(\.end).filter { $0 <= e.start + 1 }.max()
+        let below = walls.map(\.start).filter { $0 >= (e.end ?? now) - 1 }.min()
         let edges = others.filter { $0.id != shared?.id }.flatMap { [$0.start, $0.end].compactMap { $0 } }
         func pull(_ t: Date) -> TimeInterval? {
             edges.map { $0.timeIntervalSince(t) }.filter { abs($0) <= magnet }.min { abs($0) < abs($1) }
@@ -475,10 +482,10 @@ nonisolated enum BlockDrag {
             d.start += shift
             d.end = d.end.map { $0 + shift }
         case .start:
-            let floor = shared.map { $0.start + minLength } ?? dayStart
+            let floor = shared.map { $0.start + minLength } ?? above ?? dayStart
             d.start = min(max(settle(e.start + delta), floor), (e.end ?? now) - minLength)
         case .end:
-            let ceiling = shared.map { ($0.end ?? now) - minLength } ?? dayEnd
+            let ceiling = shared.map { ($0.end ?? now) - minLength } ?? below ?? dayEnd
             d.end = max(min(settle((e.end ?? now) + delta), ceiling), e.start + minLength)
         }
         return d

@@ -94,8 +94,8 @@ nonisolated struct OutatimeTests {
         let b = Entry(activity: .break, start: at(10), end: at(11, 3).addingTimeInterval(27))
         #expect(BlockDrag.neighbour(of: b, .start, in: [a])?.id == a.id)
 
-        // A shared border can be nudged one grid step; the neighbour's own edge must not pull it back.
-        let nudged = BlockDrag.drag(b, .start, by: 200, others: [a], dayStart: start, magnet: magnet, drop: true)
+        // With ⌥ a shared border can be nudged one grid step; the neighbour's own edge must not pull it back.
+        let nudged = BlockDrag.drag(b, .start, by: 200, others: [a], dayStart: start, magnet: magnet, drop: true, together: true)
         #expect(nudged.start == at(10, 5))
         // Resizing the top leaves an off-grid bottom alone.
         #expect(nudged.end == b.end)
@@ -105,6 +105,23 @@ nonisolated struct OutatimeTests {
         let moved = BlockDrag.drag(b, .move, by: 55 * 60, others: [c], dayStart: start, magnet: magnet, drop: true)
         #expect(moved.end == at(12))
         #expect(moved.duration == b.duration)
+    }
+
+    /// A plain drag moves only the grabbed block: touching blocks come apart, and no resize runs into a neighbour.
+    @Test func blockDragDetaches() {
+        let magnet = 4.0 / 56 * 3600
+        let start = cal.startOfDay(for: day)
+        let a = Entry(activity: .work, start: at(9), end: at(10))
+        let b = Entry(activity: .break, start: at(10), end: at(10, 30))
+        let c = Entry(activity: .lunch, start: at(12), end: at(13))
+        let apart = BlockDrag.drag(b, .start, by: 600, others: [a, c], dayStart: start, magnet: magnet, drop: true)
+        #expect(apart.start == at(10, 10) && apart.end == at(10, 30))
+        // Up past its neighbour's end: stops there instead of overlapping (⌥ would push the neighbour instead).
+        #expect(BlockDrag.drag(b, .start, by: -1800, others: [a, c], dayStart: start, magnet: magnet, drop: true).start == at(10))
+        #expect(BlockDrag.drag(b, .start, by: -1800, others: [a, c], dayStart: start, magnet: magnet, drop: true, together: true).start == at(9, 30))
+        // Down across a gap into the next block: stops at its start.
+        #expect(BlockDrag.drag(b, .end, by: 3 * 3600, others: [a, c], dayStart: start, magnet: magnet, drop: true).end == at(12))
+        #expect(BlockDrag.drag(a, .end, by: 900, others: [b, c], dayStart: start, magnet: magnet, drop: true).end == at(10))
     }
 
     @Test func breakCountsAsWork() {
