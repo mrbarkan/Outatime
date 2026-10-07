@@ -270,6 +270,30 @@ final class Store {
         entries.removeAll { $0.id == id }
     }
 
+    // MARK: Several blocks at once (one save each)
+
+    func delete(_ ids: Set<Entry.ID>) {
+        entries.removeAll { ids.contains($0.id) }
+    }
+
+    /// Only billable blocks take a client; the rest of the selection is left alone.
+    func assign(_ ids: Set<Entry.ID>, to profile: Profile.ID?) {
+        entries = entries.map { e in
+            guard ids.contains(e.id), e.activity.billable else { return e }
+            var e = e; e.profile = profile; return e
+        }
+    }
+
+    /// A non-billable activity drops the client.
+    func setActivity(_ ids: Set<Entry.ID>, _ activity: Activity) {
+        entries = entries.map { e in
+            guard ids.contains(e.id) else { return e }
+            var e = e; e.activity = activity
+            if !activity.billable { e.profile = nil }
+            return e
+        }
+    }
+
     func apply(_ template: DayTemplate, to day: Date) {
         entries.removeAll { Calendar.current.isDate($0.start, inSameDayAs: day) && !$0.isRunning }
         entries.append(contentsOf: template.entries(on: day))

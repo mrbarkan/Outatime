@@ -405,6 +405,21 @@ nonisolated struct OutatimeTests {
         #expect(rich.daysOffBanked == 1 && rich.bank - 8 * 3600 == 3600 * 3)
     }
 
+    /// Several blocks at once: a client only lands on billable ones, a non-billable activity drops it.
+    @Test @MainActor func selectionEdits() throws {
+        let store = Store(url: FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json"))
+        let acme = try #require(store.addProfile("Acme"))
+        let w = Entry(activity: .work, start: at(9), end: at(10)), b = Entry(activity: .break, start: at(10), end: at(10, 15))
+        let x = Entry(activity: .extra, start: at(18), end: at(19))
+        store.entries = [w, b, x]
+        store.assign([w.id, b.id, x.id], to: acme)
+        #expect(store.entries.map(\.profile) == [acme, nil, acme])
+        store.setActivity([w.id, b.id], .lunch)
+        #expect(store.entries.map(\.activity) == [.lunch, .lunch, .extra] && store.entries[0].profile == nil)
+        store.delete([b.id, x.id])
+        #expect(store.entries.map(\.id) == [w.id])
+    }
+
     @Test func totals() {
         #expect(1.5 * 3600 == TimeInterval(5400))
         #expect(TimeInterval(5400).hm == "1h 30m")
