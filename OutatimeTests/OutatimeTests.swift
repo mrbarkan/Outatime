@@ -359,6 +359,35 @@ nonisolated struct OutatimeTests {
         #expect(OutatimeApp.storeURL != Store.defaultURL)
     }
 
+    /// Two full weeks (10h days, then 7h days) and a Saturday of Extra; "now" is Wednesday noon of the third week.
+    @Test func stats() throws {
+        let week1 = cal.dateInterval(of: .weekOfYear, for: cal.date(from: DateComponents(year: 2026, month: 8, day: 31))!)!.start
+        func on(_ d: Int, _ from: Int, _ to: Int, _ a: Activity = .work) -> Entry {
+            let date = cal.date(byAdding: .day, value: d, to: cal.date(from: DateComponents(year: 2026, month: 8, day: 31))!)!
+            return Entry(activity: a, start: cal.date(bySettingHour: from, minute: 0, second: 0, of: date)!,
+                         end: cal.date(bySettingHour: to, minute: 0, second: 0, of: date)!)
+        }
+        var entries = (0..<5).map { on($0, 9, 19) } + (7..<12).map { on($0, 9, 16) } + [on(12, 10, 11, .extra)]
+        entries += [on(14, 9, 17), on(15, 9, 17), on(16, 9, 11)]
+        let now = cal.date(bySettingHour: 12, minute: 0, second: 0, of: entries.last!.start)!
+        let target = Target(seconds: 8 * 3600, since: week1)
+        let s = Stats(entries, target: target, bankSince: week1, now: now)
+
+        #expect(s.weekGoal == 40 * 3600 && s.weekWorked == 18 * 3600 && s.weekLeft == 22 * 3600)
+        #expect(s.bank == 6 * 3600 && s.toDayOff == 2 * 3600 && s.daysOffBanked == 0)
+        #expect(abs(s.averageWeek! - 43 * 3600) < 1)
+        #expect(s.averageMonth == nil)  // August started mid-month, September isn't over
+        #expect(abs(s.averageDay! - 104.0 / 14 * 3600) < 1)
+        #expect(s.usualStart == 9 * 60 && s.usualFinish == 17 * 60)
+        #expect(s.longestDay?.worked == 10 * 3600 && cal.component(.day, from: s.longestDay!.date) == 1)
+        #expect(s.extraThisMonth == 3600 && s.daysWorkedThisMonth == 13)
+
+        // A long Wednesday: 11h still to go this week, and more than a day banked.
+        let rich = Stats(entries + [on(16, 12, 23)], target: target, bankSince: week1, now: cal.date(bySettingHour: 23, minute: 30, second: 0, of: now)!)
+        #expect(rich.weekLeft == 11 * 3600)
+        #expect(rich.daysOffBanked == 1 && rich.bank - 8 * 3600 == 3600 * 3)
+    }
+
     @Test func totals() {
         #expect(1.5 * 3600 == TimeInterval(5400))
         #expect(TimeInterval(5400).hm == "1h 30m")

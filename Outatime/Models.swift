@@ -147,9 +147,14 @@ nonisolated struct Target {
     /// Weekends, days off, days before tracking began and days still ahead owe nothing.
     // ponytail: workdays are the locale's weekdays; a per-weekday schedule when someone works Saturdays.
     func owed(on day: Date, now: Date = .now) -> TimeInterval {
+        Calendar.current.startOfDay(for: day) <= now ? scheduled(on: day) : 0
+    }
+
+    /// What a day will owe once it comes, so a week's goal counts the days still ahead.
+    func scheduled(on day: Date) -> TimeInterval {
         let cal = Calendar.current
         let d = cal.startOfDay(for: day)
-        guard !cal.isDateInWeekend(d), !daysOff.contains(d.dayKey), d <= now, d >= cal.startOfDay(for: since) else { return 0 }
+        guard !cal.isDateInWeekend(d), !daysOff.contains(d.dayKey), d >= cal.startOfDay(for: since) else { return 0 }
         return seconds
     }
 
