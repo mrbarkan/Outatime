@@ -26,18 +26,21 @@ Most time trackers want a project, a client, a billing rate and an account. Outa
 
 ## Features
 
-- **Menu bar tracking** — four tiles: Work, Break, Lunch, Extra. Press one to start, press it again to stop. The menu bar shows the icon and elapsed time.
-- **Optional tag** — type a project or ticket while tracking; it's saved with the entry.
-- **Logbook** — a calendar-style day view. Drag an entry to move it, drag its edge to resize, click to edit, double-click empty space to add one. Jump between days and months.
-- **Daily balance** — worked time (work + break + extra; lunch is unpaid) against a target you set, shown in the menu and the logbook.
+- **Menu bar tracking** — six tiles: Work, Break, Lunch, Extra, Travel, Out of Office. Press one to start, press it again to stop. The menu bar shows the icon and elapsed time, or how far today is from your target.
+- **Notes** — type what you're working on while tracking; it's saved with the block.
+- **Clients** — pick a client in the menu and Work, Extra and Travel are tracked for them. Switching clients splits the running block right there.
+- **Logbook** — a calendar-style day view. Drag a block to move it, drag an edge to resize it (hold ⌥ to move the border between two blocks), click to edit, double-click empty space to add one, double-click inside a block to cut in a break. ⌘- or ⇧-click several blocks and right-click to change their client or activity. The month sidebar draws every day on one scale, with a tick at the target.
+- **Daily balance** — worked time against a target you set (by default everything but lunch counts), for today, the week, the month and an hours bank since a date you choose.
+- **Stats** — what's left of this week's goal and how much more to bank for a day off, right in the menu. Averages per week, month and workday, your usual start and finish, and this month's figures in the Logbook.
 - **Extra after the target** — once a day's worked time reaches the target, Work switches itself to Extra, cut at the exact minute. Weekends and days off are all Extra. Can be turned off.
 - **Tomato timer** — turn it on from the menu for 25-minute focus rounds and 5-minute breaks (15 after every fourth). Each round ends with a notification whose button switches Work ↔ Break for you, and the menu bar counts down the round.
 - **Stretch reminder** — a nudge to get up every 50 minutes of unbroken work (adjustable, or off).
 - **Colored menu bar** — the icon takes the activity's color: blue for Work, green for Break, orange for Lunch…
 - **Day templates** — save a typical day and apply it to any date in one click.
-- **Excel reports** — a monthly report, or a master workbook of everything with a dashboard up front. CSVs too, for Notion or Numbers.
-- **Settings** — light/dark, language (English, Español, Português BR, Français, Deutsch, Italiano, 日本語, 简体中文), what the menu bar shows, open at login.
-- **Updates** — [Sparkle](https://sparkle-project.org): signed updates install themselves, no visit to the download page.
+- **Excel reports** — a monthly report with hours per client, a month for one client to attach to an invoice, or a master workbook of everything with a dashboard up front. CSVs too, for Notion or Numbers.
+- **Eight languages** — English, Español, Português (Brasil), Français, Deutsch, Italiano, 日本語 and 简体中文, in the app and in the [manual](https://mrbarkan.github.io/Outatime/manual/).
+- **Settings** — four short tabs: appearance, language, what the menu bar shows and open at login; the target and reminders; clients; tomato durations.
+- **Updates** — [Sparkle](https://sparkle-project.org): signed updates install themselves, no visit to the download page. Opt into beta builds in Settings → General.
 - **Native** — SwiftUI, Liquid Glass, sandboxed, notarized. No Electron, no accounts, no telemetry.
 
 ## Install
@@ -54,13 +57,14 @@ Everything lives in one file you own:
 ~/Library/Containers/com.dbarkan.Outatime/Data/Library/Application Support/Outatime/data.json
 ```
 
-Back it up, sync it, `jq` it — it's just entries and templates.
+Back it up, sync it, `jq` it — it's just entries, templates, clients and days off.
 
 ## Export
 
 Menu bar → **Export**, or the Logbook toolbar.
 
-- **Monthly Report (Excel)** — `Outatime 2026-09.xlsx`. *Summary*: one row per day (Date, Work, Break, Lunch, Extra, Travel, Out of Office, Worked, Target, Balance, Notes) with a totals row. *Entries*: every block (Date, Activity, Start, End, Hours, Notes).
+- **Monthly Report (Excel)** — `Outatime 2026-09.xlsx`. *Summary*: one row per day (Date, Work, Break, Lunch, Extra, Travel, Out of Office, Worked, Target, Balance, Notes) with a totals row. *Clients*: hours per client, when you use them. *Entries*: every block (Date, Activity, Start, End, Hours, Notes, Client).
+- **Client report (Excel)** — one client's month for invoicing: hours per day and the blocks behind them, no target or balance.
 - **Master Workbook (Excel)** — `Outatime Master.xlsx`, everything since you started tracking: a *Dashboard* (hours worked, hours bank, days worked, average day, a worked-vs-target chart, breakdowns by activity and by month), then the same *Summary* and *Entries* sheets. Both are Excel tables, so pasting a month report's day rows right under them grows the tables and the dashboard follows. Re-exporting the master does the same in one step.
 - **CSV** — the daily summary and the entry list per month, for tools that want plain text.
 
@@ -81,7 +85,7 @@ xcodebuild -project Outatime.xcodeproj -scheme Outatime -configuration Debug -de
 open build/dd/Build/Products/Debug/Outatime.app
 ```
 
-Tests: `xcodebuild -project Outatime.xcodeproj -scheme Outatime test` (Swift Testing; includes a check that every UI string has `es` and `pt-BR` translations in `Outatime/Localizable.xcstrings`).
+Tests: `xcodebuild -project Outatime.xcodeproj -scheme Outatime test` (Swift Testing; includes a check that every UI string in `Outatime/Localizable.xcstrings` is translated into every language the Settings picker offers).
 
 ### Layout
 
@@ -90,14 +94,19 @@ Outatime/
   OutatimeApp.swift   scenes: menu bar extra, Logbook window, Settings
   MenuPanel.swift     the menu bar popover
   EditorView.swift    Logbook: month sidebar + draggable day timeline
-  Store.swift         entries, templates, JSON persistence
-  Models.swift        Activity, Entry, DayTemplate
+  StatsView.swift     the Logbook's Stats popover
+  WhatsNew.swift      release notes shown once after an update
+  Focus.swift         tomato timer, stretch reminder, notifications
+  Store.swift         entries, templates, clients, JSON persistence
+  Models.swift        Activity, Profile (client), Entry, DayTemplate, Target
+  Stats.swift         week goal, day-off bank, averages
   Export.swift        CSV and the Excel reports' content
   Workbook.swift      minimal .xlsx writer: tables, styles, a chart, zip
   Updater.swift       Sparkle updater
-  Settings.swift      Settings window, appearance/language/login item
+  Settings.swift      Settings tabs, appearance/language/login item, the manual link
+docs/manual/          the user manual (GitHub Pages), one folder per language
 scripts/
-  release.sh          archive → Developer ID export → DMG → notarize → appcast → GitHub release
+  release.sh          archive → Developer ID export → DMG → notarize → appcast → GitHub release (--beta: pre-release)
   make-icon.swift     regenerates the app icon from AppKit drawing code
 ```
 
@@ -119,7 +128,7 @@ Then bump `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION` in `project.yml` and
 
 ## Contributing
 
-Issues and pull requests welcome. Keep it small: this app is deliberately minimal, and the best PR is often the one that deletes something. New UI strings need `es` and `pt-BR` entries or the test suite fails.
+Issues and pull requests welcome. Keep it small: this app is deliberately minimal, and the best PR is often the one that deletes something. New UI strings need entries for all seven translations (es, pt-BR, fr, de, it, ja, zh-Hans) or the test suite fails.
 
 ## License
 
