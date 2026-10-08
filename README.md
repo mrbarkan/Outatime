@@ -28,7 +28,7 @@ Most time trackers want a project, a client, a billing rate and an account. Outa
 
 - **Menu bar tracking** — six tiles: Work, Break, Lunch, Extra, Travel, Out of Office. Press one to start, press it again to stop. The menu bar shows the icon and elapsed time, or how far today is from your target.
 - **Notes** — type what you're working on while tracking; it's saved with the block.
-- **Clients** — pick a client in the menu and Work, Extra and Travel are tracked for them. Switching clients splits the running block right there.
+- **Clients** — pick a client from the grid in the menu and Work, Extra and Travel are tracked for them. Switching clients splits the running block right there.
 - **Logbook** — a calendar-style day view. Drag a block to move it, drag an edge to resize it (hold ⌥ to move the border between two blocks), click to edit, double-click empty space to add one, double-click inside a block to cut in a break. ⌘- or ⇧-click several blocks and right-click to change their client or activity. The month sidebar draws every day on one scale, with a tick at the target.
 - **Daily balance** — worked time against a target you set (by default everything but lunch counts), for today, the week, the month and an hours bank since a date you choose.
 - **Stats** — what's left of this week's goal and how much more to bank for a day off, right in the menu. Averages per week, month and workday, your usual start and finish, and this month's figures in the Logbook.
@@ -96,6 +96,7 @@ Outatime/
   EditorView.swift    Logbook: month sidebar + draggable day timeline
   StatsView.swift     the Logbook's Stats popover
   WhatsNew.swift      release notes shown once after an update
+  About.swift         the About window: version, support address, links
   Focus.swift         tomato timer, stretch reminder, notifications
   Store.swift         entries, templates, clients, JSON persistence
   Models.swift        Activity, Profile (client), Entry, DayTemplate, Target
@@ -125,6 +126,10 @@ One-time: create the Sparkle signing key (kept in your login keychain) and paste
 ```
 
 Then bump `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION` in `project.yml` and run `scripts/release.sh`. It builds, signs, notarizes, staples, generates a signed `appcast.xml`, and publishes both as GitHub release `v<version>`. Sparkle reads the feed at `releases/latest/download/appcast.xml`, which always redirects to the newest release.
+
+## Support
+
+Questions, bugs or ideas: [opa@mrbarkan.com](mailto:opa@mrbarkan.com), or **About → Contact Support** in the app, which fills in your version and macOS.
 
 ## Contributing
 
