@@ -39,7 +39,7 @@ Most time trackers want a project, a client, a billing rate and an account. Outa
 - **Day templates** — save a typical day and apply it to any date in one click.
 - **Excel reports** — a monthly report with hours per client, a month for one client to attach to an invoice, or a master workbook of everything with a dashboard up front. CSVs too, for Notion or Numbers.
 - **Eight languages** — English, Español, Português (Brasil), Français, Deutsch, Italiano, 日本語 and 简体中文, in the app and in the [manual](https://mrbarkan.github.io/Outatime/manual/).
-- **Settings** — four short tabs: appearance, language, what the menu bar shows and open at login; the target and reminders; clients; tomato durations.
+- **Settings** — five short tabs: General (appearance, language, menu bar, open at login, global shortcuts), Target, Focus (tomato timer and reminders), Clients and Updates.
 - **Updates** — [Sparkle](https://sparkle-project.org): signed updates install themselves, no visit to the download page. Opt into beta builds in Settings → General.
 - **Native** — SwiftUI, Liquid Glass, sandboxed, notarized. No Electron, no accounts, no telemetry.
 

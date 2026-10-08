@@ -65,14 +65,15 @@ enum MenuBarStyle: String, CaseIterable {
     }
 }
 
-/// Four short tabs rather than one long form.
+/// Five short tabs, none taller than a handful of rows.
 struct SettingsView: View {
     var body: some View {
         TabView {
             Tab("General", systemImage: "gearshape") { GeneralSettings() }
-            Tab("Tracking", systemImage: "clock") { TrackingSettings() }
+            Tab("Target", systemImage: "target") { TargetSettings() }
+            Tab("Focus", systemImage: "timer") { FocusSettings() }
             Tab("Clients", systemImage: "person.2") { ClientSettings() }
-            Tab("Tomato timer", systemImage: "timer") { TomatoSettings() }
+            Tab("Updates", systemImage: "arrow.down.circle") { UpdateSettings() }
         }
         .scenePadding(.minimum, edges: .horizontal)
         .frame(width: 420)
@@ -84,12 +85,11 @@ private extension View {
 }
 
 private struct GeneralSettings: View {
-    @Environment(Updater.self) private var updater
     @AppStorage("appearance") private var appearance = Appearance.system
     @AppStorage("language") private var language = Language.system
     @AppStorage("menuBarStyle") private var menuBarStyle = MenuBarStyle.iconAndTime
     @AppStorage("coloredIcon") private var coloredIcon = true
-    @AppStorage(Updater.betaKey) private var beta = false
+    @AppStorage("globalShortcuts") private var globalShortcuts = true
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
 
     var body: some View {
@@ -115,63 +115,81 @@ private struct GeneralSettings: View {
                     launchAtLogin = SMAppService.mainApp.status == .enabled
                 }
 
-            Section("Updates") {
-                LabeledContent("Version \(Updater.current)") {
-                    Button("Check for Updates…") { updater.check() }
+            Toggle(isOn: $globalShortcuts) {
+                Text("Global shortcuts")
+                Text("⌃⌥⌘W starts or stops Work, ⌃⌥⌘B Break")
+            }
+            .onChange(of: globalShortcuts) { HotKeys.setEnabled(globalShortcuts) }
+        }
+        .settingsForm()
+    }
+}
+
+private struct TargetSettings: View {
+    @Environment(Store.self) private var store
+    @AppStorage("targetHours") private var targetHours = 8.0
+    @AppStorage("excludedFromTarget") private var excluded = Activity.defaultExcluded
+    @AppStorage("bankSince") private var bankSince = 0.0  // 0: since the first entry
+    @AppStorage("autoExtra") private var autoExtra = true
+
+    var body: some View {
+        Form {
+            Section {
+                Stepper("Daily target \(targetHours.formatted())h", value: $targetHours, in: 0...16, step: 0.5)
+                // Work and extra always count; the rest is the user's call. One row of icon toggles keeps the tab short.
+                LabeledContent("Counts toward the target") {
+                    HStack(spacing: 4) {
+                        ForEach([Activity.break, .lunch, .travel, .outOfOffice]) { a in
+                            Toggle(isOn: Binding(get: { !excluded.split(separator: ",").contains(Substring(a.rawValue)) },
+                                                 set: { on in
+                                let out = excluded.split(separator: ",").map(String.init).filter { $0 != a.rawValue }
+                                excluded = (on ? out : out + [a.rawValue]).joined(separator: ",")
+                            })) { Label(a.label, systemImage: a.symbol) }
+                            .toggleStyle(.button).labelStyle(.iconOnly)
+                            .help(a.label)
+                        }
+                    }
                 }
-                Toggle(isOn: $beta) {
-                    Text("Get beta updates")
-                    Text("Early builds of the next version. They may have rough edges.")
-                }
-                .onChange(of: beta) { if beta { updater.check() } }
+                DatePicker("Hours bank since", selection: Binding(
+                    get: { bankSince > 0 ? Date(timeIntervalSinceReferenceDate: bankSince) : store.target(hours: 0, excluded: "").since },
+                    set: { bankSince = Calendar.current.startOfDay(for: $0).timeIntervalSinceReferenceDate }), displayedComponents: .date)
+                Toggle("Switch to Extra after the target", isOn: $autoExtra)
+            } footer: {
+                Text("Weekends and days off owe nothing; mark a day off from the Logbook toolbar.")
+                    .font(.caption).foregroundStyle(.secondary)
             }
         }
         .settingsForm()
     }
 }
 
-private struct TrackingSettings: View {
-    @Environment(Store.self) private var store
-    @AppStorage("targetHours") private var targetHours = 8.0
-    @AppStorage("excludedFromTarget") private var excluded = Activity.defaultExcluded
-    @AppStorage("bankSince") private var bankSince = 0.0  // 0: since the first entry
-    @AppStorage("autoExtra") private var autoExtra = true
-    @AppStorage("remindAfterHours") private var remindAfter = 10.0
+/// The tomato timer and the reminders that get you out of the chair.
+private struct FocusSettings: View {
+    @AppStorage("focusMinutes") private var focus = 25
+    @AppStorage("shortBreakMinutes") private var shortBreak = 5
+    @AppStorage("longBreakMinutes") private var longBreak = 15
     @AppStorage("stretchMinutes") private var stretchEvery = 50
-    @AppStorage("globalShortcuts") private var globalShortcuts = true
+    @AppStorage("remindAfterHours") private var remindAfter = 10.0
 
     var body: some View {
         Form {
-            Section("Daily target") {
-                Stepper("Target \(targetHours.formatted())h", value: $targetHours, in: 0...16, step: 0.5)
-                // Work and extra always count; the rest is the user's call.
-                ForEach([Activity.break, .lunch, .travel, .outOfOffice]) { a in
-                    Toggle(isOn: Binding(get: { !excluded.split(separator: ",").contains(Substring(a.rawValue)) },
-                                         set: { on in
-                        let out = excluded.split(separator: ",").map(String.init).filter { $0 != a.rawValue }
-                        excluded = (on ? out : out + [a.rawValue]).joined(separator: ",")
-                    })) { Label(a.label, systemImage: a.symbol) }
-                }
-                DatePicker("Hours bank since", selection: Binding(
-                    get: { bankSince > 0 ? Date(timeIntervalSinceReferenceDate: bankSince) : store.target(hours: 0, excluded: "").since },
-                    set: { bankSince = Calendar.current.startOfDay(for: $0).timeIntervalSinceReferenceDate }), displayedComponents: .date)
-                Toggle("Switch to Extra after the target", isOn: $autoExtra)
-                Text("Weekends and days off owe nothing; mark a day off from the Logbook toolbar.")
+            Section {
+                Stepper("Focus \(focus) min", value: $focus, in: 5...90, step: 5)
+                Stepper("Short break \(shortBreak) min", value: $shortBreak, in: 1...30)
+                Stepper("Long break \(longBreak) min", value: $longBreak, in: 5...60, step: 5)
+            } header: {
+                Text("Tomato timer")
+            } footer: {
+                Text("Turn it on with the timer button in the menu. Each round ends with a notification that can switch the tracker for you.")
                     .font(.caption).foregroundStyle(.secondary)
             }
-
             Section("Reminders") {
-                Stepper(value: $remindAfter, in: 0...24, step: 1) {
-                    Text(remindAfter > 0 ? "Remind me when a timer runs \(remindAfter.formatted())h" : "No long-timer reminder")
-                }
                 Stepper(value: $stretchEvery, in: 0...120, step: 5) {
                     Text(stretchEvery > 0 ? "Remind me to stretch every \(stretchEvery) min" : "No stretch reminder")
                 }
-                Toggle(isOn: $globalShortcuts) {
-                    Text("Global shortcuts")
-                    Text("⌃⌥⌘W starts or stops Work, ⌃⌥⌘B Break")
+                Stepper(value: $remindAfter, in: 0...24, step: 1) {
+                    Text(remindAfter > 0 ? "Remind me when a timer runs \(remindAfter.formatted())h" : "No long-timer reminder")
                 }
-                .onChange(of: globalShortcuts) { HotKeys.setEnabled(globalShortcuts) }
             }
         }
         .settingsForm()
@@ -209,21 +227,20 @@ private struct ClientSettings: View {
     }
 }
 
-private struct TomatoSettings: View {
-    @AppStorage("focusMinutes") private var focus = 25
-    @AppStorage("shortBreakMinutes") private var shortBreak = 5
-    @AppStorage("longBreakMinutes") private var longBreak = 15
+private struct UpdateSettings: View {
+    @Environment(Updater.self) private var updater
+    @AppStorage(Updater.betaKey) private var beta = false
 
     var body: some View {
         Form {
-            Section {
-                Stepper("Focus \(focus) min", value: $focus, in: 5...90, step: 5)
-                Stepper("Short break \(shortBreak) min", value: $shortBreak, in: 1...30)
-                Stepper("Long break \(longBreak) min", value: $longBreak, in: 5...60, step: 5)
-            } footer: {
-                Text("Turn it on with the timer button in the menu. Each round ends with a notification that can switch the tracker for you.")
-                    .font(.caption).foregroundStyle(.secondary)
+            LabeledContent("Version \(Updater.current)") {
+                Button("Check for Updates…") { updater.check() }
             }
+            Toggle(isOn: $beta) {
+                Text("Get beta updates")
+                Text("Early builds of the next version. They may have rough edges.")
+            }
+            .onChange(of: beta) { if beta { updater.check() } }
         }
         .settingsForm()
     }
