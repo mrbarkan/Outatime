@@ -115,12 +115,7 @@ struct WhatsNewView: View {
         .frame(width: 440)
         .fixedSize(horizontal: false, vertical: true)
         .onAppear { NSApp.setActivationPolicy(.regular); NSApp.activate() }
-        .onDisappear {
-            // The Logbook keeps the app regular while it's open.
-            if !NSApp.windows.contains(where: { $0.identifier?.rawValue.hasPrefix("editor") == true && $0.isVisible }) {
-                NSApp.setActivationPolicy(.accessory)
-            }
-        }
+        .onDisappear(perform: returnToMenuBar)
     }
 
     private func section(_ title: LocalizedStringKey, _ items: [WhatsNew.Item]) -> some View {

@@ -157,7 +157,10 @@ struct MenuPanel: View {
             }
             Spacer()
             Menu {
-                Button("About", action: showAbout)
+                Button("About") {
+                    dismiss()
+                    show(window: "about", openWindow)
+                }
                 Button("User Manual", action: showManual)
                 Button("Settings…") {
                     dismiss()
@@ -183,18 +186,39 @@ struct MenuPanel: View {
     }
 }
 
-/// The client new Work, Extra and Travel blocks are tracked for. Segmented while it fits, a menu beyond that.
+/// The client new Work, Extra and Travel blocks are tracked for: a grid of buttons while it stays a few rows short,
+/// a menu beyond that.
 private struct ClientPicker: View {
     @Environment(Store.self) private var store
 
     var body: some View {
         let clients = store.activeProfiles
-        let picker = Picker("Client", selection: Binding(get: { store.currentProfile }, set: { store.select($0) })) {
-            Text("No client").tag(Profile.ID?.none)
-            ForEach(clients) { Text($0.name).tag(Optional($0.id)) }
+        if clients.count <= 8 {
+            let ids = [Profile.ID?.none] + clients.map(\.id)
+            // Rows fill up: two or three buttons a row, never one stranded on its own when a 2×2 would do.
+            let columns = ids.count == 4 ? 2 : min(3, ids.count)
+            GlassEffectContainer(spacing: 6) {
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: columns), spacing: 6) {
+                    ForEach(ids, id: \.self) { id in
+                        Button { store.select(id) } label: {
+                            Group {
+                                if let id { Text(verbatim: store.profileNames[id] ?? "") } else { Text("No client") }
+                            }
+                            .lineLimit(1).truncationMode(.tail)
+                            .frame(maxWidth: .infinity)
+                        }
+                        .modifier(GlassStyle(prominent: store.currentProfile == id, color: .accentColor))
+                    }
+                }
+            }
+        } else {
+            Picker("Client", selection: Binding(get: { store.currentProfile }, set: { store.select($0) })) {
+                Text("No client").tag(Profile.ID?.none)
+                ForEach(clients) { Text($0.name).tag(Optional($0.id)) }
+            }
+            .labelsHidden()
+            .pickerStyle(.menu)
         }
-        .labelsHidden()
-        if clients.count <= 3 { picker.pickerStyle(.segmented) } else { picker.pickerStyle(.menu) }
     }
 }
 

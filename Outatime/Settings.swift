@@ -251,10 +251,11 @@ func showManual() {
     NSWorkspace.shared.open(Language(rawValue: UserDefaults.standard.string(forKey: "language") ?? "")?.manualURL() ?? Language.system.manualURL())
 }
 
-/// LSUIElement apps don't come forward on their own; activate before showing any window.
-func showAbout() {
-    NSApp.activate()
-    NSApp.orderFrontStandardAboutPanel(nil)
+/// Back to a menu bar-only app when a window closes, unless the Logbook is still open: it keeps the app regular.
+func returnToMenuBar() {
+    if !NSApp.windows.contains(where: { $0.identifier?.rawValue.hasPrefix("editor") == true && $0.isVisible }) {
+        NSApp.setActivationPolicy(.accessory)
+    }
 }
 
 /// An LSUIElement app can't take focus from the frontmost app; become a regular app while the window is open (the
