@@ -18,6 +18,23 @@ enum WhatsNew {
 
     /// Newest first.
     static let releases = [
+        Release(version: "1.2.1", new: [
+            Item(symbol: "globe", color: .blue, title: "Eight languages",
+                 detail: "Outatime now also speaks French, German, Italian, Japanese and Simplified Chinese. Pick yours in Settings → General."),
+            Item(symbol: "chart.bar.xaxis", color: .purple, title: "Stats",
+                 detail: "The menu shows what's left of this week and how far you are from a day off. Averages and your usual hours are under Stats in the Logbook."),
+            Item(symbol: "checklist", color: .orange, title: "Several blocks at once",
+                 detail: "⌘-click or ⇧-click blocks in the Logbook, then right-click to give them a client, change their activity or delete them."),
+            Item(symbol: "book", color: .teal, title: "User manual",
+                 detail: "Everything Outatime does, in your language. Open it from the ••• menu."),
+            Item(symbol: "gearshape", color: .gray, title: "Settings in tabs",
+                 detail: "Settings now come in four short tabs. Under General you can opt into beta updates."),
+        ], fixed: [
+            Item(symbol: "arrow.up.and.down", color: .blue, title: "Block edges",
+                 detail: "Dragging an edge moves only that block and stops at the next one. Hold ⌥ to move the border between two blocks."),
+            Item(symbol: "chart.bar.fill", color: .green, title: "Day bars",
+                 detail: "The Logbook's day bars line up, share one scale and mark your target."),
+        ]),
         Release(version: "1.2", new: [
             Item(symbol: "person.2", color: .indigo, title: "Clients",
                  detail: "Add your clients in Settings and pick one in the menu. Work, Extra and Travel are tracked for it, and switching clients splits the block right there."),

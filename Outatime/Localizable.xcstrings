@@ -970,6 +970,52 @@
         }
       }
     },
+    "Block edges": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blockkanten"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bordes de los bloques"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bords des blocs"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bordi dei blocchi"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ブロックの端"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bordas dos blocos"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "时段边缘"
+          }
+        }
+      }
+    },
     "Break": {
       "localizations": {
         "de": {
@@ -1614,6 +1660,52 @@
         }
       }
     },
+    "Day bars": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tagesbalken"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barras de los días"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barres des jours"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barre dei giorni"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日ごとのバー"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barras dos dias"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每日进度条"
+          }
+        }
+      }
+    },
     "Days off banked": {
       "localizations": {
         "de": {
@@ -1890,6 +1982,52 @@
         }
       }
     },
+    "Dragging an edge moves only that block and stops at the next one. Hold ⌥ to move the border between two blocks.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wenn du eine Kante ziehst, bewegt sich nur dieser Block und stoppt am nächsten. Halte ⌥, um die Grenze zwischen zwei Blöcken zu verschieben."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrastrar un borde mueve solo ese bloque y se detiene en el siguiente. Mantén ⌥ para mover el límite entre dos bloques."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faire glisser un bord ne déplace que ce bloc et s’arrête au suivant. Maintenez ⌥ pour déplacer la limite entre deux blocs."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trascinare un bordo sposta solo quel blocco e si ferma al successivo. Tieni premuto ⌥ per spostare il confine tra due blocchi."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "端をドラッグすると、そのブロックだけが動き、次のブロックで止まります。2つのブロックの境目を動かすには⌥を押しながらドラッグします。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrastar uma borda move só aquele bloco e para no seguinte. Segure ⌥ para mover o limite entre dois blocos."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拖移边缘时只会移动该时段，并在下一个时段处停止。按住 ⌥ 可移动两个时段之间的分界。"
+          }
+        }
+      }
+    },
     "Duration": {
       "localizations": {
         "de": {
@@ -1978,6 +2116,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "下一版本的早期构建，可能还不够完善。"
+          }
+        }
+      }
+    },
+    "Eight languages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acht Sprachen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocho idiomas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Huit langues"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otto lingue"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8つの言語"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oito idiomas"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "八种语言"
           }
         }
       }
@@ -2079,6 +2263,52 @@
     },
     "Español": {
       "shouldTranslate": false
+    },
+    "Everything Outatime does, in your language. Open it from the ••• menu.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alles, was Outatime kann, in deiner Sprache. Öffne es über das •••-Menü."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todo lo que hace Outatime, en tu idioma. Ábrelo desde el menú •••."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout ce que fait Outatime, dans votre langue. Ouvrez-le depuis le menu •••."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tutto ciò che fa Outatime, nella tua lingua. Aprilo dal menu •••."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outatimeでできることを、あなたの言語で。•••メニューから開けます。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tudo o que o Outatime faz, no seu idioma. Abra pelo menu •••."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outatime 的全部功能说明，用你的语言呈现。可从 ••• 菜单打开。"
+          }
+        }
+      }
     },
     "Export": {
       "localizations": {
@@ -3969,6 +4199,52 @@
         }
       }
     },
+    "Outatime now also speaks French, German, Italian, Japanese and Simplified Chinese. Pick yours in Settings → General.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outatime spricht jetzt auch Französisch, Deutsch, Italienisch, Japanisch und vereinfachtes Chinesisch. Wähle deine Sprache unter Einstellungen → Allgemein."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outatime ahora también habla francés, alemán, italiano, japonés y chino simplificado. Elige el tuyo en Ajustes → General."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outatime parle désormais aussi français, allemand, italien, japonais et chinois simplifié. Choisissez votre langue dans Réglages → Général."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outatime ora parla anche francese, tedesco, italiano, giapponese e cinese semplificato. Scegli la tua lingua in Impostazioni → Generali."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outatimeがフランス語、ドイツ語、イタリア語、日本語、簡体字中国語にも対応しました。設定 → 一般で選べます。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Outatime agora também fala francês, alemão, italiano, japonês e chinês simplificado. Escolha o seu em Ajustes → Geral."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outatime 现在还支持法语、德语、意大利语、日语和简体中文。可在“设置”→“通用”中选择。"
+          }
+        }
+      }
+    },
     "Paused": {
       "localizations": {
         "de": {
@@ -4846,6 +5122,98 @@
         }
       }
     },
+    "Settings in tabs": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen in Tabs"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes en pestañas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages en onglets"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impostazioni a schede"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "タブ式の設定"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes em abas"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分标签页的设置"
+          }
+        }
+      }
+    },
+    "Settings now come in four short tabs. Under General you can opt into beta updates.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Einstellungen sind jetzt auf vier kurze Tabs verteilt. Unter Allgemein kannst du Beta-Updates aktivieren."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los Ajustes ahora vienen en cuatro pestañas cortas. En General puedes apuntarte a las versiones beta."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les Réglages tiennent désormais en quatre onglets courts. Dans Général, vous pouvez choisir de recevoir les versions bêta."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le Impostazioni sono ora divise in quattro schede brevi. In Generali puoi scegliere di ricevere le versioni beta."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定が4つの短いタブに分かれました。「一般」でベータ版のアップデートを受け取るよう設定できます。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os Ajustes agora têm quatro abas curtas. Em Geral você pode optar por receber versões beta."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置现分为四个简短的标签页。可在“通用”中选择接收 Beta 版更新。"
+          }
+        }
+      }
+    },
     "Settings…": {
       "localizations": {
         "de": {
@@ -4888,6 +5256,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "设置…"
+          }
+        }
+      }
+    },
+    "Several blocks at once": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mehrere Blöcke auf einmal"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Varios bloques a la vez"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plusieurs blocs à la fois"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Più blocchi insieme"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "複数のブロックをまとめて"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vários blocos de uma vez"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一次处理多个时段"
           }
         }
       }
@@ -5538,6 +5952,52 @@
         }
       }
     },
+    "The Logbook's day bars line up, share one scale and mark your target.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Tagesbalken im Logbuch stehen bündig, haben einen gemeinsamen Maßstab und markieren dein Ziel."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las barras de los días en la Bitácora están alineadas, comparten una escala y marcan tu meta."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les barres des jours du Journal sont alignées, partagent une même échelle et marquent votre objectif."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le barre dei giorni nel Diario sono allineate, usano una sola scala e segnano il tuo obiettivo."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日誌の日ごとのバーが揃い、同じ目盛りで表示され、目標の位置に印が付くようになりました。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As barras dos dias no Diário de bordo ficam alinhadas, usam a mesma escala e marcam sua meta."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日志中的每日进度条已对齐，使用统一比例，并标出你的目标。"
+          }
+        }
+      }
+    },
     "The menu bar icon takes the color of what you're tracking: blue for Work, green for Break and so on.": {
       "localizations": {
         "de": {
@@ -5580,6 +6040,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "菜单栏图标会采用当前记录活动的颜色：工作为蓝色，休息为绿色，依此类推。"
+          }
+        }
+      }
+    },
+    "The menu shows what's left of this week and how far you are from a day off. Averages and your usual hours are under Stats in the Logbook.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Menü zeigt, was in dieser Woche noch fehlt und wie weit du von einem freien Tag entfernt bist. Durchschnitte und deine üblichen Zeiten findest du unter Statistik im Logbuch."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El menú muestra cuánto falta esta semana y cuánto te queda para un día libre. Los promedios y tus horarios habituales están en Estadísticas, en la Bitácora."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le menu indique ce qu’il reste à faire cette semaine et ce qui vous sépare d’un jour de congé. Les moyennes et vos horaires habituels sont dans Statistiques, dans le Journal."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il menu mostra quanto manca questa settimana e quanto ti separa da un giorno libero. Le medie e i tuoi orari abituali sono in Statistiche, nel Diario."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メニューに今週の残り時間と次の休みまでの時間が表示されます。平均やいつもの開始・終了時刻は、日誌の「統計」で確認できます。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O menu mostra quanto falta nesta semana e quanto falta para uma folga. As médias e seus horários habituais estão em Estatísticas, no Diário de bordo."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "菜单会显示本周还剩多少工时，以及距下个休息日还差多少。平均值和你的通常上下班时间可在日志的“统计”中查看。"
           }
         }
       }
@@ -6504,6 +7010,52 @@
         }
       }
     },
+    "User manual": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benutzerhandbuch"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manual de usuario"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manuel d’utilisation"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manuale utente"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ユーザマニュアル"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manual do usuário"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用手册"
+          }
+        }
+      }
+    },
     "Usual finish": {
       "localizations": {
         "de": {
@@ -7285,6 +7837,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "⌃⌥⌘W 开始或停止工作，⌃⌥⌘B 休息"
+          }
+        }
+      }
+    },
+    "⌘-click or ⇧-click blocks in the Logbook, then right-click to give them a client, change their activity or delete them.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klicke im Logbuch mit ⌘ oder ⇧ auf Blöcke und dann mit rechts, um ihnen einen Kunden zuzuweisen, ihre Aktivität zu ändern oder sie zu löschen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haz ⌘-clic o ⇧-clic en los bloques de la Bitácora y luego clic derecho para asignarles un cliente, cambiar su actividad o eliminarlos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌘-cliquez ou ⇧-cliquez sur des blocs dans le Journal, puis faites un clic droit pour leur attribuer un client, changer leur activité ou les supprimer."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fai ⌘-clic o ⇧-clic sui blocchi nel Diario, poi clic destro per assegnare un cliente, cambiare attività o eliminarli."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日誌でブロックを⌘クリックまたは⇧クリックし、右クリックすると、クライアントの割り当て、アクティビティの変更、削除ができます。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clique com ⌘ ou ⇧ nos blocos do Diário de bordo e use o clique direito para atribuir um cliente, mudar a atividade ou excluí-los."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在日志中按住 ⌘ 或 ⇧ 点按多个时段，然后右键点按，即可指定客户、更改活动或删除。"
           }
         }
       }
