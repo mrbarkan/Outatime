@@ -18,6 +18,10 @@ enum WhatsNew {
 
     /// Newest first.
     static let releases = [
+        Release(version: "1.2.2", fixed: [
+            Item(symbol: "gearshape", color: .gray, title: "Shorter Settings",
+                 detail: "Settings are split into five short tabs: General, Target, Focus, Clients and Updates."),
+        ]),
         Release(version: "1.2.1", new: [
             Item(symbol: "globe", color: .blue, title: "Eight languages",
                  detail: "Outatime now also speaks French, German, Italian, Japanese and Simplified Chinese. Pick yours in Settings → General."),

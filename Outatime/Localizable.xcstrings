@@ -5260,6 +5260,52 @@
         }
       }
     },
+    "Settings are split into five short tabs: General, Target, Focus, Clients and Updates.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Einstellungen sind auf fünf kurze Tabs verteilt: Allgemein, Ziel, Fokus, Kunden und Updates."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los Ajustes se dividen en cinco pestañas cortas: General, Meta, Enfoque, Clientes y Actualizaciones."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les Réglages sont répartis en cinq onglets courts : Général, Objectif, Concentration, Clients et Mises à jour."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le Impostazioni sono divise in cinque schede brevi: Generali, Obiettivo, Concentrazione, Clienti e Aggiornamenti."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定が「一般」「目標」「集中」「クライアント」「アップデート」の5つの短いタブに分かれました。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os Ajustes agora têm cinco abas curtas: Geral, Meta, Foco, Clientes e Atualizações."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置现分为五个简短的标签页：通用、目标、专注、客户和更新。"
+          }
+        }
+      }
+    },
     "Settings in tabs": {
       "localizations": {
         "de": {
@@ -5532,6 +5578,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "短休息 %lld 分钟"
+          }
+        }
+      }
+    },
+    "Shorter Settings": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kürzere Einstellungen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes más cortos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages plus courts"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impostazioni più brevi"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "すっきりした設定"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes mais curtos"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更简洁的设置"
           }
         }
       }
