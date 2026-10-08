@@ -137,13 +137,14 @@
         <li><strong>Aujourd’hui n’apparaît jamais en retard en rouge.</strong> La journée n’est pas encore finie.</li>
         <li><strong>Le cumul d’heures</strong> additionne le solde de chaque jour depuis une date de votre choix, pratique si vos heures sont réglées chaque trimestre ou chaque année.</li>
       </ul>
+      <p>Sous les soldes, le panneau du menu indique ce qu’il reste de l’objectif de la semaine (votre objectif quotidien multiplié par les jours ouvrés de la semaine) et combien il vous faut encore cumuler pour un jour de congé. Pour les moyennes, vos heures habituelles de début et de fin et les chiffres de ce mois-ci, cliquez sur <strong>Statistiques</strong> dans la barre d’outils du Journal.</p>
       <h3>Extra après l’objectif</h3>
       <p>Dès que les heures du jour atteignent l’objectif, un bloc Travail en cours passe de lui-même en Extra, coupé à la minute exacte où vous l’avez atteint, et vous recevez une notification. Le week-end et les jours de congé, tout le travail est en Extra. Désactivez cette option dans Réglages → Suivi si vous préférez changer vous-même.</p>
     </section>
 
     <section id="logbook">
       <h2>Le Journal</h2>
-      <p>Ouvrez-le depuis le panneau du menu. La barre latérale liste le mois jour par jour, avec les heures de chaque jour, une barre de sa composition, le solde du mois et le total de chaque semaine. Choisissez un jour pour l’afficher sous forme de chronologie.</p>
+      <p>Ouvrez-le depuis le panneau du menu. La barre latérale liste le mois jour par jour, avec les heures de chaque jour, une barre de sa composition (le repère dessus indique votre objectif), le solde du mois et le total de chaque semaine. Choisissez un jour pour l’afficher sous forme de chronologie.</p>
 
       <figure>
         <div class="day" aria-hidden="true">
@@ -168,11 +169,14 @@
 
       <h3>Modifier les blocs</h3>
       <ul>
-        <li>Les blocs s’alignent par pas de cinq minutes et sur les bords de leurs voisins. Les blocs qui se touchent bougent ensemble : faites glisser un bord commun et les deux changent.</li>
+        <li>Les blocs s’alignent par pas de cinq minutes et sur les bords de leurs voisins. Faire glisser un bord redimensionne uniquement ce bloc et s’arrête au bloc suivant. Pour déplacer la limite entre deux blocs qui se touchent, maintenez <kbd>⌥</kbd> enfoncée pendant que vous la faites glisser.</li>
         <li>Double-cliquez sur un espace vide, ou utilisez le bouton + de la barre d’outils, pour ajouter un bloc. Il s’agit d’une heure de Travail, qui s’arrête au bloc suivant au lieu de le chevaucher.</li>
         <li>Dans l’éditeur, <kbd>⌥ Return</kbd> commence une nouvelle ligne de notes, et le sélecteur de durée déplace la fin par pas de cinq minutes.</li>
         <li>Supprimez un bloc depuis son éditeur.</li>
       </ul>
+
+      <h3>Plusieurs blocs à la fois</h3>
+      <p>Cliquez sur des blocs en maintenant <kbd>⌘</kbd> enfoncée pour les sélectionner, ou en maintenant <kbd>⇧</kbd> enfoncée pour sélectionner tous les blocs entre le dernier sur lequel vous avez cliqué et celui-ci. <kbd>⌘ A</kbd> sélectionne toute la journée et <kbd>Esc</kbd> efface la sélection. Cliquez avec le bouton droit sur la sélection pour lui attribuer un client, changer son activité ou la supprimer. Les clients ne s’appliquent qu’aux blocs Travail, Extra et Déplacement.</p>
 
       <h3>Modèles</h3>
       <p>Si vos journées se ressemblent, préparez-en une dans le Journal, puis choisissez Modèles → Enregistrer le jour comme modèle. Appliquez-le à n’importe quel autre jour depuis le même menu. Appliquer un modèle à un jour qui contient déjà des blocs demande une confirmation avant de les remplacer.</p>
@@ -245,6 +249,8 @@
           <tr><td><kbd>⌘ [</kbd> <kbd>⌘ ]</kbd></td><td>Jour précédent ou suivant dans le Journal</td></tr>
           <tr><td><kbd>⌘ T</kbd></td><td>Aujourd’hui dans le Journal</td></tr>
           <tr><td><kbd>⌘ −</kbd> <kbd>⌘ =</kbd></td><td>Zoomer sur la chronologie du Journal</td></tr>
+          <tr><td><kbd>⌘ A</kbd> <kbd>Esc</kbd></td><td>Sélectionner tous les blocs du jour ou effacer la sélection</td></tr>
+          <tr><td><kbd>⌥</kbd> + glisser</td><td>Déplacer la limite entre deux blocs qui se touchent</td></tr>
           <tr><td><kbd>⌘ ,</kbd></td><td>Réglages, depuis le panneau du menu</td></tr>
           <tr><td><kbd>⌘ Q</kbd></td><td>Quitter, depuis le panneau du menu</td></tr>
         </tbody>

@@ -137,13 +137,14 @@
         <li><strong>Hoy nunca aparece en rojo como atrasado.</strong> El día aún no ha terminado.</li>
         <li><strong>El banco de horas</strong> suma el saldo de cada día desde la fecha que elijas, útil si tus horas se ajustan cada trimestre o cada año.</li>
       </ul>
+      <p>Bajo los saldos, el panel del menú muestra lo que falta para la meta de esta semana (tu meta diaria por los días laborables de la semana) y cuánto más necesitas acumular para un día libre. Para promedios, tus horas habituales de inicio y fin y las cifras de este mes, haz clic en <strong>Estadísticas</strong> en la barra de herramientas de la Bitácora.</p>
       <h3>Extra después de la meta</h3>
       <p>Cuando las horas de hoy alcanzan la meta, un bloque de Trabajo en marcha pasa solo a Extra, cortado en el minuto exacto en que llegaste, y recibes una notificación. En fines de semana y días libres, todo el trabajo es Extra. Desactiva “Pasar a Extra al cumplir la meta” en Ajustes → Registro si prefieres cambiar a mano.</p>
     </section>
 
     <section id="logbook">
       <h2>La Bitácora</h2>
-      <p>Ábrela desde el panel del menú. La barra lateral muestra el mes día a día, con las horas de cada día, una barra con lo que lo compuso, el saldo del mes y el total de cada semana. Elige un día para verlo como línea de tiempo.</p>
+      <p>Ábrela desde el panel del menú. La barra lateral muestra el mes día a día, con las horas de cada día, una barra con lo que lo compuso (la marca sobre ella es tu meta), el saldo del mes y el total de cada semana. Elige un día para verlo como línea de tiempo.</p>
 
       <figure>
         <div class="day" aria-hidden="true">
@@ -168,11 +169,14 @@
 
       <h3>Editar bloques</h3>
       <ul>
-        <li>Los bloques se ajustan en pasos de cinco minutos y a los bordes de sus vecinos. Los bloques que se tocan se mueven juntos: arrastra un borde compartido y cambian los dos.</li>
+        <li>Los bloques se ajustan en pasos de cinco minutos y a los bordes de sus vecinos. Arrastrar un borde cambia el tamaño solo de ese bloque y se detiene en el siguiente. Para mover el borde entre dos bloques que se tocan, mantén pulsada <kbd>⌥</kbd> mientras lo arrastras.</li>
         <li>Haz doble clic en un espacio vacío, o usa el botón + de la barra de herramientas, para añadir un bloque. Es una hora de Trabajo y se detiene en el bloque siguiente en lugar de solaparse con él.</li>
         <li>En el editor, <kbd>⌥ Return</kbd> empieza una nueva línea de notas, y el control de duración mueve el final en pasos de cinco minutos.</li>
         <li>Elimina un bloque desde su editor.</li>
       </ul>
+
+      <h3>Varios bloques a la vez</h3>
+      <p>Haz <kbd>⌘</kbd>-clic en los bloques para seleccionarlos, o <kbd>⇧</kbd>-clic para seleccionar todos los bloques entre el último en que hiciste clic y este. <kbd>⌘ A</kbd> selecciona el día entero y <kbd>Esc</kbd> borra la selección. Haz clic derecho en la selección para asignarle un cliente, cambiar su actividad o eliminarla. Los clientes solo se aplican a bloques de Trabajo, Extra y Viaje.</p>
 
       <h3>Plantillas</h3>
       <p>Si tus días suelen parecerse, prepara uno en la Bitácora y elige Plantillas → Guardar día como plantilla. Aplícala a cualquier otro día desde el mismo menú. Si el día ya tiene bloques, Outatime pregunta antes de reemplazarlos.</p>
@@ -245,6 +249,8 @@
           <tr><td><kbd>⌘ [</kbd> <kbd>⌘ ]</kbd></td><td>Día anterior o siguiente en la Bitácora</td></tr>
           <tr><td><kbd>⌘ T</kbd></td><td>Hoy en la Bitácora</td></tr>
           <tr><td><kbd>⌘ −</kbd> <kbd>⌘ =</kbd></td><td>Amplía o reduce la línea de tiempo de la Bitácora</td></tr>
+          <tr><td><kbd>⌘ A</kbd> <kbd>Esc</kbd></td><td>Selecciona todos los bloques del día, o borra la selección</td></tr>
+          <tr><td><kbd>⌥</kbd> + arrastrar</td><td>Mueve el borde entre dos bloques que se tocan</td></tr>
           <tr><td><kbd>⌘ ,</kbd></td><td>Ajustes, desde el panel del menú</td></tr>
           <tr><td><kbd>⌘ Q</kbd></td><td>Salir, desde el panel del menú</td></tr>
         </tbody>

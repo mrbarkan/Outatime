@@ -137,13 +137,14 @@
         <li><strong>Oggi non appare mai in rosso come ritardo.</strong> La giornata non è ancora finita.</li>
         <li><strong>La banca ore</strong> somma il saldo di ogni giorno a partire da una data che scegli tu, utile se le tue ore vengono conteggiate ogni trimestre o anno.</li>
       </ul>
+      <p>Sotto i saldi, il pannello del menu mostra quanto manca all'obiettivo di questa settimana (il tuo obiettivo giornaliero per i giorni lavorativi della settimana) e quanto devi ancora accumulare per un giorno libero. Per le medie, i tuoi orari abituali di inizio e fine e i dati di questo mese, fai clic su <strong>Statistiche</strong> nella barra strumenti del Diario.</p>
       <h3>Extra dopo l'obiettivo</h3>
       <p>Quando le ore di oggi raggiungono l'obiettivo, un blocco Lavoro in corso passa da solo a Extra, tagliato al minuto esatto in cui ci sei arrivato, e ricevi una notifica. Nei weekend e nei giorni liberi tutto il lavoro è Extra. Disattiva l'opzione in Impostazioni → Registrazione se preferisci cambiare a mano.</p>
     </section>
 
     <section id="logbook">
       <h2>Il Diario</h2>
-      <p>Aprilo dal pannello del menu. La barra laterale elenca il mese giorno per giorno, con le ore di ogni giorno, una barra di come è stato composto, il saldo del mese e il totale di ogni settimana. Scegli un giorno per vederlo come timeline.</p>
+      <p>Aprilo dal pannello del menu. La barra laterale elenca il mese giorno per giorno, con le ore di ogni giorno, una barra di come è stato composto (la tacca sopra è il tuo obiettivo), il saldo del mese e il totale di ogni settimana. Scegli un giorno per vederlo come timeline.</p>
 
       <figure>
         <div class="day" aria-hidden="true">
@@ -168,11 +169,14 @@
 
       <h3>Modificare i blocchi</h3>
       <ul>
-        <li>I blocchi si agganciano a passi di cinque minuti e ai bordi dei blocchi vicini. I blocchi che si toccano si spostano insieme: trascina un bordo in comune e cambiano entrambi.</li>
+        <li>I blocchi si agganciano a passi di cinque minuti e ai bordi dei blocchi vicini. Trascinare un bordo ridimensiona solo quel blocco e si ferma al blocco successivo. Per spostare il confine tra due blocchi che si toccano, tieni premuto <kbd>⌥</kbd> mentre lo trascini.</li>
         <li>Fai doppio clic in uno spazio vuoto, o usa il pulsante + nella barra strumenti, per aggiungere un blocco. È un'ora di Lavoro e si ferma al blocco successivo invece di sovrapporsi.</li>
         <li>Nell'editor, <kbd>⌥ Return</kbd> inizia una nuova riga di note, e il controllo della durata sposta la fine a passi di cinque minuti.</li>
         <li>Elimina un blocco dal suo editor.</li>
       </ul>
+
+      <h3>Più blocchi insieme</h3>
+      <p>Fai <kbd>⌘</kbd>-clic sui blocchi per selezionarli, o <kbd>⇧</kbd>-clic per selezionare tutti i blocchi tra l'ultimo su cui hai fatto clic e questo. <kbd>⌘ A</kbd> seleziona l'intera giornata e <kbd>Esc</kbd> annulla la selezione. Fai clic destro sulla selezione per assegnarle un cliente, cambiarne l'attività o eliminarla. I clienti si applicano solo ai blocchi Lavoro, Extra e Trasferta.</p>
 
       <h3>Modelli</h3>
       <p>Se le tue giornate tendono a somigliarsi, preparane una nel Diario, poi scegli Modelli → Salva giorno come modello. Applicalo a qualsiasi altro giorno dallo stesso menu. Se applichi un modello a un giorno che ha già dei blocchi, Outatime chiede conferma prima di sostituirli.</p>
@@ -245,6 +249,8 @@
           <tr><td><kbd>⌘ [</kbd> <kbd>⌘ ]</kbd></td><td>Giorno precedente o successivo nel Diario</td></tr>
           <tr><td><kbd>⌘ T</kbd></td><td>Oggi nel Diario</td></tr>
           <tr><td><kbd>⌘ −</kbd> <kbd>⌘ =</kbd></td><td>Ingrandisci o riduci la timeline del Diario</td></tr>
+          <tr><td><kbd>⌘ A</kbd> <kbd>Esc</kbd></td><td>Seleziona tutti i blocchi del giorno o annulla la selezione</td></tr>
+          <tr><td><kbd>⌥</kbd> + trascina</td><td>Sposta il confine tra due blocchi che si toccano</td></tr>
           <tr><td><kbd>⌘ ,</kbd></td><td>Impostazioni, dal pannello del menu</td></tr>
           <tr><td><kbd>⌘ Q</kbd></td><td>Esci, dal pannello del menu</td></tr>
         </tbody>

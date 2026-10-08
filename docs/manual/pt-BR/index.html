@@ -137,13 +137,14 @@
         <li><strong>Hoje nunca aparece em vermelho como atrasado.</strong> O dia ainda não acabou.</li>
         <li><strong>O banco de horas</strong> soma o saldo de cada dia desde uma data que você escolhe, o que é útil se as suas horas são acertadas a cada trimestre ou ano.</li>
       </ul>
+      <p>Abaixo dos saldos, o painel do menu mostra quanto falta da meta desta semana (a sua meta diária vezes os dias úteis da semana) e quanto mais você precisa acumular para uma folga. Para médias, os seus horários habituais de início e término e os números deste mês, clique em <strong>Estatísticas</strong> na barra de ferramentas do Diário de bordo.</p>
       <h3>Extra após a meta</h3>
       <p>Quando as horas de hoje atingem a meta, um bloco de Trabalho em andamento muda sozinho para Extra, cortado no minuto exato em que você chegou lá, e você recebe uma notificação. Em fins de semana e folgas, todo trabalho é Extra. Desative “Mudar para Extra após a meta” em Ajustes → Registro se preferir trocar manualmente.</p>
     </section>
 
     <section id="logbook">
       <h2>O Diário de bordo</h2>
-      <p>Abra-o pelo painel do menu. A barra lateral lista o mês dia a dia, com as horas de cada dia, uma barra mostrando do que ele foi feito, o saldo do mês e o total de cada semana. Escolha um dia para vê-lo como uma linha do tempo.</p>
+      <p>Abra-o pelo painel do menu. A barra lateral lista o mês dia a dia, com as horas de cada dia, uma barra mostrando do que ele foi feito (a marca nela é a sua meta), o saldo do mês e o total de cada semana. Escolha um dia para vê-lo como uma linha do tempo.</p>
 
       <figure>
         <div class="day" aria-hidden="true">
@@ -168,11 +169,14 @@
 
       <h3>Editar blocos</h3>
       <ul>
-        <li>Os blocos se ajustam em passos de cinco minutos e às bordas dos vizinhos. Blocos que se tocam se movem juntos: arraste uma borda compartilhada e os dois mudam.</li>
+        <li>Os blocos se ajustam em passos de cinco minutos e às bordas dos vizinhos. Arrastar uma borda redimensiona só aquele bloco e para no próximo. Para mover a borda entre dois blocos que se tocam, mantenha <kbd>⌥</kbd> pressionada enquanto arrasta.</li>
         <li>Clique duas vezes em um espaço vazio, ou use o botão + na barra de ferramentas, para adicionar um bloco. Ele é uma hora de Trabalho e para no próximo bloco em vez de sobrepô-lo.</li>
         <li>No editor, <kbd>⌥ Return</kbd> começa uma nova linha nas notas, e o seletor de duração move o fim em passos de cinco minutos.</li>
         <li>Exclua um bloco pelo editor dele.</li>
       </ul>
+
+      <h3>Vários blocos de uma vez</h3>
+      <p>Clique com <kbd>⌘</kbd> nos blocos para selecioná-los, ou com <kbd>⇧</kbd> para selecionar todos os blocos entre o último em que você clicou e este. <kbd>⌘ A</kbd> seleciona o dia inteiro e <kbd>Esc</kbd> limpa a seleção. Clique com o botão direito na seleção para atribuir um cliente, mudar a atividade ou excluí-la. Clientes só podem ser usados em blocos de Trabalho, Extra e Deslocamento.</p>
 
       <h3>Modelos</h3>
       <p>Quando os seus dias costumam ser parecidos, monte um no Diário de bordo e escolha Modelos → Salvar dia como modelo. Aplique-o a qualquer outro dia pelo mesmo menu. Aplicar um modelo a um dia que já tem blocos pede confirmação antes de substituí-los.</p>
@@ -245,6 +249,8 @@
           <tr><td><kbd>⌘ [</kbd> <kbd>⌘ ]</kbd></td><td>Dia anterior ou próximo dia no Diário de bordo</td></tr>
           <tr><td><kbd>⌘ T</kbd></td><td>Hoje no Diário de bordo</td></tr>
           <tr><td><kbd>⌘ −</kbd> <kbd>⌘ =</kbd></td><td>Ampliar ou reduzir a linha do tempo do Diário de bordo</td></tr>
+          <tr><td><kbd>⌘ A</kbd> <kbd>Esc</kbd></td><td>Selecionar todos os blocos do dia ou limpar a seleção</td></tr>
+          <tr><td><kbd>⌥</kbd> + arrastar</td><td>Mover a borda entre dois blocos que se tocam</td></tr>
           <tr><td><kbd>⌘ ,</kbd></td><td>Ajustes, no painel do menu</td></tr>
           <tr><td><kbd>⌘ Q</kbd></td><td>Sair, no painel do menu</td></tr>
         </tbody>

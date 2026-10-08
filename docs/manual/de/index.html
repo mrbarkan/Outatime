@@ -137,13 +137,14 @@
         <li><strong>Heute erscheint nie rot als Rückstand.</strong> Der Tag ist ja noch nicht vorbei.</li>
         <li><strong>Das Stundenkonto</strong> summiert den Saldo jedes Tages seit einem Datum deiner Wahl. Praktisch, wenn deine Stunden pro Quartal oder Jahr abgerechnet werden.</li>
       </ul>
+      <p>Unter den Salden zeigt das Menü, was vom Ziel dieser Woche noch fehlt (dein Tagesziel mal die Arbeitstage der Woche) und wie viel du noch ansparen musst, bis du dir einen freien Tag nehmen kannst. Für Durchschnittswerte, deine übliche Anfangs- und Endzeit und die Zahlen dieses Monats klickst du in der Symbolleiste des Logbuchs auf <strong>Statistik</strong>.</p>
       <h3>Extra nach dem Ziel</h3>
       <p>Sobald deine Stunden heute das Ziel erreichen, wechselt ein laufender Arbeitsblock von selbst zu Extra, geteilt genau in der Minute, in der du es erreicht hast, und du bekommst eine Mitteilung. An Wochenenden und freien Tagen ist jede Arbeit Extra. Wenn du lieber selbst wechselst, deaktiviere das unter Einstellungen → Erfassung.</p>
     </section>
 
     <section id="logbook">
       <h2>Das Logbuch</h2>
-      <p>Öffne es über das Menü. Die Seitenleiste listet den Monat Tag für Tag auf, mit den Stunden jedes Tages, einem Balken seiner Zusammensetzung, dem Saldo des Monats und der Summe jeder Woche. Wähle einen Tag, um ihn als Zeitleiste zu sehen.</p>
+      <p>Öffne es über das Menü. Die Seitenleiste listet den Monat Tag für Tag auf, mit den Stunden jedes Tages, einem Balken seiner Zusammensetzung (die Markierung darauf ist dein Ziel), dem Saldo des Monats und der Summe jeder Woche. Wähle einen Tag, um ihn als Zeitleiste zu sehen.</p>
 
       <figure>
         <div class="day" aria-hidden="true">
@@ -168,11 +169,14 @@
 
       <h3>Blöcke bearbeiten</h3>
       <ul>
-        <li>Blöcke rasten in Fünf-Minuten-Schritten und an den Kanten ihrer Nachbarn ein. Blöcke, die sich berühren, bewegen sich gemeinsam: Ziehst du eine gemeinsame Kante, ändern sich beide.</li>
+        <li>Blöcke rasten in Fünf-Minuten-Schritten und an den Kanten ihrer Nachbarn ein. Ziehst du an einer Kante, änderst du nur die Größe dieses Blocks, und er stoppt am nächsten. Um die Grenze zwischen zwei Blöcken zu verschieben, die sich berühren, halte beim Ziehen <kbd>⌥</kbd> gedrückt.</li>
         <li>Doppelklicke auf eine freie Stelle oder nutze die Taste + in der Symbolleiste, um einen Block hinzuzufügen. Er ist eine Stunde Arbeit lang und endet am nächsten Block, statt ihn zu überlappen.</li>
         <li>Im Editor beginnt <kbd>⌥ Return</kbd> eine neue Notizzeile, und der Dauer-Regler verschiebt das Ende in Fünf-Minuten-Schritten.</li>
         <li>Einen Block löschst du in seinem Editor.</li>
       </ul>
+
+      <h3>Mehrere Blöcke auf einmal</h3>
+      <p>Klicke mit gedrückter <kbd>⌘</kbd>-Taste auf Blöcke, um sie auszuwählen, oder mit gedrückter <kbd>⇧</kbd>-Taste, um alle Blöcke zwischen dem zuletzt angeklickten und diesem auszuwählen. <kbd>⌘ A</kbd> wählt den ganzen Tag aus und <kbd>Esc</kbd> hebt die Auswahl auf. Klicke mit der rechten Maustaste auf die Auswahl, um ihr einen Kunden zuzuweisen, ihre Aktivität zu ändern oder sie zu löschen. Kunden gibt es nur bei Arbeit-, Extra- und Fahrt-Blöcken.</p>
 
       <h3>Vorlagen</h3>
       <p>Wenn deine Tage meist ähnlich aussehen, richte einen im Logbuch ein und wähle dann Vorlagen → Tag als Vorlage sichern. Im selben Menü wendest du die Vorlage auf jeden anderen Tag an. Hat der Tag schon Blöcke, fragt Outatime nach, bevor es sie ersetzt.</p>
@@ -245,6 +249,8 @@
           <tr><td><kbd>⌘ [</kbd> <kbd>⌘ ]</kbd></td><td>Vorheriger oder nächster Tag im Logbuch</td></tr>
           <tr><td><kbd>⌘ T</kbd></td><td>Heute im Logbuch</td></tr>
           <tr><td><kbd>⌘ −</kbd> <kbd>⌘ =</kbd></td><td>Zeitleiste im Logbuch zoomen</td></tr>
+          <tr><td><kbd>⌘ A</kbd> <kbd>Esc</kbd></td><td>Alle Blöcke des Tages auswählen oder Auswahl aufheben</td></tr>
+          <tr><td><kbd>⌥</kbd> + Ziehen</td><td>Grenze zwischen zwei sich berührenden Blöcken verschieben</td></tr>
           <tr><td><kbd>⌘ ,</kbd></td><td>Einstellungen, aus dem Menü</td></tr>
           <tr><td><kbd>⌘ Q</kbd></td><td>Beenden, aus dem Menü</td></tr>
         </tbody>
