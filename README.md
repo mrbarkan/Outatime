@@ -30,6 +30,7 @@ Most time trackers want a project, a client, a billing rate and an account. Outa
 - **Notes** — type what you're working on while tracking; it's saved with the block.
 - **Clients** — pick a client from the grid in the menu and Work, Extra and Travel are tracked for them. Switching clients splits the running block right there.
 - **Logbook** — a calendar-style day view. Drag a block to move it, drag an edge to resize it (hold ⌥ to move the border between two blocks), click to edit, double-click empty space to add one, double-click inside a block to cut in a break. ⌘- or ⇧-click several blocks and right-click to change their client or activity. The month sidebar draws every day on one scale, with a tick at the target.
+- **Objectives** — under Objectives in the Logbook: days off to bank for a vacation, or a client's package of hours or pay (an amount at an hourly rate). The menu counts one down next to Export.
 - **Daily balance** — worked time against a target you set (by default everything but lunch counts), for today, the week, the month and an hours bank since a date you choose.
 - **Stats** — what's left of this week's goal and how much more to bank for a day off, right in the menu. Averages per week, month and workday, your usual start and finish, and this month's figures in the Logbook.
 - **Extra after the target** — once a day's worked time reaches the target, Work switches itself to Extra, cut at the exact minute. Weekends and days off are all Extra. Can be turned off.
@@ -96,6 +97,7 @@ Outatime/
   EditorView.swift    Logbook: month sidebar + draggable day timeline
   StatsView.swift     the Logbook's Stats popover
   WhatsNew.swift      release notes shown once after an update
+  Objectives.swift    objectives: days off to bank, client packages, the menu's countdown
   About.swift         the About window: version, support address, links
   Focus.swift         tomato timer, stretch reminder, notifications
   Store.swift         entries, templates, clients, JSON persistence
