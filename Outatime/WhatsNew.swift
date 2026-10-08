@@ -18,6 +18,10 @@ enum WhatsNew {
 
     /// Newest first.
     static let releases = [
+        Release(version: "1.3", new: [
+            Item(symbol: "flag.pattern.checkered", color: .indigo, title: "Objectives",
+                 detail: "Set goals under Objectives in the Logbook: days off to bank for a vacation, or a client's package of hours or pay. The menu counts one down next to Export."),
+        ]),
         Release(version: "1.2.3", new: [
             Item(symbol: "info.circle", color: .gray, title: "About Outatime",
                  detail: "See your version and build, and write to support with them already filled in. Open it from the ••• menu."),

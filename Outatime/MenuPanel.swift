@@ -155,6 +155,10 @@ struct MenuPanel: View {
                     save(Data(store.entriesCSV(month).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " entries.csv"))
                 }
             }
+            MenuObjective {
+                store.editingObjectives = true
+                showLogbook()
+            }
             Spacer()
             Menu {
                 Button("About") {

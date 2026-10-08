@@ -10,6 +10,9 @@ final class Store {
     var profiles: [Profile] = [] { didSet { if loaded { save() } } }
     /// The client picked in the menu; new billable blocks get it.
     var currentProfile: Profile.ID? { didSet { if loaded { save() } } }
+    var objectives: [Objective] = [] { didSet { if loaded { save() } } }
+    /// The menu asks the Logbook to open its Objectives sheet.
+    var editingObjectives = false
     /// A block added in the Logbook opens its editor once it appears.
     var justAdded: Entry.ID?
     /// When the tomato timer was turned on; nil while it's off. Not saved: quitting turns it off.
@@ -24,6 +27,7 @@ final class Store {
         var daysOff: [String]?  // added in 1.0.11
         var profiles: [Profile]?  // added in 1.2
         var current: UUID?
+        var objectives: [Objective]?  // added in 1.3
     }
 
     static let defaultURL = FileManager.default
@@ -41,6 +45,7 @@ final class Store {
                 daysOff = Set(file.daysOff ?? [])
                 profiles = file.profiles ?? []
                 currentProfile = file.current
+                objectives = file.objectives ?? []
             } else {
                 // Unreadable file: keep it aside so the next save can't silently destroy it.
                 try? FileManager.default.moveItem(at: url, to: url.appendingPathExtension("broken-\(Int(Date.now.timeIntervalSince1970))"))
@@ -55,7 +60,7 @@ final class Store {
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         encoder.dateEncodingStrategy = .iso8601
         guard let data = try? encoder.encode(File(entries: entries, templates: templates, daysOff: daysOff.sorted(),
-                                                profiles: profiles, current: currentProfile)) else { return }
+                                                profiles: profiles, current: currentProfile, objectives: objectives)) else { return }
         try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         try? data.write(to: url, options: .atomic)
     }
@@ -264,6 +269,11 @@ final class Store {
     func binding(for entry: Entry) -> Binding<Entry> {
         Binding(get: { self.entries.first { $0.id == entry.id } ?? entry },
                 set: { new in if let i = self.entries.firstIndex(where: { $0.id == entry.id }) { self.entries[i] = new } })
+    }
+
+    func binding(for objective: Objective) -> Binding<Objective> {
+        Binding(get: { self.objectives.first { $0.id == objective.id } ?? objective },
+                set: { new in if let i = self.objectives.firstIndex(where: { $0.id == objective.id }) { self.objectives[i] = new } })
     }
 
     func delete(_ id: Entry.ID) {

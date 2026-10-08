@@ -266,7 +266,44 @@ nonisolated struct OutatimeTests {
         #expect(DayTemplate(name: "t", entries: reloaded.entries).entries(on: day)[0].profile == acme)
     }
 
-    /// Picking another client mid-block ends the block there and carries on for the new client.
+    /// A package counts its client's billable time from its start day; a money one at its hourly rate; days off come
+    /// out of the hours bank, one daily target each.
+    @Test func objectiveProgress() {
+        let acme = UUID(), globex = UUID()
+        let entries = [Entry(activity: .work, start: at(9), end: at(12), profile: acme),
+                       Entry(activity: .break, start: at(12), end: at(12, 30)),
+                       Entry(activity: .extra, start: at(13), end: at(14), profile: acme),
+                       Entry(activity: .work, start: at(14), end: at(16), profile: globex),
+                       Entry(activity: .work, start: cal.date(byAdding: .day, value: -1, to: at(9))!, end: cal.date(byAdding: .day, value: -1, to: at(17))!, profile: acme)]
+        let hours = Objective(kind: .hours, amount: 80, profile: acme, since: at(10))
+        let p = hours.progress(entries, bank: 0, dayTarget: 8 * 3600)
+        #expect(p.done == 4 * 3600 && p.goal == 80 * 3600 && p.left == 76 * 3600 && !p.isDone)
+
+        let money = Objective(kind: .money, amount: 400, rate: 100, profile: acme, since: day)
+        #expect(money.progress(entries, bank: 0, dayTarget: 0).isDone)
+        #expect(Objective(kind: .money, amount: 400, profile: acme, since: day).progress(entries, bank: 0, dayTarget: 0).goal == 0)
+
+        let vacation = Objective(kind: .daysOff, amount: 5)
+        let v = vacation.progress([], bank: 12 * 3600, dayTarget: 8 * 3600)
+        #expect(v.goal == 40 * 3600 && v.left == 28 * 3600 && abs(v.fraction - 0.3) < 1e-9)
+        #expect(vacation.progress([], bank: -3600, dayTarget: 8 * 3600).done == 0)
+
+        #expect((42.2 * 3600).short == "43h" && (6 * 3600 + 720.0).short == "6h 12m" && 2050.0.short == "35m")
+    }
+
+    @Test @MainActor func objectivesRoundTrip() throws {
+        let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        let store = Store(url: url)
+        #expect(store.objectives.isEmpty)
+        let acme = try #require(store.addProfile("Acme"))
+        store.objectives.append(Objective(kind: .money, amount: 8000, rate: 100, currency: "BRL", profile: acme, since: day))
+        store.binding(for: store.objectives[0]).wrappedValue.name = "Retainer"
+        let reloaded = Store(url: url)
+        #expect(reloaded.objectives == store.objectives && reloaded.objectives[0].name == "Retainer")
+    }
+
+
     @Test @MainActor func switchingClientSplitsRunningBlock() throws {
         let store = Store(url: FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json"))
         let acme = try #require(store.addProfile("Acme")), globex = try #require(store.addProfile("Globex"))

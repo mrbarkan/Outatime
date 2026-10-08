@@ -86,6 +86,9 @@ struct EditorView: View {
                                                bankSince: bankSince > 0 ? Date(timeIntervalSinceReferenceDate: bankSince) : target.since))
                     }
             }
+            ToolbarItem {
+                Button("Objectives", systemImage: "flag.pattern.checkered") { store.editingObjectives = true }
+            }
             ToolbarItemGroup {
                 Toggle("Day Off", systemImage: "beach.umbrella", isOn: Binding(
                     get: { store.daysOff.contains(day.dayKey) },
@@ -139,6 +142,7 @@ struct EditorView: View {
                             isPresented: Binding(get: { pendingTemplate != nil }, set: { if !$0 { pendingTemplate = nil } })) {
             Button("Replace", role: .destructive) { if let t = pendingTemplate { store.apply(t, to: day) } }
         }
+        .sheet(isPresented: Binding(get: { store.editingObjectives }, set: { store.editingObjectives = $0 })) { ObjectivesView() }
         .onChange(of: day) { selection = [] }
         .onAppear { NSApp.setActivationPolicy(.regular); NSApp.activate() }
         .onDisappear { NSApp.setActivationPolicy(.accessory) }

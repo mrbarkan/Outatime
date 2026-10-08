@@ -50,6 +50,52 @@
         }
       }
     },
+    "%@ left of %@": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quedan %1$@ de %2$@"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faltam %1$@ de %2$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reste %1$@ sur %2$@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch %1$@ von %2$@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mancano %1$@ su %2$@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "残り %1$@／%2$@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "剩余 %1$@ / %2$@"
+          }
+        }
+      }
+    },
     "%@ of %@": {
       "localizations": {
         "de": {
@@ -694,6 +740,52 @@
         }
       }
     },
+    "Add Objective": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir objetivo"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar objetivo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter un but"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorhaben hinzufügen"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aggiungi traguardo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ゴールを追加"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加计划"
+          }
+        }
+      }
+    },
     "Add a note to the last entry": {
       "localizations": {
         "de": {
@@ -782,6 +874,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "在“设置”中添加客户，然后在菜单中选择一个。工作、加班和出差会计入该客户，切换客户时会在当时拆分时段。"
+          }
+        }
+      }
+    },
+    "Amount": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importe"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valor"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Montant"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Betrag"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "金額"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "金额"
           }
         }
       }
@@ -1706,6 +1844,52 @@
         }
       }
     },
+    "Counting since": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contando desde"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contando desde"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compté depuis le"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gezählt ab"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conteggio dal"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "集計開始日"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "统计起始日"
+          }
+        }
+      }
+    },
     "Counts toward the target": {
       "localizations": {
         "de": {
@@ -2120,6 +2304,52 @@
         }
       }
     },
+    "Days off: %lld": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Días libres: %lld"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folgas: %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jours de congé : %lld"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Freie Tage: %lld"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giorni liberi: %lld"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "休日：%lld日"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "休息日：%lld 天"
+          }
+        }
+      }
+    },
     "Days worked": {
       "localizations": {
         "de": {
@@ -2484,6 +2714,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "下一版本的早期构建，可能还不够完善。"
+          }
+        }
+      }
+    },
+    "Edit Objectives…": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editar objetivos…"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editar objetivos…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modifier les buts…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorhaben bearbeiten …"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modifica traguardi…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ゴールを編集…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑计划…"
           }
         }
       }
@@ -3134,6 +3410,144 @@
           "stringUnit": {
             "state": "translated",
             "value": "全局快捷键"
+          }
+        }
+      }
+    },
+    "Hourly rate": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarifa por hora"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valor da hora"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taux horaire"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stundensatz"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tariffa oraria"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "時給"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "时薪"
+          }
+        }
+      }
+    },
+    "Hours": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horas"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heures"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stunden"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ore"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "時間"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "小时"
+          }
+        }
+      }
+    },
+    "Hours Package": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paquete de horas"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pacote de horas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forfait d’heures"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stundenpaket"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pacchetto di ore"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "時間パッケージ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工时套餐"
           }
         }
       }
@@ -4196,6 +4610,52 @@
         }
       }
     },
+    "No objectives yet. Add one and the menu counts it down next to Export.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aún no hay objetivos. Añade uno y el menú hará la cuenta atrás junto a Exportar."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nenhum objetivo ainda. Adicione um e o menu faz a contagem regressiva ao lado de Exportar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun but pour l’instant. Ajoutez-en un et le menu en affiche le compte à rebours à côté d’Exporter."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Vorhaben. Füge eins hinzu, und das Menü zählt es neben „Exportieren“ herunter."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ancora nessun traguardo. Aggiungine uno e il menu ne mostra il conto alla rovescia accanto a Esporta."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "まだゴールがありません。追加すると、メニューの「書き出す」の横に残りが表示されます。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还没有计划。添加一个后，菜单会在“导出”旁边显示倒计时。"
+          }
+        }
+      }
+    },
     "No stretch reminder": {
       "localizations": {
         "de": {
@@ -4334,6 +4794,52 @@
         }
       }
     },
+    "Nothing to count yet": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aún no hay nada que contar"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nada para contar ainda"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rien à compter pour l’instant"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch nichts zu zählen"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ancora niente da contare"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "まだ集計するものがありません"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂无可统计的内容"
+          }
+        }
+      }
+    },
     "Now tracking Extra.": {
       "localizations": {
         "de": {
@@ -4376,6 +4882,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "现在记录为加班。"
+          }
+        }
+      }
+    },
+    "Objectives": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objetivos"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objetivos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buts"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorhaben"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Traguardi"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ゴール"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "计划"
           }
         }
       }
@@ -4655,6 +5207,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "Outatime 现在还支持法语、德语、意大利语、日语和简体中文。可在“设置”→“通用”中选择。"
+          }
+        }
+      }
+    },
+    "Overtime in the hours bank buys days off, one daily target each. Settings → Target sets where the bank starts.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las horas de más del banco de horas compran días libres, una meta diaria cada uno. En Ajustes → Meta eliges desde cuándo cuenta el banco."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As horas a mais do banco de horas compram folgas, uma meta diária cada. Em Ajustes → Meta você define desde quando o banco conta."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les heures en plus du cumul d’heures achètent des jours de congé, un objectif quotidien chacun. Réglages → Objectif fixe le début du cumul."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Überstunden auf dem Stundenkonto ergeben freie Tage, je ein Tagesziel. Unter Einstellungen → Ziel legst du fest, ab wann das Konto zählt."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le ore in più nella banca ore comprano giorni liberi, un obiettivo giornaliero ciascuno. In Impostazioni → Obiettivo scegli da quando conta la banca."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "時間バンクの超過分で休日を買えます（1日の目標ぶんで1日）。バンクの起算日は 設定 → 目標 で決めます。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工时结余中多出的时间可以换休息日，每个休息日按一个每日目标计算。在“设置”→“目标”中设置结余的起算日期。"
           }
         }
       }
@@ -5490,6 +6088,52 @@
         }
       }
     },
+    "Salary": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salario"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salário"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salaire"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gehalt"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stipendio"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "報酬"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "薪资"
+          }
+        }
+      }
+    },
     "Save": {
       "localizations": {
         "de": {
@@ -5670,6 +6314,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "查看版本和构建号，并在已自动填好它们的情况下联系支持。从 ••• 菜单打开。"
+          }
+        }
+      }
+    },
+    "Set goals under Objectives in the Logbook: days off to bank for a vacation, or a client's package of hours or pay. The menu counts one down next to Export.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fija metas en Objetivos, en la Bitácora: días libres que acumular para unas vacaciones, o un paquete de horas o de pago de un cliente. El menú hace la cuenta atrás de uno junto a Exportar."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Defina metas em Objetivos, no Diário de bordo: folgas a acumular para as férias, ou um pacote de horas ou de pagamento de um cliente. O menu faz a contagem regressiva de um ao lado de Exportar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixez-vous des buts dans Buts, dans le Journal : des jours de congé à cumuler pour des vacances, ou un forfait d’heures ou de rémunération d’un client. Le menu en décompte un à côté d’Exporter."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nimm dir im Logbuch unter „Vorhaben“ etwas vor: freie Tage für einen Urlaub ansparen oder ein Stunden- oder Honorarpaket eines Kunden. Das Menü zählt eins neben „Exportieren“ herunter."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fissa dei traguardi in Traguardi, nel Diario: giorni liberi da accumulare per una vacanza, o un pacchetto di ore o di compenso di un cliente. Il menu ne mostra il conto alla rovescia accanto a Esporta."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日誌の「ゴール」で目標を設定できます。休暇のために貯める休日や、クライアントとの時間・報酬のパッケージです。メニューの「書き出す」の横に1つの残りが表示されます。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在日志的“计划”中设定目标：为假期攒休息日，或客户的工时、报酬套餐。菜单会在“导出”旁边为其中一个倒计时。"
           }
         }
       }
@@ -6038,6 +6728,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "更简洁的设置"
+          }
+        }
+      }
+    },
+    "Show in Menu": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar en el menú"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar no menu"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher dans le menu"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Im Menü zeigen"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostra nel menu"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メニューに表示"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在菜单中显示"
           }
         }
       }
@@ -6730,6 +7466,98 @@
           "stringUnit": {
             "state": "translated",
             "value": "日志中的每日进度条已对齐，使用统一比例，并标出你的目标。"
+          }
+        }
+      }
+    },
+    "The amount at your hourly rate is the hours you owe the client. Their Work, Extra and Travel from that day on count it down.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El importe a tu tarifa por hora son las horas que le debes al cliente. Su Trabajo, Extra y Viaje desde ese día las van descontando."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O valor dividido pelo valor da hora são as horas que você deve ao cliente. O Trabalho, Extra e Deslocamento dele a partir desse dia vão descontando."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le montant à votre taux horaire donne les heures dues au client. Son Travail, son Extra et ses Déplacements à partir de ce jour les décomptent."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Betrag zu deinem Stundensatz ergibt die Stunden, die du dem Kunden schuldest. Arbeit, Extra und Fahrt ab diesem Tag zählen sie herunter."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’importo alla tua tariffa oraria sono le ore che devi al cliente. Lavoro, Extra e Trasferta da quel giorno le scalano."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "金額を時給で割ったものが、このクライアントに提供する時間です。その日以降の仕事・残業・移動で減っていきます。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "金额按你的时薪折算，就是你欠该客户的工时。从那天起的工作、加班和出差会逐步扣减。"
+          }
+        }
+      }
+    },
+    "The client's Work, Extra and Travel from that day on count toward the package.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El Trabajo, Extra y Viaje del cliente desde ese día cuentan para el paquete."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Trabalho, Extra e Deslocamento do cliente a partir desse dia contam para o pacote."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le Travail, l’Extra et les Déplacements du client à partir de ce jour comptent pour le forfait."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arbeit, Extra und Fahrt für den Kunden ab diesem Tag zählen zum Paket."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lavoro, Extra e Trasferta del cliente da quel giorno in poi contano per il pacchetto."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "その日以降のこのクライアントの仕事・残業・移動がパッケージに数えられます。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从那天起该客户的工作、加班和出差都计入套餐。"
           }
         }
       }
@@ -7880,6 +8708,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "通常开始"
+          }
+        }
+      }
+    },
+    "Vacation": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vacaciones"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Férias"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vacances"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Urlaub"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vacanze"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "休暇"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "假期"
           }
         }
       }
