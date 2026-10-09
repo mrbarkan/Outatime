@@ -1,0 +1,70 @@
+{
+ "A tiny tray time tracker for Windows.": {
+  "es": "Un pequeño registro de horas en la bandeja de Windows.",
+  "pt-BR": "Um pequeno controle de horas na bandeja do Windows."
+ },
+ "Colored tray icon": {
+  "es": "Icono de bandeja en color",
+  "pt-BR": "Ícone da bandeja colorido"
+ },
+ "Couldn't read that file. Nothing was changed.": {
+  "es": "No se pudo leer ese archivo. No se cambió nada.",
+  "pt-BR": "Não foi possível ler esse arquivo. Nada foi alterado."
+ },
+ "Ctrl+Alt+Shift+W starts or stops Work, Ctrl+Alt+Shift+B Break": {
+  "es": "Ctrl+Alt+Mayús+W inicia o detiene Trabajo, Ctrl+Alt+Mayús+B Pausa",
+  "pt-BR": "Ctrl+Alt+Shift+W inicia ou para Trabalho, Ctrl+Alt+Shift+B Pausa"
+ },
+ "Data": {
+  "es": "Datos",
+  "pt-BR": "Dados"
+ },
+ "Everything from the Mac: the tray panel, the Logbook, clients, objectives, the tomato timer and Excel reports. Your data.json moves between the two.": {
+  "es": "Todo lo del Mac: el panel de la bandeja, la Bitácora, los clientes, los objetivos, el temporizador Pomodoro y los informes de Excel. Tu data.json pasa de uno a otro.",
+  "pt-BR": "Tudo do Mac: o painel da bandeja, o Diário de bordo, os clientes, os objetivos, o timer Pomodoro e os relatórios do Excel. Seu data.json passa de um para o outro."
+ },
+ "Export Data…": {
+  "es": "Exportar datos…",
+  "pt-BR": "Exportar dados…"
+ },
+ "Import Data…": {
+  "es": "Importar datos…",
+  "pt-BR": "Importar dados…"
+ },
+ "More": {
+  "es": "Más",
+  "pt-BR": "Mais"
+ },
+ "Open Data Folder": {
+  "es": "Abrir carpeta de datos",
+  "pt-BR": "Abrir pasta de dados"
+ },
+ "Open Outatime": {
+  "es": "Abrir Outatime",
+  "pt-BR": "Abrir o Outatime"
+ },
+ "Outatime for Windows": {
+  "es": "Outatime para Windows",
+  "pt-BR": "Outatime para Windows"
+ },
+ "Replace all your entries, clients and objectives with this file?": {
+  "es": "¿Reemplazar todas tus entradas, clientes y objetivos por este archivo?",
+  "pt-BR": "Substituir todos os seus registros, clientes e objetivos por este arquivo?"
+ },
+ "Settings": {
+  "es": "Ajustes",
+  "pt-BR": "Ajustes"
+ },
+ "Time tracked": {
+  "es": "Tiempo registrado",
+  "pt-BR": "Tempo registrado"
+ },
+ "Tooltip shows": {
+  "es": "La información muestra",
+  "pt-BR": "A dica mostra"
+ },
+ "Your entries, clients and objectives are one file, data.json. Export it before uninstalling; the Mac app reads it too.": {
+  "es": "Tus entradas, clientes y objetivos están en un solo archivo, data.json. Expórtalo antes de desinstalar; la app de Mac también lo lee.",
+  "pt-BR": "Seus registros, clientes e objetivos ficam em um só arquivo, data.json. Exporte-o antes de desinstalar; o app do Mac também o lê."
+ }
+}

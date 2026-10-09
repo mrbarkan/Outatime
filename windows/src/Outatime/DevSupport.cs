@@ -51,10 +51,28 @@ public static class DevSupport
         {
             case "panel": shell.ShowPanel(); break;
             case "logbook": shell.ShowLogbook(); break;
-            case "settings": shell.ShowSettings(); break;
+            case "settings": shell.ShowSettings(int.TryParse(Environment.GetEnvironmentVariable("OUTATIME_TAB"), out var tab) ? tab : 0); break;
             case "objectives": shell.ShowObjectives(); break;
             case "about": shell.ShowAbout(); break;
             case "whatsnew": shell.ShowWhatsNew("0"); break;
         }
+        if (Environment.GetEnvironmentVariable("OUTATIME_SNAPSHOT") is { Length: > 0 } folder)
+            Avalonia.Threading.DispatcherTimer.RunOnce(() => Snapshot(shell, folder), TimeSpan.FromSeconds(2));
+    }
+
+    /// OUTATIME_SNAPSHOT=<folder>: renders every open window to <folder>/<title>.png, then quits.
+    static void Snapshot(Shell shell, string folder)
+    {
+        Directory.CreateDirectory(folder);
+        if (Avalonia.Application.Current?.ApplicationLifetime is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime life)
+            foreach (var w in life.Windows.Where(w => w.IsVisible && w.Bounds.Width > 2))
+            {
+                var scale = w.RenderScaling;
+                using var bitmap = new Avalonia.Media.Imaging.RenderTargetBitmap(
+                    new Avalonia.PixelSize((int)(w.Bounds.Width * scale), (int)(w.Bounds.Height * scale)), new Avalonia.Vector(96 * scale, 96 * scale));
+                bitmap.Render(w);
+                bitmap.Save(Path.Combine(folder, (w.Title ?? "window").Replace('/', '-') + ".png"));
+            }
+        shell.Quit();
     }
 }

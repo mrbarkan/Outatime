@@ -35,10 +35,10 @@ public sealed class Shell
 
         if (showTray)
         {
-            tray = new TrayIcon { Menu = TrayMenu() };
+            tray = new TrayIcon { Menu = TrayMenu(), ToolTipText = "Outatime" };
             tray.Clicked += (_, _) => TogglePanel();
-            TrayIcon.SetIcons(Application.Current!, [tray]);
             UpdateTray();
+            TrayIcon.SetIcons(Application.Current!, [tray]);
             HotKeys.Install(a => Dispatcher.UIThread.Post(() => { if (store.Running?.Activity == a) store.Stop(); else store.Start(a); }));
             HotKeys.SetEnabled(settings.GlobalShortcuts);
             settings.Changed += () => HotKeys.SetEnabled(settings.GlobalShortcuts);
@@ -194,7 +194,7 @@ public sealed class Shell
     public bool IsOpen(string id) => windows.ContainsKey(id);
 
     public void ShowLogbook() => Show("logbook", () => new LogbookWindow(this));
-    public void ShowObjectives() => Show("logbook", () => new LogbookWindow(this)).ShowObjectives();
+    public void ShowObjectives() => Show("objectives", () => new ObjectivesWindow(this));
     public void ShowSettings(int tab = 0) => Show("settings", () => new SettingsWindow(this)).SelectTab(tab);
     public void ShowAbout() => Show("about", () => new AboutWindow());
     public void ShowWhatsNew(string from) => Show("whats-new", () => new WhatsNewWindow(from));
