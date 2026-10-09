@@ -35,7 +35,7 @@ public sealed class Shell
 
         if (showTray)
         {
-            tray = new TrayIcon { Menu = TrayMenu() };
+            tray = new TrayIcon { Menu = TrayMenu(), ToolTipText = "Outatime" };
             tray.Clicked += (_, _) => TogglePanel();
             TrayIcon.SetIcons(Application.Current!, [tray]);
             UpdateTray();
