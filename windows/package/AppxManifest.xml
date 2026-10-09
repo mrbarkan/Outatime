@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The MSIX manifest. scripts/package.ps1 fills in $VERSION$ and $ARCH$. Before the first Store upload, replace
+  Identity Name, Publisher and PublisherDisplayName with the values Partner Center shows under
+  Product management → Product identity (they must match exactly, or the upload is rejected).
+-->
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap uap5 desktop com rescap">
+
+  <Identity Name="DavidBarkan.Outatime" Publisher="CN=David Barkan" Version="$VERSION$" ProcessorArchitecture="$ARCH$" />
+
+  <Properties>
+    <DisplayName>Outatime</DisplayName>
+    <PublisherDisplayName>David Barkan</PublisherDisplayName>
+    <Logo>Images\StoreLogo.png</Logo>
+    <Description>A tiny tray time tracker.</Description>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en-us" />
+    <Resource Language="es-es" />
+    <Resource Language="pt-br" />
+  </Resources>
+
+  <Applications>
+    <Application Id="Outatime" Executable="Outatime.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements DisplayName="Outatime" Description="A tiny tray time tracker."
+                          BackgroundColor="transparent" Square150x150Logo="Images\Square150x150Logo.png"
+                          Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+      </uap:VisualElements>
+      <Extensions>
+        <!-- Settings → General → Open at Login; off until the user turns it on. -->
+        <desktop:Extension Category="windows.startupTask" Executable="Outatime.exe" EntryPoint="Windows.FullTrustApplication">
+          <desktop:StartupTask TaskId="OutatimeStartup" Enabled="false" DisplayName="Outatime" />
+        </desktop:Extension>
+        <!-- The tomato timer's notification buttons call back into the running app through this COM class. -->
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:ExeServer Executable="Outatime.exe" Arguments="-ToastActivated" DisplayName="Outatime notifications">
+              <com:Class Id="76436FDC-8D25-4F3A-9B79-D548EAD6FB5F" />
+            </com:ExeServer>
+          </com:ComServer>
+        </com:Extension>
+        <desktop:Extension Category="windows.toastNotificationActivation">
+          <desktop:ToastNotificationActivation ToastActivatorCLSID="76436FDC-8D25-4F3A-9B79-D548EAD6FB5F" />
+        </desktop:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>

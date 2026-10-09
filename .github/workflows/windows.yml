@@ -1,0 +1,47 @@
+name: Windows
+
+on:
+  push:
+    paths: ['windows/**', '.github/workflows/windows.yml']
+  pull_request:
+    paths: ['windows/**', '.github/workflows/windows.yml']
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: windows
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Test
+        run: dotnet test tests/Outatime.Tests -c Release
+      - name: Package
+        shell: pwsh
+        run: ./scripts/package.ps1 -Sign
+      - name: Smoke test the portable exe
+        shell: pwsh
+        run: |
+          $exe = 'artifacts\single-x64\Outatime.exe'
+          $env:OUTATIME_HOME = Join-Path $env:RUNNER_TEMP 'outatime-smoke'
+          $env:OUTATIME_SAMPLE = '1'
+          $env:OUTATIME_OPEN = 'logbook'
+          $env:OUTATIME_SNAPSHOT = Join-Path $env:RUNNER_TEMP 'outatime-shots'
+          $p = Start-Process $exe -PassThru
+          if (-not $p.WaitForExit(60000)) { $p.Kill(); throw 'Outatime did not finish its snapshot run in 60 s' }
+          if ($p.ExitCode -ne 0) { throw "Outatime exited with $($p.ExitCode)" }
+          Get-ChildItem $env:OUTATIME_SNAPSHOT
+          Copy-Item "$env:OUTATIME_SNAPSHOT\*.png" artifacts\
+      - uses: actions/upload-artifact@v4
+        with:
+          name: outatime-windows
+          path: |
+            windows/artifacts/*.msixbundle
+            windows/artifacts/*.msix
+            windows/artifacts/*.zip
+            windows/artifacts/*.cer
+            windows/artifacts/*.png
