@@ -42,8 +42,15 @@ public static class Loc
 
     static Dictionary<string, Dictionary<string, string>> LoadTable()
     {
-        using var stream = typeof(Loc).Assembly.GetManifestResourceStream("Outatime.Strings.json")!;
-        return JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(stream)!;
+        // Strings.json comes from the Mac catalog; Strings.<area>.json files hold what only the Windows app says.
+        var table = new Dictionary<string, Dictionary<string, string>>();
+        var assembly = typeof(Loc).Assembly;
+        foreach (var name in assembly.GetManifestResourceNames().Where(n => n.StartsWith("Outatime.Strings") && n.EndsWith(".json")))
+        {
+            using var stream = assembly.GetManifestResourceStream(name)!;
+            foreach (var (key, row) in JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(stream)!) table[key] = row;
+        }
+        return table;
     }
 
     /// On System, the first of the OS's UI languages we have: any Portuguese reads the Brazilian one.

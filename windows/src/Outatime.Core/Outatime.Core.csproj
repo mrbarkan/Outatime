@@ -4,7 +4,7 @@
     <RootNamespace>Outatime</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Strings.json" LogicalName="Outatime.Strings.json" />
+    <EmbeddedResource Include="Strings*.json" LogicalName="Outatime.%(Filename).json" />
     <InternalsVisibleTo Include="Outatime.Tests" />
   </ItemGroup>
 </Project>
