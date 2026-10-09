@@ -34,7 +34,7 @@ foreach ($arch in $Architectures) {
     # Portable: one self-extracting exe, for testers and anyone who'd rather not use the Store.
     $single = Join-Path $artifacts "single-$arch"
     dotnet publish (Join-Path $root 'src\Outatime') -c Release -r $rid --self-contained -o $single `
-        -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=none
+        -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -p:DebugType=none
     if ($LASTEXITCODE) { throw "single-file $rid failed" }
     Compress-Archive -Path (Join-Path $single 'Outatime.exe') -DestinationPath (Join-Path $artifacts "Outatime-$version-$arch-portable.zip")
 

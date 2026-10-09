@@ -84,7 +84,7 @@ public sealed class EntryEditor : UserControl
         var notes = new TextBox
         {
             Text = string.Join("\n", entry.Notes), AcceptsReturn = true, TextWrapping = TextWrapping.Wrap, MinHeight = 60, MaxHeight = 140,
-            Watermark = Loc.T("Notes"),
+            PlaceholderText = Loc.T("Notes"),
         };
         notes.TextChanged += (_, _) =>
             Write(entry with { Notes = (notes.Text ?? "").Replace("\r", "").Split('\n').Where(l => l.Trim().Length > 0).ToList() });

@@ -75,7 +75,8 @@ public static class DevSupport
                 using var bitmap = new Avalonia.Media.Imaging.RenderTargetBitmap(
                     new Avalonia.PixelSize((int)(w.Bounds.Width * scale), (int)(w.Bounds.Height * scale)), new Avalonia.Vector(96 * scale, 96 * scale));
                 bitmap.Render(w);
-                bitmap.Save(Path.Combine(folder, (w.Title ?? "window").Replace('/', '-') + ".png"));
+                using var file = File.Create(Path.Combine(folder, (w.Title ?? "window").Replace('/', '-') + ".png"));
+                bitmap.Save(file);
             }
         shell.Quit();
     }

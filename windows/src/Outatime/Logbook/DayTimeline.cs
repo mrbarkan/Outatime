@@ -13,7 +13,7 @@ namespace Outatime.App;
 /// empty space to add, double-click inside a block to cut in a break. Ctrl-click and Shift-click select several.
 public sealed class DayTimeline : UserControl
 {
-    const double Gutter = 48, Pad = 10, MinHeight = 14, Grip = 8;
+    const double Gutter = 48, Pad = 10, BlockMinHeight = 14, Grip = 8;
     readonly Shell shell;
     Store store => shell.Store;
     Settings settings => shell.Settings;
@@ -137,7 +137,7 @@ public sealed class DayTimeline : UserControl
             var start = e.Start.Since(DayStart) / 3600 * HourHeight;
             var top = Math.Max(start, bottom);
             floors[e.Id] = top;
-            bottom = top + Math.Max(MinHeight, start + e.Duration / 3600 * HourHeight - top);
+            bottom = top + Math.Max(BlockMinHeight, start + e.Duration / 3600 * HourHeight - top);
         }
         return floors;
     }
@@ -148,7 +148,7 @@ public sealed class DayTimeline : UserControl
         var natural = e.Duration / 3600 * HourHeight;
         // Starts below a stretched block above it rather than under it, so neither one's text is covered.
         var top = dragging ? start : Math.Max(start, floor);
-        return (top, Math.Max(MinHeight, start + natural - top));
+        return (top, Math.Max(BlockMinHeight, start + natural - top));
     }
 
     Border Block(Entry e, double floor)

@@ -9,9 +9,11 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <PackageReference Include="xunit.v3" Version="3.2.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
+    <PackageReference Include="Avalonia.Headless.XUnit" Version="12.1.4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../../src/Outatime.Core/Outatime.Core.csproj" />
+    <ProjectReference Include="../../src/Outatime/Outatime.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fixtures/**" CopyToOutputDirectory="PreserveNewest" />

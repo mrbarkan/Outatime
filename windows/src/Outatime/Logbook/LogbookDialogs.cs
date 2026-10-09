@@ -30,7 +30,7 @@ public static class LogbookDialogs
     /// The text typed, or null when cancelled.
     public static async Task<string?> AskName(Window owner, string title, string label)
     {
-        var box = new TextBox { Watermark = label, MinWidth = 280 };
+        var box = new TextBox { PlaceholderText = label, MinWidth = 280 };
         Window? w = null;
         var save = Ui.Button(Loc.T("Save"), () => w!.Close(box.Text?.Trim()), classes: "accent");
         save.IsDefault = true;
