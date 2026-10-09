@@ -326,6 +326,52 @@
         }
       }
     },
+    "A tidier menu": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein aufgeräumteres Menü"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un menú más ordenado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un menu plus net"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un menu più ordinato"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "すっきりしたメニュー"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Um menu mais arrumado"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更整齐的菜单"
+          }
+        }
+      }
+    },
     "A tiny menu bar time tracker for macOS.": {
       "localizations": {
         "es": {
@@ -506,6 +552,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "活动"
+          }
+        }
+      }
+    },
+    "Activity names line up across each row, and Logbook and Export look alike.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Namen der Aktivitäten stehen in jeder Reihe auf einer Linie, und Logbuch und Exportieren sehen gleich aus."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los nombres de las actividades se alinean en cada fila, y Bitácora y Exportar se ven iguales."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les noms des activités sont alignés sur chaque ligne, et Journal et Exporter se ressemblent."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I nomi delle attività sono allineati in ogni riga, e Diario ed Esporta hanno lo stesso aspetto."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "各行のアクティビティ名がそろい、「日誌」と「書き出す」が同じ見た目になりました。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os nomes das atividades ficam alinhados em cada linha, e Diário de bordo e Exportar têm a mesma aparência."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每行的活动名称对齐，“日志”和“导出”的样式一致。"
           }
         }
       }
@@ -1380,6 +1472,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "客户"
+          }
+        }
+      }
+    },
+    "Clients fit the menu": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kunden passen ins Menü"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los clientes caben en el menú"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les clients tiennent dans le menu"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I clienti entrano nel menu"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "クライアントがメニューに収まるように"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os clientes cabem no menu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "客户不再超出菜单"
           }
         }
       }
@@ -5490,6 +5628,52 @@
         }
       }
     },
+    "See your version and build, and write to support with them already filled in. Open it from the ••• menu.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeigt Version und Build und schreibt dem Support mit beidem schon ausgefüllt. Öffne es im Menü •••."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muestra tu versión y compilación, y escribe a soporte con ambas ya rellenadas. Ábrelo desde el menú •••."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Affiche votre version et votre build, et écrit au support avec les deux déjà remplis. Ouvrez-le depuis le menu •••."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostra versione e build e scrive al supporto con entrambe già compilate. Aprilo dal menu •••."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "バージョンとビルドを表示し、それらを記入済みでサポートに連絡できます。•••メニューから開きます。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostra sua versão e build, e escreve para o suporte com as duas já preenchidas. Abra pelo menu •••."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看版本和构建号，并在已自动填好它们的情况下联系支持。从 ••• 菜单打开。"
+          }
+        }
+      }
+    },
     "Settings are split into five short tabs: General, Target, Focus, Clients and Updates.": {
       "localizations": {
         "de": {
@@ -8064,6 +8248,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "“新功能”窗口"
+          }
+        }
+      }
+    },
+    "With three or more clients the menu no longer runs off its edge. Clients now sit in a grid of buttons.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit drei oder mehr Kunden läuft das Menü nicht mehr über den Rand. Kunden stehen jetzt in einem Raster aus Tasten."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Con tres o más clientes el menú ya no se sale por el borde. Los clientes aparecen ahora en una cuadrícula de botones."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avec trois clients ou plus, le menu ne déborde plus. Les clients sont désormais dans une grille de boutons."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Con tre o più clienti il menu non esce più dal bordo. I clienti ora sono in una griglia di pulsanti."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "クライアントが3件以上でもメニューからはみ出さなくなりました。クライアントはボタンのグリッドに並びます。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Com três ou mais clientes, o menu não passa mais da borda. Os clientes agora ficam numa grade de botões."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有三个或更多客户时，菜单不再超出边缘。客户现在以按钮网格排列。"
           }
         }
       }

@@ -18,6 +18,15 @@ enum WhatsNew {
 
     /// Newest first.
     static let releases = [
+        Release(version: "1.2.3", new: [
+            Item(symbol: "info.circle", color: .gray, title: "About Outatime",
+                 detail: "See your version and build, and write to support with them already filled in. Open it from the ••• menu."),
+        ], fixed: [
+            Item(symbol: "person.2", color: .indigo, title: "Clients fit the menu",
+                 detail: "With three or more clients the menu no longer runs off its edge. Clients now sit in a grid of buttons."),
+            Item(symbol: "square.grid.2x2", color: .blue, title: "A tidier menu",
+                 detail: "Activity names line up across each row, and Logbook and Export look alike."),
+        ]),
         Release(version: "1.2.2", fixed: [
             Item(symbol: "gearshape", color: .gray, title: "Shorter Settings",
                  detail: "Settings are split into five short tabs: General, Target, Focus, Clients and Updates."),

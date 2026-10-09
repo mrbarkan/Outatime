@@ -129,7 +129,7 @@ struct MenuPanel: View {
     }
 
     private var footer: some View {
-        HStack(spacing: 2) {
+        HStack(spacing: 16) {
             Button("Logbook", systemImage: "calendar", action: showLogbook)
             Menu("Export", systemImage: "square.and.arrow.up") {
                 let month = Date.now.startOfMonth
@@ -175,8 +175,10 @@ struct MenuPanel: View {
             }
             .menuIndicator(.hidden)
         }
-        .buttonStyle(.accessoryBar)
+        // Plain, so Logbook and the menus draw alike: the accessory bar style greys a button but not a menu beside it.
+        .buttonStyle(.plain)
         .menuStyle(.button)
+        .menuIndicator(.hidden)
         .fixedSize(horizontal: false, vertical: true)
     }
 
@@ -257,8 +259,10 @@ private struct ActivityButton: View {
         let active = store.running?.activity == activity
         Button { active ? store.stop() : store.start(activity) } label: {
             VStack(spacing: 4) {
+                // Symbols differ in height (a cup is short, a fork and knife tall): a fixed slot keeps every label on one line.
                 Image(systemName: activity.symbol).font(.title2)
                     .foregroundStyle(active ? AnyShapeStyle(.primary) : AnyShapeStyle(activity.color))
+                    .frame(height: 28)
                 Text(activity.label).font(.callout)
             }
             .frame(maxWidth: .infinity, minHeight: 56)
