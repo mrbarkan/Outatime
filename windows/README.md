@@ -54,7 +54,10 @@ Needs the Windows SDK for `makeappx`/`signtool`.
 .\scripts\package.ps1 -Sign    # also signs with a self-signed test certificate
 ```
 
-To install a signed test build by hand, trust the certificate once (admin PowerShell), then double-click the bundle:
+To install a signed test build by hand, keep `Install.cmd`, `Install.ps1`, `Outatime-test.cer` and the
+`.msixbundle` together and double-click `Install.cmd`. It trusts the test certificate (Windows asks for admin
+once), installs the bundle and opens Outatime. Double-clicking the bundle alone fails with 0x800B010A until the
+certificate is trusted; the manual equivalent, in an admin PowerShell, is:
 
 ```powershell
 Import-Certificate -FilePath artifacts\Outatime-test.cer -CertStoreLocation Cert:\LocalMachine\TrustedPeople

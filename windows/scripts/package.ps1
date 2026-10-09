@@ -58,8 +58,8 @@ if ($LASTEXITCODE) { throw 'makeappx bundle failed' }
 Remove-Item $bundleDir -Recurse
 
 if ($Sign) {
-    # A self-signed certificate whose subject matches the manifest's Publisher. Trust it once (as admin) to install:
-    #   Import-Certificate -FilePath artifacts\Outatime-test.cer -CertStoreLocation Cert:\LocalMachine\TrustedPeople
+    # A self-signed certificate whose subject matches the manifest's Publisher. Windows installs the bundle only
+    # once the certificate is trusted, which Install.ps1 does.
     $publisher = ([xml](Get-Content (Join-Path $root 'package\AppxManifest.xml'))).Package.Identity.Publisher
     $cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object Subject -eq $publisher | Select-Object -First 1
     if (-not $cert) {
@@ -71,6 +71,8 @@ if ($Sign) {
         & $signtool sign /fd SHA256 /sha1 $cert.Thumbprint $p
         if ($LASTEXITCODE) { throw "signing $p failed" }
     }
+    # Testers double-click Install.cmd: it trusts the certificate, installs the bundle and opens the app.
+    Copy-Item (Join-Path $root 'package\Install.ps1'), (Join-Path $root 'package\Install.cmd') $artifacts
 }
 
 Get-ChildItem $artifacts -File | Format-Table Name, Length

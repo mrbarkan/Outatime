@@ -36,6 +36,12 @@ jobs:
           if ($p.ExitCode -ne 0) { throw "Outatime exited with $($p.ExitCode)" }
           Get-ChildItem $env:OUTATIME_SNAPSHOT
           Copy-Item "$env:OUTATIME_SNAPSHOT\*.png" artifacts\
+      - name: Install the signed bundle with Install.ps1
+        shell: powershell  # Windows PowerShell 5.1, what Install.cmd runs on testers' PCs
+        run: |
+          $env:OUTATIME_NO_LAUNCH = '1'
+          ./artifacts/Install.ps1
+          Get-AppxPackage -Name 'DavidBarkan.Outatime' | Format-List Name, Version, Architecture, PackageFamilyName
       - uses: actions/upload-artifact@v4
         with:
           name: outatime-windows
@@ -44,4 +50,5 @@ jobs:
             windows/artifacts/*.msix
             windows/artifacts/*.zip
             windows/artifacts/*.cer
+            windows/artifacts/Install.*
             windows/artifacts/*.png
