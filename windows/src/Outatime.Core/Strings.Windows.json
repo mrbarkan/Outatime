@@ -66,5 +66,9 @@
  "Your entries, clients and objectives are one file, data.json. Export it before uninstalling; the Mac app reads it too.": {
   "es": "Tus entradas, clientes y objetivos están en un solo archivo, data.json. Expórtalo antes de desinstalar; la app de Mac también lo lee.",
   "pt-BR": "Seus registros, clientes e objetivos ficam em um só arquivo, data.json. Exporte-o antes de desinstalar; o app do Mac também o lê."
+ },
+ "· %@": {
+  "es": "· %@",
+  "pt-BR": "· %@"
  }
 }

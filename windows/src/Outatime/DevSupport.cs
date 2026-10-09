@@ -26,9 +26,13 @@ public static class DevSupport
             var coffee = Cal.Setting(day, 15, 10);
             if (d == 0)
             {
-                entries.Add(new Entry(Activity.Work, back, coffee, ["Design review"], client));
-                entries.Add(new Entry(Activity.Break, coffee, coffee.Plus(12 * 60)));
-                entries.Add(new Entry(Activity.Work, coffee.Plus(12 * 60), Clock.Now > coffee.Plus(12 * 60) ? null : coffee.Plus(13 * 60), ["Writing the report"], client));
+                // Today, whatever the hour: a morning, a coffee an hour ago, and Work running since.
+                entries.RemoveAll(e => Cal.SameDay(e.Start, day));
+                var now = Clock.Now;
+                var morning = now.Plus(-4 * 3600) > start ? start : now.Plus(-4 * 3600);
+                entries.Add(new Entry(Activity.Work, morning, now.Plus(-65 * 60), ["Design review"], client));
+                entries.Add(new Entry(Activity.Break, now.Plus(-65 * 60), now.Plus(-50 * 60)));
+                entries.Add(new Entry(Activity.Work, now.Plus(-50 * 60), null, ["Writing the report"], client));
                 continue;
             }
             entries.Add(new Entry(Activity.Work, back, coffee, [], client));
