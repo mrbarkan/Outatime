@@ -15,8 +15,14 @@ public class AppWindow : Window
         {
             TransparencyLevelHint = [WindowTransparencyLevel.Mica, WindowTransparencyLevel.None];
             // Mica shows through a transparent background; without it (Windows 10) the theme's background stays.
+            // Subpixel (ClearType) text needs an opaque surface to blend with; on Mica it smears, so text goes grayscale.
             this.GetObservable(ActualTransparencyLevelProperty).Subscribe(new Observer<WindowTransparencyLevel>(level =>
-                Background = level == WindowTransparencyLevel.Mica ? Avalonia.Media.Brushes.Transparent : null));
+            {
+                var mica = level == WindowTransparencyLevel.Mica;
+                Background = mica ? Avalonia.Media.Brushes.Transparent : null;
+                Avalonia.Media.RenderOptions.SetTextRenderingMode(this, mica ? Avalonia.Media.TextRenderingMode.Antialias
+                                                                             : Avalonia.Media.TextRenderingMode.Unspecified);
+            }));
         }
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
     }

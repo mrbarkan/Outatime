@@ -51,7 +51,16 @@ public static class DevSupport
 
     public static void OpenIfAsked(Shell shell)
     {
-        switch (Environment.GetEnvironmentVariable("OUTATIME_OPEN"))
+        // Several, comma-separated; the panel goes last, since opening a window closes it.
+        var open = (Environment.GetEnvironmentVariable("OUTATIME_OPEN") ?? "").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        foreach (var name in open.OrderBy(n => n == "panel")) Open(shell, name);
+        if (Environment.GetEnvironmentVariable("OUTATIME_SNAPSHOT") is { Length: > 0 } folder)
+            Avalonia.Threading.DispatcherTimer.RunOnce(() => Snapshot(shell, folder), TimeSpan.FromSeconds(2));
+    }
+
+    static void Open(Shell shell, string name)
+    {
+        switch (name)
         {
             case "panel": shell.ShowPanel(); break;
             case "logbook": shell.ShowLogbook(); break;
@@ -60,8 +69,6 @@ public static class DevSupport
             case "about": shell.ShowAbout(); break;
             case "whatsnew": shell.ShowWhatsNew("0"); break;
         }
-        if (Environment.GetEnvironmentVariable("OUTATIME_SNAPSHOT") is { Length: > 0 } folder)
-            Avalonia.Threading.DispatcherTimer.RunOnce(() => Snapshot(shell, folder), TimeSpan.FromSeconds(2));
     }
 
     /// OUTATIME_SNAPSHOT=<folder>: renders every open window to <folder>/<title>.png, then quits.
@@ -74,7 +81,12 @@ public static class DevSupport
                 var scale = w.RenderScaling;
                 using var bitmap = new Avalonia.Media.Imaging.RenderTargetBitmap(
                     new Avalonia.PixelSize((int)(w.Bounds.Width * scale), (int)(w.Bounds.Height * scale)), new Avalonia.Vector(96 * scale, 96 * scale));
+                // Mica isn't in an off-screen render: paint the theme's window color under the content instead.
+                var background = w.Background;
+                if (Avalonia.Controls.ResourceNodeExtensions.TryFindResource(w, "WindowBrush", w.ActualThemeVariant, out var brush)) w.Background = brush as Avalonia.Media.IBrush;
+                w.UpdateLayout();
                 bitmap.Render(w);
+                w.Background = background;
                 using var file = File.Create(Path.Combine(folder, (w.Title ?? "window").Replace('/', '-') + ".png"));
                 bitmap.Save(file);
             }

@@ -29,7 +29,7 @@ jobs:
           $exe = 'artifacts\single-x64\Outatime.exe'
           $env:OUTATIME_HOME = Join-Path $env:RUNNER_TEMP 'outatime-smoke'
           $env:OUTATIME_SAMPLE = '1'
-          $env:OUTATIME_OPEN = 'logbook'
+          $env:OUTATIME_OPEN = 'logbook,settings,objectives,about,panel'
           $env:OUTATIME_SNAPSHOT = Join-Path $env:RUNNER_TEMP 'outatime-shots'
           $p = Start-Process $exe -PassThru
           if (-not $p.WaitForExit(60000)) { $p.Kill(); throw 'Outatime did not finish its snapshot run in 60 s' }
