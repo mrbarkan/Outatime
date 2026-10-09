@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Outatime.Core/Outatime.Core.csproj" />
+    <Project Path="src/Outatime/Outatime.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Outatime.Tests/Outatime.Tests.csproj" />
+  </Folder>
+</Solution>

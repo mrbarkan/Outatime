@@ -1,0 +1,85 @@
+{
+  "current" : "6B1E5C1A-3F1D-4C2B-9E60-2E8F7E0C9A11",
+  "daysOff" : [
+    "2026-09-07"
+  ],
+  "entries" : [
+    {
+      "activity" : "work",
+      "end" : "2026-09-03T15:30:00Z",
+      "id" : "0F2A9D3E-5B7C-4E21-8A6D-1C3B5E7F9A02",
+      "notes" : [
+        "api, \"v2\"",
+        "review"
+      ],
+      "profile" : "6B1E5C1A-3F1D-4C2B-9E60-2E8F7E0C9A11",
+      "start" : "2026-09-03T12:00:00Z"
+    },
+    {
+      "activity" : "outOfOffice",
+      "id" : "8C4D2E1F-7A6B-4D3C-9B8A-5E4F3D2C1B03",
+      "notes" : [
+
+      ],
+      "start" : "2026-09-03T16:00:00Z"
+    }
+  ],
+  "objectives" : [
+    {
+      "amount" : 8000,
+      "currency" : "BRL",
+      "id" : "A1B2C3D4-E5F6-4A7B-8C9D-0E1F2A3B4C05",
+      "kind" : "money",
+      "name" : "Retainer",
+      "profile" : "6B1E5C1A-3F1D-4C2B-9E60-2E8F7E0C9A11",
+      "rate" : 100,
+      "since" : "2026-09-01T03:00:00Z"
+    },
+    {
+      "amount" : 5,
+      "currency" : "USD",
+      "id" : "B2C3D4E5-F6A7-4B8C-9D0E-1F2A3B4C5D06",
+      "kind" : "daysOff",
+      "name" : "",
+      "rate" : 0,
+      "since" : "2026-09-01T03:00:00Z"
+    }
+  ],
+  "profiles" : [
+    {
+      "archived" : false,
+      "id" : "6B1E5C1A-3F1D-4C2B-9E60-2E8F7E0C9A11",
+      "name" : "Acme"
+    },
+    {
+      "archived" : true,
+      "id" : "C3D4E5F6-A7B8-4C9D-0E1F-2A3B4C5D6E07",
+      "name" : "Globex"
+    }
+  ],
+  "templates" : [
+    {
+      "id" : "D4E5F6A7-B8C9-4D0E-1F2A-3B4C5D6E7F08",
+      "name" : "Normal",
+      "slots" : [
+        {
+          "activity" : "work",
+          "endMinute" : 720,
+          "notes" : [
+            "standup"
+          ],
+          "profile" : "6B1E5C1A-3F1D-4C2B-9E60-2E8F7E0C9A11",
+          "startMinute" : 540
+        },
+        {
+          "activity" : "lunch",
+          "endMinute" : 780,
+          "notes" : [
+
+          ],
+          "startMinute" : 720
+        }
+      ]
+    }
+  ]
+}

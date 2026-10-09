@@ -1,0 +1,834 @@
+{
+ "%@ left": {
+  "es": "quedan %@",
+  "pt-BR": "faltam %@"
+ },
+ "%@ left of %@": {
+  "es": "Quedan %1$@ de %2$@",
+  "pt-BR": "Faltam %1$@ de %2$@"
+ },
+ "%@ of %@": {
+  "es": "%1$@ de %2$@",
+  "pt-BR": "%1$@ de %2$@"
+ },
+ "%@ over": {
+  "es": "%@ de más",
+  "pt-BR": "%@ a mais"
+ },
+ "%@, %@": {
+  "es": "%1$@, %2$@",
+  "pt-BR": "%1$@, %2$@"
+ },
+ "%lld banked": {
+  "es": "%lld acumulados",
+  "pt-BR": "%lld acumuladas"
+ },
+ "A block of a few minutes no longer covers the title of the one after it.": {
+  "es": "Un bloque de pocos minutos ya no tapa el título del siguiente.",
+  "pt-BR": "Um bloco de poucos minutos não cobre mais o título do seguinte."
+ },
+ "A nudge to get up after every 50 minutes of work. Change it or turn it off in Settings.": {
+  "es": "Un aviso para levantarte cada 50 minutos de trabajo. Cámbialo o desactívalo en Ajustes.",
+  "pt-BR": "Um lembrete para levantar a cada 50 minutos de trabalho. Altere ou desative nos Ajustes."
+ },
+ "A tidier menu": {
+  "es": "Un menú más ordenado",
+  "pt-BR": "Um menu mais arrumado"
+ },
+ "A tiny menu bar time tracker for macOS.": {
+  "es": "Un pequeño registro de horas en la barra de menús de macOS.",
+  "pt-BR": "Um pequeno controle de horas na barra de menus do macOS."
+ },
+ "About": {
+  "es": "Acerca de",
+  "pt-BR": "Sobre"
+ },
+ "About Outatime": {
+  "es": "Acerca de Outatime",
+  "pt-BR": "Sobre o Outatime"
+ },
+ "Activity": {
+  "es": "Actividad",
+  "pt-BR": "Atividade"
+ },
+ "Activity names line up across each row, and Logbook and Export look alike.": {
+  "es": "Los nombres de las actividades se alinean en cada fila, y Bitácora y Exportar se ven iguales.",
+  "pt-BR": "Os nomes das atividades ficam alinhados em cada linha, e Diário de bordo e Exportar têm a mesma aparência."
+ },
+ "Add": {
+  "es": "Añadir",
+  "pt-BR": "Adicionar"
+ },
+ "Add Entry": {
+  "es": "Agregar registro",
+  "pt-BR": "Adicionar registro"
+ },
+ "Add Objective": {
+  "es": "Añadir objetivo",
+  "pt-BR": "Adicionar objetivo"
+ },
+ "Add a note to the last entry": {
+  "es": "Añadir una nota a la última entrada",
+  "pt-BR": "Adicionar uma nota à última entrada"
+ },
+ "Add your clients in Settings and pick one in the menu. Work, Extra and Travel are tracked for it, and switching clients splits the block right there.": {
+  "es": "Añade tus clientes en Ajustes y elige uno en el menú. Trabajo, Extra y Viaje se registran para él, y cambiar de cliente divide el bloque en ese momento.",
+  "pt-BR": "Adicione seus clientes nos Ajustes e escolha um no menu. Trabalho, Extra e Deslocamento são registrados para ele, e trocar de cliente divide o bloco na hora."
+ },
+ "Amount": {
+  "es": "Importe",
+  "pt-BR": "Valor"
+ },
+ "Appearance": {
+  "es": "Apariencia",
+  "pt-BR": "Aparência"
+ },
+ "Apply to This Day": {
+  "es": "Aplicar a este día",
+  "pt-BR": "Aplicar a este dia"
+ },
+ "Average month": {
+  "es": "Mes promedio",
+  "pt-BR": "Mês médio"
+ },
+ "Average week": {
+  "es": "Semana promedio",
+  "pt-BR": "Semana média"
+ },
+ "Average workday": {
+  "es": "Jornada promedio",
+  "pt-BR": "Dia de trabalho médio"
+ },
+ "Averages": {
+  "es": "Promedios",
+  "pt-BR": "Médias"
+ },
+ "Back to Work": {
+  "es": "Volver al trabajo",
+  "pt-BR": "Voltar ao trabalho"
+ },
+ "Balance %@%@": {
+  "es": "Saldo %1$@%2$@",
+  "pt-BR": "Saldo %1$@%2$@"
+ },
+ "Block edges": {
+  "es": "Bordes de los bloques",
+  "pt-BR": "Bordas dos blocos"
+ },
+ "Break": {
+  "es": "Pausa",
+  "pt-BR": "Pausa"
+ },
+ "Break's over": {
+  "es": "Se acabó la pausa",
+  "pt-BR": "Fim da pausa"
+ },
+ "Cancel": {
+  "es": "Cancelar",
+  "pt-BR": "Cancelar"
+ },
+ "Check for Updates…": {
+  "es": "Buscar actualizaciones…",
+  "pt-BR": "Verificar atualizações…"
+ },
+ "Client": {
+  "es": "Cliente",
+  "pt-BR": "Cliente"
+ },
+ "Clients": {
+  "es": "Clientes",
+  "pt-BR": "Clientes"
+ },
+ "Clients fit the menu": {
+  "es": "Los clientes caben en el menú",
+  "pt-BR": "Os clientes cabem no menu"
+ },
+ "Colored menu bar": {
+  "es": "Barra de menús en color",
+  "pt-BR": "Barra de menus colorida"
+ },
+ "Colored menu bar icon": {
+  "es": "Icono de la barra de menús en color",
+  "pt-BR": "Ícone colorido na barra de menus"
+ },
+ "Contact Support": {
+  "es": "Contactar con soporte",
+  "pt-BR": "Falar com o suporte"
+ },
+ "Continue": {
+  "es": "Continuar",
+  "pt-BR": "Continuar"
+ },
+ "Counting since": {
+  "es": "Contando desde",
+  "pt-BR": "Contando desde"
+ },
+ "Counts toward the target": {
+  "es": "Cuenta para la meta",
+  "pt-BR": "Conta para a meta"
+ },
+ "Daily Summary CSV…": {
+  "es": "CSV resumen diario…",
+  "pt-BR": "CSV resumo diário…"
+ },
+ "Daily target": {
+  "es": "Meta diaria",
+  "pt-BR": "Meta diária"
+ },
+ "Daily target %@h": {
+  "es": "Meta diaria %@h",
+  "pt-BR": "Meta diária %@h"
+ },
+ "Daily target reached": {
+  "es": "Meta diaria cumplida",
+  "pt-BR": "Meta diária atingida"
+ },
+ "Dark": {
+  "es": "Oscuro",
+  "pt-BR": "Escuro"
+ },
+ "Day Off": {
+  "es": "Día libre",
+  "pt-BR": "Folga"
+ },
+ "Day bars": {
+  "es": "Barras de los días",
+  "pt-BR": "Barras dos dias"
+ },
+ "Days off banked": {
+  "es": "Días libres acumulados",
+  "pt-BR": "Folgas acumuladas"
+ },
+ "Days off: %lld": {
+  "es": "Días libres: %lld",
+  "pt-BR": "Folgas: %lld"
+ },
+ "Days worked": {
+  "es": "Días trabajados",
+  "pt-BR": "Dias trabalhados"
+ },
+ "Delete": {
+  "es": "Eliminar",
+  "pt-BR": "Excluir"
+ },
+ "Delete Template": {
+  "es": "Eliminar plantilla",
+  "pt-BR": "Excluir modelo"
+ },
+ "Done": {
+  "es": "Completada",
+  "pt-BR": "Concluída"
+ },
+ "Double-click to add an entry": {
+  "es": "Haz doble clic para agregar un registro",
+  "pt-BR": "Clique duas vezes para adicionar um registro"
+ },
+ "Dragging an edge moves only that block and stops at the next one. Hold ⌥ to move the border between two blocks.": {
+  "es": "Arrastrar un borde mueve solo ese bloque y se detiene en el siguiente. Mantén ⌥ para mover el límite entre dos bloques.",
+  "pt-BR": "Arrastar uma borda move só aquele bloco e para no seguinte. Segure ⌥ para mover o limite entre dois blocos."
+ },
+ "Duration": {
+  "es": "Duración",
+  "pt-BR": "Duração"
+ },
+ "Early builds of the next version. They may have rough edges.": {
+  "es": "Versiones tempranas de la próxima versión. Pueden tener detalles sin pulir.",
+  "pt-BR": "Versões antecipadas da próxima versão. Podem ter arestas a aparar."
+ },
+ "Edit Objectives…": {
+  "es": "Editar objetivos…",
+  "pt-BR": "Editar objetivos…"
+ },
+ "Eight languages": {
+  "es": "Ocho idiomas",
+  "pt-BR": "Oito idiomas"
+ },
+ "End": {
+  "es": "Fin",
+  "pt-BR": "Fim"
+ },
+ "Entries CSV…": {
+  "es": "CSV de registros…",
+  "pt-BR": "CSV de registros…"
+ },
+ "Everything Outatime does, in your language. Open it from the ••• menu.": {
+  "es": "Todo lo que hace Outatime, en tu idioma. Ábrelo desde el menú •••.",
+  "pt-BR": "Tudo o que o Outatime faz, no seu idioma. Abra pelo menu •••."
+ },
+ "Export": {
+  "es": "Exportar",
+  "pt-BR": "Exportar"
+ },
+ "Export a client's month for invoicing from the Export menu. Reports also gain a Client column and a Clients sheet; export a fresh master workbook so new months paste in cleanly.": {
+  "es": "Exporta el mes de un cliente para facturar desde el menú Exportar. Los informes ganan además una columna Cliente y una hoja Clientes; exporta un libro maestro nuevo para que los meses nuevos se peguen bien.",
+  "pt-BR": "Exporte o mês de um cliente para faturar pelo menu Exportar. Os relatórios também ganham uma coluna Cliente e uma planilha Clientes; exporte uma pasta de trabalho mestre nova para que os novos meses sejam colados certinho."
+ },
+ "Extra": {
+  "es": "Extra",
+  "pt-BR": "Extra"
+ },
+ "Extra after the target": {
+  "es": "Extra después de la meta",
+  "pt-BR": "Extra após a meta"
+ },
+ "Fixed": {
+  "es": "Corregido",
+  "pt-BR": "Corrigido"
+ },
+ "Focus": {
+  "es": "Enfoque",
+  "pt-BR": "Foco"
+ },
+ "Focus %lld min": {
+  "es": "Enfoque %lld min",
+  "pt-BR": "Foco %lld min"
+ },
+ "General": {
+  "es": "General",
+  "pt-BR": "Geral"
+ },
+ "Get beta updates": {
+  "es": "Recibir versiones beta",
+  "pt-BR": "Receber versões beta"
+ },
+ "Global shortcuts": {
+  "es": "Atajos globales",
+  "pt-BR": "Atalhos globais"
+ },
+ "Hourly rate": {
+  "es": "Tarifa por hora",
+  "pt-BR": "Valor da hora"
+ },
+ "Hours": {
+  "es": "Horas",
+  "pt-BR": "Horas"
+ },
+ "Hours Package": {
+  "es": "Paquete de horas",
+  "pt-BR": "Pacote de horas"
+ },
+ "Hours bank since": {
+  "es": "Banco de horas desde",
+  "pt-BR": "Banco de horas desde"
+ },
+ "Icon and time": {
+  "es": "Icono y tiempo",
+  "pt-BR": "Ícone e tempo"
+ },
+ "Icon only": {
+  "es": "Solo icono",
+  "pt-BR": "Só ícone"
+ },
+ "It opened empty after the last update. It now lists what changed, including everything new in 1.1.": {
+  "es": "Se abría vacía tras la última actualización. Ahora muestra los cambios, incluido todo lo nuevo de la 1.1.",
+  "pt-BR": "Abria vazia após a última atualização. Agora mostra o que mudou, incluindo tudo o que chegou na 1.1."
+ },
+ "Language": {
+  "es": "Idioma",
+  "pt-BR": "Idioma"
+ },
+ "Left this week": {
+  "es": "Falta esta semana",
+  "pt-BR": "Falta esta semana"
+ },
+ "Light": {
+  "es": "Claro",
+  "pt-BR": "Claro"
+ },
+ "Logbook": {
+  "es": "Bitácora",
+  "pt-BR": "Diário de bordo"
+ },
+ "Long break": {
+  "es": "Pausa larga",
+  "pt-BR": "Pausa longa"
+ },
+ "Long break %lld min": {
+  "es": "Pausa larga %lld min",
+  "pt-BR": "Pausa longa %lld min"
+ },
+ "Longest day": {
+  "es": "Día más largo",
+  "pt-BR": "Dia mais longo"
+ },
+ "Lunch": {
+  "es": "Almuerzo",
+  "pt-BR": "Almoço"
+ },
+ "Master Workbook (Excel)…": {
+  "es": "Libro maestro (Excel)…",
+  "pt-BR": "Planilha mestre (Excel)…"
+ },
+ "Menu bar": {
+  "es": "Barra de menús",
+  "pt-BR": "Barra de menus"
+ },
+ "Monthly Report (Excel)…": {
+  "es": "Informe mensual (Excel)…",
+  "pt-BR": "Relatório mensal (Excel)…"
+ },
+ "Monthly Report — %@ (Excel)…": {
+  "es": "Informe mensual — %@ (Excel)…",
+  "pt-BR": "Relatório mensal — %@ (Excel)…"
+ },
+ "Name": {
+  "es": "Nombre",
+  "pt-BR": "Nome"
+ },
+ "New": {
+  "es": "Nuevo",
+  "pt-BR": "Novo"
+ },
+ "New client": {
+  "es": "Nuevo cliente",
+  "pt-BR": "Novo cliente"
+ },
+ "Next Day": {
+  "es": "Día siguiente",
+  "pt-BR": "Próximo dia"
+ },
+ "Next Month": {
+  "es": "Mes siguiente",
+  "pt-BR": "Próximo mês"
+ },
+ "No client": {
+  "es": "Sin cliente",
+  "pt-BR": "Sem cliente"
+ },
+ "No long-timer reminder": {
+  "es": "Sin aviso de temporizador largo",
+  "pt-BR": "Sem aviso de cronômetro longo"
+ },
+ "No objectives yet. Add one and the menu counts it down next to Export.": {
+  "es": "Aún no hay objetivos. Añade uno y el menú hará la cuenta atrás junto a Exportar.",
+  "pt-BR": "Nenhum objetivo ainda. Adicione um e o menu faz a contagem regressiva ao lado de Exportar."
+ },
+ "No stretch reminder": {
+  "es": "Sin recordatorio de estiramiento",
+  "pt-BR": "Sem lembrete de alongamento"
+ },
+ "Not tracking": {
+  "es": "Sin seguimiento",
+  "pt-BR": "Sem registro"
+ },
+ "Notes": {
+  "es": "Notas",
+  "pt-BR": "Notas"
+ },
+ "Nothing to count yet": {
+  "es": "Aún no hay nada que contar",
+  "pt-BR": "Nada para contar ainda"
+ },
+ "Now tracking Extra.": {
+  "es": "Ahora registrando Extra.",
+  "pt-BR": "Agora registrando Extra."
+ },
+ "Objectives": {
+  "es": "Objetivos",
+  "pt-BR": "Objetivos"
+ },
+ "Once your day reaches its target, Work carries on as Extra by itself. Weekends and days off count as Extra.": {
+  "es": "Cuando tu día alcanza la meta, Trabajo sigue como Extra por sí solo. Los fines de semana y días libres cuentan como Extra.",
+  "pt-BR": "Quando o dia atinge a meta, Trabalho continua como Extra sozinho. Fins de semana e folgas contam como Extra."
+ },
+ "Open at Login": {
+  "es": "Abrir al iniciar sesión",
+  "pt-BR": "Abrir ao iniciar sessão"
+ },
+ "Option-Return adds a line": {
+  "es": "Opción-Retorno añade una línea",
+  "pt-BR": "Option-Return adiciona uma linha"
+ },
+ "Out of Office": {
+  "es": "Fuera de la oficina",
+  "pt-BR": "Fora do escritório"
+ },
+ "Outatime Manual": {
+  "es": "Manual de Outatime",
+  "pt-BR": "Manual do Outatime"
+ },
+ "Outatime now also speaks French, German, Italian, Japanese and Simplified Chinese. Pick yours in Settings → General.": {
+  "es": "Outatime ahora también habla francés, alemán, italiano, japonés y chino simplificado. Elige el tuyo en Ajustes → General.",
+  "pt-BR": "O Outatime agora também fala francês, alemão, italiano, japonês e chinês simplificado. Escolha o seu em Ajustes → Geral."
+ },
+ "Overtime in the hours bank buys days off, one daily target each. Settings → Target sets where the bank starts.": {
+  "es": "Las horas de más del banco de horas compran días libres, una meta diaria cada uno. En Ajustes → Meta eliges desde cuándo cuenta el banco.",
+  "pt-BR": "As horas a mais do banco de horas compram folgas, uma meta diária cada. Em Ajustes → Meta você define desde quando o banco conta."
+ },
+ "Paused": {
+  "es": "En pausa",
+  "pt-BR": "Pausado"
+ },
+ "Pick the client in the menu. Work, Extra and Travel are tracked for it.": {
+  "es": "Elige el cliente en el menú. Trabajo, Extra y Viaje se registran para él.",
+  "pt-BR": "Escolha o cliente no menu. Trabalho, Extra e Deslocamento são registrados para ele."
+ },
+ "Previous Day": {
+  "es": "Día anterior",
+  "pt-BR": "Dia anterior"
+ },
+ "Previous Month": {
+  "es": "Mes anterior",
+  "pt-BR": "Mês anterior"
+ },
+ "Questions, bugs or ideas: %@": {
+  "es": "Preguntas, errores o ideas: %@",
+  "pt-BR": "Dúvidas, bugs ou ideias: %@"
+ },
+ "Quit": {
+  "es": "Salir",
+  "pt-BR": "Sair"
+ },
+ "Ready for round %lld?": {
+  "es": "¿Listo para la ronda %lld?",
+  "pt-BR": "Pronto para a rodada %lld?"
+ },
+ "Release Notes": {
+  "es": "Notas de la versión",
+  "pt-BR": "Notas da versão"
+ },
+ "Remind me to stretch every %lld min": {
+  "es": "Recordarme estirarme cada %lld min",
+  "pt-BR": "Lembrar de alongar a cada %lld min"
+ },
+ "Remind me when a timer runs %@h": {
+  "es": "Avisarme cuando un temporizador lleve %@ h",
+  "pt-BR": "Avisar quando um cronômetro passar de %@ h"
+ },
+ "Reminders": {
+  "es": "Recordatorios",
+  "pt-BR": "Lembretes"
+ },
+ "Remove": {
+  "es": "Quitar",
+  "pt-BR": "Remover"
+ },
+ "Replace": {
+  "es": "Reemplazar",
+  "pt-BR": "Substituir"
+ },
+ "Replace this day's entries with “%@”?": {
+  "es": "¿Reemplazar los registros de este día con “%@”?",
+  "pt-BR": "Substituir os registros deste dia por “%@”?"
+ },
+ "Reports per client": {
+  "es": "Informes por cliente",
+  "pt-BR": "Relatórios por cliente"
+ },
+ "Round %lld": {
+  "es": "Ronda %lld",
+  "pt-BR": "Rodada %lld"
+ },
+ "Round %lld done.": {
+  "es": "Ronda %lld terminada.",
+  "pt-BR": "Rodada %lld concluída."
+ },
+ "Running since %@": {
+  "es": "En marcha desde %@",
+  "pt-BR": "Rodando desde %@"
+ },
+ "Salary": {
+  "es": "Salario",
+  "pt-BR": "Salário"
+ },
+ "Save": {
+  "es": "Guardar",
+  "pt-BR": "Salvar"
+ },
+ "Save Day as Template": {
+  "es": "Guardar día como plantilla",
+  "pt-BR": "Salvar dia como modelo"
+ },
+ "Save Day as Template…": {
+  "es": "Guardar día como plantilla…",
+  "pt-BR": "Salvar dia como modelo…"
+ },
+ "See your version and build, and write to support with them already filled in. Open it from the ••• menu.": {
+  "es": "Muestra tu versión y compilación, y escribe a soporte con ambas ya rellenadas. Ábrelo desde el menú •••.",
+  "pt-BR": "Mostra sua versão e build, e escreve para o suporte com as duas já preenchidas. Abra pelo menu •••."
+ },
+ "Set goals under Objectives in the Logbook: days off to bank for a vacation, or a client's package of hours or pay. The menu counts one down next to Export.": {
+  "es": "Fija metas en Objetivos, en la Bitácora: días libres que acumular para unas vacaciones, o un paquete de horas o de pago de un cliente. El menú hace la cuenta atrás de uno junto a Exportar.",
+  "pt-BR": "Defina metas em Objetivos, no Diário de bordo: folgas a acumular para as férias, ou um pacote de horas ou de pagamento de um cliente. O menu faz a contagem regressiva de um ao lado de Exportar."
+ },
+ "Settings are split into five short tabs: General, Target, Focus, Clients and Updates.": {
+  "es": "Los Ajustes se dividen en cinco pestañas cortas: General, Meta, Enfoque, Clientes y Actualizaciones.",
+  "pt-BR": "Os Ajustes agora têm cinco abas curtas: Geral, Meta, Foco, Clientes e Atualizações."
+ },
+ "Settings in tabs": {
+  "es": "Ajustes en pestañas",
+  "pt-BR": "Ajustes em abas"
+ },
+ "Settings now come in four short tabs. Under General you can opt into beta updates.": {
+  "es": "Los Ajustes ahora vienen en cuatro pestañas cortas. En General puedes apuntarte a las versiones beta.",
+  "pt-BR": "Os Ajustes agora têm quatro abas curtas. Em Geral você pode optar por receber versões beta."
+ },
+ "Settings…": {
+  "es": "Ajustes…",
+  "pt-BR": "Ajustes…"
+ },
+ "Several blocks at once": {
+  "es": "Varios bloques a la vez",
+  "pt-BR": "Vários blocos de uma vez"
+ },
+ "Short blocks in the Logbook": {
+  "es": "Bloques cortos en la Bitácora",
+  "pt-BR": "Blocos curtos no Diário de bordo"
+ },
+ "Short break %lld min": {
+  "es": "Pausa corta %lld min",
+  "pt-BR": "Pausa curta %lld min"
+ },
+ "Shorter Settings": {
+  "es": "Ajustes más cortos",
+  "pt-BR": "Ajustes mais curtos"
+ },
+ "Show in Menu": {
+  "es": "Mostrar en el menú",
+  "pt-BR": "Mostrar no menu"
+ },
+ "Since %@": {
+  "es": "Desde %@",
+  "pt-BR": "Desde %@"
+ },
+ "Source Code": {
+  "es": "Código fuente",
+  "pt-BR": "Código-fonte"
+ },
+ "Start": {
+  "es": "Inicio",
+  "pt-BR": "Início"
+ },
+ "Start Break": {
+  "es": "Empezar pausa",
+  "pt-BR": "Iniciar pausa"
+ },
+ "Stats": {
+  "es": "Estadísticas",
+  "pt-BR": "Estatísticas"
+ },
+ "Still tracking?": {
+  "es": "¿Sigues registrando?",
+  "pt-BR": "Ainda registrando?"
+ },
+ "Stretch reminder": {
+  "es": "Recordatorio de estiramiento",
+  "pt-BR": "Lembrete de alongamento"
+ },
+ "Switch to Extra after the target": {
+  "es": "Pasar a Extra al cumplir la meta",
+  "pt-BR": "Mudar para Extra após a meta"
+ },
+ "System": {
+  "es": "Sistema",
+  "pt-BR": "Sistema"
+ },
+ "Tag": {
+  "es": "Etiqueta",
+  "pt-BR": "Etiqueta"
+ },
+ "Tag (optional)": {
+  "es": "Etiqueta (opcional)",
+  "pt-BR": "Etiqueta (opcional)"
+ },
+ "Target": {
+  "es": "Meta",
+  "pt-BR": "Meta"
+ },
+ "Target %@h": {
+  "es": "Meta %@h",
+  "pt-BR": "Meta %@h"
+ },
+ "Templates": {
+  "es": "Plantillas",
+  "pt-BR": "Modelos"
+ },
+ "The Logbook's day bars line up, share one scale and mark your target.": {
+  "es": "Las barras de los días en la Bitácora están alineadas, comparten una escala y marcan tu meta.",
+  "pt-BR": "As barras dos dias no Diário de bordo ficam alinhadas, usam a mesma escala e marcam sua meta."
+ },
+ "The amount at your hourly rate is the hours you owe the client. Their Work, Extra and Travel from that day on count it down.": {
+  "es": "El importe a tu tarifa por hora son las horas que le debes al cliente. Su Trabajo, Extra y Viaje desde ese día las van descontando.",
+  "pt-BR": "O valor dividido pelo valor da hora são as horas que você deve ao cliente. O Trabalho, Extra e Deslocamento dele a partir desse dia vão descontando."
+ },
+ "The client's Work, Extra and Travel from that day on count toward the package.": {
+  "es": "El Trabajo, Extra y Viaje del cliente desde ese día cuentan para el paquete.",
+  "pt-BR": "O Trabalho, Extra e Deslocamento do cliente a partir desse dia contam para o pacote."
+ },
+ "The menu bar icon takes the color of what you're tracking: blue for Work, green for Break and so on.": {
+  "es": "El icono de la barra de menús toma el color de lo que registras: azul para Trabajo, verde para Pausa, etc.",
+  "pt-BR": "O ícone da barra de menus assume a cor do que você está registrando: azul para Trabalho, verde para Pausa e assim por diante."
+ },
+ "The menu shows what's left of this week and how far you are from a day off. Averages and your usual hours are under Stats in the Logbook.": {
+  "es": "El menú muestra cuánto falta esta semana y cuánto te queda para un día libre. Los promedios y tus horarios habituales están en Estadísticas, en la Bitácora.",
+  "pt-BR": "O menu mostra quanto falta nesta semana e quanto falta para uma folga. As médias e seus horários habituais estão em Estatísticas, no Diário de bordo."
+ },
+ "The timer has been running for %@.": {
+  "es": "El temporizador lleva %@ en marcha.",
+  "pt-BR": "O cronômetro está rodando há %@."
+ },
+ "This Month": {
+  "es": "Este mes",
+  "pt-BR": "Este mês"
+ },
+ "This Month — %@ (Excel)…": {
+  "es": "Este mes — %@ (Excel)…",
+  "pt-BR": "Este mês — %@ (Excel)…"
+ },
+ "This Month — Daily Summary…": {
+  "es": "Este mes — Resumen diario…",
+  "pt-BR": "Este mês — Resumo diário…"
+ },
+ "This Month — Entries…": {
+  "es": "Este mes — Registros…",
+  "pt-BR": "Este mês — Registros…"
+ },
+ "This Month — Report (Excel)…": {
+  "es": "Este mes — Informe (Excel)…",
+  "pt-BR": "Este mês — Relatório (Excel)…"
+ },
+ "This Week": {
+  "es": "Esta semana",
+  "pt-BR": "Esta semana"
+ },
+ "Time for a break": {
+  "es": "Hora de una pausa",
+  "pt-BR": "Hora de uma pausa"
+ },
+ "Time left today": {
+  "es": "Tiempo restante hoy",
+  "pt-BR": "Tempo restante hoje"
+ },
+ "Time only": {
+  "es": "Solo tiempo",
+  "pt-BR": "Só tempo"
+ },
+ "Time to stretch": {
+  "es": "Hora de estirarse",
+  "pt-BR": "Hora de alongar"
+ },
+ "To next day off": {
+  "es": "Para el próximo día libre",
+  "pt-BR": "Para a próxima folga"
+ },
+ "Today": {
+  "es": "Hoy",
+  "pt-BR": "Hoje"
+ },
+ "Tomato timer": {
+  "es": "Temporizador Pomodoro",
+  "pt-BR": "Timer Pomodoro"
+ },
+ "Tracking": {
+  "es": "Registro",
+  "pt-BR": "Registro"
+ },
+ "Travel": {
+  "es": "Viaje",
+  "pt-BR": "Deslocamento"
+ },
+ "Turn it on from the menu for focus rounds and breaks. A notification at the end of each round switches Work and Break for you.": {
+  "es": "Actívalo desde el menú para rondas de enfoque y pausas. Una notificación al final de cada ronda cambia entre Trabajo y Pausa por ti.",
+  "pt-BR": "Ative pelo menu para rodadas de foco e pausas. Uma notificação no fim de cada rodada alterna entre Trabalho e Pausa para você."
+ },
+ "Turn it on with the timer button in the menu. Each round ends with a notification that can switch the tracker for you.": {
+  "es": "Actívalo con el botón del temporizador en el menú. Cada ronda termina con una notificación que puede cambiar el registro por ti.",
+  "pt-BR": "Ative pelo botão de timer no menu. Cada rodada termina com uma notificação que pode trocar o registro para você."
+ },
+ "Updates": {
+  "es": "Actualizaciones",
+  "pt-BR": "Atualizações"
+ },
+ "User Manual": {
+  "es": "Manual de usuario",
+  "pt-BR": "Manual do usuário"
+ },
+ "User manual": {
+  "es": "Manual de usuario",
+  "pt-BR": "Manual do usuário"
+ },
+ "Usual finish": {
+  "es": "Fin habitual",
+  "pt-BR": "Término habitual"
+ },
+ "Usual start": {
+  "es": "Inicio habitual",
+  "pt-BR": "Início habitual"
+ },
+ "Vacation": {
+  "es": "Vacaciones",
+  "pt-BR": "Férias"
+ },
+ "Version %@": {
+  "es": "Versión %@",
+  "pt-BR": "Versão %@"
+ },
+ "Version %@ (%@)": {
+  "es": "Versión %1$@ (%2$@)",
+  "pt-BR": "Versão %1$@ (%2$@)"
+ },
+ "Week %lld": {
+  "es": "Semana %lld",
+  "pt-BR": "Semana %lld"
+ },
+ "Weekends and days off owe nothing; mark a day off from the Logbook toolbar.": {
+  "es": "Los fines de semana y días libres no deben horas; marca un día libre desde la barra de la Bitácora.",
+  "pt-BR": "Fins de semana e folgas não devem horas; marque uma folga na barra do Diário de bordo."
+ },
+ "What are you working on?": {
+  "es": "¿En qué estás trabajando?",
+  "pt-BR": "No que você está trabalhando?"
+ },
+ "What's New": {
+  "es": "Novedades",
+  "pt-BR": "Novidades"
+ },
+ "What's New in Outatime %@": {
+  "es": "Novedades de Outatime %@",
+  "pt-BR": "Novidades do Outatime %@"
+ },
+ "What's New window": {
+  "es": "Ventana de novedades",
+  "pt-BR": "Janela de novidades"
+ },
+ "With three or more clients the menu no longer runs off its edge. Clients now sit in a grid of buttons.": {
+  "es": "Con tres o más clientes el menú ya no se sale por el borde. Los clientes aparecen ahora en una cuadrícula de botones.",
+  "pt-BR": "Com três ou mais clientes, o menu não passa mais da borda. Os clientes agora ficam numa grade de botões."
+ },
+ "Work": {
+  "es": "Trabajo",
+  "pt-BR": "Trabalho"
+ },
+ "Worked": {
+  "es": "Trabajado",
+  "pt-BR": "Trabalhado"
+ },
+ "You've been at it for %@. Get up and move a little.": {
+  "es": "Llevas %@ seguido. Levántate y muévete un poco.",
+  "pt-BR": "Você está nisso há %@. Levante e se mexa um pouco."
+ },
+ "Zoom In": {
+  "es": "Acercar",
+  "pt-BR": "Ampliar"
+ },
+ "Zoom Out": {
+  "es": "Alejar",
+  "pt-BR": "Reduzir"
+ },
+ "of %@": {
+  "es": "de %@",
+  "pt-BR": "de %@"
+ },
+ "running": {
+  "es": "en curso",
+  "pt-BR": "em andamento"
+ },
+ "⌃⌥⌘W starts or stops Work, ⌃⌥⌘B Break": {
+  "es": "⌃⌥⌘W inicia o detiene Trabajo, ⌃⌥⌘B Pausa",
+  "pt-BR": "⌃⌥⌘W inicia ou para Trabalho, ⌃⌥⌘B Pausa"
+ },
+ "⌘-click or ⇧-click blocks in the Logbook, then right-click to give them a client, change their activity or delete them.": {
+  "es": "Haz ⌘-clic o ⇧-clic en los bloques de la Bitácora y luego clic derecho para asignarles un cliente, cambiar su actividad o eliminarlos.",
+  "pt-BR": "Clique com ⌘ ou ⇧ nos blocos do Diário de bordo e use o clique direito para atribuir um cliente, mudar a atividade ou excluí-los."
+ }
+}
