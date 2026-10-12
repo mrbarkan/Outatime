@@ -17,7 +17,7 @@ public static class WhatsNew
             new("Window", "#0A84FF", "Outatime for Windows",
                 "Everything from the Mac: the tray panel, the Logbook, clients, objectives, the tomato timer and Excel reports. Your data.json moves between the two."),
             new("BuildingBank", "#34C759", "Hours Bank",
-                "Log time off, holidays and overtime carried over in the Logbook's Hours Bank. Travel and Out of Office are logged by the day instead of timed in the menu."),
+                "Log time off, holidays and overtime carried over in the Logbook's Hours Bank. Travel and Out of Office are logged by the day instead of timed in the menu. Older versions drop time off and carried hours when they save."),
         ], []),
     ];
 

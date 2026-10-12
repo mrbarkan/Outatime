@@ -211,10 +211,6 @@
   "es": "Fecha",
   "pt-BR": "Data"
  },
- "Day Off": {
-  "es": "Día libre",
-  "pt-BR": "Folga"
- },
  "Day bars": {
   "es": "Barras de los días",
   "pt-BR": "Barras dos dias"
@@ -391,9 +387,9 @@
   "es": "Registrar",
   "pt-BR": "Registrar"
  },
- "Log time off, holidays and overtime carried over in the Logbook's Hours Bank. Travel and Out of Office are logged by the day instead of timed in the menu.": {
-  "es": "Registra tiempo libre, festivos y horas extra traspasadas en el Banco de horas de la Bitácora. Viaje y Fuera de la oficina se registran por días en lugar de cronometrarse en el menú.",
-  "pt-BR": "Registre folgas, feriados e horas extras transferidas no Banco de horas do Diário de bordo. Deslocamento e Fora do escritório são registrados por dia em vez de cronometrados no menu."
+ "Log time off, holidays and overtime carried over in the Logbook's Hours Bank. Travel and Out of Office are logged by the day instead of timed in the menu. Older versions drop time off and carried hours when they save.": {
+  "es": "Registra tiempo libre, festivos y horas extra traspasadas en el Banco de horas de la Bitácora. Viaje y Fuera de la oficina se registran por días en lugar de cronometrarse en el menú. Las versiones anteriores descartan el tiempo libre y las horas traspasadas al guardar.",
+  "pt-BR": "Registre folgas, feriados e horas extras transferidas no Banco de horas do Diário de bordo. Deslocamento e Fora do escritório são registrados por dia em vez de cronometrados no menu. Versões anteriores descartam folgas e horas transferidas ao salvar."
  },
  "Logbook": {
   "es": "Bitácora",
@@ -855,9 +851,9 @@
   "es": "Semana %lld",
   "pt-BR": "Semana %lld"
  },
- "Weekends and days off owe nothing; mark a day off from the Logbook toolbar.": {
-  "es": "Los fines de semana y días libres no deben horas; marca un día libre desde la barra de la Bitácora.",
-  "pt-BR": "Fins de semana e folgas não devem horas; marque uma folga na barra do Diário de bordo."
+ "Weekends and holidays owe nothing; log holidays and time off in the Logbook's Hours Bank.": {
+  "es": "Los fines de semana y festivos no deben horas; registra festivos y tiempo libre en el Banco de horas de la Bitácora.",
+  "pt-BR": "Fins de semana e feriados não devem horas; registre feriados e folgas no Banco de horas do Diário de bordo."
  },
  "What are you working on?": {
   "es": "¿En qué estás trabajando?",

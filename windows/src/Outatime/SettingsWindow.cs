@@ -187,7 +187,7 @@ public sealed class SettingsWindow : AppWindow
             Labeled(Loc.T("Counts toward the target"), counts),
             Labeled(Loc.T("Hours bank since"), since),
             Toggle(Loc.T("Switch to Extra after the target"), Settings.AutoExtra, on => Settings.Set(s => s.AutoExtra = on)),
-            Caption(Loc.T("Weekends and days off owe nothing; mark a day off from the Logbook toolbar.")));
+            Caption(Loc.T("Weekends and holidays owe nothing; log holidays and time off in the Logbook's Hours Bank.")));
     }
 
     /// The tomato timer and the reminders that get you out of the chair.

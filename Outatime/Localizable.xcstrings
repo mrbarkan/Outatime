@@ -2442,52 +2442,6 @@
         }
       }
     },
-    "Day Off": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Freier Tag"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Día libre"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jour de congé"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Giorno libero"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "休日"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Folga"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "休息日"
-          }
-        }
-      }
-    },
     "Day bars": {
       "localizations": {
         "de": {
@@ -4518,48 +4472,48 @@
         }
       }
     },
-    "Log time off, holidays and overtime carried over in the Logbook's Hours Bank. Travel and Out of Office are logged by the day instead of timed in the menu.": {
+    "Log time off, holidays and overtime carried over in the Logbook's Hours Bank. Travel and Out of Office are logged by the day instead of timed in the menu. Older versions drop time off and carried hours when they save.": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Trage Freizeitausgleich, Feiertage und übertragene Überstunden im Stundenkonto des Logbuchs ein. Fahrt und Abwesend werden tageweise eingetragen statt im Menü gestoppt."
+            "value": "Trage Freizeitausgleich, Feiertage und übertragene Überstunden im Stundenkonto des Logbuchs ein. Fahrt und Abwesend werden tageweise eingetragen statt im Menü gestoppt. Ältere Versionen verwerfen Freizeitausgleich und übertragene Stunden beim Speichern."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Registra tiempo libre, festivos y horas extra traspasadas en el Banco de horas de la Bitácora. Viaje y Fuera de la oficina se registran por días en lugar de cronometrarse en el menú."
+            "value": "Registra tiempo libre, festivos y horas extra traspasadas en el Banco de horas de la Bitácora. Viaje y Fuera de la oficina se registran por días en lugar de cronometrarse en el menú. Las versiones anteriores descartan el tiempo libre y las horas traspasadas al guardar."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Saisissez congés, jours fériés et heures supplémentaires reportées dans le Cumul d’heures du Journal. Déplacement et Absent se saisissent à la journée au lieu d’être chronométrés dans le menu."
+            "value": "Saisissez congés, jours fériés et heures supplémentaires reportées dans le Cumul d’heures du Journal. Déplacement et Absent se saisissent à la journée au lieu d’être chronométrés dans le menu. Les versions précédentes perdent les congés et les heures reportées en enregistrant."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Registra permessi, festività e straordinari riportati nella Banca ore del Diario. Trasferta e Fuori sede si registrano a giornate invece di cronometrarli nel menu."
+            "value": "Registra permessi, festività e straordinari riportati nella Banca ore del Diario. Trasferta e Fuori sede si registrano a giornate invece di cronometrarli nel menu. Le versioni precedenti perdono permessi e ore riportate al salvataggio."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "日誌の時間バンクで代休、祝日、繰り越した残業時間を記録できます。移動と外出はメニューで計測せず、日単位で記録します。"
+            "value": "日誌の時間バンクで代休、祝日、繰り越した残業時間を記録できます。移動と外出はメニューで計測せず、日単位で記録します。以前のバージョンでは、保存時に代休と繰越時間が失われます。"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Registre folgas, feriados e horas extras transferidas no Banco de horas do Diário de bordo. Deslocamento e Fora do escritório são registrados por dia em vez de cronometrados no menu."
+            "value": "Registre folgas, feriados e horas extras transferidas no Banco de horas do Diário de bordo. Deslocamento e Fora do escritório são registrados por dia em vez de cronometrados no menu. Versões anteriores descartam folgas e horas transferidas ao salvar."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "在日志的工时结余中记录调休、节假日和结转的加班。出差和外出改为按天记录，不再在菜单中计时。"
+            "value": "在日志的工时结余中记录调休、节假日和结转的加班。出差和外出改为按天记录，不再在菜单中计时。旧版本保存时会丢弃调休和结转工时。"
           }
         }
       }
@@ -9862,48 +9816,48 @@
         }
       }
     },
-    "Weekends and days off owe nothing; mark a day off from the Logbook toolbar.": {
+    "Weekends and holidays owe nothing; log holidays and time off in the Logbook's Hours Bank.": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wochenenden und freie Tage haben kein Soll; markiere einen freien Tag in der Symbolleiste des Logbuchs."
+            "value": "Wochenenden und Feiertage haben kein Soll; trage Feiertage und Freizeitausgleich im Stundenkonto des Logbuchs ein."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Los fines de semana y días libres no deben horas; marca un día libre desde la barra de la Bitácora."
+            "value": "Los fines de semana y festivos no deben horas; registra festivos y tiempo libre en el Banco de horas de la Bitácora."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Les week-ends et les jours de congé ne doivent rien ; marquez un jour de congé depuis la barre d’outils du Journal."
+            "value": "Les week-ends et les jours fériés ne doivent rien ; saisissez jours fériés et congés dans le Cumul d’heures du Journal."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Weekend e giorni liberi non richiedono ore; segna un giorno libero dalla barra strumenti del Diario."
+            "value": "Weekend e festività non richiedono ore; registra festività e permessi nella Banca ore del Diario."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "週末と休日は目標時間がありません。休日は日誌のツールバーから設定できます。"
+            "value": "週末と祝日は目標時間がありません。祝日と代休は日誌の時間バンクで記録できます。"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Fins de semana e folgas não devem horas; marque uma folga na barra do Diário de bordo."
+            "value": "Fins de semana e feriados não devem horas; registre feriados e folgas no Banco de horas do Diário de bordo."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "周末和休息日没有应工作时长；可在日志工具栏中标记休息日。"
+            "value": "周末和节假日没有应工作时长；可在日志的工时结余中记录节假日和调休。"
           }
         }
       }
