@@ -147,6 +147,55 @@ nonisolated struct OutatimeTests {
         #expect(target.owed(on: cal.date(byAdding: .day, value: -1, to: day)!, now: now) == 0)
     }
 
+    func d(_ day: Int, _ month: Int = 9) -> Date { cal.date(from: DateComponents(year: 2026, month: month, day: day))! }
+
+    /// Thu 3 Sep a full day off; Fri 4 – Mon 7 4h a day, the weekend free and Mon a holiday; 10h asks for more than a day.
+    @Test func timeOffLowersWhatADayOwes() {
+        var t = Target(seconds: 8 * 3600, daysOff: ["2026-09-07"], since: day)
+        t.book([TimeOff(start: "2026-09-03", end: "2026-09-03"), TimeOff(start: "2026-09-04", end: "2026-09-07", hours: 4),
+                TimeOff(start: "2026-09-08", end: "2026-09-08", hours: 10)])
+        #expect(t.booked == ["2026-09-03": 8 * 3600, "2026-09-04": 4 * 3600, "2026-09-08": 8 * 3600])
+        #expect(t.scheduled(on: day) == 0)
+        #expect(t.scheduled(on: d(4)) == 4 * 3600)
+        #expect(t.scheduled(on: d(9)) == 8 * 3600)
+        #expect(t.cost(of: TimeOff(start: "2026-09-04", end: "2026-09-07", hours: 4)) == 4 * 3600)
+        // Overlapping records never take more than a day.
+        t.book([TimeOff(start: "2026-09-04", end: "2026-09-04", hours: 6)])
+        #expect(t.booked["2026-09-04"] == 8 * 3600.0)
+        // Before tracking began costs nothing.
+        #expect(t.cost(of: TimeOff(start: "2026-09-01", end: "2026-09-01")) == 0)
+    }
+
+    /// Thu 3 worked 9h (+1), Fri 4 off from the bank, Mon 7 worked 8h, now Tue 8 14:00 with nothing yet; Thu 10 booked
+    /// ahead. Carried: +32h dated 31 Aug, before tracking began, and +10h on Mon 7.
+    @Test func bankCountsTimeOffAndCarriedHours() {
+        let entries = [Entry(activity: .work, start: at(9), end: at(18)),
+                       Entry(activity: .work, start: d(7) + 9 * 3600, end: d(7) + 17 * 3600)]
+        var target = Target(seconds: 8 * 3600, since: day)
+        target.book([TimeOff(start: "2026-09-04", end: "2026-09-04"), TimeOff(start: "2026-09-10", end: "2026-09-10")])
+        let carried = [Carried(date: "2026-08-31", hours: 32), Carried(date: "2026-09-07", hours: 10)]
+        let now = d(8) + 14 * 3600
+        // A: the bank starts when tracking began, so every carried record counts: +1 − 16 + 42.
+        let a = Store.bank(entries, carried: carried, target: target, since: day, now: now)
+        #expect(a.balance == 27 * 3600 && a.bookedAhead == 8 * 3600 && a.worked == 17 * 3600)
+        // B: moved later, to Fri 4: Thu's surplus and the August hours drop out: 0 − 16 + 10.
+        #expect(Store.bank(entries, carried: carried, target: target, since: d(4), now: now).balance == -6 * 3600)
+    }
+
+    @Test @MainActor func bankRecordsRoundTrip() throws {
+        let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        let store = Store(url: url)
+        #expect(store.timeOff.isEmpty && store.carried.isEmpty)
+        store.timeOff = [TimeOff(start: "2026-12-24", end: "2027-01-01", note: "Holidays"), TimeOff(start: "2026-09-04", end: "2026-09-04", hours: 4)]
+        store.carried = [Carried(date: "2026-08-31", hours: -8.5, note: "Paid out")]
+        let reloaded = Store(url: url)
+        #expect(reloaded.timeOff == store.timeOff && reloaded.carried == store.carried)
+        let json = try String(contentsOf: url, encoding: .utf8)
+        #expect(json.contains("\"carried\" : [") && json.contains("\"timeOff\" : ["))
+        #expect(json.components(separatedBy: "\"hours\"").count == 3)  // the full-day record leaves hours out
+    }
+
     @Test @MainActor func timerRollsOverAtMidnight() {
         let store = Store(url: FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json"))
         store.entries = [Entry(activity: .work, start: at(17))]

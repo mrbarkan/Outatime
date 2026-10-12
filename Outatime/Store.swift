@@ -11,6 +11,10 @@ final class Store {
     /// The client picked in the menu; new billable blocks get it.
     var currentProfile: Profile.ID? { didSet { if loaded { save() } } }
     var objectives: [Objective] = [] { didSet { if loaded { save() } } }
+    var timeOff: [TimeOff] = [] { didSet { if loaded { save() } } }
+    var carried: [Carried] = [] { didSet { if loaded { save() } } }
+    /// The menu asks the Logbook to open its Hours Bank sheet.
+    var editingBank = false
     /// The menu asks the Logbook to open its Objectives sheet.
     var editingObjectives = false
     /// A block added in the Logbook opens its editor once it appears.
@@ -28,6 +32,8 @@ final class Store {
         var profiles: [Profile]?  // added in 1.2
         var current: UUID?
         var objectives: [Objective]?  // added in 1.3
+        var timeOff: [TimeOff]?  // added in 1.3
+        var carried: [Carried]?  // added in 1.3
     }
 
     static let defaultURL = FileManager.default
@@ -46,6 +52,8 @@ final class Store {
                 profiles = file.profiles ?? []
                 currentProfile = file.current
                 objectives = file.objectives ?? []
+                timeOff = file.timeOff ?? []
+                carried = file.carried ?? []
             } else {
                 // Unreadable file: keep it aside so the next save can't silently destroy it.
                 try? FileManager.default.moveItem(at: url, to: url.appendingPathExtension("broken-\(Int(Date.now.timeIntervalSince1970))"))
@@ -60,7 +68,8 @@ final class Store {
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         encoder.dateEncodingStrategy = .iso8601
         guard let data = try? encoder.encode(File(entries: entries, templates: templates, daysOff: daysOff.sorted(),
-                                                profiles: profiles, current: currentProfile, objectives: objectives)) else { return }
+                                                profiles: profiles, current: currentProfile, objectives: objectives,
+                                                timeOff: timeOff, carried: carried)) else { return }
         try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         try? data.write(to: url, options: .atomic)
     }
@@ -213,11 +222,35 @@ final class Store {
     }
 
     func target(hours: Double, excluded: String) -> Target {
-        Target(seconds: hours * 3600, excluded: excluded, daysOff: daysOff, since: entries.map(\.start).min() ?? .now)
+        var t = Target(seconds: hours * 3600, excluded: excluded, daysOff: daysOff, since: entries.map(\.start).min() ?? .now)
+        t.book(timeOff)
+        return t
     }
 
     func balance(_ interval: DateInterval, _ target: Target, now: Date = .now) -> (worked: TimeInterval, balance: TimeInterval) {
         Self.balance(entries, in: interval, target: target, now: now)
+    }
+
+    func bank(_ target: Target, since: Date, now: Date = .now) -> HoursBank {
+        Self.bank(entries, carried: carried, target: target, since: since, now: now)
+    }
+
+    /// The day balances since `since`, less the time off booked from then on (days ahead too: booked is spent), plus the
+    /// hours carried in. Carried hours are usually dated before tracking began, so they only drop out once the bank is
+    /// made to start later than that.
+    nonisolated static func bank(_ entries: [Entry], carried: [Carried], target: Target, since: Date, now: Date = .now) -> HoursBank {
+        let cal = Calendar.current
+        let start = cal.startOfDay(for: since), today = cal.startOfDay(for: now)
+        let days = balance(entries, in: DateInterval(start: start, end: max(start, now)), target: target, now: now)
+        var off = 0.0, ahead = 0.0
+        for (key, seconds) in target.booked {
+            guard let d = Date(dayKey: key), d >= start else { continue }
+            off += seconds
+            if d > today { ahead += seconds }
+        }
+        let all = start <= cal.startOfDay(for: target.since)
+        let brought = carried.filter { c in all || Date(dayKey: c.date).map { $0 >= start } == true }.map { $0.hours * 3600 }.reduce(0, +)
+        return HoursBank(balance: days.balance - off + brought, worked: days.worked, bookedAhead: ahead)
     }
 
     /// Worked time over the days in `interval`, and their balance against what each day owes.
