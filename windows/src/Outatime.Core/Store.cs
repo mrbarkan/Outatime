@@ -271,7 +271,7 @@ public sealed class Store
     public byte[] MonthReport(DateTimeOffset month, Target target, DateTimeOffset? now = null) =>
         Report.Month(EntriesInMonth(month), month, target, ProfileNames, now);
 
-    public byte[] MasterWorkbook(Target target, DateTimeOffset? now = null) => Report.Master(entries, target, ProfileNames, now);
+    public byte[] MasterWorkbook(Target target, DateTimeOffset? now = null) => Report.Master(entries, target, ProfileNames, now, timeOff, carried);
 
     public string EntriesCsv(DateTimeOffset month) => Csv.Entries(EntriesInMonth(month), ProfileNames);
 

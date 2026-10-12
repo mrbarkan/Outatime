@@ -34,8 +34,8 @@ public class CoreTests
         var csv = Csv.Daily(entries, Day, new Target(8 * 3600, Day), At(22));
         var lines = csv.TrimEnd('\n').Split('\n');
         Assert.Equal(3, lines.Length);
-        Assert.Equal("2026-09-03,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,\"a, \"\"b\"\"\"", lines[1]);
-        Assert.Equal("Total,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,", lines[2]);
+        Assert.Equal("2026-09-03,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,\"a, \"\"b\"\"\",0.00", lines[1]);
+        Assert.Equal("Total,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,,0.00", lines[2]);
     }
 
     [Fact]
@@ -50,9 +50,9 @@ public class CoreTests
         var data = Report.Month(entries, Day, new Target(8 * 3600, Day), now: At(22));
         Assert.Equal(new byte[] { 0x50, 0x4B, 0x03, 0x04 }, data[..4]);
         var text = Text(data);
-        Assert.Contains("<c r=\"J2\" s=\"5\"><v>1</v></c>", text);  // balance: 9h worked, 8h owed
+        Assert.Contains("<c r=\"K2\" s=\"5\"><v>1</v></c>", text);  // balance: 9h worked, 8h owed
         Assert.Contains("<f>SUBTOTAL(109,tblDays[Balance])</f><v>1</v>", text);
-        Assert.Contains("name=\"tblDays\" displayName=\"tblDays\" ref=\"A1:K3\" totalsRowCount=\"1\"", text);
+        Assert.Contains("name=\"tblDays\" displayName=\"tblDays\" ref=\"A1:L3\" totalsRowCount=\"1\"", text);
         Assert.Contains("R&amp;D &lt;q&gt;", text);
         Assert.Contains(">Out of Office<", text);
         Assert.DoesNotContain("Dashboard", text);
@@ -66,10 +66,28 @@ public class CoreTests
         var data = Report.Master([E(A.Work, At(9), At(18))], new Target(8 * 3600, start), now: At(22));
         var text = Text(data);
         Assert.Contains("<sheet name=\"Dashboard\" sheetId=\"1\"", text);
-        Assert.Contains("name=\"tblDays\" displayName=\"tblDays\" ref=\"A1:K3\" totalsRowShown=\"0\"", text);
-        Assert.Contains("<f>SUM(tblDays[Balance])</f><v>-7</v>", text);  // +1 today, -8 yesterday
+        Assert.Contains("name=\"tblDays\" displayName=\"tblDays\" ref=\"A1:L3\" totalsRowShown=\"0\"", text);
+        Assert.Contains("<f>SUM(tblDays[Balance])+SUM(tblBank[Hours])</f><v>-7</v>", text);  // +1 today, -8 yesterday
         Assert.Contains("<f>COUNTIF(tblDays[Worked],&quot;&gt;0&quot;)</f><v>1</v>", text);
         Assert.Contains("<c:f>Dashboard!$C$38:", text);
+    }
+
+    /// Thu 3 +1h, Fri 4 off (today, 20:00), 32h carried in: the workbook's bank is the app's.
+    [Fact]
+    public void MasterWorkbookCountsTheBank()
+    {
+        var off = new[] { new TimeOff("2026-09-04", "2026-09-04", note: "Dentist") };
+        var target = new Target(8 * 3600, Day).Book(off);
+        var entries = new[] { E(A.Work, At(9), At(18)) };
+        var carried = new[] { new Carried("2026-08-31", 32, "Jan–Aug") };
+        var now = Cal.Setting(D(4), 20);
+        var text = Text(Report.Master(entries, target, null, now, off, carried));
+        Assert.Contains("<f>SUM(tblDays[Balance])+SUM(tblBank[Hours])</f><v>25</v>", text);
+        Assert.Contains("name=\"tblBank\"", text);
+        Assert.True(text.Contains(">Dentist<") && text.Contains(">Carried<"));
+        Assert.Equal(25 * 3600, Store.BankOf(entries, carried, target, Day, now).Balance);
+        // A day off with nothing logged still gets a Summary row, with its Time Off.
+        Assert.Contains("ref=\"A1:L4\"", Text(Report.Month(entries, Day, target, null, now)));
     }
 
     /// The workbook must open: a real zip whose parts are well-formed XML.
