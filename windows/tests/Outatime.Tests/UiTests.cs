@@ -60,7 +60,10 @@ public class UiTests
         shell.ShowObjectives();
         shell.ShowAbout();
         shell.ShowWhatsNew("0");
-        foreach (var name in new[] { nameof(LogbookWindow), nameof(SettingsWindow), nameof(ObjectivesWindow), nameof(AboutWindow), nameof(WhatsNewWindow) })
+        shell.ShowHoursBank();
+        shell.ShowLog(new LogItem.New(LogKind.Travel));
+        foreach (var name in new[] { nameof(LogbookWindow), nameof(SettingsWindow), nameof(ObjectivesWindow), nameof(AboutWindow), nameof(WhatsNewWindow),
+                                     nameof(HoursBankWindow), nameof(LogWindow) })
         {
             var w = Window(name);
             w.UpdateLayout();
@@ -68,6 +71,23 @@ public class UiTests
         }
         // The Logbook shows today's blocks; the summary counts them.
         Assert.Contains(All<TextBlock>(Window(nameof(LogbookWindow))), t => t.Text?.Contains("Writing the report") == true);
+    }
+
+    /// Travel has left the tiles; time off logged from the Hours Bank shows up in its list.
+    [AvaloniaFact]
+    public void HoursBankLogsTimeOff()
+    {
+        var (shell, store, _) = Start();
+        shell.ShowPanel();
+        Assert.DoesNotContain(All<Button>(Window(nameof(MenuPanel))), b => b.Classes.Contains("tile")
+            && b.GetLogicalDescendants().OfType<TextBlock>().Any(t => t.Text == Activity.Travel.Label()));
+        shell.ShowHoursBank();
+        shell.ShowLog(new LogItem.New(LogKind.TimeOff));
+        var log = Window(nameof(LogWindow));
+        var before = store.TimeOff.Count;
+        All<Button>(log).First(b => b.IsDefault).RaiseEvent(new Avalonia.Interactivity.RoutedEventArgs(Button.ClickEvent));
+        Assert.Equal(before + 1, store.TimeOff.Count);
+        Assert.Contains(All<TextBlock>(Window(nameof(HoursBankWindow))), t => t.Text == Loc.T("Time Off"));
     }
 
     [AvaloniaFact]

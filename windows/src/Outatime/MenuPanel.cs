@@ -10,8 +10,8 @@ using static Outatime.App.Ui;
 
 namespace Outatime.App;
 
-/// The tray panel: what's running, a note, the client, six activity tiles, today's and the period's balances, and the
-/// footer with the Logbook, exports, the objective countdown and the app menu. Opens above the tray, closes when it
+/// The tray panel: what's running, a note, the client, four activity tiles, today's and the period's balances, and the
+/// footer with the Logbook, exports, Log, the objective countdown and the app menu. Opens above the tray, closes when it
 /// loses focus.
 public sealed class MenuPanel : AppWindow
 {
@@ -133,6 +133,9 @@ public sealed class MenuPanel : AppWindow
             title.Children.Add(Text(running.Activity.Label(), 16, FontWeight.SemiBold));
             if (running.Profile is { } p && Store.ProfileNames.TryGetValue(p, out var name))
                 title.Children.Add(Text(Loc.T("· %@", name), 16, secondary: true).With(x => x.MaxWidth = 120));
+            // Travel and Out of Office are logged now; one still running from before has no tile to stop it.
+            if (running.Activity is Activity.Travel or Activity.OutOfOffice)
+                title.Children.Add(IconButton(Symbol.RecordStop, Store.Stop, Loc.T("Stop"), Red, 18));
             elapsed = Text(Clock(global::Outatime.Clock.Now.Since(Store.RunningSince ?? running.Start)), 16, secondary: true, tabular: true);
             Grid.SetColumn(elapsed, 2);
             elapsed.Margin = new Thickness(8, 0);
@@ -210,7 +213,7 @@ public sealed class MenuPanel : AppWindow
     Control Tiles()
     {
         var grid = new Avalonia.Controls.Primitives.UniformGrid { Columns = 2, Margin = new Thickness(-5) };
-        foreach (var a in new[] { Activity.Work, Activity.Break, Activity.Lunch, Activity.Extra, Activity.Travel, Activity.OutOfOffice })
+        foreach (var a in new[] { Activity.Work, Activity.Break, Activity.Lunch, Activity.Extra })
         {
             var active = Store.Running?.Activity == a;
             var content = V(4,
@@ -235,38 +238,43 @@ public sealed class MenuPanel : AppWindow
         var week = Store.Balance(Cal.Week(now), target, now);
         var month = Store.Balance(Cal.Month(now), target, now);
         var since = Settings.BankStart(target);
-        var bank = Store.Balance(new Interval(Cal.StartOfDay(since), now), target, now);
+        var bank = Store.Bank(target, since, now);
 
         var icons = H(12, Activities.All.Where(a => a == Activity.Work || t.Get(a) > 0)
             .Select(a => (Control)H(4, Icon(a.Symbol(), 13, a.Fill()), Text(t.Get(a).Hm(), 11, tabular: true))).ToArray());
 
         var grid = new Grid { ColumnDefinitions = new ColumnDefinitions("*,Auto,Auto"), RowSpacing = 4, ColumnSpacing = 12 };
         var r = 0;
-        void Row(string label, Control a, Control b)
+        static TextBlock Label(string text) => Text(text, 11, secondary: true);
+        void Row(Control l, Control a, Control b)
         {
             grid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
-            var l = Text(label, 11, secondary: true);
             Grid.SetRow(l, r); Grid.SetRow(a, r); Grid.SetRow(b, r);
             Grid.SetColumn(a, 1); Grid.SetColumn(b, 2);
             a.HorizontalAlignment = HorizontalAlignment.Right; b.HorizontalAlignment = HorizontalAlignment.Right;
             grid.Children.Add(l); grid.Children.Add(a); grid.Children.Add(b);
             r++;
         }
-        void Balance(string label, double worked, double balance, IBrush shortfall) =>
+        void Balance(Control label, double worked, double balance, IBrush shortfall) =>
             Row(label, Text(worked.Hm(), 11, tabular: true),
                 Text(balance.Signed(), 11, tabular: true, color: balance >= 0 ? Green : shortfall, secondary: balance < 0 && shortfall != Red));
         // Today is still in progress: a shortfall isn't alarming yet.
         var today = t.Worked(Settings.ExcludedFromTarget);
-        Balance(Loc.T("Today"), today, today - target.Owed(now, now), Brushes.Gray);
-        Balance(Loc.T("This Week"), week.Worked, week.Balance, Red);
-        Balance(Loc.T("This Month"), month.Worked, month.Balance, Red);
-        Balance(Loc.T("Since %@", since.Format("d MMM")), bank.Worked, bank.Balance, Red);
-        var stats = new Stats(Store.Entries, target, since, now);
+        Balance(Label(Loc.T("Today")), today, today - target.Owed(now, now), Brushes.Gray);
+        Balance(Label(Loc.T("This Week")), week.Worked, week.Balance, Red);
+        Balance(Label(Loc.T("This Month")), month.Worked, month.Balance, Red);
+        // The bank's row opens the Logbook and its Hours Bank, as on the Mac.
+        var bankLabel = Button(Label(Loc.T("Since %@", since.Format("d MMM"))), () => { shell.ShowLogbook(); shell.ShowHoursBank(); },
+                               Loc.T("Hours Bank"), "plain");
+        bankLabel.Padding = new Thickness(0);
+        bankLabel.HorizontalAlignment = HorizontalAlignment.Left;
+        Balance(bankLabel, bank.Worked, bank.Balance, Red);
+        var stats = new Stats(Store.Entries, target, since, now, Store.Carried);
         if (stats.WeekGoal > 0)
-            Row(Loc.T("Left this week"), stats.WeekLeft > 0 ? Text(stats.WeekLeft.Hm(), 11, tabular: true) : Text(Loc.T("Done"), 11, color: Green),
+            Row(Label(Loc.T("Left this week")), stats.WeekLeft > 0 ? Text(stats.WeekLeft.Hm(), 11, tabular: true) : Text(Loc.T("Done"), 11, color: Green),
                 Text(Loc.T("of %@", stats.WeekGoal.Hm()), 11, secondary: true, tabular: true));
         if (stats.DayTarget > 0)
-            Row(Loc.T("To next day off"), Text(stats.ToDayOff.Hm(), 11, tabular: true),
+            Row(Label(Loc.T("To next day off")), Text(stats.ToDayOff.Hm(), 11, tabular: true),
                 stats.DaysOffBanked > 0 ? Text(Loc.T("%lld banked", stats.DaysOffBanked), 11, color: Green) : Text("", 11));
         return V(8, icons, grid);
     }
@@ -276,6 +284,8 @@ public sealed class MenuPanel : AppWindow
         var logbook = Button(H(6, Icon(Symbol.Calendar, 15), Text(Loc.T("Logbook"))), shell.ShowLogbook, classes: "plain");
         var export = Button(H(6, Icon(Symbol.ArrowExportUp, 15), Text(Loc.T("Export"))), () => { }, classes: "plain");
         export.Flyout = ExportMenu();
+        var log = Button(H(6, Icon(Symbol.Edit, 15), Text(Loc.T("Log"))), () => { }, classes: "plain");
+        log.Flyout = HoursBankWindow.LogMenu(shell);
         var more = IconButton(Symbol.MoreHorizontal, () => { }, Loc.T("More"));
         more.Flyout = new MenuFlyout
         {
@@ -289,10 +299,10 @@ public sealed class MenuPanel : AppWindow
             },
         };
         // Tight, so the longest translations ("Diário de bordo", "Exportar") still leave room for the objective.
-        foreach (var b in new[] { logbook, export }) b.Padding = new Thickness(5, 4);
+        foreach (var b in new[] { logbook, export, log }) b.Padding = new Thickness(5, 4);
         var objective = ObjectiveButton();
         if (objective is Button o) o.Padding = new Thickness(5, 4);
-        var left = H(0, logbook, export, objective);
+        var left = H(0, logbook, export, log, objective);
         left.Margin = new Thickness(-5, 0, 0, 0);
         return Spread(left, more);
     }
@@ -381,8 +391,7 @@ public static class ObjectiveInfo
     public static Objective.ProgressInfo Progress(Store store, Settings settings, Objective o)
     {
         var target = settings.Target(store);
-        var bank = o.Kind == ObjectiveKind.DaysOff
-            ? store.Balance(new Interval(Cal.StartOfDay(settings.BankStart(target)), Clock.Now), target).Balance : 0;
+        var bank = o.Kind == ObjectiveKind.DaysOff ? store.Bank(target, settings.BankStart(target)).Balance : 0;
         return o.Progress(store.Entries, bank, target.Seconds);
     }
 

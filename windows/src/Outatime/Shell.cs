@@ -185,7 +185,8 @@ public sealed class Shell
         }
         var w = make();
         windows[id] = w;
-        w.Closed += (_, _) => windows.Remove(id);
+        // Only if it's still this one: a Log form asked for while another is open takes its place first.
+        w.Closed += (_, _) => { if (windows.GetValueOrDefault(id) == w) windows.Remove(id); };
         w.Show();
         w.Activate();
         return w;
@@ -195,6 +196,14 @@ public sealed class Shell
 
     public void ShowLogbook() => Show("logbook", () => new LogbookWindow(this));
     public void ShowObjectives() => Show("objectives", () => new ObjectivesWindow(this));
+    public void ShowHoursBank() => Show("hours-bank", () => new HoursBankWindow(this));
+
+    /// One Log form at a time: asking for another replaces it.
+    public void ShowLog(LogItem item)
+    {
+        if (windows.Remove("log", out var open)) open.Close();
+        Show("log", () => new LogWindow(this, item));
+    }
     public void ShowSettings(int tab = 0) => Show("settings", () => new SettingsWindow(this)).SelectTab(tab);
     public void ShowAbout() => Show("about", () => new AboutWindow());
     public void ShowWhatsNew(string from) => Show("whats-new", () => new WhatsNewWindow(from));
