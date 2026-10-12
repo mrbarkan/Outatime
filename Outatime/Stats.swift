@@ -23,7 +23,7 @@ nonisolated struct Stats {
     /// What's still to bank for the next day off.
     var toDayOff: TimeInterval { dayTarget > 0 ? dayTarget - (bank - Double(daysOffBanked) * dayTarget) : 0 }
 
-    init(_ entries: [Entry], target: Target, bankSince: Date, now: Date = .now) {
+    init(_ entries: [Entry], target: Target, bankSince: Date, carried: [Carried] = [], now: Date = .now) {
         let cal = Calendar.current
         let byDay = Dictionary(grouping: entries) { cal.startOfDay(for: $0.start) }
         let worked = byDay.mapValues { Store.totals($0).worked(excluding: target.excluded) }.filter { $0.value > 0 }
@@ -33,7 +33,7 @@ nonisolated struct Stats {
         weekWorked = sum(week)
         weekGoal = days(in: week).map(target.scheduled).reduce(0, +)
         dayTarget = target.seconds
-        bank = Store.balance(entries, in: DateInterval(start: cal.startOfDay(for: bankSince), end: now), target: target, now: now).balance
+        bank = Store.bank(entries, carried: carried, target: target, since: bankSince, now: now).balance
 
         // Complete periods only: from the first one that starts on or after tracking began, to the one before now.
         func average(_ unit: Calendar.Component) -> TimeInterval? {

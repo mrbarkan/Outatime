@@ -35,7 +35,8 @@ struct EditorView: View {
                         ForEach(days, id: \.self) { d in
                             let totals = store.totals(on: d)
                             DayRow(day: d, totals: totals, worked: totals.worked(excluding: excluded), scale: scale,
-                                   owed: target.owed(on: d), dayOff: target.daysOff.contains(d.dayKey),
+                                   owed: target.owed(on: d),
+                                   off: target.daysOff.contains(d.dayKey) ? .holiday : (target.booked[d.dayKey] ?? 0) > 0 ? .timeOff : nil,
                                    // The highlight is only accent-coloured while the list is focused in the active window;
                                    // backgroundProminence doesn't report that in a sidebar list.
                                    selected: d == day && sidebarFocused && appearsActive)
@@ -83,16 +84,15 @@ struct EditorView: View {
                 Button("Stats", systemImage: "chart.bar.xaxis") { showStats.toggle() }
                     .popover(isPresented: $showStats) {
                         StatsView(stats: Stats(store.entries, target: target,
-                                               bankSince: bankSince > 0 ? Date(timeIntervalSinceReferenceDate: bankSince) : target.since))
+                                               bankSince: bankSince > 0 ? Date(timeIntervalSinceReferenceDate: bankSince) : target.since,
+                                               carried: store.carried))
                     }
             }
             ToolbarItem {
                 Button("Objectives", systemImage: "flag.pattern.checkered") { store.editingObjectives = true }
             }
             ToolbarItemGroup {
-                Toggle("Day Off", systemImage: "beach.umbrella", isOn: Binding(
-                    get: { store.daysOff.contains(day.dayKey) },
-                    set: { if $0 { store.daysOff.insert(day.dayKey) } else { store.daysOff.remove(day.dayKey) } }))
+                Button("Hours Bank", systemImage: "building.columns") { store.editingBank = true }
                 Button("Add Entry", systemImage: "plus") { store.addEntry(on: day) }
                 Menu("Templates", systemImage: "doc.on.doc") {
                     Button("Save Day as Template…") { templateName = ""; naming = true }
@@ -143,6 +143,7 @@ struct EditorView: View {
             Button("Replace", role: .destructive) { if let t = pendingTemplate { store.apply(t, to: day) } }
         }
         .sheet(isPresented: Binding(get: { store.editingObjectives }, set: { store.editingObjectives = $0 })) { ObjectivesView() }
+        .sheet(isPresented: Binding(get: { store.editingBank }, set: { store.editingBank = $0 })) { HoursBankView() }
         .onChange(of: day) { selection = [] }
         .onAppear { NSApp.setActivationPolicy(.regular); NSApp.activate() }
         .onDisappear { NSApp.setActivationPolicy(.accessory) }
@@ -200,7 +201,7 @@ struct EditorView: View {
 }
 
 /// "+0h 35m" / "−1h 05m"
-private func signed(_ t: TimeInterval) -> String { (t >= 0 ? "+" : "−") + abs(t).hm }
+func signed(_ t: TimeInterval) -> String { (t >= 0 ? "+" : "−") + abs(t).hm }
 
 private struct DayRow: View {
     let day: Date
@@ -208,7 +209,7 @@ private struct DayRow: View {
     let worked: TimeInterval
     let scale: TimeInterval  // the month's longest bar
     let owed: TimeInterval
-    let dayOff: Bool
+    let off: LogKind?  // a holiday, or time off from the bank
     let selected: Bool  // on the accent highlight everything goes white
 
     var body: some View {
@@ -220,7 +221,7 @@ private struct DayRow: View {
                 .fontWeight(today ? .bold : .regular)
                 .foregroundStyle(selected ? Color.white : today ? Color.accentColor : cal.isDateInWeekend(day) ? Color.secondary : Color.primary)
             Spacer()
-            if dayOff { Image(systemName: "beach.umbrella").foregroundStyle(selected ? Color.white : Color.secondary) }
+            if let off { Image(systemName: off.symbol).foregroundStyle(selected ? Color.white : Color.secondary) }
             // A past workday with nothing logged shows its shortfall, so a forgotten day can't hide.
             if !totals.isEmpty || owed > 0 {
                 bar(selected: selected)
