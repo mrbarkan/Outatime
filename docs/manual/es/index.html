@@ -74,8 +74,6 @@
               <div class="tile" style="--c:var(--break)"><i></i>Pausa</div>
               <div class="tile" style="--c:var(--lunch)"><i></i>Almuerzo</div>
               <div class="tile" style="--c:var(--extra)"><i></i>Extra</div>
-              <div class="tile" style="--c:var(--travel)"><i></i>Viaje</div>
-              <div class="tile" style="--c:var(--ooo)"><i></i>Fuera de la oficina</div>
             </div>
             <span class="pin" data-n="5" style="left:-11px;bottom:62px"></span>
             <div class="totals">
@@ -84,20 +82,20 @@
               <span>Este mes</span><b>36h 52m</b><span class="plus">+0h 52m</span>
             </div>
             <span class="pin" data-n="6" style="left:-11px;bottom:6px"></span>
-            <div class="foot"><span>Bitácora</span><span>Exportar</span><span>•••</span></div>
+            <div class="foot"><span>Bitácora</span><span>Exportar</span><span>Registrar</span><span>•••</span></div>
           </div>
         </div>
         <ol class="callouts">
           <li>Qué está en marcha, para qué cliente y desde hace cuánto.</li>
           <li>Una nota para el bloque en curso, como un ticket o una tarea.</li>
           <li>El cliente para el que se registra el trabajo nuevo. Aparece cuando añades clientes.</li>
-          <li>Las seis actividades. La que está en marcha aparece rellena.</li>
+          <li>Las cuatro actividades. La que está en marcha aparece rellena.</li>
           <li>Hoy, esta semana y este mes frente a tu meta.</li>
-          <li>La Bitácora, las exportaciones y el menú con Ajustes y Salir.</li>
+          <li>La Bitácora, las exportaciones, Registrar y el menú con Ajustes y Salir.</li>
         </ol>
       </figure>
 
-      <h3>Las seis actividades</h3>
+      <h3>Las cuatro actividades</h3>
       <table>
         <thead><tr><th>Actividad</th><th>Para qué sirve</th><th>Cuenta para la meta</th></tr></thead>
         <tbody>
@@ -105,10 +103,9 @@
           <tr><td><span class="swatch" style="--c:var(--break)"></span>Pausa</td><td>Un café, un paseo, un descanso corto.</td><td>Por omisión</td></tr>
           <tr><td><span class="swatch" style="--c:var(--lunch)"></span>Almuerzo</td><td>Tu pausa para comer.</td><td>Si lo activas</td></tr>
           <tr><td><span class="swatch" style="--c:var(--extra)"></span>Extra</td><td>El tiempo que supera tu meta diaria, y el trabajo en fines de semana y días libres.</td><td>Siempre</td></tr>
-          <tr><td><span class="swatch" style="--c:var(--travel)"></span>Viaje</td><td>Ir a ver a un cliente o a una obra.</td><td>Por omisión</td></tr>
-          <tr><td><span class="swatch" style="--c:var(--ooo)"></span>Fuera de la oficina</td><td>Citas y recados durante el día.</td><td>Por omisión</td></tr>
         </tbody>
       </table>
+      <div class="note"><p>Viaje (ir a ver a un cliente o a una obra) y Fuera de la oficina (citas y recados) se registran desde <strong>Registrar</strong> en el menú o en el Banco de horas de la Bitácora, un día o varios días seguidos a la vez. Ambos cuentan para la meta por omisión.</p></div>
       <p>Elige qué cuenta en Ajustes → Meta. Trabajo y Extra cuentan siempre.</p>
 
       <h3>Notas</h3>
@@ -133,11 +130,20 @@
       <h2>Tu meta diaria</h2>
       <p>Define cuántas horas al día quieres trabajar en Ajustes → Meta. Outatime compara lo que llevas con esa meta en todas partes: en el panel del menú, en la Bitácora y en los informes. Un número verde es tiempo a favor; uno rojo, tiempo en contra.</p>
       <ul>
-        <li><strong>Los fines de semana y los días libres no deben nada.</strong> Marca un día libre con el botón del paraguas en la barra de herramientas de la Bitácora.</li>
+        <li><strong>Los fines de semana y los días libres no deben nada.</strong> Los festivos y el tiempo libre van en el <strong>Banco de horas</strong> (barra de herramientas de la Bitácora, o haz clic en la fila del banco en el menú).</li>
         <li><strong>Hoy nunca aparece en rojo como atrasado.</strong> El día aún no ha terminado.</li>
         <li><strong>El banco de horas</strong> suma el saldo de cada día desde la fecha que elijas, útil si tus horas se ajustan cada trimestre o cada año.</li>
       </ul>
       <p>Bajo los saldos, el panel del menú muestra lo que falta para la meta de esta semana (tu meta diaria por los días laborables de la semana) y cuánto más necesitas acumular para un día libre. Para promedios, tus horas habituales de inicio y fin y las cifras de este mes, haz clic en <strong>Estadísticas</strong> en la barra de herramientas de la Bitácora.</p>
+      <h3>El Banco de horas</h3>
+      <p>El banco suma el saldo de cada día. Abre <strong>Banco de horas</strong> en la barra de herramientas de la Bitácora para verlo y registrar lo que lo cambia:</p>
+      <ul>
+        <li><strong>Tiempo libre</strong> — un intervalo de días, o un solo día con un número de horas. Cada día laborable cuesta tu meta diaria (o esas horas) y se descuenta del banco en cuanto guardas, aunque sea el mes que viene. Los fines de semana y festivos del intervalo no cuestan nada.</li>
+        <li><strong>Festivo</strong> — días que no deben nada y no tocan el banco.</li>
+        <li><strong>Horas traspasadas</strong> — horas extra de antes de usar Outatime, o una cantidad negativa por horas pagadas.</li>
+        <li><strong>Viaje</strong> y <strong>Fuera de la oficina</strong> — bloques en cada día laborable de un intervalo, tras el último bloque del día o a tu hora de inicio habitual.</li>
+      </ul>
+      <p>Haz clic en una fila para cambiarla. Un día libre aparece en la Bitácora en equilibrio, no atrasado; las horas salen del banco.</p>
       <h3>Extra después de la meta</h3>
       <p>Cuando las horas de hoy alcanzan la meta, un bloque de Trabajo en marcha pasa solo a Extra, cortado en el minuto exacto en que llegaste, y recibes una notificación. En fines de semana y días libres, todo el trabajo es Extra. Desactiva “Pasar a Extra al cumplir la meta” en Ajustes → Meta si prefieres cambiar a mano.</p>
     </section>
@@ -200,14 +206,14 @@
       <table>
         <thead><tr><th>Exportación</th><th>Qué contiene</th></tr></thead>
         <tbody>
-          <tr><td>Informe mensual</td><td>Un libro de Excel: un resumen con una fila por día y su saldo, las horas por cliente y todos los bloques.</td></tr>
+          <tr><td>Informe mensual</td><td>Un libro de Excel: un resumen con una fila por día, su tiempo libre y su saldo, las horas por cliente y todos los bloques.</td></tr>
           <tr><td>Informe de cliente</td><td>El mes de un cliente para facturar: sus horas por día y los bloques que las forman, sin metas ni saldos.</td></tr>
-          <tr><td>Libro maestro</td><td>Todo desde que empezaste, con un panel inicial de horas, saldo y actividad por mes.</td></tr>
+          <tr><td>Libro maestro</td><td>Todo desde que empezaste, con un panel inicial de horas, saldo y actividad por mes, y una hoja Hours Bank con el tiempo libre y las horas traspasadas.</td></tr>
           <tr><td>Resumen diario</td><td>Un CSV con una fila por día, para Numbers, Notion o cualquier otra app.</td></tr>
           <tr><td>Registros</td><td>Un CSV con todos los bloques del mes.</td></tr>
         </tbody>
       </table>
-      <div class="note"><p>Las filas del informe mensual se pueden pegar bajo las tablas del libro maestro, y su panel las incorpora. Si tu libro maestro es anterior a la versión 1.2, exporta uno nuevo primero: los bloques ahora tienen una columna Cliente.</p></div>
+      <div class="note"><p>Las filas del informe mensual se pueden pegar bajo las tablas del libro maestro, y su panel las incorpora. Si tu libro maestro es anterior a la versión 1.3, exporta uno nuevo primero: los días ahora tienen una columna de tiempo libre y los bloques una columna Cliente.</p></div>
     </section>
 
     <section id="settings">

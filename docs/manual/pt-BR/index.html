@@ -74,8 +74,6 @@
               <div class="tile" style="--c:var(--break)"><i></i>Pausa</div>
               <div class="tile" style="--c:var(--lunch)"><i></i>Almoço</div>
               <div class="tile" style="--c:var(--extra)"><i></i>Extra</div>
-              <div class="tile" style="--c:var(--travel)"><i></i>Deslocamento</div>
-              <div class="tile" style="--c:var(--ooo)"><i></i>Fora do escritório</div>
             </div>
             <span class="pin" data-n="5" style="left:-11px;bottom:62px"></span>
             <div class="totals">
@@ -84,20 +82,20 @@
               <span>Este mês</span><b>36h 52m</b><span class="plus">+0h 52m</span>
             </div>
             <span class="pin" data-n="6" style="left:-11px;bottom:6px"></span>
-            <div class="foot"><span>Diário de bordo</span><span>Exportar</span><span>•••</span></div>
+            <div class="foot"><span>Diário de bordo</span><span>Exportar</span><span>Registrar</span><span>•••</span></div>
           </div>
         </div>
         <ol class="callouts">
           <li>O que está rodando, para qual cliente e há quanto tempo.</li>
           <li>Uma nota para o bloco em andamento, como um chamado ou uma tarefa.</li>
           <li>O cliente para o qual o novo trabalho é registrado. Aparece depois que você adiciona clientes.</li>
-          <li>As seis atividades. A que está rodando aparece preenchida.</li>
+          <li>As quatro atividades. A que está rodando aparece preenchida.</li>
           <li>Hoje, esta semana e este mês comparados à sua meta.</li>
-          <li>O Diário de bordo, as exportações e o menu com Ajustes e Sair.</li>
+          <li>O Diário de bordo, as exportações, Registrar e o menu com Ajustes e Sair.</li>
         </ol>
       </figure>
 
-      <h3>As seis atividades</h3>
+      <h3>As quatro atividades</h3>
       <table>
         <thead><tr><th>Atividade</th><th>Use para</th><th>Conta para a meta</th></tr></thead>
         <tbody>
@@ -105,10 +103,9 @@
           <tr><td><span class="swatch" style="--c:var(--break)"></span>Pausa</td><td>Café, uma caminhada, uma parada curta.</td><td>Por padrão</td></tr>
           <tr><td><span class="swatch" style="--c:var(--lunch)"></span>Almoço</td><td>Sua pausa para a refeição.</td><td>Se você ativar</td></tr>
           <tr><td><span class="swatch" style="--c:var(--extra)"></span>Extra</td><td>Tempo além da sua meta diária, e trabalho em fins de semana e folgas.</td><td>Sempre</td></tr>
-          <tr><td><span class="swatch" style="--c:var(--travel)"></span>Deslocamento</td><td>Ir até um cliente ou um local.</td><td>Por padrão</td></tr>
-          <tr><td><span class="swatch" style="--c:var(--ooo)"></span>Fora do escritório</td><td>Consultas e compromissos durante o dia.</td><td>Por padrão</td></tr>
         </tbody>
       </table>
+      <div class="note"><p>Deslocamento (ir até um cliente ou um local) e Fora do escritório (consultas e compromissos) são registrados em <strong>Registrar</strong>, no menu ou no Banco de horas do Diário de bordo, um dia ou vários dias seguidos de uma vez. Os dois contam para a meta por padrão.</p></div>
       <p>Escolha o que conta em Ajustes → Meta. Trabalho e Extra sempre contam.</p>
 
       <h3>Notas</h3>
@@ -133,11 +130,20 @@
       <h2>Sua meta diária</h2>
       <p>Defina quantas horas por dia você pretende trabalhar em Ajustes → Meta. O Outatime compara o que você fez com essa meta em todo lugar: no painel do menu, no Diário de bordo e nos relatórios. Um número verde é tempo adiantado, um vermelho é tempo em atraso.</p>
       <ul>
-        <li><strong>Fins de semana e folgas não devem nada.</strong> Marque uma folga com o botão de guarda-chuva na barra de ferramentas do Diário de bordo.</li>
+        <li><strong>Fins de semana e folgas não devem nada.</strong> Feriados e folgas vão no <strong>Banco de horas</strong> (barra de ferramentas do Diário de bordo, ou clique na linha do banco no menu).</li>
         <li><strong>Hoje nunca aparece em vermelho como atrasado.</strong> O dia ainda não acabou.</li>
         <li><strong>O banco de horas</strong> soma o saldo de cada dia desde uma data que você escolhe, o que é útil se as suas horas são acertadas a cada trimestre ou ano.</li>
       </ul>
       <p>Abaixo dos saldos, o painel do menu mostra quanto falta da meta desta semana (a sua meta diária vezes os dias úteis da semana) e quanto mais você precisa acumular para uma folga. Para médias, os seus horários habituais de início e término e os números deste mês, clique em <strong>Estatísticas</strong> na barra de ferramentas do Diário de bordo.</p>
+      <h3>O Banco de horas</h3>
+      <p>O banco soma o saldo de cada dia. Abra <strong>Banco de horas</strong> na barra de ferramentas do Diário de bordo para vê-lo e registrar o que o altera:</p>
+      <ul>
+        <li><strong>Folga</strong> — um período de dias, ou um único dia com um número de horas. Cada dia útil custa a sua meta diária (ou essas horas) e sai do banco assim que você salva, mesmo que seja no mês que vem. Fins de semana e feriados no período não custam nada.</li>
+        <li><strong>Feriado</strong> — dias que não devem nada e não mexem no banco.</li>
+        <li><strong>Horas transferidas</strong> — horas extras de antes de você usar o Outatime, ou um valor negativo para horas pagas.</li>
+        <li><strong>Deslocamento</strong> e <strong>Fora do escritório</strong> — blocos em cada dia útil de um período, depois do último bloco do dia ou no seu horário de início habitual.</li>
+      </ul>
+      <p>Clique em uma linha para alterá-la. Uma folga aparece no Diário de bordo como em dia, não em atraso; as horas saem do banco.</p>
       <h3>Extra após a meta</h3>
       <p>Quando as horas de hoje atingem a meta, um bloco de Trabalho em andamento muda sozinho para Extra, cortado no minuto exato em que você chegou lá, e você recebe uma notificação. Em fins de semana e folgas, todo trabalho é Extra. Desative “Mudar para Extra após a meta” em Ajustes → Meta se preferir trocar manualmente.</p>
     </section>
@@ -200,14 +206,14 @@
       <table>
         <thead><tr><th>Exportação</th><th>O que contém</th></tr></thead>
         <tbody>
-          <tr><td>Relatório mensal</td><td>Uma planilha do Excel: um resumo com uma linha por dia e o saldo, as horas por cliente e todos os blocos.</td></tr>
+          <tr><td>Relatório mensal</td><td>Uma planilha do Excel: um resumo com uma linha por dia, as folgas e o saldo, as horas por cliente e todos os blocos.</td></tr>
           <tr><td>Relatório do cliente</td><td>O mês de um cliente para faturamento: as horas dele por dia e os blocos que as compõem, sem metas nem saldos.</td></tr>
-          <tr><td>Planilha mestre</td><td>Tudo desde que você começou, abrindo em um painel de horas, saldo e atividade por mês.</td></tr>
+          <tr><td>Planilha mestre</td><td>Tudo desde que você começou, abrindo em um painel de horas, saldo e atividade por mês, e uma aba Hours Bank com folgas e horas transferidas.</td></tr>
           <tr><td>Resumo diário</td><td>Um CSV com uma linha por dia, para o Numbers, o Notion ou qualquer outro.</td></tr>
           <tr><td>Registros</td><td>Um CSV com todos os blocos do mês.</td></tr>
         </tbody>
       </table>
-      <div class="note"><p>As linhas do relatório mensal podem ser coladas abaixo das tabelas da planilha mestre, e o painel dela as inclui. Se a sua planilha mestre foi criada antes da versão 1.2, exporte uma nova primeiro: os blocos agora têm uma coluna Cliente.</p></div>
+      <div class="note"><p>As linhas do relatório mensal podem ser coladas abaixo das tabelas da planilha mestre, e o painel dela as inclui. Se a sua planilha mestre foi criada antes da versão 1.3, exporte uma nova primeiro: os dias agora têm uma coluna de folgas e os blocos uma coluna Cliente.</p></div>
     </section>
 
     <section id="settings">

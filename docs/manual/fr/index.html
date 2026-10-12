@@ -74,8 +74,6 @@
               <div class="tile" style="--c:var(--break)"><i></i>Pause</div>
               <div class="tile" style="--c:var(--lunch)"><i></i>Déjeuner</div>
               <div class="tile" style="--c:var(--extra)"><i></i>Extra</div>
-              <div class="tile" style="--c:var(--travel)"><i></i>Déplacement</div>
-              <div class="tile" style="--c:var(--ooo)"><i></i>Absent</div>
             </div>
             <span class="pin" data-n="5" style="left:-11px;bottom:62px"></span>
             <div class="totals">
@@ -84,20 +82,20 @@
               <span>Ce mois-ci</span><b>36h 52m</b><span class="plus">+0h 52m</span>
             </div>
             <span class="pin" data-n="6" style="left:-11px;bottom:6px"></span>
-            <div class="foot"><span>Journal</span><span>Exporter</span><span>•••</span></div>
+            <div class="foot"><span>Journal</span><span>Exporter</span><span>Saisir</span><span>•••</span></div>
           </div>
         </div>
         <ol class="callouts">
           <li>Ce qui est en cours, pour quel client et depuis combien de temps.</li>
           <li>Une note pour le bloc en cours, comme un ticket ou une tâche.</li>
           <li>Le client pour lequel le nouveau travail est suivi. Apparaît dès que vous ajoutez des clients.</li>
-          <li>Les six activités. Celle en cours est remplie.</li>
+          <li>Les quatre activités. Celle en cours est remplie.</li>
           <li>Aujourd’hui, cette semaine et ce mois-ci par rapport à votre objectif.</li>
-          <li>Le Journal, les exports et le menu avec les Réglages et Quitter.</li>
+          <li>Le Journal, les exports, Saisir et le menu avec les Réglages et Quitter.</li>
         </ol>
       </figure>
 
-      <h3>Les six activités</h3>
+      <h3>Les quatre activités</h3>
       <table>
         <thead><tr><th>Activité</th><th>À utiliser pour</th><th>Compte dans l’objectif</th></tr></thead>
         <tbody>
@@ -105,10 +103,9 @@
           <tr><td><span class="swatch" style="--c:var(--break)"></span>Pause</td><td>Un café, une promenade, une courte pause.</td><td>Par défaut</td></tr>
           <tr><td><span class="swatch" style="--c:var(--lunch)"></span>Déjeuner</td><td>Votre pause repas.</td><td>Si vous l’activez</td></tr>
           <tr><td><span class="swatch" style="--c:var(--extra)"></span>Extra</td><td>Le temps au-delà de votre objectif quotidien, et le travail le week-end et les jours de congé.</td><td>Toujours</td></tr>
-          <tr><td><span class="swatch" style="--c:var(--travel)"></span>Déplacement</td><td>Le trajet vers un client ou un site.</td><td>Par défaut</td></tr>
-          <tr><td><span class="swatch" style="--c:var(--ooo)"></span>Absent</td><td>Rendez-vous et courses pendant la journée.</td><td>Par défaut</td></tr>
         </tbody>
       </table>
+      <div class="note"><p>Déplacement (le trajet vers un client ou un site) et Absent (rendez-vous et courses) se saisissent depuis <strong>Saisir</strong> dans le menu ou dans la Banque d’heures du Journal, un jour ou plusieurs jours d’affilée. Les deux comptent dans l’objectif par défaut.</p></div>
       <p>Choisissez ce qui compte dans Réglages → Objectif. Travail et Extra comptent toujours.</p>
 
       <h3>Notes</h3>
@@ -133,11 +130,20 @@
       <h2>Votre objectif quotidien</h2>
       <p>Indiquez combien d’heures par jour vous comptez travailler dans Réglages → Objectif. Outatime compare partout ce que vous avez fait à cet objectif : dans le panneau du menu, dans le Journal et dans les rapports. Un nombre vert indique de l’avance, un nombre rouge du retard.</p>
       <ul>
-        <li><strong>Les week-ends et les jours de congé ne doivent rien.</strong> Marquez un jour de congé avec le bouton parapluie dans la barre d’outils du Journal.</li>
+        <li><strong>Les week-ends et les jours de congé ne doivent rien.</strong> Les jours fériés et les congés se saisissent dans la <strong>Banque d’heures</strong> (barre d’outils du Journal, ou cliquez sur la ligne du cumul dans le menu).</li>
         <li><strong>Aujourd’hui n’apparaît jamais en retard en rouge.</strong> La journée n’est pas encore finie.</li>
         <li><strong>Le cumul d’heures</strong> additionne le solde de chaque jour depuis une date de votre choix, pratique si vos heures sont réglées chaque trimestre ou chaque année.</li>
       </ul>
       <p>Sous les soldes, le panneau du menu indique ce qu’il reste de l’objectif de la semaine (votre objectif quotidien multiplié par les jours ouvrés de la semaine) et combien il vous faut encore cumuler pour un jour de congé. Pour les moyennes, vos heures habituelles de début et de fin et les chiffres de ce mois-ci, cliquez sur <strong>Statistiques</strong> dans la barre d’outils du Journal.</p>
+      <h3>La Banque d’heures</h3>
+      <p>Le cumul d’heures additionne le solde de chaque jour. Ouvrez <strong>Banque d’heures</strong> dans la barre d’outils du Journal pour le voir et saisir ce qui le modifie :</p>
+      <ul>
+        <li><strong>Congé</strong> — une période, ou un seul jour avec un nombre d’heures. Chaque jour ouvré coûte votre objectif quotidien (ou ces heures) et est déduit du cumul dès l’enregistrement, même s’il tombe le mois prochain. Les week-ends et jours fériés de la période ne coûtent rien.</li>
+        <li><strong>Jour férié</strong> — des jours qui ne doivent rien et ne touchent pas au cumul.</li>
+        <li><strong>Heures reportées</strong> — des heures sup’ d’avant Outatime, ou un montant négatif pour des heures payées.</li>
+        <li><strong>Déplacement</strong> et <strong>Absent</strong> — des blocs sur chaque jour ouvré d’une période, après le dernier bloc du jour ou à votre heure de début habituelle.</li>
+      </ul>
+      <p>Cliquez sur une ligne pour la modifier. Un jour de congé apparaît à l’équilibre dans le Journal, pas en retard ; c’est le cumul qui paie les heures.</p>
       <h3>Extra après l’objectif</h3>
       <p>Dès que les heures du jour atteignent l’objectif, un bloc Travail en cours passe de lui-même en Extra, coupé à la minute exacte où vous l’avez atteint, et vous recevez une notification. Le week-end et les jours de congé, tout le travail est en Extra. Désactivez cette option dans Réglages → Objectif si vous préférez changer vous-même.</p>
     </section>
@@ -200,14 +206,14 @@
       <table>
         <thead><tr><th>Export</th><th>Contenu</th></tr></thead>
         <tbody>
-          <tr><td>Rapport mensuel</td><td>Un classeur Excel : un résumé avec une ligne par jour et son solde, les heures par client, et chaque bloc.</td></tr>
+          <tr><td>Rapport mensuel</td><td>Un classeur Excel : un résumé avec une ligne par jour, ses congés et son solde, les heures par client, et chaque bloc.</td></tr>
           <tr><td>Rapport client</td><td>Le mois d’un client pour la facturation : ses heures par jour et les blocs correspondants, sans objectifs ni soldes.</td></tr>
-          <tr><td>Classeur principal</td><td>Tout depuis vos débuts, avec en ouverture un tableau de bord des heures, du solde et des activités par mois.</td></tr>
+          <tr><td>Classeur principal</td><td>Tout depuis vos débuts, avec en ouverture un tableau de bord des heures, du solde et des activités par mois, et une feuille Hours Bank des congés et heures reportées.</td></tr>
           <tr><td>Résumé quotidien</td><td>Un CSV avec une ligne par jour, pour Numbers, Notion ou tout autre outil.</td></tr>
           <tr><td>Entrées</td><td>Un CSV avec chaque bloc du mois.</td></tr>
         </tbody>
       </table>
-      <div class="note"><p>Les lignes du rapport mensuel peuvent être collées sous les tableaux du classeur principal, et son tableau de bord les prend en compte. Si votre classeur principal date d’avant la version 1.2, exportez-en d’abord un nouveau : les blocs ont désormais une colonne Client.</p></div>
+      <div class="note"><p>Les lignes du rapport mensuel peuvent être collées sous les tableaux du classeur principal, et son tableau de bord les prend en compte. Si votre classeur principal date d’avant la version 1.3, exportez-en d’abord un nouveau : les jours ont désormais une colonne de congés et les blocs une colonne Client.</p></div>
     </section>
 
     <section id="settings">
