@@ -213,6 +213,22 @@ nonisolated struct OutatimeTests {
         #expect(json.components(separatedBy: "\"hours\"").count == 3)  // the full-day record leaves hours out
     }
 
+    /// Windows checks it writes its Mac fixture back; this checks the fixture is exactly what the Mac writes.
+    @Test @MainActor func fixtureMatchesWhatTheMacWrites() throws {
+        let fixture = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
+            .appending(path: "../windows/tests/Outatime.Tests/fixtures/mac-data.json")
+        let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try FileManager.default.copyItem(at: fixture, to: url)
+        let store = Store(url: url)
+        #expect(store.timeOff.count == 2 && store.carried.count == 1)
+        store.daysOff = store.daysOff
+        // The fixture ends in a newline, as text files do; JSONEncoder doesn't write one.
+        let expected = try String(contentsOf: fixture, encoding: .utf8).trimmingCharacters(in: .newlines)
+        #expect(try String(contentsOf: url, encoding: .utf8) == expected)
+    }
+
     @Test @MainActor func holidaysGroupIntoRanges() {
         let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
         defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }

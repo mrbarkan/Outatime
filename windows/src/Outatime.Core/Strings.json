@@ -1,4 +1,12 @@
 {
+ "%@ booked ahead": {
+  "es": "%@ ya reservadas",
+  "pt-BR": "%@ já agendadas"
+ },
+ "%@ days off": {
+  "es": "%@ días libres",
+  "pt-BR": "%@ folgas"
+ },
  "%@ left": {
   "es": "quedan %@",
   "pt-BR": "faltam %@"
@@ -75,6 +83,14 @@
   "es": "Añade tus clientes en Ajustes y elige uno en el menú. Trabajo, Extra y Viaje se registran para él, y cambiar de cliente divide el bloque en ese momento.",
   "pt-BR": "Adicione seus clientes nos Ajustes e escolha um no menu. Trabalho, Extra e Deslocamento são registrados para ele, e trocar de cliente divide o bloco na hora."
  },
+ "Adds a Travel block on each workday, after the day's last block or at your usual start.": {
+  "es": "Añade un bloque de Viaje en cada día laborable, tras el último bloque del día o a tu hora de inicio habitual.",
+  "pt-BR": "Adiciona um bloco de Deslocamento em cada dia útil, depois do último bloco do dia ou no seu horário de início habitual."
+ },
+ "Adds an Out of Office block on each workday, after the day's last block or at your usual start.": {
+  "es": "Añade un bloque de Fuera de la oficina en cada día laborable, tras el último bloque del día o a tu hora de inicio habitual.",
+  "pt-BR": "Adiciona um bloco de Fora do escritório em cada dia útil, depois do último bloco do dia ou no seu horário de início habitual."
+ },
  "Amount": {
   "es": "Importe",
   "pt-BR": "Valor"
@@ -126,6 +142,10 @@
  "Cancel": {
   "es": "Cancelar",
   "pt-BR": "Cancelar"
+ },
+ "Carried Hours": {
+  "es": "Horas traspasadas",
+  "pt-BR": "Horas transferidas"
  },
  "Check for Updates…": {
   "es": "Buscar actualizaciones…",
@@ -187,6 +207,10 @@
   "es": "Oscuro",
   "pt-BR": "Escuro"
  },
+ "Date": {
+  "es": "Fecha",
+  "pt-BR": "Data"
+ },
  "Day Off": {
   "es": "Día libre",
   "pt-BR": "Folga"
@@ -230,6 +254,10 @@
  "Duration": {
   "es": "Duración",
   "pt-BR": "Duração"
+ },
+ "Each workday costs a day's target, or the hours you enter. Weekends and holidays cost nothing. It comes off the bank as soon as you save.": {
+  "es": "Cada día laborable cuesta la meta diaria, o las horas que indiques. Los fines de semana y festivos no cuestan nada. Se descuenta del banco de horas en cuanto guardas.",
+  "pt-BR": "Cada dia útil custa a meta diária, ou as horas que você informar. Fins de semana e feriados não custam nada. Sai do banco de horas assim que você salvar."
  },
  "Early builds of the next version. They may have rough edges.": {
   "es": "Versiones tempranas de la próxima versión. Pueden tener detalles sin pulir.",
@@ -283,6 +311,14 @@
   "es": "Enfoque %lld min",
   "pt-BR": "Foco %lld min"
  },
+ "From": {
+  "es": "Desde",
+  "pt-BR": "De"
+ },
+ "Full day": {
+  "es": "Día completo",
+  "pt-BR": "Dia inteiro"
+ },
  "General": {
   "es": "General",
   "pt-BR": "Geral"
@@ -295,6 +331,14 @@
   "es": "Atajos globales",
   "pt-BR": "Atalhos globais"
  },
+ "Holiday": {
+  "es": "Festivo",
+  "pt-BR": "Feriado"
+ },
+ "Holidays owe nothing and leave the bank alone.": {
+  "es": "Los festivos no deben horas y no tocan el banco de horas.",
+  "pt-BR": "Feriados não devem horas e não mexem no banco de horas."
+ },
  "Hourly rate": {
   "es": "Tarifa por hora",
   "pt-BR": "Valor da hora"
@@ -303,6 +347,10 @@
   "es": "Horas",
   "pt-BR": "Horas"
  },
+ "Hours Bank": {
+  "es": "Banco de horas",
+  "pt-BR": "Banco de horas"
+ },
  "Hours Package": {
   "es": "Paquete de horas",
   "pt-BR": "Pacote de horas"
@@ -310,6 +358,10 @@
  "Hours bank since": {
   "es": "Banco de horas desde",
   "pt-BR": "Banco de horas desde"
+ },
+ "Hours per day": {
+  "es": "Horas por día",
+  "pt-BR": "Horas por dia"
  },
  "Icon and time": {
   "es": "Icono y tiempo",
@@ -334,6 +386,14 @@
  "Light": {
   "es": "Claro",
   "pt-BR": "Claro"
+ },
+ "Log": {
+  "es": "Registrar",
+  "pt-BR": "Registrar"
+ },
+ "Log time off, holidays and overtime carried over in the Logbook's Hours Bank. Travel and Out of Office are logged by the day instead of timed in the menu.": {
+  "es": "Registra tiempo libre, festivos y horas extra traspasadas en el Banco de horas de la Bitácora. Viaje y Fuera de la oficina se registran por días en lugar de cronometrarse en el menú.",
+  "pt-BR": "Registre folgas, feriados e horas extras transferidas no Banco de horas do Diário de bordo. Deslocamento e Fora do escritório são registrados por dia em vez de cronometrados no menu."
  },
  "Logbook": {
   "es": "Bitácora",
@@ -411,9 +471,17 @@
   "es": "Sin seguimiento",
   "pt-BR": "Sem registro"
  },
+ "Note": {
+  "es": "Nota",
+  "pt-BR": "Nota"
+ },
  "Notes": {
   "es": "Notas",
   "pt-BR": "Notas"
+ },
+ "Nothing logged yet. Log time off, holidays, or overtime carried in from before.": {
+  "es": "Aún no hay nada registrado. Registra tiempo libre, festivos u horas extra de antes.",
+  "pt-BR": "Nada registrado ainda. Registre folgas, feriados ou horas extras de antes."
  },
  "Nothing to count yet": {
   "es": "Aún no hay nada que contar",
@@ -450,6 +518,10 @@
  "Outatime now also speaks French, German, Italian, Japanese and Simplified Chinese. Pick yours in Settings → General.": {
   "es": "Outatime ahora también habla francés, alemán, italiano, japonés y chino simplificado. Elige el tuyo en Ajustes → General.",
   "pt-BR": "O Outatime agora também fala francês, alemão, italiano, japonês e chinês simplificado. Escolha o seu em Ajustes → Geral."
+ },
+ "Overtime from before you tracked it here, or a negative amount for hours paid out.": {
+  "es": "Horas extra de antes de registrarlas aquí, o una cantidad negativa por horas pagadas.",
+  "pt-BR": "Horas extras de antes de registrá-las aqui, ou um valor negativo para horas pagas."
  },
  "Overtime in the hours bank buys days off, one daily target each. Settings → Target sets where the bank starts.": {
   "es": "Las horas de más del banco de horas compran días libres, una meta diaria cada uno. En Ajustes → Meta eliges desde cuándo cuenta el banco.",
@@ -611,6 +683,10 @@
   "es": "¿Sigues registrando?",
   "pt-BR": "Ainda registrando?"
  },
+ "Stop": {
+  "es": "Detener",
+  "pt-BR": "Parar"
+ },
  "Stretch reminder": {
   "es": "Recordatorio de estiramiento",
   "pt-BR": "Lembrete de alongamento"
@@ -691,6 +767,10 @@
   "es": "Esta semana",
   "pt-BR": "Esta semana"
  },
+ "Time Off": {
+  "es": "Tiempo libre",
+  "pt-BR": "Folga"
+ },
  "Time for a break": {
   "es": "Hora de una pausa",
   "pt-BR": "Hora de uma pausa"
@@ -706,6 +786,10 @@
  "Time to stretch": {
   "es": "Hora de estirarse",
   "pt-BR": "Hora de alongar"
+ },
+ "To": {
+  "es": "Hasta",
+  "pt-BR": "Até"
  },
  "To next day off": {
   "es": "Para el próximo día libre",
