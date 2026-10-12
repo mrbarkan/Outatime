@@ -89,8 +89,26 @@ public static class Totals
     public static double Get(this IReadOnlyDictionary<Activity, double> totals, Activity a) => totals.TryGetValue(a, out var v) ? v : 0;
 }
 
-/// The daily target and which days owe it.
-public record struct Target(double Seconds, DateTimeOffset Since, string Excluded = Activities.DefaultExcluded, IReadOnlySet<string>? DaysOff = null)
+/// Time taken off workdays and paid from the hours bank: `Start`…`End` (day keys, both included), each workday costing
+/// `Hours`, or with none a whole day's target, so a new target re-prices full days.
+public record struct TimeOff(Guid Id, string Start, string End, double? Hours = null, string Note = "")
+{
+    public TimeOff(string start, string end, double? hours = null, string note = "") : this(Guid.NewGuid(), start, end, hours, note) { }
+}
+
+/// Hours put into the bank from outside the Logbook, like overtime from before tracking began, or taken out (negative)
+/// when they're paid.
+public record struct Carried(Guid Id, string Date, double Hours, string Note = "")
+{
+    public Carried(string date, double hours, string note = "") : this(Guid.NewGuid(), date, hours, note) { }
+}
+
+/// What the hours bank holds, the time worked behind it, and how much of it is already booked as time off ahead.
+public readonly record struct HoursBank(double Balance, double Worked, double BookedAhead);
+
+/// The daily target and which days owe it. `Booked`: seconds of each day taken off from the bank, by day key; see Book.
+public record struct Target(double Seconds, DateTimeOffset Since, string Excluded = Activities.DefaultExcluded, IReadOnlySet<string>? DaysOff = null,
+                            IReadOnlyDictionary<string, double>? Booked = null)
 {
     readonly IReadOnlySet<string> Off => DaysOff ?? new HashSet<string>();
 
@@ -99,13 +117,16 @@ public record struct Target(double Seconds, DateTimeOffset Since, string Exclude
     public readonly double Owed(DateTimeOffset day, DateTimeOffset? now = null) =>
         Cal.StartOfDay(day) <= (now ?? Clock.Now) ? Scheduled(day) : 0;
 
-    /// What a day will owe once it comes, so a week's goal counts the days still ahead.
+    /// What a day will owe once it comes, so a week's goal counts the days still ahead. Time off lowers it.
     public readonly double Scheduled(DateTimeOffset day)
     {
         var d = Cal.StartOfDay(day);
-        if (Cal.IsWeekend(d) || Off.Contains(d.DayKey()) || d < Cal.StartOfDay(Since)) return 0;
-        return Seconds;
+        if (!IsWorkday(d) || d < Cal.StartOfDay(Since)) return 0;
+        return Math.Max(0, Seconds - (Booked?.GetValueOrDefault(d.DayKey()) ?? 0));
     }
+
+    /// Not a weekend or a holiday.
+    public readonly bool IsWorkday(DateTimeOffset day) => !Cal.IsWeekend(day) && !Off.Contains(day.DayKey());
 
     /// What a day adds to a week/month balance. Today is still in progress: it can add a surplus, not a shortfall yet.
     public readonly double Balance(double worked, DateTimeOffset day, DateTimeOffset? now = null)
@@ -113,5 +134,27 @@ public record struct Target(double Seconds, DateTimeOffset Since, string Exclude
         var n = now ?? Clock.Now;
         var b = worked - Owed(day, n);
         return Cal.SameDay(day, n) ? Math.Max(0, b) : b;
+    }
+
+    /// Spreads time off over the workdays it covers, never more than a day's target on one day.
+    public readonly Target Book(IEnumerable<TimeOff> records)
+    {
+        var booked = new Dictionary<string, double>(Booked ?? new Dictionary<string, double>());
+        foreach (var r in records)
+            foreach (var d in DaysOf(r)) booked[d.DayKey()] = Math.Min(Seconds, booked.GetValueOrDefault(d.DayKey()) + PerDay(r));
+        return this with { Booked = booked };
+    }
+
+    /// What one record takes from the bank, overlaps with other records aside.
+    public readonly double Cost(TimeOff r) => DaysOf(r).Count * PerDay(r);
+
+    readonly double PerDay(TimeOff r) => Math.Min(Seconds, r.Hours * 3600 ?? Seconds);
+
+    /// Workdays a record covers since tracking began: weekends, holidays and earlier days cost nothing.
+    readonly List<DateTimeOffset> DaysOf(TimeOff r)
+    {
+        var start = Cal.StartOfDay(Since);
+        var self = this;
+        return Cal.DaysBetween(r.Start, r.End).Where(d => self.IsWorkday(d) && d >= start).ToList();
     }
 }

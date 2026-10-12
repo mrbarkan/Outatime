@@ -1,7 +1,7 @@
 namespace Outatime.App;
 
 /// For development and screenshots: OUTATIME_SAMPLE=1 fills an empty store with a few weeks of made-up work, and
-/// OUTATIME_OPEN=panel|logbook|settings|objectives|about|whatsnew opens that window at launch.
+/// OUTATIME_OPEN=panel|logbook|settings|objectives|hoursbank|log|about|whatsnew opens that window at launch.
 public static class DevSupport
 {
     public static void SeedIfAsked(Store store)
@@ -45,6 +45,8 @@ public static class DevSupport
         store.Entries = entries;
         store.CurrentProfile = acme;
         store.SetDayOff(Cal.AddDays(today, -9), true);
+        store.Upsert(new TimeOff(Cal.AddDays(today, -3).DayKey(), Cal.AddDays(today, -3).DayKey(), note: "Dentist"));
+        store.Upsert(new Carried(Cal.AddDays(today, -60).DayKey(), 24, "Overtime before Outatime"));
         store.Objectives = [new Objective(ObjectiveKind.DaysOff, 3), new Objective(ObjectiveKind.Hours, 120, profile: acme, since: Cal.AddDays(today, -20))];
         store.Templates = [new DayTemplate("Normal day", store.EntriesOn(Cal.AddDays(today, -1)))];
     }
@@ -66,6 +68,8 @@ public static class DevSupport
             case "logbook": shell.ShowLogbook(); break;
             case "settings": shell.ShowSettings(int.TryParse(Environment.GetEnvironmentVariable("OUTATIME_TAB"), out var tab) ? tab : 0); break;
             case "objectives": shell.ShowObjectives(); break;
+            case "hoursbank": shell.ShowHoursBank(); break;
+            case "log": shell.ShowLog(new LogItem.New(LogKind.TimeOff)); break;
             case "about": shell.ShowAbout(); break;
             case "whatsnew": shell.ShowWhatsNew("0"); break;
         }

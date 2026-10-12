@@ -34,8 +34,8 @@ public class CoreTests
         var csv = Csv.Daily(entries, Day, new Target(8 * 3600, Day), At(22));
         var lines = csv.TrimEnd('\n').Split('\n');
         Assert.Equal(3, lines.Length);
-        Assert.Equal("2026-09-03,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,\"a, \"\"b\"\"\"", lines[1]);
-        Assert.Equal("Total,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,", lines[2]);
+        Assert.Equal("2026-09-03,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,\"a, \"\"b\"\"\",0.00", lines[1]);
+        Assert.Equal("Total,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,,0.00", lines[2]);
     }
 
     [Fact]
@@ -50,9 +50,9 @@ public class CoreTests
         var data = Report.Month(entries, Day, new Target(8 * 3600, Day), now: At(22));
         Assert.Equal(new byte[] { 0x50, 0x4B, 0x03, 0x04 }, data[..4]);
         var text = Text(data);
-        Assert.Contains("<c r=\"J2\" s=\"5\"><v>1</v></c>", text);  // balance: 9h worked, 8h owed
+        Assert.Contains("<c r=\"K2\" s=\"5\"><v>1</v></c>", text);  // balance: 9h worked, 8h owed
         Assert.Contains("<f>SUBTOTAL(109,tblDays[Balance])</f><v>1</v>", text);
-        Assert.Contains("name=\"tblDays\" displayName=\"tblDays\" ref=\"A1:K3\" totalsRowCount=\"1\"", text);
+        Assert.Contains("name=\"tblDays\" displayName=\"tblDays\" ref=\"A1:L3\" totalsRowCount=\"1\"", text);
         Assert.Contains("R&amp;D &lt;q&gt;", text);
         Assert.Contains(">Out of Office<", text);
         Assert.DoesNotContain("Dashboard", text);
@@ -66,10 +66,28 @@ public class CoreTests
         var data = Report.Master([E(A.Work, At(9), At(18))], new Target(8 * 3600, start), now: At(22));
         var text = Text(data);
         Assert.Contains("<sheet name=\"Dashboard\" sheetId=\"1\"", text);
-        Assert.Contains("name=\"tblDays\" displayName=\"tblDays\" ref=\"A1:K3\" totalsRowShown=\"0\"", text);
-        Assert.Contains("<f>SUM(tblDays[Balance])</f><v>-7</v>", text);  // +1 today, -8 yesterday
+        Assert.Contains("name=\"tblDays\" displayName=\"tblDays\" ref=\"A1:L3\" totalsRowShown=\"0\"", text);
+        Assert.Contains("<f>SUM(tblDays[Balance])+SUM(tblBank[Hours])</f><v>-7</v>", text);  // +1 today, -8 yesterday
         Assert.Contains("<f>COUNTIF(tblDays[Worked],&quot;&gt;0&quot;)</f><v>1</v>", text);
         Assert.Contains("<c:f>Dashboard!$C$38:", text);
+    }
+
+    /// Thu 3 +1h, Fri 4 off (today, 20:00), 32h carried in: the workbook's bank is the app's.
+    [Fact]
+    public void MasterWorkbookCountsTheBank()
+    {
+        var off = new[] { new TimeOff("2026-09-04", "2026-09-04", note: "Dentist") };
+        var target = new Target(8 * 3600, Day).Book(off);
+        var entries = new[] { E(A.Work, At(9), At(18)) };
+        var carried = new[] { new Carried("2026-08-31", 32, "Jan–Aug") };
+        var now = Cal.Setting(D(4), 20);
+        var text = Text(Report.Master(entries, target, null, now, off, carried));
+        Assert.Contains("<f>SUM(tblDays[Balance])+SUM(tblBank[Hours])</f><v>25</v>", text);
+        Assert.Contains("name=\"tblBank\"", text);
+        Assert.True(text.Contains(">Dentist<") && text.Contains(">Carried<"));
+        Assert.Equal(25 * 3600, Store.BankOf(entries, carried, target, Day, now).Balance);
+        // A day off with nothing logged still gets a Summary row, with its Time Off.
+        Assert.Contains("ref=\"A1:L4\"", Text(Report.Month(entries, Day, target, null, now)));
     }
 
     /// The workbook must open: a real zip whose parts are well-formed XML.
@@ -174,6 +192,100 @@ public class CoreTests
         Assert.Equal(-5 * 3600, b.Balance);
         // Nothing is owed before tracking began.
         Assert.Equal(0, target.Owed(Cal.AddDays(Day, -1), now));
+    }
+
+    static DateTimeOffset D(int day, int month = 9) => Cal.At(2026, month, day);
+
+    /// Thu 3 Sep a full day off; Fri 4 – Mon 7 4h a day, the weekend free and Mon a holiday; 10h asks for more than a day.
+    [Fact]
+    public void TimeOffLowersWhatADayOwes()
+    {
+        var t = new Target(8 * 3600, Day, DaysOff: new HashSet<string> { "2026-09-07" })
+            .Book([new TimeOff("2026-09-03", "2026-09-03"), new TimeOff("2026-09-04", "2026-09-07", 4), new TimeOff("2026-09-08", "2026-09-08", 10)]);
+        Assert.Equal(new Dictionary<string, double> { ["2026-09-03"] = 8 * 3600, ["2026-09-04"] = 4 * 3600, ["2026-09-08"] = 8 * 3600 }, t.Booked);
+        Assert.Equal(0, t.Scheduled(Day));
+        Assert.Equal(4 * 3600, t.Scheduled(D(4)));
+        Assert.Equal(8 * 3600, t.Scheduled(D(9)));
+        Assert.Equal(4 * 3600, t.Cost(new TimeOff("2026-09-04", "2026-09-07", 4)));
+        // Overlapping records never take more than a day.
+        Assert.Equal(8 * 3600, t.Book([new TimeOff("2026-09-04", "2026-09-04", 6)]).Booked!["2026-09-04"]);
+        // Before tracking began costs nothing.
+        Assert.Equal(0, t.Cost(new TimeOff("2026-09-01", "2026-09-01")));
+    }
+
+    /// Thu 3 worked 9h (+1), Fri 4 off from the bank, Mon 7 worked 8h, now Tue 8 14:00 with nothing yet; Thu 10 booked
+    /// ahead. Carried: +32h dated 31 Aug, before tracking began, and +10h on Mon 7.
+    [Fact]
+    public void BankCountsTimeOffAndCarriedHours()
+    {
+        var entries = new[] { E(A.Work, At(9), At(18)), E(A.Work, Cal.Setting(D(7), 9), Cal.Setting(D(7), 17)) };
+        var target = new Target(8 * 3600, Day).Book([new TimeOff("2026-09-04", "2026-09-04"), new TimeOff("2026-09-10", "2026-09-10")]);
+        var carried = new[] { new Carried("2026-08-31", 32), new Carried("2026-09-07", 10) };
+        var now = Cal.Setting(D(8), 14);
+        // A: the bank starts when tracking began, so every carried record counts: +1 − 16 + 42.
+        var a = Store.BankOf(entries, carried, target, Day, now);
+        Assert.Equal((27 * 3600.0, 8 * 3600.0, 17 * 3600.0), (a.Balance, a.BookedAhead, a.Worked));
+        // B: moved later, to Fri 4: Thu's surplus and the August hours drop out: 0 − 16 + 10.
+        Assert.Equal(-6 * 3600, Store.BankOf(entries, carried, target, D(4), now).Balance);
+    }
+
+    [Fact]
+    public void BankRecordsRoundTrip()
+    {
+        var store = NewStore();
+        Assert.True(store.TimeOff.Count == 0 && store.Carried.Count == 0);
+        store.Upsert(new TimeOff("2026-12-24", "2027-01-01", note: "Holidays"));
+        store.Upsert(new TimeOff("2026-09-04", "2026-09-04", 4));
+        store.Upsert(new Carried("2026-08-31", -8.5, "Paid out"));
+        var reloaded = new Store(store.Path);
+        Assert.Equal(store.TimeOff, reloaded.TimeOff);
+        Assert.Equal(store.Carried, reloaded.Carried);
+        var json = File.ReadAllText(store.Path);
+        Assert.True(json.Contains("\"carried\" : [") && json.Contains("\"timeOff\" : ["));
+        Assert.Equal(2, json.Split("\"hours\"").Length - 1);  // the full-day record leaves hours out
+        store.Upsert(store.TimeOff[1] with { Hours = 2 });
+        Assert.Equal(2, new Store(store.Path).TimeOff[1].Hours);
+        store.DeleteCarried(store.Carried[0].Id);
+        store.DeleteTimeOff(store.TimeOff[0].Id);
+        Assert.True(new Store(store.Path) is { Carried.Count: 0, TimeOff.Count: 1 });
+    }
+
+    [Fact]
+    public void HolidaysGroupIntoRanges()
+    {
+        var store = NewStore();
+        store.DaysOff = ["2026-09-07"];
+        store.SetHoliday(D(24), D(26));
+        Assert.Equal([(D(24), D(26)), (D(7), D(7))], store.Holidays());
+        store.SetHoliday(D(24), D(25), (D(24), D(26)));
+        Assert.Equal(["2026-09-07", "2026-09-24", "2026-09-25"], store.DaysOff.Order());
+        store.RemoveHoliday((D(7), D(7)));
+        Assert.Equal(["2026-09-24", "2026-09-25"], store.DaysOff.Order());
+    }
+
+    /// Thu 3 – Wed 9 Sep: Thu has a block until 11:00, Mon 7 is a holiday, Tue 8 a full day off.
+    [Fact]
+    public void LoggingTravelFillsWorkdays()
+    {
+        var store = NewStore();
+        var acme = store.AddProfile("Acme")!.Value;
+        store.Entries = [E(A.Work, At(9), At(11))];
+        store.DaysOff = ["2026-09-07"];
+        store.Upsert(new TimeOff("2026-09-08", "2026-09-08"));
+        var target = store.Target(8, Activities.DefaultExcluded);
+        store.Log(A.Travel, Day, D(9), 6, acme, target, 8 * 60 + 30);
+        var travel = store.Entries.Where(e => e.Activity == A.Travel).OrderBy(e => e.Start).ToList();
+        Assert.Equal(["2026-09-03", "2026-09-04", "2026-09-09"], travel.Select(e => e.Start.DayKey()));
+        Assert.Equal((At(11), 6 * 3600.0), (travel[0].Start, travel[0].Duration));  // after the day's last block
+        Assert.Equal(Cal.Setting(D(4), 8, 30), travel[1].Start);  // usual start on an empty day
+        Assert.All(travel, e => Assert.Equal(acme, e.Profile));
+        // Out of Office never has a client; a block that would run past midnight stops there.
+        store.Log(A.OutOfOffice, D(10), D(10), 8, acme, target, 20 * 60);
+        var ooo = store.Entries.First(e => e.Activity == A.OutOfOffice);
+        Assert.Equal(((Guid?)null, 4 * 3600.0), (ooo.Profile, ooo.Duration));
+        // No usual start yet: 9:00.
+        store.Log(A.OutOfOffice, D(11), D(11), 1, null, target, null);
+        Assert.Contains(store.Entries, e => e.Activity == A.OutOfOffice && e.Start == Cal.Setting(D(11), 9));
     }
 
     [Fact]

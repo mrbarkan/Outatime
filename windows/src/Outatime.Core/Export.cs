@@ -4,8 +4,9 @@ using Style = Outatime.Xlsx.Style;
 
 namespace Outatime;
 
-/// One row of a report: a day with entries or owed hours. Summed, the balances match the app's balances.
-public sealed record DaySummary(DateTimeOffset Date, Dictionary<Activity, double> Hours, double Worked, double Owed, double Balance, string Notes)
+/// One row of a report: a day with entries, owed hours or time off. Summed, the balances match the app's balances.
+public sealed record DaySummary(DateTimeOffset Date, Dictionary<Activity, double> Hours, double Worked, double Owed, double Balance, double TimeOff,
+                                string Notes)
 {
     public static List<DaySummary> Days(IEnumerable<DateTimeOffset> dates, IEnumerable<Entry> entries, Target target, DateTimeOffset? now = null)
     {
@@ -16,10 +17,11 @@ public sealed record DaySummary(DateTimeOffset Date, Dictionary<Activity, double
         {
             var es = byDay.TryGetValue(date, out var x) ? x : [];
             var owed = target.Owed(date, n);
-            if (es.Count == 0 && owed <= 0) continue;
+            var off = target.Booked?.GetValueOrDefault(date.DayKey()) ?? 0;
+            if (es.Count == 0 && owed <= 0 && off <= 0) continue;
             var t = Store.TotalsOf(es);
             var worked = t.Worked(target.Excluded);
-            days.Add(new DaySummary(date, t, worked, owed, target.Balance(worked, date, n), string.Join("; ", es.SelectMany(e => e.Notes))));
+            days.Add(new DaySummary(date, t, worked, owed, target.Balance(worked, date, n), off, string.Join("; ", es.SelectMany(e => e.Notes))));
         }
         return days;
     }
@@ -45,14 +47,16 @@ public static class Csv
         return string.Join("\n", lines) + "\n";
     }
 
-    /// Every day of `month` that has entries or owes hours, then a total row that matches the app's month balance.
+    /// Every day of `month` that has entries, owes hours or has time off, then a total row that matches the app's month
+    /// balance. Time Off last, so existing columns keep their places.
     public static string Daily(IEnumerable<Entry> entries, DateTimeOffset month, Target target, DateTimeOffset? now = null)
     {
         var days = DaySummary.Days(Cal.DaysInMonth(month), entries, target, now);
-        var lines = new List<string> { Row(["Date", .. Activities.All.Select(a => a.Title()), "Balance", "Notes"]) };
+        var lines = new List<string> { Row(["Date", .. Activities.All.Select(a => a.Title()), "Balance", "Notes", "Time Off"]) };
         foreach (var d in days)
-            lines.Add(Row([d.Date.DayKey(), .. Activities.All.Select(a => Hours(d.Hours.Get(a))), Signed(d.Balance), d.Notes]));
-        lines.Add(Row(["Total", .. Activities.All.Select(a => Hours(days.Sum(d => d.Hours.Get(a)))), Signed(days.Sum(d => d.Balance)), ""]));
+            lines.Add(Row([d.Date.DayKey(), .. Activities.All.Select(a => Hours(d.Hours.Get(a))), Signed(d.Balance), d.Notes, Hours(d.TimeOff)]));
+        lines.Add(Row(["Total", .. Activities.All.Select(a => Hours(days.Sum(d => d.Hours.Get(a)))), Signed(days.Sum(d => d.Balance)), "",
+                       Hours(days.Sum(d => d.TimeOff))]));
         return string.Join("\n", lines) + "\n";
     }
 }
@@ -110,19 +114,39 @@ public static class Report
     }
 
     /// Everything since tracking began, opening on a dashboard.
-    public static byte[] Master(IReadOnlyList<Entry> entries, Target target, IReadOnlyDictionary<Guid, string>? names = null, DateTimeOffset? now = null)
+    public static byte[] Master(IReadOnlyList<Entry> entries, Target target, IReadOnlyDictionary<Guid, string>? names = null, DateTimeOffset? now = null,
+                                IReadOnlyList<TimeOff>? timeOff = null, IReadOnlyList<Carried>? carried = null)
     {
         var n = now ?? Clock.Now;
         var dates = new List<DateTimeOffset>();
         for (var d = Cal.StartOfDay(target.Since); d <= n; d = Cal.AddDays(d, 1)) dates.Add(d);
         var days = DaySummary.Days(dates, entries, target, n);
-        return Xlsx.Workbook([Dashboard(days, target, n), Summary(days, totals: false),
-                              List(entries.OrderBy(e => e.Start).ToList(), names ?? new Dictionary<Guid, string>())]);
+        var (bankSheet, bankTotal) = Bank(target, timeOff ?? [], carried ?? []);
+        return Xlsx.Workbook([Dashboard(days, bankTotal, target, n), Summary(days, totals: false),
+                              List(entries.OrderBy(e => e.Start).ToList(), names ?? new Dictionary<Guid, string>()), bankSheet]);
+    }
+
+    /// Carried hours and each day taken off, signed as they move the bank. The dashboard's bank card adds them to the
+    /// day balances.
+    static (Xlsx.Sheet Sheet, double Total) Bank(Target target, IReadOnlyList<TimeOff> timeOff, IReadOnlyList<Carried> carried)
+    {
+        string Note(string key) =>
+            timeOff.FirstOrDefault(t => string.CompareOrdinal(t.Start, key) <= 0 && string.CompareOrdinal(key, t.End) <= 0).Note ?? "";
+        var rows = carried.Select(c => (Date: c.Date, Kind: "Carried", Hours: c.Hours, Note: c.Note))
+            .Concat((target.Booked ?? new Dictionary<string, double>()).Select(kv => (Date: kv.Key, Kind: "Time Off", Hours: -kv.Value / 3600, Note: Note(kv.Key))))
+            .OrderBy(r => r.Date, StringComparer.Ordinal).ToList();
+        var cells = rows.Select(r => new List<Cell>
+        {
+            Cal.FromKey(r.Date) is { } d ? new Cell.Number(Xlsx.Serial(d), Style.Date) : new Cell.Text(r.Date),
+            new Cell.Text(r.Kind), new Cell.Number(r.Hours, Style.Balance), new Cell.Text(r.Note),
+        }).ToList();
+        return (Xlsx.TableSheet("Hours Bank", "tblBank", ["Date", "Kind", "Hours", "Note"], cells, null, [16, 12, 10, 40]), rows.Sum(r => r.Hours));
     }
 
     static readonly List<(string Title, Func<DaySummary, double> Value)> Values =
         Activities.All.Select(a => (a.Title(), (Func<DaySummary, double>)(d => d.Hours.Get(a) / 3600)))
-        .Concat([("Worked", d => d.Worked / 3600), ("Target", d => d.Owed / 3600), ("Balance", d => d.Balance / 3600)]).ToList();
+        .Concat([("Worked", d => d.Worked / 3600), ("Target", d => d.Owed / 3600), ("Time Off", d => d.TimeOff / 3600),
+                 ("Balance", d => d.Balance / 3600)]).ToList();
 
     static Xlsx.Sheet Summary(List<DaySummary> days, bool totals)
     {
@@ -149,7 +173,7 @@ public static class Report
     }
 
     /// Cards, a worked-vs-target chart, an activity breakdown and a month table, all formulas over `tblDays`.
-    static Xlsx.Sheet Dashboard(List<DaySummary> days, Target target, DateTimeOffset now)
+    static Xlsx.Sheet Dashboard(List<DaySummary> days, double bank, Target target, DateTimeOffset now)
     {
         var s = new Xlsx.Sheet("Dashboard") { Widths = [3, .. Enumerable.Repeat(13.0, 8)], Gridlines = false };
         var col = Xlsx.Column;
@@ -166,7 +190,8 @@ public static class Report
         var cards = new (string Label, Cell Value, string Caption)[]
         {
             ("HOURS WORKED", new Cell.Formula("SUM(tblDays[Worked])", worked, Style.CardHours), "toward the target"),
-            ("HOURS BANK", new Cell.Formula("SUM(tblDays[Balance])", Sum(d => d.Balance, days), Style.CardBank), "worked minus target"),
+            ("HOURS BANK", new Cell.Formula("SUM(tblDays[Balance])+SUM(tblBank[Hours])", Sum(d => d.Balance, days) + bank, Style.CardBank),
+             "worked minus target, plus carried, less time off"),
             ("DAYS WORKED", new Cell.Formula("COUNTIF(tblDays[Worked],\">0\")", daysWorked, Style.CardDays), "with time logged"),
             ("AVERAGE DAY", new Cell.Formula("IFERROR(B6/F6,0)", daysWorked > 0 ? worked / daysWorked : 0, Style.CardHours), "per day worked"),
         };

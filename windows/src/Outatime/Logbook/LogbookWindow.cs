@@ -163,7 +163,9 @@ public sealed class LogbookWindow : AppWindow
                             color: White(today ? Ui.Accent : null), secondary: !selected && !today && Cal.IsWeekend(d));
         var right = Ui.H(10);
         right.HorizontalAlignment = HorizontalAlignment.Right;
+        // A holiday or time off owes less, so reads even rather than short.
         if (dayOff) right.Children.Add(Ui.Icon(Symbol.Beach, 14, White(null)).With(i => i.Opacity = selected ? 1 : 0.62));
+        else if (target.Booked?.GetValueOrDefault(d.DayKey()) > 0) right.Children.Add(Ui.Icon(Symbol.History, 14, White(null)).With(i => i.Opacity = selected ? 1 : 0.62));
         // A past workday with nothing logged shows its shortfall, so a forgotten day can't hide.
         if (totals.Count > 0 || owed > 0)
         {
@@ -246,14 +248,11 @@ public sealed class LogbookWindow : AppWindow
         stats.Click += (_, _) =>
         {
             var target = settings.Target(store);
-            new Flyout { Content = StatsView.Build(new Stats(store.Entries, target, settings.BankStart(target))), Placement = PlacementMode.BottomEdgeAlignedRight }.ShowAt(stats);
+            new Flyout { Content = StatsView.Build(new Stats(store.Entries, target, settings.BankStart(target), null, store.Carried)), Placement = PlacementMode.BottomEdgeAlignedRight }.ShowAt(stats);
         };
         var goals = Ui.IconButton(Symbol.FlagCheckered, ShowObjectives, Loc.T("Objectives"));
+        var bank = Ui.IconButton(Symbol.BuildingBank, shell.ShowHoursBank, Loc.T("Hours Bank"));
 
-        var off = new ToggleButton { Content = Ui.Icon(Symbol.Beach, 16), IsChecked = store.DaysOff.Contains(day.DayKey()), Padding = new Thickness(4),
-                                     Background = Brushes.Transparent, BorderThickness = new Thickness(0) };
-        ToolTip.SetTip(off, Loc.T("Day Off"));
-        off.IsCheckedChanged += (_, _) => store.SetDayOff(day, off.IsChecked == true);
         var add = Ui.IconButton(Symbol.AddCircle, () => store.AddEntry(day), Loc.T("Add Entry"));
 
         var templates = Ui.IconButton(Symbol.DocumentCopy, () => { }, Loc.T("Templates"));
@@ -261,7 +260,7 @@ public sealed class LogbookWindow : AppWindow
         var export = Ui.IconButton(Symbol.ArrowExportUp, () => { }, Loc.T("Export"));
         export.Click += (_, _) => ExportMenu(month).ShowAt(export);
 
-        return Ui.Spread(nav, Ui.H(2, zoomOut, zoomIn), Ui.H(2, stats, goals), Ui.H(2, off, add, templates, export));
+        return Ui.Spread(nav, Ui.H(2, zoomOut, zoomIn), Ui.H(2, stats, goals, bank), Ui.H(2, add, templates, export));
     }
 
     static MenuItem Item(string header, Action click, bool enabled = true)

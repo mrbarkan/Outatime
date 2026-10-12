@@ -8,11 +8,11 @@ namespace Outatime;
 /// data.json, written the way the Mac app's JSONEncoder writes it so either app can read the other's file: dates as
 /// whole-second UTC ISO 8601 ("2026-09-22T13:04:05Z" — a fraction makes the Mac reject the file), upper-case UUIDs,
 /// nil optionals left out, keys sorted. Objectives and template slots always carry every field, because Swift's
-/// synthesized decoder requires them.
+/// synthesized decoder requires them, as does every time-off and carried record's note.
 public static class DataFile
 {
     public sealed record Contents(List<Entry> Entries, List<DayTemplate> Templates, HashSet<string> DaysOff, List<Profile> Profiles,
-                                  Guid? Current, List<Objective> Objectives);
+                                  Guid? Current, List<Objective> Objectives, List<TimeOff>? TimeOff = null, List<Carried>? Carried = null);
 
     // MARK: Reading
 
@@ -25,7 +25,9 @@ public static class DataFile
             Array(root, "daysOff", false).Select(n => Str(n)).ToHashSet(),  // added in 1.0.11
             Array(root, "profiles", false).Select(ReadProfile).ToList(),  // added in 1.2
             OptGuid(root, "current"),
-            Array(root, "objectives", false).Select(ReadObjective).ToList());  // added in 1.3
+            Array(root, "objectives", false).Select(ReadObjective).ToList(),  // added in 1.3
+            Array(root, "timeOff", false).Select(ReadTimeOff).ToList(),  // added in 1.3
+            Array(root, "carried", false).Select(ReadCarried).ToList());  // added in 1.3
     }
 
     static IEnumerable<JsonNode> Array(JsonObject o, string key, bool required)
@@ -77,6 +79,11 @@ public static class DataFile
         Since = ReqDate(o, "since"),
     };
 
+    static TimeOff ReadTimeOff(JsonNode o) =>
+        new(ReqGuid(o, "id"), Str(Req(o, "start")), Str(Req(o, "end")), o["hours"] is { } h ? Num(h) : null, Str(Req(o, "note")));
+
+    static Carried ReadCarried(JsonNode o) => new(ReqGuid(o, "id"), Str(Req(o, "date")), Num(Req(o, "hours")), Str(Req(o, "note")));
+
     // MARK: Writing
 
     public static string Write(Contents c)
@@ -91,6 +98,9 @@ public static class DataFile
             ["profiles"] = c.Profiles.Select(p => Obj(("id", G(p.Id)), ("name", p.Name), ("archived", p.Archived))).ToList(),
             ["objectives"] = c.Objectives.Select(o => Obj(("id", G(o.Id)), ("kind", o.Kind.Raw()), ("name", o.Name), ("amount", o.Amount),
                 ("rate", o.Rate), ("currency", o.Currency), ("profile", o.Profile is { } p ? G(p) : null), ("since", FormatDate(o.Since)))).ToList(),
+            ["timeOff"] = (c.TimeOff ?? []).Select(t => Obj(("id", G(t.Id)), ("start", t.Start), ("end", t.End), ("hours", t.Hours),
+                ("note", t.Note))).ToList(),
+            ["carried"] = (c.Carried ?? []).Select(x => Obj(("id", G(x.Id)), ("date", x.Date), ("hours", x.Hours), ("note", x.Note))).ToList(),
         };
         if (c.Current is { } current) root["current"] = G(current);
         var sb = new StringBuilder();
