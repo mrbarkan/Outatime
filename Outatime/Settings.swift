@@ -155,7 +155,7 @@ private struct TargetSettings: View {
                     set: { bankSince = Calendar.current.startOfDay(for: $0).timeIntervalSinceReferenceDate }), displayedComponents: .date)
                 Toggle("Switch to Extra after the target", isOn: $autoExtra)
             } footer: {
-                Text("Weekends and days off owe nothing; mark a day off from the Logbook toolbar.")
+                Text("Weekends and holidays owe nothing; log holidays and time off in the Logbook's Hours Bank.")
                     .font(.caption).foregroundStyle(.secondary)
             }
         }

@@ -1,0 +1,72 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Outatime.App.App"
+             Name="Outatime">
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+          <SolidColorBrush x:Key="WindowBrush" Color="#F3F3F3" />
+          <SolidColorBrush x:Key="SectionBrush" Color="#FBFBFB" />
+          <SolidColorBrush x:Key="SectionBorderBrush" Color="#E5E5E5" />
+          <SolidColorBrush x:Key="TileBrush" Color="#0F000000" />
+          <SolidColorBrush x:Key="TileHoverBrush" Color="#1A000000" />
+          <SolidColorBrush x:Key="HairlineBrush" Color="#1F000000" />
+          <SolidColorBrush x:Key="SelectionBrush" Color="#0A84FF" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+          <SolidColorBrush x:Key="WindowBrush" Color="#202020" />
+          <SolidColorBrush x:Key="SectionBrush" Color="#2B2B2B" />
+          <SolidColorBrush x:Key="SectionBorderBrush" Color="#1D1D1D" />
+          <SolidColorBrush x:Key="TileBrush" Color="#14FFFFFF" />
+          <SolidColorBrush x:Key="TileHoverBrush" Color="#22FFFFFF" />
+          <SolidColorBrush x:Key="HairlineBrush" Color="#26FFFFFF" />
+          <SolidColorBrush x:Key="SelectionBrush" Color="#4CA0FF" />
+        </ResourceDictionary>
+      </ResourceDictionary.ThemeDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
+  <Application.Styles>
+    <FluentTheme />
+    <Style Selector="Window">
+      <Setter Property="Background" Value="{DynamicResource WindowBrush}" />
+    </Style>
+    <Style Selector="Border.section">
+      <Setter Property="Background" Value="{DynamicResource SectionBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource SectionBorderBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+    </Style>
+    <Style Selector="Button.plain">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="Button.plain:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource TileBrush}" />
+    </Style>
+    <Style Selector="Button.link">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Foreground" Value="{DynamicResource SelectionBrush}" />
+      <Setter Property="Cursor" Value="Hand" />
+    </Style>
+    <Style Selector="Button.link:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="{DynamicResource SelectionBrush}" />
+    </Style>
+    <Style Selector="Button.tile">
+      <Setter Property="Background" Value="{DynamicResource TileBrush}" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Button.tile:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource TileHoverBrush}" />
+    </Style>
+    <Style Selector="TextBlock.caption">
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="Opacity" Value="0.62" />
+    </Style>
+  </Application.Styles>
+</Application>

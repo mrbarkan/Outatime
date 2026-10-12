@@ -61,6 +61,17 @@ struct OutatimeApp: App {
         .restorationBehavior(.disabled)
         .commandsRemoved()  // opens by itself after an update, never from a menu
 
+        // The menu's Log: one form, its kind picked from the menu.
+        WindowGroup("Log", id: "log", for: String.self) { $kind in
+            LogForm(item: .new(LogKind(rawValue: kind ?? "") ?? .timeOff))
+                .onDisappear(perform: returnToMenuBar)
+                .environment(store).environment(\.locale, language.locale)
+        }
+        .windowResizability(.contentSize)
+        .defaultPosition(.center)
+        .restorationBehavior(.disabled)
+        .commandsRemoved()
+
         Settings {
             SettingsView().environment(updater).environment(store).environment(\.locale, language.locale)
         }

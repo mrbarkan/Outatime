@@ -27,8 +27,8 @@ nonisolated struct OutatimeTests {
         let csv = CSV.daily(entries, month: day, target: Target(seconds: 8 * 3600, since: day), now: at(22))
         let lines = csv.split(separator: "\n")
         #expect(lines.count == 3)
-        #expect(lines[1] == "2026-09-03,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,\"a, \"\"b\"\"\"")
-        #expect(lines[2] == "Total,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,")
+        #expect(lines[1] == "2026-09-03,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,\"a, \"\"b\"\"\",0.00")
+        #expect(lines[2] == "Total,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,,0.00")
     }
 
     /// A slash in an export name (the en_BR month "09/2026") lands on disk as a colon and Excel can't open the file.
@@ -44,9 +44,9 @@ nonisolated struct OutatimeTests {
         let data = Report.month(entries, month: day, target: Target(seconds: 8 * 3600, since: day), now: at(22))
         #expect(data.prefix(4) == Data([0x50, 0x4B, 0x03, 0x04]))
         let text = String(decoding: data, as: UTF8.self)
-        #expect(text.contains(#"<c r="J2" s="5"><v>1.0</v></c>"#))  // balance: 9h worked, 8h owed
+        #expect(text.contains(#"<c r="K2" s="5"><v>1.0</v></c>"#))  // balance: 9h worked, 8h owed
         #expect(text.contains(#"<f>SUBTOTAL(109,tblDays[Balance])</f><v>1.0</v>"#))
-        #expect(text.contains(#"name="tblDays" displayName="tblDays" ref="A1:K3" totalsRowCount="1""#))
+        #expect(text.contains(#"name="tblDays" displayName="tblDays" ref="A1:L3" totalsRowCount="1""#))
         #expect(text.contains("R&amp;D &lt;q&gt;"))
         #expect(text.contains(">Out of Office<"))
         #expect(!text.contains("Dashboard"))
@@ -59,10 +59,27 @@ nonisolated struct OutatimeTests {
         let data = Report.master(entries, target: Target(seconds: 8 * 3600, since: start), now: at(22))
         let text = String(decoding: data, as: UTF8.self)
         #expect(text.contains(#"<sheet name="Dashboard" sheetId="1""#))
-        #expect(text.contains(#"name="tblDays" displayName="tblDays" ref="A1:K3" totalsRowShown="0""#))
-        #expect(text.contains("<f>SUM(tblDays[Balance])</f><v>-7.0</v>"))  // +1 today, -8 yesterday
+        #expect(text.contains(#"name="tblDays" displayName="tblDays" ref="A1:L3" totalsRowShown="0""#))
+        #expect(text.contains("<f>SUM(tblDays[Balance])+SUM(tblBank[Hours])</f><v>-7.0</v>"))  // +1 today, -8 yesterday
         #expect(text.contains(#"<f>COUNTIF(tblDays[Worked],&quot;&gt;0&quot;)</f><v>1.0</v>"#))
         #expect(text.contains("<c:f>Dashboard!$C$38:"))
+    }
+
+    /// Thu 3 +1h, Fri 4 off (today, 20:00), 32h carried in: the workbook's bank is the app's.
+    @Test func masterWorkbookCountsTheBank() {
+        let off = [TimeOff(start: "2026-09-04", end: "2026-09-04", note: "Dentist")]
+        var target = Target(seconds: 8 * 3600, since: day)
+        target.book(off)
+        let entries = [Entry(activity: .work, start: at(9), end: at(18))]
+        let carried = [Carried(date: "2026-08-31", hours: 32, note: "Jan–Aug")]
+        let now = d(4) + 20 * 3600
+        let text = String(decoding: Report.master(entries, target: target, timeOff: off, carried: carried, now: now), as: UTF8.self)
+        #expect(text.contains("<f>SUM(tblDays[Balance])+SUM(tblBank[Hours])</f><v>25.0</v>"))
+        #expect(text.contains(#"name="tblBank""#) && text.contains(">Dentist<") && text.contains(">Carried<"))
+        #expect(Store.bank(entries, carried: carried, target: target, since: day, now: now).balance == 25 * 3600)
+        // A day off with nothing logged still gets a Summary row, with its Time Off.
+        let month = String(decoding: Report.month(entries, month: day, target: target, now: now), as: UTF8.self)
+        #expect(month.contains(#"ref="A1:L4""#))
     }
 
     /// The store must read back what it wrote, or every relaunch silently starts empty and overwrites the file.
@@ -145,6 +162,120 @@ nonisolated struct OutatimeTests {
         #expect(b.balance == -5 * 3600)
         // Nothing is owed before tracking began.
         #expect(target.owed(on: cal.date(byAdding: .day, value: -1, to: day)!, now: now) == 0)
+    }
+
+    func d(_ day: Int, _ month: Int = 9) -> Date { cal.date(from: DateComponents(year: 2026, month: month, day: day))! }
+
+    /// Thu 3 Sep a full day off; Fri 4 – Mon 7 4h a day, the weekend free and Mon a holiday; 10h asks for more than a day.
+    @Test func timeOffLowersWhatADayOwes() {
+        var t = Target(seconds: 8 * 3600, daysOff: ["2026-09-07"], since: day)
+        t.book([TimeOff(start: "2026-09-03", end: "2026-09-03"), TimeOff(start: "2026-09-04", end: "2026-09-07", hours: 4),
+                TimeOff(start: "2026-09-08", end: "2026-09-08", hours: 10)])
+        #expect(t.booked == ["2026-09-03": 8 * 3600, "2026-09-04": 4 * 3600, "2026-09-08": 8 * 3600])
+        #expect(t.scheduled(on: day) == 0)
+        #expect(t.scheduled(on: d(4)) == 4 * 3600)
+        #expect(t.scheduled(on: d(9)) == 8 * 3600)
+        #expect(t.cost(of: TimeOff(start: "2026-09-04", end: "2026-09-07", hours: 4)) == 4 * 3600)
+        // Overlapping records never take more than a day.
+        t.book([TimeOff(start: "2026-09-04", end: "2026-09-04", hours: 6)])
+        #expect(t.booked["2026-09-04"] == 8 * 3600.0)
+        // Before tracking began costs nothing.
+        #expect(t.cost(of: TimeOff(start: "2026-09-01", end: "2026-09-01")) == 0)
+    }
+
+    /// Day keys are Gregorian whatever calendar the user picked: Buddhist 2569 is 2026.
+    @Test func dayKeyReadsGregorianInAnyCalendar() {
+        var buddhist = Calendar(identifier: .buddhist), gregorian = Calendar(identifier: .gregorian)
+        buddhist.timeZone = .current; gregorian.timeZone = .current
+        let date = buddhist.date(from: DateComponents(year: 2569, month: 10, day: 12))!
+        #expect(date.dayKey == "2026-10-12")
+        #expect(Date(dayKey: "2026-10-12") == date)
+        #expect(Date(dayKey: "2026-10-12") == gregorian.date(from: DateComponents(year: 2026, month: 10, day: 12)))
+        #expect(Date.days(from: "2026-12-30", to: "2027-01-02").map(\.dayKey) == ["2026-12-30", "2026-12-31", "2027-01-01", "2027-01-02"])
+    }
+
+    /// Thu 3 worked 9h (+1), Fri 4 off from the bank, Mon 7 worked 8h, now Tue 8 14:00 with nothing yet; Thu 10 booked
+    /// ahead. Carried: +32h dated 31 Aug, before tracking began, and +10h on Mon 7.
+    @Test func bankCountsTimeOffAndCarriedHours() {
+        let entries = [Entry(activity: .work, start: at(9), end: at(18)),
+                       Entry(activity: .work, start: d(7) + 9 * 3600, end: d(7) + 17 * 3600)]
+        var target = Target(seconds: 8 * 3600, since: day)
+        target.book([TimeOff(start: "2026-09-04", end: "2026-09-04"), TimeOff(start: "2026-09-10", end: "2026-09-10")])
+        let carried = [Carried(date: "2026-08-31", hours: 32), Carried(date: "2026-09-07", hours: 10)]
+        let now = d(8) + 14 * 3600
+        // A: the bank starts when tracking began, so every carried record counts: +1 − 16 + 42.
+        let a = Store.bank(entries, carried: carried, target: target, since: day, now: now)
+        #expect(a.balance == 27 * 3600 && a.bookedAhead == 8 * 3600 && a.worked == 17 * 3600)
+        // B: moved later, to Fri 4: Thu's surplus and the August hours drop out: 0 − 16 + 10.
+        #expect(Store.bank(entries, carried: carried, target: target, since: d(4), now: now).balance == -6 * 3600)
+    }
+
+    @Test @MainActor func bankRecordsRoundTrip() throws {
+        let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        let store = Store(url: url)
+        #expect(store.timeOff.isEmpty && store.carried.isEmpty)
+        store.timeOff = [TimeOff(start: "2026-12-24", end: "2027-01-01", note: "Holidays"), TimeOff(start: "2026-09-04", end: "2026-09-04", hours: 4)]
+        store.carried = [Carried(date: "2026-08-31", hours: -8.5, note: "Paid out")]
+        let reloaded = Store(url: url)
+        #expect(reloaded.timeOff == store.timeOff && reloaded.carried == store.carried)
+        let json = try String(contentsOf: url, encoding: .utf8)
+        #expect(json.contains("\"carried\" : [") && json.contains("\"timeOff\" : ["))
+        #expect(json.components(separatedBy: "\"hours\"").count == 3)  // the full-day record leaves hours out
+    }
+
+    /// Windows checks it writes its Mac fixture back; this checks the fixture is exactly what the Mac writes.
+    @Test @MainActor func fixtureMatchesWhatTheMacWrites() throws {
+        let fixture = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
+            .appending(path: "../windows/tests/Outatime.Tests/fixtures/mac-data.json")
+        let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try FileManager.default.copyItem(at: fixture, to: url)
+        let store = Store(url: url)
+        #expect(store.timeOff.count == 2 && store.carried.count == 1)
+        store.daysOff = store.daysOff
+        // The fixture ends in a newline, as text files do; JSONEncoder doesn't write one.
+        let expected = try String(contentsOf: fixture, encoding: .utf8).trimmingCharacters(in: .newlines)
+        #expect(try String(contentsOf: url, encoding: .utf8) == expected)
+    }
+
+    @Test @MainActor func holidaysGroupIntoRanges() {
+        let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        let store = Store(url: url)
+        store.daysOff = ["2026-09-07"]
+        store.setHoliday(from: d(24), to: d(26))
+        #expect(store.holidays == [d(24)...d(26), d(7)...d(7)])
+        store.setHoliday(from: d(24), to: d(25), replacing: d(24)...d(26))
+        #expect(store.daysOff == ["2026-09-07", "2026-09-24", "2026-09-25"])
+        store.removeHoliday(d(7)...d(7))
+        #expect(store.daysOff == ["2026-09-24", "2026-09-25"])
+    }
+
+    /// Thu 3 – Wed 9 Sep: Thu has a block until 11:00, Mon 7 is a holiday, Tue 8 a full day off.
+    @Test @MainActor func loggingTravelFillsWorkdays() throws {
+        let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        let store = Store(url: url)
+        let acme = try #require(store.addProfile("Acme"))
+        store.entries = [Entry(activity: .work, start: at(9), end: at(11))]
+        store.daysOff = ["2026-09-07"]
+        store.timeOff = [TimeOff(start: "2026-09-08", end: "2026-09-08")]
+        let target = store.target(hours: 8, excluded: Activity.defaultExcluded)
+        store.log(.travel, from: day, to: d(9), hours: 6, profile: acme, target: target, usualStart: 8 * 60 + 30)
+        let travel = store.entries.filter { $0.activity == .travel }.sorted { $0.start < $1.start }
+        #expect(travel.map(\.start.dayKey) == ["2026-09-03", "2026-09-04", "2026-09-09"])
+        #expect(travel[0].start == at(11) && travel[0].duration == 6 * 3600)  // after the day's last block
+        #expect(travel[1].start == d(4) + 8.5 * 3600)  // usual start on an empty day
+        #expect(travel.allSatisfy { $0.profile == acme })
+        // Out of Office never has a client; a block that would run past midnight stops there.
+        store.log(.outOfOffice, from: d(10), to: d(10), hours: 8, profile: acme, target: target, usualStart: 20 * 60)
+        let ooo = try #require(store.entries.first { $0.activity == .outOfOffice })
+        #expect(ooo.profile == nil && ooo.duration == 4 * 3600)
+        // No usual start yet: 9:00.
+        store.log(.outOfOffice, from: d(11), to: d(11), hours: 1, profile: nil, target: target, usualStart: nil)
+        #expect(store.entries.contains { $0.activity == .outOfOffice && $0.start == d(11) + 9 * 3600 })
     }
 
     @Test @MainActor func timerRollsOverAtMidnight() {
@@ -266,7 +397,44 @@ nonisolated struct OutatimeTests {
         #expect(DayTemplate(name: "t", entries: reloaded.entries).entries(on: day)[0].profile == acme)
     }
 
-    /// Picking another client mid-block ends the block there and carries on for the new client.
+    /// A package counts its client's billable time from its start day; a money one at its hourly rate; days off come
+    /// out of the hours bank, one daily target each.
+    @Test func objectiveProgress() {
+        let acme = UUID(), globex = UUID()
+        let entries = [Entry(activity: .work, start: at(9), end: at(12), profile: acme),
+                       Entry(activity: .break, start: at(12), end: at(12, 30)),
+                       Entry(activity: .extra, start: at(13), end: at(14), profile: acme),
+                       Entry(activity: .work, start: at(14), end: at(16), profile: globex),
+                       Entry(activity: .work, start: cal.date(byAdding: .day, value: -1, to: at(9))!, end: cal.date(byAdding: .day, value: -1, to: at(17))!, profile: acme)]
+        let hours = Objective(kind: .hours, amount: 80, profile: acme, since: at(10))
+        let p = hours.progress(entries, bank: 0, dayTarget: 8 * 3600)
+        #expect(p.done == 4 * 3600 && p.goal == 80 * 3600 && p.left == 76 * 3600 && !p.isDone)
+
+        let money = Objective(kind: .money, amount: 400, rate: 100, profile: acme, since: day)
+        #expect(money.progress(entries, bank: 0, dayTarget: 0).isDone)
+        #expect(Objective(kind: .money, amount: 400, profile: acme, since: day).progress(entries, bank: 0, dayTarget: 0).goal == 0)
+
+        let vacation = Objective(kind: .daysOff, amount: 5)
+        let v = vacation.progress([], bank: 12 * 3600, dayTarget: 8 * 3600)
+        #expect(v.goal == 40 * 3600 && v.left == 28 * 3600 && abs(v.fraction - 0.3) < 1e-9)
+        #expect(vacation.progress([], bank: -3600, dayTarget: 8 * 3600).done == 0)
+
+        #expect((42.2 * 3600).short == "43h" && (6 * 3600 + 720.0).short == "6h 12m" && 2050.0.short == "35m")
+    }
+
+    @Test @MainActor func objectivesRoundTrip() throws {
+        let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        let store = Store(url: url)
+        #expect(store.objectives.isEmpty)
+        let acme = try #require(store.addProfile("Acme"))
+        store.objectives.append(Objective(kind: .money, amount: 8000, rate: 100, currency: "BRL", profile: acme, since: day))
+        store.binding(for: store.objectives[0]).wrappedValue.name = "Retainer"
+        let reloaded = Store(url: url)
+        #expect(reloaded.objectives == store.objectives && reloaded.objectives[0].name == "Retainer")
+    }
+
+
     @Test @MainActor func switchingClientSplitsRunningBlock() throws {
         let store = Store(url: FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json"))
         let acme = try #require(store.addProfile("Acme")), globex = try #require(store.addProfile("Globex"))

@@ -74,8 +74,6 @@
               <div class="tile" style="--c:var(--break)"><i></i>Pausa</div>
               <div class="tile" style="--c:var(--lunch)"><i></i>Pranzo</div>
               <div class="tile" style="--c:var(--extra)"><i></i>Extra</div>
-              <div class="tile" style="--c:var(--travel)"><i></i>Trasferta</div>
-              <div class="tile" style="--c:var(--ooo)"><i></i>Fuori sede</div>
             </div>
             <span class="pin" data-n="5" style="left:-11px;bottom:62px"></span>
             <div class="totals">
@@ -84,20 +82,20 @@
               <span>Questo mese</span><b>36h 52m</b><span class="plus">+0h 52m</span>
             </div>
             <span class="pin" data-n="6" style="left:-11px;bottom:6px"></span>
-            <div class="foot"><span>Diario</span><span>Esporta</span><span>•••</span></div>
+            <div class="foot"><span>Diario</span><span>Esporta</span><span>Registra</span><span>•••</span></div>
           </div>
         </div>
         <ol class="callouts">
           <li>Cosa è in corso, per quale cliente e da quanto tempo.</li>
           <li>Una nota per il blocco in corso, come un ticket o un'attività.</li>
           <li>Il cliente per cui viene registrato il nuovo lavoro. Compare dopo che hai aggiunto dei clienti.</li>
-          <li>Le sei attività. Quella in corso è piena.</li>
+          <li>Le quattro attività. Quella in corso è piena.</li>
           <li>Oggi, questa settimana e questo mese rispetto al tuo obiettivo.</li>
-          <li>Il Diario, le esportazioni e il menu con Impostazioni ed Esci.</li>
+          <li>Il Diario, le esportazioni, Registra e il menu con Impostazioni ed Esci.</li>
         </ol>
       </figure>
 
-      <h3>Le sei attività</h3>
+      <h3>Le quattro attività</h3>
       <table>
         <thead><tr><th>Attività</th><th>Usala per</th><th>Conta per l'obiettivo</th></tr></thead>
         <tbody>
@@ -105,10 +103,9 @@
           <tr><td><span class="swatch" style="--c:var(--break)"></span>Pausa</td><td>Un caffè, una passeggiata, una breve sosta.</td><td>Di default</td></tr>
           <tr><td><span class="swatch" style="--c:var(--lunch)"></span>Pranzo</td><td>La pausa pranzo.</td><td>Se la attivi</td></tr>
           <tr><td><span class="swatch" style="--c:var(--extra)"></span>Extra</td><td>Il tempo oltre l'obiettivo giornaliero e il lavoro nei weekend e nei giorni liberi.</td><td>Sempre</td></tr>
-          <tr><td><span class="swatch" style="--c:var(--travel)"></span>Trasferta</td><td>Gli spostamenti verso un cliente o un cantiere.</td><td>Di default</td></tr>
-          <tr><td><span class="swatch" style="--c:var(--ooo)"></span>Fuori sede</td><td>Appuntamenti e commissioni durante la giornata.</td><td>Di default</td></tr>
         </tbody>
       </table>
+      <div class="note"><p>Trasferta (gli spostamenti verso un cliente o un cantiere) e Fuori sede (appuntamenti e commissioni) si registrano da <strong>Registra</strong> nel menu o nella Banca ore del Diario, un giorno o più giorni di fila. Entrambe contano per l'obiettivo di default.</p></div>
       <p>Scegli cosa conta in Impostazioni → Obiettivo. Lavoro ed Extra contano sempre.</p>
 
       <h3>Note</h3>
@@ -133,11 +130,20 @@
       <h2>Il tuo obiettivo giornaliero</h2>
       <p>Imposta quante ore al giorno vuoi lavorare in Impostazioni → Obiettivo. Outatime confronta con l'obiettivo ciò che hai fatto ovunque: nel pannello del menu, nel Diario e nei report. Un numero verde è tempo in anticipo, uno rosso è tempo in ritardo.</p>
       <ul>
-        <li><strong>Weekend e giorni liberi non richiedono ore.</strong> Segna un giorno libero con il pulsante a ombrello nella barra strumenti del Diario.</li>
+        <li><strong>Weekend e giorni liberi non richiedono ore.</strong> Festività e permessi vanno nella <strong>Banca ore</strong> (barra strumenti del Diario, oppure fai clic sulla riga della banca nel menu).</li>
         <li><strong>Oggi non appare mai in rosso come ritardo.</strong> La giornata non è ancora finita.</li>
         <li><strong>La banca ore</strong> somma il saldo di ogni giorno a partire da una data che scegli tu, utile se le tue ore vengono conteggiate ogni trimestre o anno.</li>
       </ul>
       <p>Sotto i saldi, il pannello del menu mostra quanto manca all'obiettivo di questa settimana (il tuo obiettivo giornaliero per i giorni lavorativi della settimana) e quanto devi ancora accumulare per un giorno libero. Per le medie, i tuoi orari abituali di inizio e fine e i dati di questo mese, fai clic su <strong>Statistiche</strong> nella barra strumenti del Diario.</p>
+      <h3>La Banca ore</h3>
+      <p>La banca somma il saldo di ogni giorno. Apri <strong>Banca ore</strong> nella barra strumenti del Diario per vederla e registrare ciò che la cambia:</p>
+      <ul>
+        <li><strong>Permesso</strong> — un intervallo di giorni, o un solo giorno con un numero di ore. Ogni giorno lavorativo costa il tuo obiettivo giornaliero (o quelle ore) e viene scalato dalla banca appena salvi, anche se cade il mese prossimo. Weekend e festività nell'intervallo non costano nulla.</li>
+        <li><strong>Festività</strong> — giorni che non devono ore e non toccano la banca.</li>
+        <li><strong>Ore riportate</strong> — straordinari di prima di usare Outatime, o un valore negativo per ore pagate.</li>
+        <li><strong>Trasferta</strong> e <strong>Fuori sede</strong> — blocchi in ogni giorno lavorativo di un intervallo, dopo l'ultimo blocco del giorno o al tuo orario d'inizio abituale.</li>
+      </ul>
+      <p>Fai clic su una riga per modificarla. Un giorno libero appare in pari nel Diario, non in ritardo: le ore le paga la banca.</p>
       <h3>Extra dopo l'obiettivo</h3>
       <p>Quando le ore di oggi raggiungono l'obiettivo, un blocco Lavoro in corso passa da solo a Extra, tagliato al minuto esatto in cui ci sei arrivato, e ricevi una notifica. Nei weekend e nei giorni liberi tutto il lavoro è Extra. Disattiva l'opzione in Impostazioni → Obiettivo se preferisci cambiare a mano.</p>
     </section>
@@ -200,14 +206,14 @@
       <table>
         <thead><tr><th>Esportazione</th><th>Cosa contiene</th></tr></thead>
         <tbody>
-          <tr><td>Report mensile</td><td>Una cartella di lavoro Excel: un riepilogo con una riga per giorno e il relativo saldo, le ore per cliente e tutti i blocchi.</td></tr>
+          <tr><td>Report mensile</td><td>Una cartella di lavoro Excel: un riepilogo con una riga per giorno, i relativi permessi e il saldo, le ore per cliente e tutti i blocchi.</td></tr>
           <tr><td>Report cliente</td><td>Il mese di un cliente per la fatturazione: le sue ore per giorno e i blocchi corrispondenti, senza obiettivi né saldi.</td></tr>
-          <tr><td>Cartella principale</td><td>Tutto da quando hai iniziato, con in apertura una dashboard di ore, saldo e attività per mese.</td></tr>
+          <tr><td>Cartella principale</td><td>Tutto da quando hai iniziato, con in apertura una dashboard di ore, saldo e attività per mese, e un foglio Hours Bank con permessi e ore riportate.</td></tr>
           <tr><td>Riepilogo giornaliero</td><td>Un CSV con una riga per giorno, per Numbers, Notion o qualsiasi altra app.</td></tr>
           <tr><td>Voci</td><td>Un CSV con tutti i blocchi del mese.</td></tr>
         </tbody>
       </table>
-      <div class="note"><p>Le righe del report mensile si possono incollare sotto le tabelle della cartella principale, e la sua dashboard le include. Se la tua cartella principale è stata creata prima della versione 1.2, esportane prima una nuova: ora i blocchi hanno una colonna Cliente.</p></div>
+      <div class="note"><p>Le righe del report mensile si possono incollare sotto le tabelle della cartella principale, e la sua dashboard le include. Se la tua cartella principale è stata creata prima della versione 1.3, esportane prima una nuova: ora i giorni hanno una colonna dei permessi e i blocchi una colonna Cliente.</p></div>
     </section>
 
     <section id="settings">

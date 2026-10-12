@@ -128,6 +128,32 @@ nonisolated struct DayTemplate: Codable, Identifiable, Hashable {
     }
 }
 
+/// Time taken off workdays and paid from the hours bank: `start`…`end` (day keys, both included), each workday costing
+/// `hours`, or with none a whole day's target, so a new target re-prices full days.
+nonisolated struct TimeOff: Codable, Identifiable, Hashable {
+    var id = UUID()
+    var start: String
+    var end: String
+    var hours: Double?
+    var note = ""
+}
+
+/// Hours put into the bank from outside the Logbook, like overtime from before tracking began, or taken out (negative)
+/// when they're paid.
+nonisolated struct Carried: Codable, Identifiable, Hashable {
+    var id = UUID()
+    var date: String  // day key
+    var hours: Double
+    var note = ""
+}
+
+/// What the hours bank holds, the time worked behind it, and how much of it is already booked as time off ahead.
+nonisolated struct HoursBank {
+    var balance: TimeInterval
+    var worked: TimeInterval
+    var bookedAhead: TimeInterval
+}
+
 nonisolated extension Dictionary where Key == Activity, Value == TimeInterval {
     /// Time that counts toward the daily target. `excluded` is the "excludedFromTarget" setting: comma-separated
     /// activity raw values, by default just lunch (coffee breaks are paid).
@@ -143,6 +169,8 @@ nonisolated struct Target {
     var excluded: String = Activity.defaultExcluded
     var daysOff: Set<String> = []
     var since: Date  // tracking began; nothing is owed before it
+    /// Seconds of each day taken off from the bank, by day key; see `book`.
+    var booked: [String: TimeInterval] = [:]
 
     /// Weekends, days off, days before tracking began and days still ahead owe nothing.
     // ponytail: workdays are the locale's weekdays; a per-weekday schedule when someone works Saturdays.
@@ -150,18 +178,40 @@ nonisolated struct Target {
         Calendar.current.startOfDay(for: day) <= now ? scheduled(on: day) : 0
     }
 
-    /// What a day will owe once it comes, so a week's goal counts the days still ahead.
+    /// What a day will owe once it comes, so a week's goal counts the days still ahead. Time off lowers it.
     func scheduled(on day: Date) -> TimeInterval {
-        let cal = Calendar.current
-        let d = cal.startOfDay(for: day)
-        guard !cal.isDateInWeekend(d), !daysOff.contains(d.dayKey), d >= cal.startOfDay(for: since) else { return 0 }
-        return seconds
+        let d = Calendar.current.startOfDay(for: day)
+        guard isWorkday(d), d >= Calendar.current.startOfDay(for: since) else { return 0 }
+        return max(0, seconds - (booked[d.dayKey] ?? 0))
+    }
+
+    /// Not a weekend or a holiday.
+    func isWorkday(_ day: Date) -> Bool {
+        !Calendar.current.isDateInWeekend(day) && !daysOff.contains(day.dayKey)
     }
 
     /// What a day adds to a week/month balance. Today is still in progress: it can add a surplus, not a shortfall yet.
     func balance(worked: TimeInterval, on day: Date, now: Date = .now) -> TimeInterval {
         let b = worked - owed(on: day, now: now)
         return Calendar.current.isDate(day, inSameDayAs: now) ? max(0, b) : b
+    }
+
+    /// Spreads time off over the workdays it covers, never more than a day's target on one day.
+    mutating func book(_ records: [TimeOff]) {
+        for r in records {
+            for d in days(of: r) { booked[d.dayKey] = min(seconds, (booked[d.dayKey] ?? 0) + perDay(r)) }
+        }
+    }
+
+    /// What one record takes from the bank, overlaps with other records aside.
+    func cost(of r: TimeOff) -> TimeInterval { Double(days(of: r).count) * perDay(r) }
+
+    private func perDay(_ r: TimeOff) -> TimeInterval { min(seconds, r.hours.map { $0 * 3600 } ?? seconds) }
+
+    /// Workdays a record covers since tracking began: weekends, holidays and earlier days cost nothing.
+    private func days(of r: TimeOff) -> [Date] {
+        let start = Calendar.current.startOfDay(for: since)
+        return Date.days(from: r.start, to: r.end).filter { isWorkday($0) && $0 >= start }
     }
 }
 
@@ -181,5 +231,23 @@ nonisolated extension Date {
         let cal = Calendar.current
         let first = startOfMonth
         return cal.range(of: .day, in: .month, for: first)!.compactMap { cal.date(byAdding: .day, value: $0 - 1, to: first) }
+    }
+
+    /// The day a day key names, at local midnight; nil for a malformed key.
+    /// Read in the Gregorian calendar, as `dayKey` writes it, whatever calendar the user picked.
+    init?(dayKey: String) {
+        let parts = dayKey.split(separator: "-").compactMap { Int($0) }
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = .current
+        guard parts.count == 3,
+              let d = cal.date(from: DateComponents(year: parts[0], month: parts[1], day: parts[2])) else { return nil }
+        self = d
+    }
+
+    /// Every day from one key to the other, both included; none when either is malformed or they're reversed.
+    static func days(from start: String, to end: String) -> [Date] {
+        guard let a = Date(dayKey: start), let b = Date(dayKey: end) else { return [] }
+        let cal = Calendar.current
+        return Array(sequence(first: a) { cal.date(byAdding: .day, value: 1, to: $0) }.prefix { $0 <= b })
     }
 }

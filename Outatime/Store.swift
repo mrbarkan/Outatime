@@ -10,6 +10,13 @@ final class Store {
     var profiles: [Profile] = [] { didSet { if loaded { save() } } }
     /// The client picked in the menu; new billable blocks get it.
     var currentProfile: Profile.ID? { didSet { if loaded { save() } } }
+    var objectives: [Objective] = [] { didSet { if loaded { save() } } }
+    var timeOff: [TimeOff] = [] { didSet { if loaded { save() } } }
+    var carried: [Carried] = [] { didSet { if loaded { save() } } }
+    /// The menu asks the Logbook to open its Hours Bank sheet.
+    var editingBank = false
+    /// The menu asks the Logbook to open its Objectives sheet.
+    var editingObjectives = false
     /// A block added in the Logbook opens its editor once it appears.
     var justAdded: Entry.ID?
     /// When the tomato timer was turned on; nil while it's off. Not saved: quitting turns it off.
@@ -24,6 +31,9 @@ final class Store {
         var daysOff: [String]?  // added in 1.0.11
         var profiles: [Profile]?  // added in 1.2
         var current: UUID?
+        var objectives: [Objective]?  // added in 1.3
+        var timeOff: [TimeOff]?  // added in 1.3
+        var carried: [Carried]?  // added in 1.3
     }
 
     static let defaultURL = FileManager.default
@@ -41,6 +51,9 @@ final class Store {
                 daysOff = Set(file.daysOff ?? [])
                 profiles = file.profiles ?? []
                 currentProfile = file.current
+                objectives = file.objectives ?? []
+                timeOff = file.timeOff ?? []
+                carried = file.carried ?? []
             } else {
                 // Unreadable file: keep it aside so the next save can't silently destroy it.
                 try? FileManager.default.moveItem(at: url, to: url.appendingPathExtension("broken-\(Int(Date.now.timeIntervalSince1970))"))
@@ -55,7 +68,8 @@ final class Store {
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         encoder.dateEncodingStrategy = .iso8601
         guard let data = try? encoder.encode(File(entries: entries, templates: templates, daysOff: daysOff.sorted(),
-                                                profiles: profiles, current: currentProfile)) else { return }
+                                                profiles: profiles, current: currentProfile, objectives: objectives,
+                                                timeOff: timeOff, carried: carried)) else { return }
         try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         try? data.write(to: url, options: .atomic)
     }
@@ -167,6 +181,54 @@ final class Store {
         if currentProfile == id { currentProfile = nil }
     }
 
+    // MARK: Hours bank
+
+    /// Days off as runs of consecutive days, newest first: how the Hours Bank lists holidays.
+    var holidays: [ClosedRange<Date>] {
+        let cal = Calendar.current
+        var runs: [ClosedRange<Date>] = []
+        for d in daysOff.compactMap({ Date(dayKey: $0) }).sorted() {
+            if let last = runs.last, cal.date(byAdding: .day, value: 1, to: last.upperBound) == d {
+                runs[runs.count - 1] = last.lowerBound...d
+            } else {
+                runs.append(d...d)
+            }
+        }
+        return runs.reversed()
+    }
+
+    /// Marks `from`…`to` as holidays, in place of `old` when one is being edited.
+    func setHoliday(from: Date, to: Date, replacing old: ClosedRange<Date>? = nil) {
+        var days = daysOff
+        if let old { days.subtract(Date.days(from: old.lowerBound.dayKey, to: old.upperBound.dayKey).map(\.dayKey)) }
+        days.formUnion(Date.days(from: from.dayKey, to: to.dayKey).map(\.dayKey))
+        daysOff = days
+    }
+
+    func removeHoliday(_ run: ClosedRange<Date>) {
+        daysOff.subtract(Date.days(from: run.lowerBound.dayKey, to: run.upperBound.dayKey).map(\.dayKey))
+    }
+
+    /// Travel or Out of Office logged rather than timed: a block on each workday from `from` to `to` that isn't taken
+    /// off in full, after the day's last block, or else at the usual start (minutes after midnight; 9:00 without one),
+    /// `hours` long and cut at midnight. Only Travel keeps the client.
+    func log(_ activity: Activity, from: Date, to: Date, hours: Double, profile: Profile.ID?, target: Target, usualStart: Int?,
+             now: Date = .now) {
+        let cal = Calendar.current
+        let minute = usualStart ?? 9 * 60
+        var added: [Entry] = []
+        for d in Date.days(from: from.dayKey, to: to.dayKey) where target.isWorkday(d) {
+            if target.seconds > 0, (target.booked[d.dayKey] ?? 0) >= target.seconds { continue }
+            let midnight = cal.date(byAdding: .day, value: 1, to: d)!
+            let start = entries(on: d).map { $0.end ?? now }.max()
+                ?? cal.date(bySettingHour: minute / 60, minute: minute % 60, second: 0, of: d)!
+            let end = min(start + hours * 3600, midnight)
+            guard start < end else { continue }
+            added.append(Entry(activity: activity, start: start, end: end, profile: activity.billable ? profile : nil))
+        }
+        entries += added  // one save
+    }
+
     // MARK: Exports
 
     func monthReport(_ month: Date, target: Target, now: Date = .now) -> Data {
@@ -174,7 +236,7 @@ final class Store {
     }
 
     func masterWorkbook(target: Target, now: Date = .now) -> Data {
-        Report.master(entries, target: target, names: profileNames, now: now)
+        Report.master(entries, target: target, names: profileNames, timeOff: timeOff, carried: carried, now: now)
     }
 
     func entriesCSV(_ month: Date) -> String { CSV.entries(entries(inMonth: month), names: profileNames) }
@@ -208,11 +270,35 @@ final class Store {
     }
 
     func target(hours: Double, excluded: String) -> Target {
-        Target(seconds: hours * 3600, excluded: excluded, daysOff: daysOff, since: entries.map(\.start).min() ?? .now)
+        var t = Target(seconds: hours * 3600, excluded: excluded, daysOff: daysOff, since: entries.map(\.start).min() ?? .now)
+        t.book(timeOff)
+        return t
     }
 
     func balance(_ interval: DateInterval, _ target: Target, now: Date = .now) -> (worked: TimeInterval, balance: TimeInterval) {
         Self.balance(entries, in: interval, target: target, now: now)
+    }
+
+    func bank(_ target: Target, since: Date, now: Date = .now) -> HoursBank {
+        Self.bank(entries, carried: carried, target: target, since: since, now: now)
+    }
+
+    /// The day balances since `since`, less the time off booked from then on (days ahead too: booked is spent), plus the
+    /// hours carried in. Carried hours are usually dated before tracking began, so they only drop out once the bank is
+    /// made to start later than that.
+    nonisolated static func bank(_ entries: [Entry], carried: [Carried], target: Target, since: Date, now: Date = .now) -> HoursBank {
+        let cal = Calendar.current
+        let start = cal.startOfDay(for: since), today = cal.startOfDay(for: now)
+        let days = balance(entries, in: DateInterval(start: start, end: max(start, now)), target: target, now: now)
+        var off = 0.0, ahead = 0.0
+        for (key, seconds) in target.booked {
+            guard let d = Date(dayKey: key), d >= start else { continue }
+            off += seconds
+            if d > today { ahead += seconds }
+        }
+        let all = start <= cal.startOfDay(for: target.since)
+        let brought = carried.filter { c in all || Date(dayKey: c.date).map { $0 >= start } == true }.map { $0.hours * 3600 }.reduce(0, +)
+        return HoursBank(balance: days.balance - off + brought, worked: days.worked, bookedAhead: ahead)
     }
 
     /// Worked time over the days in `interval`, and their balance against what each day owes.
@@ -264,6 +350,11 @@ final class Store {
     func binding(for entry: Entry) -> Binding<Entry> {
         Binding(get: { self.entries.first { $0.id == entry.id } ?? entry },
                 set: { new in if let i = self.entries.firstIndex(where: { $0.id == entry.id }) { self.entries[i] = new } })
+    }
+
+    func binding(for objective: Objective) -> Binding<Objective> {
+        Binding(get: { self.objectives.first { $0.id == objective.id } ?? objective },
+                set: { new in if let i = self.objectives.firstIndex(where: { $0.id == objective.id }) { self.objectives[i] = new } })
     }
 
     func delete(_ id: Entry.ID) {

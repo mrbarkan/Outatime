@@ -29,7 +29,6 @@ struct MenuPanel: View {
                 Grid(horizontalSpacing: 10, verticalSpacing: 10) {
                     GridRow { ActivityButton(.work); ActivityButton(.break) }
                     GridRow { ActivityButton(.lunch); ActivityButton(.extra) }
-                    GridRow { ActivityButton(.travel); ActivityButton(.outOfOffice) }
                 }
             }
 
@@ -52,6 +51,11 @@ struct MenuPanel: View {
                     }
                     Spacer()
                     Text(store.runningSince ?? running.start, style: .timer).monospacedDigit().foregroundStyle(.secondary)
+                    // Travel and Out of Office are logged now; one still running from before has no tile to stop it.
+                    if running.activity == .travel || running.activity == .outOfOffice {
+                        Button("Stop", systemImage: "stop.circle", action: store.stop)
+                            .labelStyle(.iconOnly).buttonStyle(.borderless).help("Stop")
+                    }
                 } else {
                     Image(systemName: "clock").foregroundStyle(.secondary)
                     Text("Not tracking").foregroundStyle(.secondary)
@@ -79,7 +83,7 @@ struct MenuPanel: View {
         let week = store.balance(cal.dateInterval(of: .weekOfYear, for: .now)!, target)
         let month = store.balance(cal.dateInterval(of: .month, for: .now)!, target)
         let since = bankSince > 0 ? Date(timeIntervalSinceReferenceDate: bankSince) : target.since
-        let bank = store.balance(DateInterval(start: cal.startOfDay(for: since), end: .now), target)
+        let bank = store.bank(target, since: since)
         return VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 12) {
                 ForEach(Activity.allCases.filter { $0 == .work || t[$0, default: 0] > 0 }) { a in
@@ -96,8 +100,9 @@ struct MenuPanel: View {
                 row("Today", worked: worked, balance: worked - target.owed(on: .now), shortfall: .secondary)
                 row("This Week", worked: week.worked, balance: week.balance, shortfall: .red)
                 row("This Month", worked: month.worked, balance: month.balance, shortfall: .red)
-                row("Since \(since, format: .dateTime.day().month(.abbreviated))", worked: bank.worked, balance: bank.balance, shortfall: .red)
-                let stats = Stats(store.entries, target: target, bankSince: since)
+                row("Since \(since, format: .dateTime.day().month(.abbreviated))", worked: bank.worked, balance: bank.balance,
+                    shortfall: .red) { store.editingBank = true; showLogbook() }
+                let stats = Stats(store.entries, target: target, bankSince: since, carried: store.carried)
                 if stats.weekGoal > 0 {
                     GridRow {
                         Text("Left this week").foregroundStyle(.secondary).gridColumnAlignment(.leading)
@@ -119,9 +124,14 @@ struct MenuPanel: View {
         }
     }
 
-    private func row(_ label: LocalizedStringKey, worked: TimeInterval, balance: TimeInterval, shortfall: Color) -> some View {
+    /// With `action`, the label is a button: the bank row opens the Hours Bank.
+    private func row(_ label: LocalizedStringKey, worked: TimeInterval, balance: TimeInterval, shortfall: Color,
+                     action: (() -> Void)? = nil) -> some View {
         GridRow {
-            Text(label).foregroundStyle(.secondary).gridColumnAlignment(.leading)
+            Group {
+                if let action { Button(action: action) { Text(label) }.buttonStyle(.plain).help("Hours Bank") } else { Text(label) }
+            }
+            .foregroundStyle(.secondary).gridColumnAlignment(.leading)
             Spacer()
             Text(worked.hm)
             Text((balance >= 0 ? "+" : "−") + abs(balance).hm).foregroundStyle(balance >= 0 ? .green : shortfall)
@@ -154,6 +164,15 @@ struct MenuPanel: View {
                 Button("This Month — Entries…") {
                     save(Data(store.entriesCSV(month).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " entries.csv"))
                 }
+            }
+            Menu("Log", systemImage: "square.and.pencil") {
+                ForEach(LogKind.allCases) { k in
+                    Button(k.label, systemImage: k.symbol) { dismiss(); show(window: "log", value: k.rawValue, openWindow) }
+                }
+            }
+            MenuObjective {
+                store.editingObjectives = true
+                showLogbook()
             }
             Spacer()
             Menu {

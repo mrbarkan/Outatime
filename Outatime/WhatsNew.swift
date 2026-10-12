@@ -18,6 +18,12 @@ enum WhatsNew {
 
     /// Newest first.
     static let releases = [
+        Release(version: "1.3", new: [
+            Item(symbol: "flag.pattern.checkered", color: .indigo, title: "Objectives",
+                 detail: "Set goals under Objectives in the Logbook: days off to bank for a vacation, or a client's package of hours or pay. The menu counts one down next to Export."),
+            Item(symbol: "building.columns", color: .green, title: "Hours Bank",
+                 detail: "Log time off, holidays and overtime carried over in the Logbook's Hours Bank. Travel and Out of Office are logged by the day instead of timed in the menu. Older versions drop time off and carried hours when they save."),
+        ]),
         Release(version: "1.2.3", new: [
             Item(symbol: "info.circle", color: .gray, title: "About Outatime",
                  detail: "See your version and build, and write to support with them already filled in. Open it from the ••• menu."),
