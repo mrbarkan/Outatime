@@ -84,8 +84,7 @@ private struct ObjectiveContext: DynamicProperty {
     func progress(_ o: Objective) -> Objective.Progress {
         let target = store.target(hours: targetHours, excluded: excluded)
         let since = bankSince > 0 ? Date(timeIntervalSinceReferenceDate: bankSince) : target.since
-        let bank = o.kind == .daysOff
-            ? store.balance(DateInterval(start: Calendar.current.startOfDay(for: since), end: .now), target).balance : 0
+        let bank = o.kind == .daysOff ? store.bank(target, since: since).balance : 0
         return o.progress(store.entries, bank: bank, dayTarget: target.seconds)
     }
 
