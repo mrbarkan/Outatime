@@ -181,6 +181,54 @@ final class Store {
         if currentProfile == id { currentProfile = nil }
     }
 
+    // MARK: Hours bank
+
+    /// Days off as runs of consecutive days, newest first: how the Hours Bank lists holidays.
+    var holidays: [ClosedRange<Date>] {
+        let cal = Calendar.current
+        var runs: [ClosedRange<Date>] = []
+        for d in daysOff.compactMap({ Date(dayKey: $0) }).sorted() {
+            if let last = runs.last, cal.date(byAdding: .day, value: 1, to: last.upperBound) == d {
+                runs[runs.count - 1] = last.lowerBound...d
+            } else {
+                runs.append(d...d)
+            }
+        }
+        return runs.reversed()
+    }
+
+    /// Marks `from`…`to` as holidays, in place of `old` when one is being edited.
+    func setHoliday(from: Date, to: Date, replacing old: ClosedRange<Date>? = nil) {
+        var days = daysOff
+        if let old { days.subtract(Date.days(from: old.lowerBound.dayKey, to: old.upperBound.dayKey).map(\.dayKey)) }
+        days.formUnion(Date.days(from: from.dayKey, to: to.dayKey).map(\.dayKey))
+        daysOff = days
+    }
+
+    func removeHoliday(_ run: ClosedRange<Date>) {
+        daysOff.subtract(Date.days(from: run.lowerBound.dayKey, to: run.upperBound.dayKey).map(\.dayKey))
+    }
+
+    /// Travel or Out of Office logged rather than timed: a block on each workday from `from` to `to` that isn't taken
+    /// off in full, after the day's last block, or else at the usual start (minutes after midnight; 9:00 without one),
+    /// `hours` long and cut at midnight. Only Travel keeps the client.
+    func log(_ activity: Activity, from: Date, to: Date, hours: Double, profile: Profile.ID?, target: Target, usualStart: Int?,
+             now: Date = .now) {
+        let cal = Calendar.current
+        let minute = usualStart ?? 9 * 60
+        var added: [Entry] = []
+        for d in Date.days(from: from.dayKey, to: to.dayKey) where target.isWorkday(d) {
+            if target.seconds > 0, (target.booked[d.dayKey] ?? 0) >= target.seconds { continue }
+            let midnight = cal.date(byAdding: .day, value: 1, to: d)!
+            let start = entries(on: d).map { $0.end ?? now }.max()
+                ?? cal.date(bySettingHour: minute / 60, minute: minute % 60, second: 0, of: d)!
+            let end = min(start + hours * 3600, midnight)
+            guard start < end else { continue }
+            added.append(Entry(activity: activity, start: start, end: end, profile: activity.billable ? profile : nil))
+        }
+        entries += added  // one save
+    }
+
     // MARK: Exports
 
     func monthReport(_ month: Date, target: Target, now: Date = .now) -> Data {

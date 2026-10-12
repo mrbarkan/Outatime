@@ -196,6 +196,44 @@ nonisolated struct OutatimeTests {
         #expect(json.components(separatedBy: "\"hours\"").count == 3)  // the full-day record leaves hours out
     }
 
+    @Test @MainActor func holidaysGroupIntoRanges() {
+        let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        let store = Store(url: url)
+        store.daysOff = ["2026-09-07"]
+        store.setHoliday(from: d(24), to: d(26))
+        #expect(store.holidays == [d(24)...d(26), d(7)...d(7)])
+        store.setHoliday(from: d(24), to: d(25), replacing: d(24)...d(26))
+        #expect(store.daysOff == ["2026-09-07", "2026-09-24", "2026-09-25"])
+        store.removeHoliday(d(7)...d(7))
+        #expect(store.daysOff == ["2026-09-24", "2026-09-25"])
+    }
+
+    /// Thu 3 – Wed 9 Sep: Thu has a block until 11:00, Mon 7 is a holiday, Tue 8 a full day off.
+    @Test @MainActor func loggingTravelFillsWorkdays() throws {
+        let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        let store = Store(url: url)
+        let acme = try #require(store.addProfile("Acme"))
+        store.entries = [Entry(activity: .work, start: at(9), end: at(11))]
+        store.daysOff = ["2026-09-07"]
+        store.timeOff = [TimeOff(start: "2026-09-08", end: "2026-09-08")]
+        let target = store.target(hours: 8, excluded: Activity.defaultExcluded)
+        store.log(.travel, from: day, to: d(9), hours: 6, profile: acme, target: target, usualStart: 8 * 60 + 30)
+        let travel = store.entries.filter { $0.activity == .travel }.sorted { $0.start < $1.start }
+        #expect(travel.map(\.start.dayKey) == ["2026-09-03", "2026-09-04", "2026-09-09"])
+        #expect(travel[0].start == at(11) && travel[0].duration == 6 * 3600)  // after the day's last block
+        #expect(travel[1].start == d(4) + 8.5 * 3600)  // usual start on an empty day
+        #expect(travel.allSatisfy { $0.profile == acme })
+        // Out of Office never has a client; a block that would run past midnight stops there.
+        store.log(.outOfOffice, from: d(10), to: d(10), hours: 8, profile: acme, target: target, usualStart: 20 * 60)
+        let ooo = try #require(store.entries.first { $0.activity == .outOfOffice })
+        #expect(ooo.profile == nil && ooo.duration == 4 * 3600)
+        // No usual start yet: 9:00.
+        store.log(.outOfOffice, from: d(11), to: d(11), hours: 1, profile: nil, target: target, usualStart: nil)
+        #expect(store.entries.contains { $0.activity == .outOfOffice && $0.start == d(11) + 9 * 3600 })
+    }
+
     @Test @MainActor func timerRollsOverAtMidnight() {
         let store = Store(url: FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json"))
         store.entries = [Entry(activity: .work, start: at(17))]
