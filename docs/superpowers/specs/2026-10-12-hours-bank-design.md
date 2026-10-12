@@ -20,23 +20,24 @@ optionals left out, keys sorted).
 
 ## What a day owes
 
-- `Target` gains `timeOff: [dayKey: seconds]`, built by the Store from `timeOff` and the target.
+- `Target` gains `booked: [dayKey: seconds]`, filled by `book(_ timeOff:)` from the records and the target.
 - A workday's cost is `min(hours ?? target, target)`; weekends, holidays and days before tracking began cost 0.
-- `scheduled(day) = max(0, target − timeOff[day])`. A full day off owes nothing (neutral, not red); 4h off on an 8h
+- `scheduled(day) = max(0, target − booked[day])`. A full day off owes nothing (neutral, not red); 4h off on an 8h
   day owes 4h. `owed` and `balance` build on `scheduled` as today, so day, week and month balances and exports
   follow automatically. Those balances measure worked against owed; they never show the withdrawal.
 
 ## The bank
 
-One function, `Store.bank(since:target:now:)`, read by the menu's "Since …" row, Stats (Days off banked, To next day
+One function, `Store.bank(_ target:, since:, now:)` returning `HoursBank { balance, worked, bookedAhead }`,, read by the menu's "Since …" row, Stats (Days off banked, To next day
 off), the Vacation objective and the Hours Bank sheet:
 
     bank = Σ day balances from `since` to now
          − Σ time-off cost on workdays ≥ `since`   (future ones too: booked time off is spent at once)
-         + Σ carried with date ≥ `since`
+         + Σ carried with date ≥ `since`             (all of them while the bank starts when tracking began)
 
-`since` is Settings → Target → "Hours bank since" as today. It also returns **booked ahead**: the time-off cost on days
-after today. Moving "Hours bank since" later drops older records along with older days.
+`since` is Settings → Target → "Hours bank since" as today. Carried hours are usually dated before tracking began (that's
+the point of them), so they're only filtered once "Hours bank since" is moved past the start of tracking; then older
+records drop out along with older days. The bank also reports **booked ahead**: the time-off cost on days after today.
 
 ## Logging Travel and Out of Office
 
@@ -96,8 +97,8 @@ logging Work/Break/Lunch/Extra as ranges.
 Swift Testing and xUnit, the same cases on both:
 - `scheduled`/`owed` with full and partial time off; weekends and holidays in a range cost nothing; hours above the
   target are capped.
-- `bank`: carried added, time off subtracted including future days, records before `since` ignored, booked-ahead
-  figure.
+- `bank`: carried added (all of them while the bank starts with tracking; only those from `since` on once it's moved
+  later), time off subtracted including future days, booked-ahead figure.
 - `log`: skips weekends, holidays and full days off; starts after the last block / at usual start / at 9:00; Travel
   carries the client; cut at midnight.
 - Data file: old files load with empty lists; round-trip; the shared Mac fixture gains `timeOff` and `carried` and
