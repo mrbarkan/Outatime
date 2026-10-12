@@ -27,8 +27,8 @@ nonisolated struct OutatimeTests {
         let csv = CSV.daily(entries, month: day, target: Target(seconds: 8 * 3600, since: day), now: at(22))
         let lines = csv.split(separator: "\n")
         #expect(lines.count == 3)
-        #expect(lines[1] == "2026-09-03,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,\"a, \"\"b\"\"\"")
-        #expect(lines[2] == "Total,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,")
+        #expect(lines[1] == "2026-09-03,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,\"a, \"\"b\"\"\",0.00")
+        #expect(lines[2] == "Total,8.00,0.00,0.00,1.50,0.00,0.00,+1.50,,0.00")
     }
 
     /// A slash in an export name (the en_BR month "09/2026") lands on disk as a colon and Excel can't open the file.
@@ -44,9 +44,9 @@ nonisolated struct OutatimeTests {
         let data = Report.month(entries, month: day, target: Target(seconds: 8 * 3600, since: day), now: at(22))
         #expect(data.prefix(4) == Data([0x50, 0x4B, 0x03, 0x04]))
         let text = String(decoding: data, as: UTF8.self)
-        #expect(text.contains(#"<c r="J2" s="5"><v>1.0</v></c>"#))  // balance: 9h worked, 8h owed
+        #expect(text.contains(#"<c r="K2" s="5"><v>1.0</v></c>"#))  // balance: 9h worked, 8h owed
         #expect(text.contains(#"<f>SUBTOTAL(109,tblDays[Balance])</f><v>1.0</v>"#))
-        #expect(text.contains(#"name="tblDays" displayName="tblDays" ref="A1:K3" totalsRowCount="1""#))
+        #expect(text.contains(#"name="tblDays" displayName="tblDays" ref="A1:L3" totalsRowCount="1""#))
         #expect(text.contains("R&amp;D &lt;q&gt;"))
         #expect(text.contains(">Out of Office<"))
         #expect(!text.contains("Dashboard"))
@@ -59,10 +59,27 @@ nonisolated struct OutatimeTests {
         let data = Report.master(entries, target: Target(seconds: 8 * 3600, since: start), now: at(22))
         let text = String(decoding: data, as: UTF8.self)
         #expect(text.contains(#"<sheet name="Dashboard" sheetId="1""#))
-        #expect(text.contains(#"name="tblDays" displayName="tblDays" ref="A1:K3" totalsRowShown="0""#))
-        #expect(text.contains("<f>SUM(tblDays[Balance])</f><v>-7.0</v>"))  // +1 today, -8 yesterday
+        #expect(text.contains(#"name="tblDays" displayName="tblDays" ref="A1:L3" totalsRowShown="0""#))
+        #expect(text.contains("<f>SUM(tblDays[Balance])+SUM(tblBank[Hours])</f><v>-7.0</v>"))  // +1 today, -8 yesterday
         #expect(text.contains(#"<f>COUNTIF(tblDays[Worked],&quot;&gt;0&quot;)</f><v>1.0</v>"#))
         #expect(text.contains("<c:f>Dashboard!$C$38:"))
+    }
+
+    /// Thu 3 +1h, Fri 4 off (today, 20:00), 32h carried in: the workbook's bank is the app's.
+    @Test func masterWorkbookCountsTheBank() {
+        let off = [TimeOff(start: "2026-09-04", end: "2026-09-04", note: "Dentist")]
+        var target = Target(seconds: 8 * 3600, since: day)
+        target.book(off)
+        let entries = [Entry(activity: .work, start: at(9), end: at(18))]
+        let carried = [Carried(date: "2026-08-31", hours: 32, note: "Jan–Aug")]
+        let now = d(4) + 20 * 3600
+        let text = String(decoding: Report.master(entries, target: target, timeOff: off, carried: carried, now: now), as: UTF8.self)
+        #expect(text.contains("<f>SUM(tblDays[Balance])+SUM(tblBank[Hours])</f><v>25.0</v>"))
+        #expect(text.contains(#"name="tblBank""#) && text.contains(">Dentist<") && text.contains(">Carried<"))
+        #expect(Store.bank(entries, carried: carried, target: target, since: day, now: now).balance == 25 * 3600)
+        // A day off with nothing logged still gets a Summary row, with its Time Off.
+        let month = String(decoding: Report.month(entries, month: day, target: target, now: now), as: UTF8.self)
+        #expect(month.contains(#"ref="A1:L4""#))
     }
 
     /// The store must read back what it wrote, or every relaunch silently starts empty and overwrites the file.

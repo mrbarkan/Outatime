@@ -236,7 +236,7 @@ final class Store {
     }
 
     func masterWorkbook(target: Target, now: Date = .now) -> Data {
-        Report.master(entries, target: target, names: profileNames, now: now)
+        Report.master(entries, target: target, names: profileNames, timeOff: timeOff, carried: carried, now: now)
     }
 
     func entriesCSV(_ month: Date) -> String { CSV.entries(entries(inMonth: month), names: profileNames) }

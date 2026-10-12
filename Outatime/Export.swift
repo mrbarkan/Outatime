@@ -1,23 +1,25 @@
 import AppKit
 import UniformTypeIdentifiers
 
-/// One row of a report: a day with entries or owed hours. Summed, the balances match the app's balances.
+/// One row of a report: a day with entries, owed hours or time off. Summed, the balances match the app's balances.
 nonisolated struct DaySummary {
     var date: Date
     var hours: [Activity: TimeInterval]
     /// The hours that count toward the target, and what the day owed.
     var worked, owed, balance: TimeInterval
+    /// Taken off from the hours bank.
+    var timeOff: TimeInterval
     var notes: String
 
     static func days(_ dates: [Date], _ entries: [Entry], target: Target, now: Date = .now) -> [DaySummary] {
         let byDay = Dictionary(grouping: entries) { Calendar.current.startOfDay(for: $0.start) }
         return dates.compactMap { date in
             let es = byDay[date] ?? []
-            let owed = target.owed(on: date, now: now)
-            guard !es.isEmpty || owed > 0 else { return nil }
+            let owed = target.owed(on: date, now: now), off = target.booked[date.dayKey] ?? 0
+            guard !es.isEmpty || owed > 0 || off > 0 else { return nil }
             let t = Store.totals(es), worked = t.worked(excluding: target.excluded)
             return DaySummary(date: date, hours: t, worked: worked, owed: owed, balance: target.balance(worked: worked, on: date, now: now),
-                              notes: es.flatMap(\.notes).joined(separator: "; "))
+                              timeOff: off, notes: es.flatMap(\.notes).joined(separator: "; "))
         }
     }
 }
@@ -48,15 +50,18 @@ nonisolated enum CSV {
         return lines.joined(separator: "\n") + "\n"
     }
 
-    /// Every day of `month` that has entries or owes hours, then a total row that matches the app's month balance.
+    /// Every day of `month` that has entries, owes hours or has time off, then a total row that matches the app's month
+    /// balance. Time Off last, so existing columns keep their places.
     static func daily(_ entries: [Entry], month: Date, target: Target, now: Date = .now) -> String {
         let days = DaySummary.days(month.daysInMonth, entries, target: target, now: now)
-        var lines = [row(["Date"] + Activity.allCases.map(\.title) + ["Balance", "Notes"])]
+        var lines = [row(["Date"] + Activity.allCases.map(\.title) + ["Balance", "Notes", "Time Off"])]
         for d in days {
-            lines.append(row([d.date.dayKey] + Activity.allCases.map { hours(d.hours[$0, default: 0]) } + [signed(d.balance), d.notes]))
+            lines.append(row([d.date.dayKey] + Activity.allCases.map { hours(d.hours[$0, default: 0]) }
+                             + [signed(d.balance), d.notes, hours(d.timeOff)]))
         }
         let sum = { (f: (DaySummary) -> TimeInterval) in days.map(f).reduce(0, +) }
-        lines.append(row(["Total"] + Activity.allCases.map { a in hours(sum { $0.hours[a, default: 0] }) } + [signed(sum(\.balance)), ""]))
+        lines.append(row(["Total"] + Activity.allCases.map { a in hours(sum { $0.hours[a, default: 0] }) }
+                         + [signed(sum(\.balance)), "", hours(sum(\.timeOff))]))
         return lines.joined(separator: "\n") + "\n"
     }
 }
@@ -107,19 +112,37 @@ nonisolated enum Report {
     }
 
     /// Everything since tracking began, opening on a dashboard.
-    static func master(_ entries: [Entry], target: Target, names: [Profile.ID: String] = [:], now: Date = .now) -> Data {
+    static func master(_ entries: [Entry], target: Target, names: [Profile.ID: String] = [:], timeOff: [TimeOff] = [],
+                       carried: [Carried] = [], now: Date = .now) -> Data {
         let cal = Calendar.current
         let dates = sequence(first: cal.startOfDay(for: target.since)) { cal.date(byAdding: .day, value: 1, to: $0) }.prefix { $0 <= now }
         let days = DaySummary.days(Array(dates), entries, target: target, now: now)
-        return XLSX.workbook([dashboard(days, target: target, now: now), summary(days, totals: false),
-                              list(entries.sorted { $0.start < $1.start }, names: names)])
+        let bank = Self.bank(target, timeOff: timeOff, carried: carried)
+        return XLSX.workbook([dashboard(days, bank: bank.total, target: target, now: now), summary(days, totals: false),
+                              list(entries.sorted { $0.start < $1.start }, names: names), bank.sheet])
+    }
+
+    /// Carried hours and each day taken off, signed as they move the bank. The dashboard's bank card adds them to the
+    /// day balances.
+    private static func bank(_ target: Target, timeOff: [TimeOff], carried: [Carried]) -> (sheet: XLSX.Sheet, total: Double) {
+        let note = { (key: String) in timeOff.first { $0.start <= key && key <= $0.end }?.note ?? "" }
+        let rows = (carried.map { (date: $0.date, kind: "Carried", hours: $0.hours, note: $0.note) }
+            + target.booked.map { (date: $0.key, kind: "Time Off", hours: -$0.value / 3600, note: note($0.key)) })
+            .sorted { $0.date < $1.date }
+        let cells = rows.map { r -> [Cell] in
+            [Date(dayKey: r.date).map { .number(XLSX.serial($0), .date) } ?? .text(r.date), .text(r.kind), .number(r.hours, .balance), .text(r.note)]
+        }
+        return (XLSX.tableSheet("Hours Bank", table: "tblBank", columns: ["Date", "Kind", "Hours", "Note"], rows: cells, widths: [16, 12, 10, 40]),
+                rows.map(\.hours).reduce(0, +))
     }
 
     private typealias Column = (title: String, value: (DaySummary) -> Double)
 
+    /// Balance stays last: `summary` styles the last column as a balance.
     private static var values: [Column] {
         let activities = Activity.allCases.map { a -> Column in (a.title, { $0.hours[a, default: 0] / 3600 }) }
-        let totals: [Column] = [("Worked", { $0.worked / 3600 }), ("Target", { $0.owed / 3600 }), ("Balance", { $0.balance / 3600 })]
+        let totals: [Column] = [("Worked", { $0.worked / 3600 }), ("Target", { $0.owed / 3600 }), ("Time Off", { $0.timeOff / 3600 }),
+                                ("Balance", { $0.balance / 3600 })]
         return activities + totals
     }
 
@@ -146,7 +169,7 @@ nonisolated enum Report {
     }
 
     /// Cards, a worked-vs-target chart, an activity breakdown and a month table, all formulas over `tblDays`.
-    private static func dashboard(_ days: [DaySummary], target: Target, now: Date) -> XLSX.Sheet {
+    private static func dashboard(_ days: [DaySummary], bank: Double, target: Target, now: Date) -> XLSX.Sheet {
         var s = XLSX.Sheet(name: "Dashboard", widths: [3] + Array(repeating: 13, count: 8), gridlines: false)
         let col = XLSX.column
         let sum = { (f: (DaySummary) -> TimeInterval, ds: [DaySummary]) in ds.map(f).reduce(0, +) / 3600 }
@@ -159,7 +182,8 @@ nonisolated enum Report {
         // Four cards in rows 5–7, each two merged columns wide.
         let cards: [(label: String, value: Cell, caption: String)] = [
             ("HOURS WORKED", .formula("SUM(tblDays[Worked])", cached: worked, .cardHours), "toward the target"),
-            ("HOURS BANK", .formula("SUM(tblDays[Balance])", cached: sum(\.balance, days), .cardBank), "worked minus target"),
+            ("HOURS BANK", .formula("SUM(tblDays[Balance])+SUM(tblBank[Hours])", cached: sum(\.balance, days) + bank, .cardBank),
+             "worked minus target, plus carried, less time off"),
             ("DAYS WORKED", .formula(#"COUNTIF(tblDays[Worked],">0")"#, cached: daysWorked, .cardDays), "with time logged"),
             ("AVERAGE DAY", .formula("IFERROR(B6/F6,0)", cached: daysWorked > 0 ? worked / daysWorked : 0, .cardHours), "per day worked"),
         ]
