@@ -1,6 +1,6 @@
 namespace Outatime;
 
-/// Entries, templates, days off, clients and objectives, saved to data.json on every change. Mutate through the
+/// Entries, templates, days off, clients, objectives, time off and carried hours, saved to data.json on every change. Mutate through the
 /// methods below, or assign a whole list; code that edits a list in place calls Commit() after.
 public sealed class Store
 {
@@ -10,6 +10,8 @@ public sealed class Store
     List<Profile> profiles = [];
     Guid? currentProfile;
     List<Objective> objectives = [];
+    List<TimeOff> timeOff = [];
+    List<Carried> carried = [];
     DateTimeOffset? tomatoSince;
 
     public List<Entry> Entries { get => entries; set { entries = value; Commit(); } }
@@ -19,6 +21,8 @@ public sealed class Store
     /// The client picked in the panel; new billable blocks get it.
     public Guid? CurrentProfile { get => currentProfile; set { currentProfile = value; Commit(); } }
     public List<Objective> Objectives { get => objectives; set { objectives = value; Commit(); } }
+    public List<TimeOff> TimeOff { get => timeOff; set { timeOff = value; Commit(); } }
+    public List<Carried> Carried { get => carried; set { carried = value; Commit(); } }
     /// When the tomato timer was turned on; null while it's off. Not saved: quitting turns it off.
     public DateTimeOffset? TomatoSince { get => tomatoSince; set { tomatoSince = value; Changed?.Invoke(); } }
     /// A block added in the Logbook opens its editor once it appears.
@@ -64,10 +68,10 @@ public sealed class Store
     void Load(DataFile.Contents c)
     {
         entries = c.Entries; templates = c.Templates; daysOff = c.DaysOff; profiles = c.Profiles;
-        currentProfile = c.Current; objectives = c.Objectives;
+        currentProfile = c.Current; objectives = c.Objectives; timeOff = c.TimeOff ?? []; carried = c.Carried ?? [];
     }
 
-    public DataFile.Contents Contents => new(entries, templates, daysOff, profiles, currentProfile, objectives);
+    public DataFile.Contents Contents => new(entries, templates, daysOff, profiles, currentProfile, objectives, timeOff, carried);
 
     public void Commit()
     {
@@ -293,7 +297,7 @@ public sealed class Store
         entries.GroupBy(e => e.Activity).ToDictionary(g => g.Key, g => g.Sum(e => e.Duration));
 
     public Target Target(double hours, string excluded) =>
-        new(hours * 3600, entries.Count > 0 ? entries.Min(e => e.Start) : Clock.Now, excluded, daysOff);
+        new Target(hours * 3600, entries.Count > 0 ? entries.Min(e => e.Start) : Clock.Now, excluded, daysOff).Book(timeOff);
 
     public (double Worked, double Balance) Balance(Interval interval, Target target, DateTimeOffset? now = null) =>
         BalanceOf(entries, interval, target, now);
@@ -312,6 +316,29 @@ public sealed class Store
             balance += target.Balance(w, d, n);
         }
         return (worked, balance);
+    }
+
+    public HoursBank Bank(Target target, DateTimeOffset since, DateTimeOffset? now = null) => BankOf(entries, carried, target, since, now);
+
+    /// The day balances since `since`, less the time off booked from then on (days ahead too: booked is spent), plus the
+    /// hours carried in. Carried hours are usually dated before tracking began, so they only drop out once the bank is
+    /// made to start later than that.
+    public static HoursBank BankOf(IEnumerable<Entry> entries, IEnumerable<Carried> carried, Target target, DateTimeOffset since, DateTimeOffset? now = null)
+    {
+        var n = now ?? Clock.Now;
+        var start = Cal.StartOfDay(since);
+        var today = Cal.StartOfDay(n);
+        var days = BalanceOf(entries, new Interval(start, n > start ? n : start), target, n);
+        double off = 0, ahead = 0;
+        foreach (var (key, seconds) in target.Booked ?? new Dictionary<string, double>())
+        {
+            if (Cal.FromKey(key) is not { } d || d < start) continue;
+            off += seconds;
+            if (d > today) ahead += seconds;
+        }
+        var all = start <= Cal.StartOfDay(target.Since);
+        var brought = carried.Where(c => all || Cal.FromKey(c.Date) >= start).Sum(c => c.Hours * 3600);
+        return new(days.Balance - off + brought, days.Worked, ahead);
     }
 
     // MARK: Editing
@@ -399,6 +426,75 @@ public sealed class Store
     {
         entries.RemoveAll(e => Cal.SameDay(e.Start, day) && !e.IsRunning);
         entries.AddRange(template.EntriesOn(day));
+        Commit();
+    }
+
+    // MARK: Hours bank
+
+    /// Days off as runs of consecutive days, newest first: how the Hours Bank lists holidays.
+    public List<(DateTimeOffset Start, DateTimeOffset End)> Holidays()
+    {
+        var runs = new List<(DateTimeOffset Start, DateTimeOffset End)>();
+        foreach (var d in daysOff.Select(Cal.FromKey).OfType<DateTimeOffset>().Order())
+        {
+            if (runs.Count > 0 && Cal.AddDays(runs[^1].End, 1) == d) runs[^1] = (runs[^1].Start, d);
+            else runs.Add((d, d));
+        }
+        runs.Reverse();
+        return runs;
+    }
+
+    /// Marks `from`…`to` as holidays, in place of `replacing` when one is being edited.
+    public void SetHoliday(DateTimeOffset from, DateTimeOffset to, (DateTimeOffset Start, DateTimeOffset End)? replacing = null)
+    {
+        if (replacing is { } old) daysOff.ExceptWith(Cal.DaysBetween(old.Start.DayKey(), old.End.DayKey()).Select(d => d.DayKey()));
+        daysOff.UnionWith(Cal.DaysBetween(from.DayKey(), to.DayKey()).Select(d => d.DayKey()));
+        Commit();
+    }
+
+    public void RemoveHoliday((DateTimeOffset Start, DateTimeOffset End) run)
+    {
+        daysOff.ExceptWith(Cal.DaysBetween(run.Start.DayKey(), run.End.DayKey()).Select(d => d.DayKey()));
+        Commit();
+    }
+
+    public void Upsert(TimeOff record)
+    {
+        var i = timeOff.FindIndex(t => t.Id == record.Id);
+        if (i >= 0) timeOff[i] = record; else timeOff.Add(record);
+        Commit();
+    }
+
+    public void Upsert(Carried record)
+    {
+        var i = carried.FindIndex(c => c.Id == record.Id);
+        if (i >= 0) carried[i] = record; else carried.Add(record);
+        Commit();
+    }
+
+    public void DeleteTimeOff(Guid id) { timeOff.RemoveAll(t => t.Id == id); Commit(); }
+    public void DeleteCarried(Guid id) { carried.RemoveAll(c => c.Id == id); Commit(); }
+
+    /// Travel or Out of Office logged rather than timed: a block on each workday from `from` to `to` that isn't taken
+    /// off in full, after the day's last block, or else at the usual start (minutes after midnight; 9:00 without one),
+    /// `hours` long and cut at midnight. Only Travel keeps the client.
+    public void Log(Activity activity, DateTimeOffset from, DateTimeOffset to, double hours, Guid? profile, Target target, int? usualStart,
+                    DateTimeOffset? now = null)
+    {
+        var n = now ?? Clock.Now;
+        var minute = usualStart ?? 9 * 60;
+        var added = new List<Entry>();
+        foreach (var d in Cal.DaysBetween(from.DayKey(), to.DayKey()).Where(target.IsWorkday))
+        {
+            if (target.Seconds > 0 && (target.Booked?.GetValueOrDefault(d.DayKey()) ?? 0) >= target.Seconds) continue;
+            var day = EntriesOn(d);
+            var start = day.Count > 0 ? day.Max(e => e.End ?? n) : Cal.Setting(d, minute / 60, minute % 60);
+            var midnight = Cal.AddDays(d, 1);
+            var end = start.Plus(hours * 3600);
+            if (end > midnight) end = midnight;
+            if (start < end) added.Add(new Entry(activity, start, end, profile: activity.Billable() ? profile : null));
+        }
+        entries.AddRange(added);  // one save
         Commit();
     }
 

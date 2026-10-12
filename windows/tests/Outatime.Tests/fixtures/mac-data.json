@@ -1,4 +1,12 @@
 {
+  "carried" : [
+    {
+      "date" : "2026-08-31",
+      "hours" : 32,
+      "id" : "5D0B6A1C-2E3F-4A5B-8C7D-9E0F1A2B3C4D",
+      "note" : "Jan–Aug"
+    }
+  ],
   "current" : "6B1E5C1A-3F1D-4C2B-9E60-2E8F7E0C9A11",
   "daysOff" : [
     "2026-09-07"
@@ -80,6 +88,21 @@
           "startMinute" : 720
         }
       ]
+    }
+  ],
+  "timeOff" : [
+    {
+      "end" : "2026-09-11",
+      "id" : "7A1B2C3D-4E5F-4061-8273-94A5B6C7D8E9",
+      "note" : "",
+      "start" : "2026-09-10"
+    },
+    {
+      "end" : "2026-09-04",
+      "hours" : 4,
+      "id" : "8B2C3D4E-5F60-4172-8384-A5B6C7D8E9FA",
+      "note" : "Dentist",
+      "start" : "2026-09-04"
     }
   ]
 }

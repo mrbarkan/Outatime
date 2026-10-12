@@ -88,6 +88,19 @@ public static class Cal
         return days;
     }
 
+    /// The day a day key names, at local midnight; null for a malformed key.
+    public static DateTimeOffset? FromKey(string key) =>
+        DateTime.TryParseExact(key, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var d) ? At(d) : null;
+
+    /// Every day from one key to the other, both included; none when either is malformed or they're reversed.
+    public static List<DateTimeOffset> DaysBetween(string start, string end)
+    {
+        var days = new List<DateTimeOffset>();
+        if (FromKey(start) is { } a && FromKey(end) is { } b)
+            for (var d = a; d <= b; d = AddDays(d, 1)) days.Add(d);
+        return days;
+    }
+
     public static int WeekOfYear(DateTimeOffset d) =>
         CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(Date(d), CultureInfo.CurrentCulture.DateTimeFormat.CalendarWeekRule, FirstDay);
 

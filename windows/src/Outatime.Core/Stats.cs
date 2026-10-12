@@ -24,7 +24,7 @@ public sealed class Stats
     /// What's still to bank for the next day off.
     public double ToDayOff => DayTarget > 0 ? DayTarget - (Bank - DaysOffBanked * DayTarget) : 0;
 
-    public Stats(IReadOnlyList<Entry> entries, Target target, DateTimeOffset bankSince, DateTimeOffset? now = null)
+    public Stats(IReadOnlyList<Entry> entries, Target target, DateTimeOffset bankSince, DateTimeOffset? now = null, IEnumerable<Carried>? carried = null)
     {
         var n = now ?? Clock.Now;
         var byDay = entries.GroupBy(e => Cal.StartOfDay(e.Start)).ToDictionary(g => g.Key, g => g.OrderBy(e => e.Start).ToList());
@@ -36,7 +36,7 @@ public sealed class Stats
         WeekWorked = Sum(week);
         WeekGoal = Cal.Days(week).Sum(target.Scheduled);
         DayTarget = target.Seconds;
-        Bank = Store.BalanceOf(entries, new Interval(Cal.StartOfDay(bankSince), n), target, n).Balance;
+        Bank = Store.BankOf(entries, carried ?? [], target, bankSince, n).Balance;
 
         // Complete periods only: from the first one that starts on or after tracking began, to the one before now.
         double? Average(Func<DateTimeOffset, Interval> unit)
