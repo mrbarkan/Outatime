@@ -234,10 +234,13 @@ nonisolated extension Date {
     }
 
     /// The day a day key names, at local midnight; nil for a malformed key.
+    /// Read in the Gregorian calendar, as `dayKey` writes it, whatever calendar the user picked.
     init?(dayKey: String) {
         let parts = dayKey.split(separator: "-").compactMap { Int($0) }
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = .current
         guard parts.count == 3,
-              let d = Calendar.current.date(from: DateComponents(year: parts[0], month: parts[1], day: parts[2])) else { return nil }
+              let d = cal.date(from: DateComponents(year: parts[0], month: parts[1], day: parts[2])) else { return nil }
         self = d
     }
 

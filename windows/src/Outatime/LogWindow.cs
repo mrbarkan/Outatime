@@ -47,6 +47,7 @@ public sealed class LogWindow : AppWindow
         }
         from.SelectedDate = start;
         to.SelectedDate = end;
+        to.DisplayDateStart = start;
         hours.Text = h?.ToString("0.##", Loc.Culture) ?? "";
         hours.PlaceholderText = kind switch
         {
@@ -77,12 +78,21 @@ public sealed class LogWindow : AppWindow
         buttons.HorizontalAlignment = HorizontalAlignment.Right;
         Content = new Border { Padding = new Thickness(16), Child = V(14, Section(rows.ToArray()), buttons) };
 
+        // To never comes before From, as on the Mac; a date typed in past the picker's bound snaps back where it shows.
         from.SelectedDateChanged += (_, _) =>
         {
-            if (from.SelectedDate is { } f && (to.SelectedDate is not { } t || t < f)) to.SelectedDate = f;
+            if (from.SelectedDate is { } f)
+            {
+                if (to.SelectedDate is not { } t || t < f) to.SelectedDate = f;
+                to.DisplayDateStart = f;
+            }
             Refresh();
         };
-        to.SelectedDateChanged += (_, _) => Refresh();
+        to.SelectedDateChanged += (_, _) =>
+        {
+            if (to.SelectedDate is { } t && from.SelectedDate is { } f && t < f) to.SelectedDate = f;
+            Refresh();
+        };
         hours.TextChanged += (_, _) => Refresh();
         KeyDown += (_, e) => { if (e.Key == Key.Escape) Close(); };
         Refresh();
@@ -114,6 +124,7 @@ public sealed class LogWindow : AppWindow
         {
             LogKind.Carried => h is { } c && !double.IsNaN(c) && c != 0,
             LogKind.Holiday => true,
+            LogKind.TimeOff when !OneDay => true,  // hidden, and not saved
             _ => h is not { } x || (!double.IsNaN(x) && x > 0),
         };
     }

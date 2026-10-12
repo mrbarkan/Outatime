@@ -196,7 +196,7 @@ struct LogForm: View {
     let item: LogItem
     @State private var from: Date
     @State private var to: Date
-    @State private var hours: Double?
+    @State private var hoursText: String
     @State private var note: String
     @State private var client: Profile.ID?
 
@@ -211,7 +211,7 @@ struct LogForm: View {
         case .carried(let c): from = Date(dayKey: c.date) ?? today; to = from; hours = c.hours; note = c.note
         }
         _from = State(initialValue: from); _to = State(initialValue: to)
-        _hours = State(initialValue: hours); _note = State(initialValue: note)
+        _hoursText = State(initialValue: hours?.formatted(.number) ?? ""); _note = State(initialValue: note)
         _client = State(initialValue: nil)
     }
 
@@ -228,11 +228,11 @@ struct LogForm: View {
                     }
                     switch kind {
                     case .timeOff where oneDay:
-                        TextField("Hours", value: $hours, format: .number, prompt: Text("Full day"))
+                        TextField("Hours", text: $hoursText, prompt: Text("Full day"))
                     case .travel, .outOfOffice:
-                        TextField("Hours per day", value: $hours, format: .number, prompt: Text(verbatim: context.targetHours.formatted()))
+                        TextField("Hours per day", text: $hoursText, prompt: Text(verbatim: context.targetHours.formatted()))
                     case .carried:
-                        TextField("Hours", value: $hours, format: .number, prompt: Text(verbatim: "32"))
+                        TextField("Hours", text: $hoursText, prompt: Text(verbatim: "32"))
                     default:
                         EmptyView()
                     }
@@ -275,11 +275,19 @@ struct LogForm: View {
 
     private var oneDay: Bool { Calendar.current.isDate(from, inSameDayAs: to) }
 
+    /// The typed hours, read as typed; nil when empty, NaN when it isn't a number.
+    private var hours: Double? {
+        let t = hoursText.trimmingCharacters(in: .whitespaces)
+        return t.isEmpty ? nil : ((try? Double(t, format: .number)) ?? .nan)
+    }
+
+    /// Unreadable hours keep Save off; time off over several days takes no hours, so hidden ones don't count.
     private var valid: Bool {
         switch item.kind {
-        case .carried: (hours ?? 0) != 0
+        case .carried: hours.map { $0.isFinite && $0 != 0 } ?? false
         case .holiday: true
-        case .timeOff, .travel, .outOfOffice: hours.map { $0 > 0 } ?? true
+        case .timeOff where !oneDay: true
+        case .timeOff, .travel, .outOfOffice: hours.map { $0.isFinite && $0 > 0 } ?? true
         }
     }
 

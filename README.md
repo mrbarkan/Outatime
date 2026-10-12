@@ -68,7 +68,7 @@ Menu bar → **Export**, or the Logbook toolbar.
 - **Monthly Report (Excel)** — `Outatime 2026-09.xlsx`. *Summary*: one row per day (Date, Work, Break, Lunch, Extra, Travel, Out of Office, Worked, Target, Time Off, Balance, Notes) with a totals row. *Clients*: hours per client, when you use them. *Entries*: every block (Date, Activity, Start, End, Hours, Notes, Client).
 - **Client report (Excel)** — one client's month for invoicing: hours per day and the blocks behind them, no target or balance.
 - **Master Workbook (Excel)** — `Outatime Master.xlsx`, everything since you started tracking: a *Dashboard* (hours worked, hours bank, days worked, average day, a worked-vs-target chart, breakdowns by activity and by month), then the same *Summary* and *Entries* sheets, and an *Hours Bank* sheet (Date, Kind, Hours, Note) of carried hours and time off, which the hours bank card adds in. Both are Excel tables, so pasting a month report's day rows right under them grows the tables and the dashboard follows. Re-exporting the master does the same in one step.
-- **CSV** — the daily summary (with a trailing `time_off` column) and the entry list per month, for tools that want plain text.
+- **CSV** — the daily summary (with a trailing "Time Off" column) and the entry list per month, for tools that want plain text.
 
 Worked = everything but lunch (Settings decides what counts); Balance = worked − daily target. The target is a stepper at the bottom of the Logbook (default 8 h).
 

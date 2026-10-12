@@ -183,6 +183,17 @@ nonisolated struct OutatimeTests {
         #expect(t.cost(of: TimeOff(start: "2026-09-01", end: "2026-09-01")) == 0)
     }
 
+    /// Day keys are Gregorian whatever calendar the user picked: Buddhist 2569 is 2026.
+    @Test func dayKeyReadsGregorianInAnyCalendar() {
+        var buddhist = Calendar(identifier: .buddhist), gregorian = Calendar(identifier: .gregorian)
+        buddhist.timeZone = .current; gregorian.timeZone = .current
+        let date = buddhist.date(from: DateComponents(year: 2569, month: 10, day: 12))!
+        #expect(date.dayKey == "2026-10-12")
+        #expect(Date(dayKey: "2026-10-12") == date)
+        #expect(Date(dayKey: "2026-10-12") == gregorian.date(from: DateComponents(year: 2026, month: 10, day: 12)))
+        #expect(Date.days(from: "2026-12-30", to: "2027-01-02").map(\.dayKey) == ["2026-12-30", "2026-12-31", "2027-01-01", "2027-01-02"])
+    }
+
     /// Thu 3 worked 9h (+1), Fri 4 off from the bank, Mon 7 worked 8h, now Tue 8 14:00 with nothing yet; Thu 10 booked
     /// ahead. Carried: +32h dated 31 Aug, before tracking began, and +10h on Mon 7.
     @Test func bankCountsTimeOffAndCarriedHours() {
