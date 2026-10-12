@@ -75,8 +75,6 @@
               <div class="tile" style="--c:var(--break)"><i></i>休息</div>
               <div class="tile" style="--c:var(--lunch)"><i></i>午餐</div>
               <div class="tile" style="--c:var(--extra)"><i></i>加班</div>
-              <div class="tile" style="--c:var(--travel)"><i></i>出差</div>
-              <div class="tile" style="--c:var(--ooo)"><i></i>外出</div>
             </div>
             <span class="pin" data-n="5" style="left:-11px;bottom:62px"></span>
             <div class="totals">
@@ -85,20 +83,20 @@
               <span>本月</span><b>36h 52m</b><span class="plus">+0h 52m</span>
             </div>
             <span class="pin" data-n="6" style="left:-11px;bottom:6px"></span>
-            <div class="foot"><span>日志</span><span>导出</span><span>•••</span></div>
+            <div class="foot"><span>日志</span><span>导出</span><span>记录</span><span>•••</span></div>
           </div>
         </div>
         <ol class="callouts">
           <li>正在运行的活动、所属客户以及已运行的时长。</li>
           <li>当前时段的备注，例如工单或任务。</li>
           <li>新工作计入的客户。添加客户后才会显示。</li>
-          <li>六项活动。正在运行的那一项会填充显示。</li>
+          <li>四项活动。正在运行的那一项会填充显示。</li>
           <li>今天、本周和本月与目标的对比。</li>
-          <li>日志、导出，以及包含“设置”和“退出”的菜单。</li>
+          <li>日志、导出、记录，以及包含“设置”和“退出”的菜单。</li>
         </ol>
       </figure>
 
-      <h3>六项活动</h3>
+      <h3>四项活动</h3>
       <table>
         <thead><tr><th>活动</th><th>用途</th><th>是否计入目标</th></tr></thead>
         <tbody>
@@ -106,10 +104,9 @@
           <tr><td><span class="swatch" style="--c:var(--break)"></span>休息</td><td>喝咖啡、散散步、短暂停歇。</td><td>默认计入</td></tr>
           <tr><td><span class="swatch" style="--c:var(--lunch)"></span>午餐</td><td>用餐时间。</td><td>打开后计入</td></tr>
           <tr><td><span class="swatch" style="--c:var(--extra)"></span>加班</td><td>超出每日目标的时间，以及周末和休息日的工作。</td><td>始终计入</td></tr>
-          <tr><td><span class="swatch" style="--c:var(--travel)"></span>出差</td><td>前往客户处或现场的路上。</td><td>默认计入</td></tr>
-          <tr><td><span class="swatch" style="--c:var(--ooo)"></span>外出</td><td>白天的预约和私事。</td><td>默认计入</td></tr>
         </tbody>
       </table>
+      <div class="note"><p>出差（前往客户处或现场的路上）和外出（白天的预约和私事）可通过菜单中的<strong>记录</strong>或日志的工时银行来记录，一次一天或连续几天。两者默认都计入目标。</p></div>
       <p>在“设置”→“目标”中选择计入哪些活动。工作和加班始终计入。</p>
 
       <h3>备注</h3>
@@ -134,11 +131,20 @@
       <h2>每日目标</h2>
       <p>在“设置”→“目标”中设定你每天计划工作的小时数。Outatime 会在各处将你完成的时长与目标进行对比：菜单面板、日志和报告中都有。绿色数字表示超前，红色数字表示落后。</p>
       <ul>
-        <li><strong>周末和休息日没有应工作时长。</strong>使用日志工具栏中的雨伞按钮标记休息日。</li>
+        <li><strong>周末和休息日没有应工作时长。</strong>节假日和调休记在<strong>工时银行</strong>中（日志工具栏，或点按菜单中的结余行）。</li>
         <li><strong>今天永远不会以红色显示为落后。</strong>因为这一天还没有结束。</li>
         <li><strong>工时结余</strong>会累计从你选定的日期起每一天的结余，适合按季度或按年度结算工时的情况。</li>
       </ul>
       <p>在结余下方，菜单面板会显示本周目标（每日目标乘以本周工作日数）还剩多少，以及距下一个休息日还需攒多少时长。如需查看平均值、通常的开始和结束时间以及本月数据，请点按日志工具栏中的<strong>统计</strong>。</p>
+      <h3>工时银行</h3>
+      <p>工时结余累计每一天的结余。点按日志工具栏中的<strong>工时银行</strong>即可查看，并记录改变结余的事项：</p>
+      <ul>
+        <li><strong>调休</strong> — 一段日期，或指定小时数的某一天。每个工作日扣除你的每日目标（或所填的小时数），保存后立即从结余中扣除，即使是下个月的日期也一样。期间内的周末和节假日不扣。</li>
+        <li><strong>节假日</strong> — 不计应工作时长、也不影响结余的日子。</li>
+        <li><strong>结转工时</strong> — 开始使用 Outatime 之前的加班时间；已结算的小时数填负数。</li>
+        <li><strong>出差</strong>和<strong>外出</strong> — 在一段日期内的每个工作日添加时段，接在当天最后一个时段之后，或从你通常的开始时间开始。</li>
+      </ul>
+      <p>点按一行即可修改。休息日在日志中显示为持平，而不是落后；这些时长从工时银行中扣除。</p>
       <h3>达标后计为加班</h3>
       <p>当今天的时长达到目标时，正在运行的工作时段会自动切换为加班，切换点精确到达标的那一分钟，同时你会收到通知。在周末和休息日，所有工作都计为加班。如果你更喜欢手动切换，可在“设置”→“目标”中关闭此功能。</p>
     </section>
@@ -201,14 +207,14 @@
       <table>
         <thead><tr><th>导出</th><th>包含内容</th></tr></thead>
         <tbody>
-          <tr><td>月度报告</td><td>一个 Excel 工作簿：包含每天一行及其结余的汇总、每个客户的时长，以及所有时段。</td></tr>
+          <tr><td>月度报告</td><td>一个 Excel 工作簿：包含每天一行及其调休和结余的汇总、每个客户的时长，以及所有时段。</td></tr>
           <tr><td>客户报告</td><td>用于开票的单个客户月度数据：该客户每天的时长及对应的时段，不含目标和结余。</td></tr>
-          <tr><td>主工作簿</td><td>自你开始使用以来的全部数据，打开后首先显示按月汇总时长、结余和活动的仪表板。</td></tr>
+          <tr><td>主工作簿</td><td>自你开始使用以来的全部数据，打开后首先显示按月汇总时长、结余和活动的仪表板，另有一张列出调休和结转工时的 Hours Bank 工作表。</td></tr>
           <tr><td>每日汇总</td><td>每天一行的 CSV，可用于 Numbers、Notion 或其他任何工具。</td></tr>
           <tr><td>记录</td><td>包含当月所有时段的 CSV。</td></tr>
         </tbody>
       </table>
-      <div class="note"><p>月度报告中的行可以粘贴到主工作簿的表格下方，仪表板会自动纳入这些数据。如果你的主工作簿是在 1.2 版之前创建的，请先重新导出一份：时段现在多了“客户”列。</p></div>
+      <div class="note"><p>月度报告中的行可以粘贴到主工作簿的表格下方，仪表板会自动纳入这些数据。如果你的主工作簿是在 1.3 版之前创建的，请先重新导出一份：每天现在多了调休列，时段多了“客户”列。</p></div>
     </section>
 
     <section id="settings">

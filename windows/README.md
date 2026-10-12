@@ -12,7 +12,7 @@ Design notes: [`docs/superpowers/specs/2026-10-09-windows-version-design.md`](..
 src/Outatime.Core/    the Mac app's logic, ported one-to-one (Store, Stats, Objectives, Focus, BlockDrag, reports, xlsx)
   DataFile (Json.cs)  reads and writes data.json exactly as the Mac app does
   Strings*.json       translations: Strings.json is copied from the Mac catalog (scripts/strings.py), the others are Windows-only
-src/Outatime/         the app: tray icon and panel, Logbook, Settings, Objectives, About, What's New
+src/Outatime/         the app: tray icon and panel, Logbook, Hours Bank and Log, Settings, Objectives, About, What's New
   Platform/           toasts, global shortcuts, open at login, the drawn tray icons, single instance
 package/              MSIX manifest and tile images
 scripts/package.ps1   portable exes + MSIX bundle
@@ -35,7 +35,7 @@ It runs on macOS too, which is how it's developed; there it keeps its data in
 |---|---|
 | `OUTATIME_HOME=<folder>` | where data.json and settings.json live |
 | `OUTATIME_SAMPLE=1` | fills an empty store with a few weeks of made-up work |
-| `OUTATIME_OPEN=panel\|logbook\|settings\|objectives\|about\|whatsnew` | opens that window at launch (`OUTATIME_TAB=0…3` picks the Settings tab) |
+| `OUTATIME_OPEN=panel\|logbook\|settings\|objectives\|hoursbank\|log\|about\|whatsnew` | opens that window at launch (`OUTATIME_TAB=0…3` picks the Settings tab) |
 | `OUTATIME_SNAPSHOT=<folder>` | renders every open window to PNG there, then quits |
 
 A Windows exe from any OS:

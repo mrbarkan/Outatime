@@ -26,10 +26,11 @@ Most time trackers want a project, a client, a billing rate and an account. Outa
 
 ## Features
 
-- **Menu bar tracking** — six tiles: Work, Break, Lunch, Extra, Travel, Out of Office. Press one to start, press it again to stop. The menu bar shows the icon and elapsed time, or how far today is from your target.
+- **Menu bar tracking** — four tiles: Work, Break, Lunch, Extra. Press one to start, press it again to stop. The menu bar shows the icon and elapsed time, or how far today is from your target.
 - **Notes** — type what you're working on while tracking; it's saved with the block.
 - **Clients** — pick a client from the grid in the menu and Work, Extra and Travel are tracked for them. Switching clients splits the running block right there.
 - **Logbook** — a calendar-style day view. Drag a block to move it, drag an edge to resize it (hold ⌥ to move the border between two blocks), click to edit, double-click empty space to add one, double-click inside a block to cut in a break. ⌘- or ⇧-click several blocks and right-click to change their client or activity. The month sidebar draws every day on one scale, with a tick at the target.
+- **Hours Bank** — time off (days or hours), holidays and overtime carried over; Travel and Out of Office logged by the day. In the Logbook toolbar, or **Log** in the menu.
 - **Objectives** — under Objectives in the Logbook: days off to bank for a vacation, or a client's package of hours or pay (an amount at an hourly rate). The menu counts one down next to Export.
 - **Daily balance** — worked time against a target you set (by default everything but lunch counts), for today, the week, the month and an hours bank since a date you choose.
 - **Stats** — what's left of this week's goal and how much more to bank for a day off, right in the menu. Averages per week, month and workday, your usual start and finish, and this month's figures in the Logbook.
@@ -58,16 +59,16 @@ Everything lives in one file you own:
 ~/Library/Containers/com.dbarkan.Outatime/Data/Library/Application Support/Outatime/data.json
 ```
 
-Back it up, sync it, `jq` it — it's just entries, templates, clients and days off.
+Back it up, sync it, `jq` it — it's just entries, templates, clients, holidays, time off and carried hours.
 
 ## Export
 
 Menu bar → **Export**, or the Logbook toolbar.
 
-- **Monthly Report (Excel)** — `Outatime 2026-09.xlsx`. *Summary*: one row per day (Date, Work, Break, Lunch, Extra, Travel, Out of Office, Worked, Target, Balance, Notes) with a totals row. *Clients*: hours per client, when you use them. *Entries*: every block (Date, Activity, Start, End, Hours, Notes, Client).
+- **Monthly Report (Excel)** — `Outatime 2026-09.xlsx`. *Summary*: one row per day (Date, Work, Break, Lunch, Extra, Travel, Out of Office, Worked, Target, Time Off, Balance, Notes) with a totals row. *Clients*: hours per client, when you use them. *Entries*: every block (Date, Activity, Start, End, Hours, Notes, Client).
 - **Client report (Excel)** — one client's month for invoicing: hours per day and the blocks behind them, no target or balance.
-- **Master Workbook (Excel)** — `Outatime Master.xlsx`, everything since you started tracking: a *Dashboard* (hours worked, hours bank, days worked, average day, a worked-vs-target chart, breakdowns by activity and by month), then the same *Summary* and *Entries* sheets. Both are Excel tables, so pasting a month report's day rows right under them grows the tables and the dashboard follows. Re-exporting the master does the same in one step.
-- **CSV** — the daily summary and the entry list per month, for tools that want plain text.
+- **Master Workbook (Excel)** — `Outatime Master.xlsx`, everything since you started tracking: a *Dashboard* (hours worked, hours bank, days worked, average day, a worked-vs-target chart, breakdowns by activity and by month), then the same *Summary* and *Entries* sheets, and an *Hours Bank* sheet (Date, Kind, Hours, Note) of carried hours and time off, which the hours bank card adds in. Both are Excel tables, so pasting a month report's day rows right under them grows the tables and the dashboard follows. Re-exporting the master does the same in one step.
+- **CSV** — the daily summary (with a trailing `time_off` column) and the entry list per month, for tools that want plain text.
 
 Worked = everything but lunch (Settings decides what counts); Balance = worked − daily target. The target is a stepper at the bottom of the Logbook (default 8 h).
 
@@ -97,11 +98,12 @@ Outatime/
   EditorView.swift    Logbook: month sidebar + draggable day timeline
   StatsView.swift     the Logbook's Stats popover
   WhatsNew.swift      release notes shown once after an update
+  HoursBank.swift     the Logbook's Hours Bank and the Log forms: time off, holidays, Travel, carried hours
   Objectives.swift    objectives: days off to bank, client packages, the menu's countdown
   About.swift         the About window: version, support address, links
   Focus.swift         tomato timer, stretch reminder, notifications
-  Store.swift         entries, templates, clients, JSON persistence
-  Models.swift        Activity, Profile (client), Entry, DayTemplate, Target
+  Store.swift         entries, templates, clients, time off, the hours bank, JSON persistence
+  Models.swift        Activity, Profile (client), Entry, DayTemplate, TimeOff, Carried, Target
   Stats.swift         week goal, day-off bank, averages
   Export.swift        CSV and the Excel reports' content
   Workbook.swift      minimal .xlsx writer: tables, styles, a chart, zip

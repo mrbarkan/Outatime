@@ -74,8 +74,6 @@
               <div class="tile" style="--c:var(--break)"><i></i>Break</div>
               <div class="tile" style="--c:var(--lunch)"><i></i>Lunch</div>
               <div class="tile" style="--c:var(--extra)"><i></i>Extra</div>
-              <div class="tile" style="--c:var(--travel)"><i></i>Travel</div>
-              <div class="tile" style="--c:var(--ooo)"><i></i>Out of Office</div>
             </div>
             <span class="pin" data-n="5" style="left:-11px;bottom:62px"></span>
             <div class="totals">
@@ -84,20 +82,20 @@
               <span>This Month</span><b>36h 52m</b><span class="plus">+0h 52m</span>
             </div>
             <span class="pin" data-n="6" style="left:-11px;bottom:6px"></span>
-            <div class="foot"><span>Logbook</span><span>Export</span><span>•••</span></div>
+            <div class="foot"><span>Logbook</span><span>Export</span><span>Log</span><span>•••</span></div>
           </div>
         </div>
         <ol class="callouts">
           <li>What's running, for which client, and for how long.</li>
           <li>A note for the running block, such as a ticket or a task.</li>
           <li>The client new work is tracked for. Shown once you add clients.</li>
-          <li>The six activities. The running one is filled in.</li>
+          <li>The four activities. The running one is filled in.</li>
           <li>Today, this week and this month against your target.</li>
-          <li>The Logbook, exports, and the menu with Settings and Quit.</li>
+          <li>The Logbook, exports, Log, and the menu with Settings and Quit.</li>
         </ol>
       </figure>
 
-      <h3>The six activities</h3>
+      <h3>The four activities</h3>
       <table>
         <thead><tr><th>Activity</th><th>Use it for</th><th>Counts toward the target</th></tr></thead>
         <tbody>
@@ -105,10 +103,9 @@
           <tr><td><span class="swatch" style="--c:var(--break)"></span>Break</td><td>Coffee, a walk, a short pause.</td><td>By default</td></tr>
           <tr><td><span class="swatch" style="--c:var(--lunch)"></span>Lunch</td><td>Your meal break.</td><td>If you turn it on</td></tr>
           <tr><td><span class="swatch" style="--c:var(--extra)"></span>Extra</td><td>Time past your daily target, and work on weekends and days off.</td><td>Always</td></tr>
-          <tr><td><span class="swatch" style="--c:var(--travel)"></span>Travel</td><td>Getting to a client or a site.</td><td>By default</td></tr>
-          <tr><td><span class="swatch" style="--c:var(--ooo)"></span>Out of Office</td><td>Appointments and errands during the day.</td><td>By default</td></tr>
         </tbody>
       </table>
+      <div class="note"><p>Travel (getting to a client or a site) and Out of Office (appointments and errands) are logged from <strong>Log</strong> in the menu or the Logbook's Hours Bank, a day or a stretch of days at a time. Both count toward the target by default.</p></div>
       <p>Choose what counts in Settings → Target. Work and Extra always count.</p>
 
       <h3>Notes</h3>
@@ -133,11 +130,20 @@
       <h2>Your daily target</h2>
       <p>Set how many hours a day you aim to work in Settings → Target. Outatime compares what you've done against it everywhere: in the menu panel, in the Logbook and in reports. A green number is time ahead, a red one is time behind.</p>
       <ul>
-        <li><strong>Weekends and days off owe nothing.</strong> Mark a day off with the umbrella button in the Logbook toolbar.</li>
+        <li><strong>Weekends and days off owe nothing.</strong> Holidays and time off go in the <strong>Hours Bank</strong> (Logbook toolbar, or click the bank's row in the menu).</li>
         <li><strong>Today never shows as behind in red.</strong> The day isn't over yet.</li>
         <li><strong>The hours bank</strong> adds up every day's balance since a date you choose, which is handy if your hours are settled each quarter or year.</li>
       </ul>
       <p>Under the balances, the menu panel shows what's left of this week's goal (your daily target times the week's workdays) and how much more you need to bank for a day off. For averages, your usual start and finish times and this month's figures, click <strong>Stats</strong> in the Logbook toolbar.</p>
+      <h3>The Hours Bank</h3>
+      <p>The bank adds up every day's balance. Open <strong>Hours Bank</strong> in the Logbook toolbar to see it and to log what changes it:</p>
+      <ul>
+        <li><strong>Time Off</strong> — a range of days, or one day with a number of hours. Each workday costs your daily target (or those hours) and comes off the bank as soon as you save, even if it's next month. Weekends and holidays in the range cost nothing.</li>
+        <li><strong>Holiday</strong> — days that owe nothing and leave the bank alone.</li>
+        <li><strong>Carried Hours</strong> — overtime from before you used Outatime, or a negative amount for hours paid out.</li>
+        <li><strong>Travel</strong> and <strong>Out of Office</strong> — blocks on each workday of a range, after the day's last block or at your usual start.</li>
+      </ul>
+      <p>Click a row to change it. A day off shows as even in the Logbook, not short; the bank is where the hours go.</p>
       <h3>Extra after the target</h3>
       <p>Once today's hours reach the target, a running Work block switches itself to Extra, cut at the exact minute you got there, and you get a notification. On weekends and days off, all work is Extra. Turn this off in Settings → Target if you prefer to switch by hand.</p>
     </section>
@@ -200,14 +206,14 @@
       <table>
         <thead><tr><th>Export</th><th>What's in it</th></tr></thead>
         <tbody>
-          <tr><td>Monthly report</td><td>An Excel workbook: a summary with a row per day and its balance, hours per client, and every block.</td></tr>
+          <tr><td>Monthly report</td><td>An Excel workbook: a summary with a row per day, its time off and its balance, hours per client, and every block.</td></tr>
           <tr><td>Client report</td><td>One client's month for invoicing: their hours per day and the blocks behind them, without targets or balances.</td></tr>
-          <tr><td>Master workbook</td><td>Everything since you started, opening on a dashboard of hours, balance and activity by month.</td></tr>
+          <tr><td>Master workbook</td><td>Everything since you started, opening on a dashboard of hours, balance and activity by month, with an Hours Bank sheet of time off and carried hours.</td></tr>
           <tr><td>Daily summary</td><td>A CSV with a row per day, for Numbers, Notion or anything else.</td></tr>
           <tr><td>Entries</td><td>A CSV with every block of the month.</td></tr>
         </tbody>
       </table>
-      <div class="note"><p>The monthly report's rows can be pasted under the master workbook's tables, and its dashboard picks them up. If your master workbook was made before version 1.2, export a fresh one first: blocks now have a Client column.</p></div>
+      <div class="note"><p>The monthly report's rows can be pasted under the master workbook's tables, and its dashboard picks them up. If your master workbook was made before version 1.3, export a fresh one first: days now have a Time Off column and blocks a Client column.</p></div>
     </section>
 
     <section id="settings">
