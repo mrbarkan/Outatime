@@ -85,13 +85,15 @@ struct HoursBankView: View {
     var body: some View {
         let bank = context.bank
         VStack(spacing: 0) {
+            // A sheet has no title bar: the title sits on top.
+            Text("Hours Bank").font(.headline).padding(.top, 16)
             VStack(spacing: 4) {
                 Text(verbatim: signed(bank.balance))
                     .font(.system(size: 34, weight: .semibold)).monospacedDigit()
                     .foregroundStyle(bank.balance >= 0 ? .green : .red)
                 caption(bank)
             }
-            .padding(.top, 20).padding(.bottom, 4)
+            .padding(.top, 12).padding(.bottom, 4)
             Form {
                 let rows = self.rows
                 if rows.isEmpty {

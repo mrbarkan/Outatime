@@ -175,6 +175,8 @@ struct ObjectivesView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            // A sheet has no title bar: the title sits on top.
+            Text("Objectives").font(.headline).padding(.top, 16)
             Form {
                 if store.objectives.isEmpty {
                     Text("No objectives yet. Add one and the menu counts it down next to Export.").foregroundStyle(.secondary)
@@ -222,11 +224,11 @@ struct ObjectivesView: View {
                     context.menuObjective = o.wrappedValue.id.uuidString
                 }
                 .foregroundStyle(shown ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
-                .help("Show in Menu")
+                .labelStyle(.iconOnly).help("Show in Menu")
                 Button("Delete", systemImage: "trash", role: .destructive) { store.objectives.removeAll { $0.id == o.wrappedValue.id } }
-                    .help("Delete")
+                    .labelStyle(.iconOnly).help("Delete")
             }
-            .buttonStyle(.borderless).labelStyle(.iconOnly)
+            .buttonStyle(.borderless)
         } footer: {
             Group {
                 switch o.wrappedValue.kind {

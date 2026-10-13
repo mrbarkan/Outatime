@@ -65,6 +65,7 @@ struct MenuPanel: View {
                     .labelStyle(.iconOnly).buttonStyle(.borderless)
                     .foregroundStyle(store.tomatoSince != nil ? AnyShapeStyle(.red) : AnyShapeStyle(.secondary))
                     .help("Tomato timer")
+                moreMenu
             }
             .font(.title3)
             if store.tomatoSince != nil { TomatoLine(round: store.tomatoRound) }
@@ -74,6 +75,29 @@ struct MenuPanel: View {
                     .font(.caption).foregroundStyle(.orange)
             }
         }
+    }
+
+    /// Top right, out of the footer's way: About, the manual, Settings and Quit.
+    private var moreMenu: some View {
+        Menu {
+            Button("About") {
+                dismiss()
+                show(window: "about", openWindow)
+            }
+            Button("User Manual", action: showManual)
+            Button("Settings…") {
+                dismiss()
+                NSApp.activate()
+                openSettings()
+            }
+            .keyboardShortcut(",")
+            Divider()
+            Button("Quit") { NSApp.terminate(nil) }.keyboardShortcut("q")
+        } label: {
+            Image(systemName: "ellipsis.circle")
+        }
+        .menuStyle(.button).buttonStyle(.borderless).menuIndicator(.hidden).fixedSize()
+        .foregroundStyle(.secondary)
     }
 
     private var totals: some View {
@@ -139,8 +163,9 @@ struct MenuPanel: View {
     }
 
     private var footer: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: 12) {
             Button("Logbook", systemImage: "calendar", action: showLogbook)
+                .fixedSize()
             Menu("Export", systemImage: "square.and.arrow.up") {
                 let month = Date.now.startOfMonth
                 let target = store.target(hours: targetHours, excluded: excluded)
@@ -165,35 +190,23 @@ struct MenuPanel: View {
                     save(Data(store.entriesCSV(month).utf8), as: .commaSeparatedText, suggestedName: exportName(month, " entries.csv"))
                 }
             }
+            .fixedSize()
             Menu("Log", systemImage: "square.and.pencil") {
                 ForEach(LogKind.allCases) { k in
                     Button(k.label, systemImage: k.symbol) { dismiss(); show(window: "log", value: k.rawValue, openWindow) }
                 }
             }
+            .fixedSize()
             MenuObjective {
                 store.editingObjectives = true
                 showLogbook()
             }
+            .fixedSize()
             Spacer()
-            Menu {
-                Button("About") {
-                    dismiss()
-                    show(window: "about", openWindow)
-                }
-                Button("User Manual", action: showManual)
-                Button("Settings…") {
-                    dismiss()
-                    NSApp.activate()
-                    openSettings()
-                }
-                .keyboardShortcut(",")
-                Divider()
-                Button("Quit") { NSApp.terminate(nil) }.keyboardShortcut("q")
-            } label: {
-                Image(systemName: "ellipsis.circle")
-            }
-            .menuIndicator(.hidden)
         }
+        // Smaller than body, so the titles fit on one line in the longer languages too.
+        .font(.subheadline)
+        .labelStyle(FooterLabelStyle())
         // Plain, so Logbook and the menus draw alike: the accessory bar style greys a button but not a menu beside it.
         .buttonStyle(.plain)
         .menuStyle(.button)
@@ -287,6 +300,17 @@ private struct ActivityButton: View {
             .frame(maxWidth: .infinity, minHeight: 56)
         }
         .modifier(GlassStyle(prominent: active, color: activity.color))
+    }
+}
+
+/// The footer's symbols differ in height (the share arrow stands taller than the calendar): a box of one size
+/// centres each on the same line, so the titles beside them line up.
+private struct FooterLabelStyle: LabelStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack(spacing: 4) {
+            configuration.icon.frame(width: 16, height: 16)
+            configuration.title
+        }
     }
 }
 
