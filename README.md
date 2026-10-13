@@ -14,6 +14,7 @@
   <img src="https://img.shields.io/badge/macOS-26%2B-blue" alt="macOS 26+">
   <img src="https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white" alt="Swift 6">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT"></a>
+  <a href="https://github.com/sponsors/mrbarkan"><img src="https://img.shields.io/badge/sponsor-%E2%99%A5-ea4aaa" alt="Sponsor"></a>
 </p>
 
 <p align="center"><a href="https://mrbarkan.github.io/Outatime/manual/"><strong>Read the manual</strong></a></p>
@@ -134,6 +135,10 @@ Then bump `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION` in `project.yml` and
 ## Support
 
 Questions, bugs or ideas: [opa@mrbarkan.com](mailto:opa@mrbarkan.com), or **About → Contact Support** in the app, which fills in your version and macOS.
+
+## Sponsor
+
+Outatime is free, MIT-licensed and built on my own time, with no accounts and no telemetry. If it earns a place in your menu bar, you can support its development on [GitHub Sponsors](https://github.com/sponsors/mrbarkan).
 
 ## Contributing
 
