@@ -307,10 +307,12 @@ private struct DayTimeline: View {
                 }
                 .onTapGesture { selection = [] }
             }
-            // ⌘A and Esc, without buttons of their own.
+            // ⌘A, Esc and Delete, without buttons of their own.
             .background {
                 Button { selection = Set(entries.map(\.id)) } label: { EmptyView() }.keyboardShortcut("a")
                 Button { selection = [] } label: { EmptyView() }.keyboardShortcut(.cancelAction).disabled(selection.isEmpty)
+                Button { store.delete(selection); selection = [] } label: { EmptyView() }
+                    .keyboardShortcut(.delete, modifiers: []).disabled(selection.isEmpty)
             }
             .overlay {
                 if entries.isEmpty {
