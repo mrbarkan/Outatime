@@ -5,13 +5,14 @@
 <h1 align="center">Outatime</h1>
 
 <p align="center">
-  A tiny menu bar time tracker for macOS.<br>
+  A tiny time tracker for the macOS menu bar and the Windows tray.<br>
   One click to start, one click to stop, a calendar-style logbook to fix what you forgot.
 </p>
 
 <p align="center">
   <a href="https://github.com/mrbarkan/Outatime/releases/latest"><img src="https://img.shields.io/github/v/release/mrbarkan/Outatime?label=download&color=orange" alt="Latest release"></a>
   <img src="https://img.shields.io/badge/macOS-26%2B-blue" alt="macOS 26+">
+  <a href="https://github.com/mrbarkan/Outatime/releases/tag/windows-v1.0"><img src="https://img.shields.io/badge/Windows-10%2B-0078D4" alt="Windows 10+"></a>
   <img src="https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white" alt="Swift 6">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT"></a>
   <a href="https://github.com/sponsors/mrbarkan"><img src="https://img.shields.io/badge/sponsor-%E2%99%A5-ea4aaa" alt="Sponsor"></a>
@@ -23,34 +24,47 @@
 
 ## Why
 
-Most time trackers want a project, a client, a billing rate and an account. Outatime wants to know one thing: are you working, on a break, at lunch, or doing extra hours? It lives in the menu bar, keeps its data in a single JSON file on your Mac, and never phones home (except to ask GitHub if there's a newer version).
+Most time trackers want a project, a client, a billing rate and an account. Outatime wants to know one thing: are you working, on a break, at lunch, or doing extra hours? It lives in the menu bar (or the Windows tray), keeps its data in a single JSON file on your computer, and never phones home (except to ask GitHub if there's a newer version).
 
 ## Features
 
 - **Menu bar tracking** — four tiles: Work, Break, Lunch, Extra. Press one to start, press it again to stop. The menu bar shows the icon and elapsed time, or how far today is from your target.
 - **Notes** — type what you're working on while tracking; it's saved with the block.
 - **Clients** — pick a client from the grid in the menu and Work, Extra and Travel are tracked for them. Switching clients splits the running block right there.
-- **Logbook** — a calendar-style day view. Drag a block to move it, drag an edge to resize it (hold ⌥ to move the border between two blocks), click to edit, double-click empty space to add one, double-click inside a block to cut in a break. ⌘- or ⇧-click several blocks and right-click to change their client or activity. The month sidebar draws every day on one scale, with a tick at the target.
+- **Logbook** — a calendar-style day view. Drag a block to move it, drag an edge to resize it (hold ⌥ to move the border between two blocks), click to edit, double-click empty space to add one, double-click inside a block to cut in a break. ⌘- or ⇧-click several blocks and right-click to change their client or activity, or press Delete to remove them. The month sidebar draws every day on one scale, with a tick at the target.
 - **Hours Bank** — time off (days or hours), holidays and overtime carried over; Travel and Out of Office logged by the day. In the Logbook toolbar, or **Log** in the menu.
 - **Objectives** — under Objectives in the Logbook: days off to bank for a vacation, or a client's package of hours or pay (an amount at an hourly rate). The menu counts one down next to Export.
 - **Daily balance** — worked time against a target you set (by default everything but lunch counts), for today, the week, the month and an hours bank since a date you choose.
 - **Stats** — what's left of this week's goal and how much more to bank for a day off, right in the menu. Averages per week, month and workday, your usual start and finish, and this month's figures in the Logbook.
 - **Extra after the target** — once a day's worked time reaches the target, Work switches itself to Extra, cut at the exact minute. Weekends and days off are all Extra. Can be turned off.
+- **Overtime rate** — Extra can count 1×, 1.25×, 1.5× or 2× toward balances and the hours bank (Settings → Target). A new rate applies from today on; **Apply to All…** recounts past Extra at it too. Worked hours and client reports stay as worked.
 - **Tomato timer** — turn it on from the menu for 25-minute focus rounds and 5-minute breaks (15 after every fourth). Each round ends with a notification whose button switches Work ↔ Break for you, and the menu bar counts down the round.
 - **Stretch reminder** — a nudge to get up every 50 minutes of unbroken work (adjustable, or off).
 - **Colored menu bar** — the icon takes the activity's color: blue for Work, green for Break, orange for Lunch…
 - **Day templates** — save a typical day and apply it to any date in one click.
 - **Excel reports** — a monthly report with hours per client, a month for one client to attach to an invoice, or a master workbook of everything with a dashboard up front. CSVs too, for Notion or Numbers.
 - **Eight languages** — English, Español, Português (Brasil), Français, Deutsch, Italiano, 日本語 and 简体中文, in the app and in the [manual](https://mrbarkan.github.io/Outatime/manual/).
-- **Settings** — five short tabs: General (appearance, language, menu bar, open at login, global shortcuts), Target, Focus (tomato timer and reminders), Clients and Updates.
+- **Settings** — five short tabs, from the ••• menu at the menu's top right: General (appearance, language, menu bar, open at login, global shortcuts), Target (daily target, what counts, hours bank start, Extra and its rate), Focus (tomato timer and reminders), Clients and Updates.
 - **Updates** — [Sparkle](https://sparkle-project.org): signed updates install themselves, no visit to the download page. Opt into beta builds in Settings → General.
 - **Native** — SwiftUI, Liquid Glass, sandboxed, notarized. No Electron, no accounts, no telemetry.
+- **Windows too** — [Outatime for Windows](#windows) is the same tracker in the system tray, reading and writing the same `data.json`, so your logbook moves between the two.
 
 ## Install
+
+### macOS
 
 Download `Outatime.dmg` from the [latest release](https://github.com/mrbarkan/Outatime/releases/latest), drag it to Applications, launch it. It appears in the menu bar as a clock.
 
 Requires macOS 26 (Tahoe) or later.
+
+### Windows
+
+Download from the [Windows release](https://github.com/mrbarkan/Outatime/releases/tag/windows-v1.0):
+
+- **Installer** — unzip `Outatime-1.0.0.0-installer.zip` and double-click `Install.cmd`. It trusts Outatime's test certificate (Windows asks for admin once), installs the app for x64 or Arm64 and opens it.
+- **Portable** — unzip `Outatime-1.0.0.0-x64-portable.zip` (or the `arm64` one) and run `Outatime.exe`. Nothing to install.
+
+Requires Windows 10 (version 2004) or later, x64 or Arm64. English, Español and Português (Brasil). It sits in the notification area: left-click for the panel, right-click for a small menu; the tooltip shows the elapsed time or what's left today. Shortcuts are Ctrl+Alt+Shift+W / B. Everything else — Logbook, Hours Bank, Objectives, clients, tomato timer, Excel reports — works as on the Mac. Settings → General has **Export Data…** and **Import Data…**: export before uninstalling, since Windows deletes an installed app's data with it.
 
 ## Data
 
@@ -60,7 +74,7 @@ Everything lives in one file you own:
 ~/Library/Containers/com.dbarkan.Outatime/Data/Library/Application Support/Outatime/data.json
 ```
 
-Back it up, sync it, `jq` it — it's just entries, templates, clients, holidays, time off and carried hours.
+Back it up, sync it, `jq` it — it's just entries, templates, clients, objectives, holidays, time off, carried hours and Extra rates. On Windows, Settings → General → **Open Data Folder** shows it; copy it across and either app reads it.
 
 ## Export
 
@@ -71,7 +85,7 @@ Menu bar → **Export**, or the Logbook toolbar.
 - **Master Workbook (Excel)** — `Outatime Master.xlsx`, everything since you started tracking: a *Dashboard* (hours worked, hours bank, days worked, average day, a worked-vs-target chart, breakdowns by activity and by month), then the same *Summary* and *Entries* sheets, and an *Hours Bank* sheet (Date, Kind, Hours, Note) of carried hours and time off, which the hours bank card adds in. Both are Excel tables, so pasting a month report's day rows right under them grows the tables and the dashboard follows. Re-exporting the master does the same in one step.
 - **CSV** — the daily summary (with a trailing "Time Off" column) and the entry list per month, for tools that want plain text.
 
-Worked = everything but lunch (Settings decides what counts); Balance = worked − daily target. The target is a stepper at the bottom of the Logbook (default 8 h).
+Worked = everything but lunch (Settings decides what counts); Balance = worked − daily target, with Extra at its rate. The target is a stepper at the bottom of the Logbook (default 8 h).
 
 ## Build from source
 
@@ -111,6 +125,7 @@ Outatime/
   Updater.swift       Sparkle updater
   Settings.swift      Settings tabs, appearance/language/login item, the manual link
 docs/manual/          the user manual (GitHub Pages), one folder per language
+windows/              Outatime for Windows: .NET 10 and Avalonia, the Mac logic ported one-to-one (see windows/README.md)
 scripts/
   release.sh          archive → Developer ID export → DMG → notarize → appcast → GitHub release (--beta: pre-release)
   make-icon.swift     regenerates the app icon from AppKit drawing code
@@ -130,7 +145,9 @@ One-time: create the Sparkle signing key (kept in your login keychain) and paste
 .spm/artifacts/sparkle/Sparkle/bin/generate_keys
 ```
 
-Then bump `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION` in `project.yml` and run `scripts/release.sh`. It builds, signs, notarizes, staples, generates a signed `appcast.xml`, and publishes both as GitHub release `v<version>`. Sparkle reads the feed at `releases/latest/download/appcast.xml`, which always redirects to the newest release.
+Then bump `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION` in `project.yml` and run `scripts/release.sh`. It builds, signs, notarizes, staples, generates a signed `appcast.xml`, and publishes both as GitHub release `v<version>`. Sparkle reads the feed at `releases/latest/download/appcast.xml`, which always redirects to the newest release — so a Windows release is never marked latest.
+
+Windows: the GitHub Actions workflow tests, packages and smoke-tests every push touching `windows/` and uploads the bundle, portable zips and installer as an artifact; a Windows release attaches those to a `windows-v<version>` tag. See [windows/README.md](windows/README.md).
 
 ## Support
 
@@ -142,7 +159,7 @@ Outatime is free, MIT-licensed and built on my own time, with no accounts and no
 
 ## Contributing
 
-Issues and pull requests welcome. Keep it small: this app is deliberately minimal, and the best PR is often the one that deletes something. New UI strings need entries for all seven translations (es, pt-BR, fr, de, it, ja, zh-Hans) or the test suite fails.
+Issues and pull requests welcome. Keep it small: this app is deliberately minimal, and the best PR is often the one that deletes something. New UI strings need entries for all seven translations (es, pt-BR, fr, de, it, ja, zh-Hans) or the test suite fails; `windows/scripts/strings.py` copies the Spanish and Portuguese ones to the Windows app.
 
 ## License
 
