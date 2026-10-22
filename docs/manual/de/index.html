@@ -146,6 +146,9 @@
       <p>Klick auf eine Zeile, um sie zu ändern. Ein freier Tag erscheint im Logbuch ausgeglichen, nicht als Rückstand; die Stunden kommen vom Konto.</p>
       <h3>Extra nach dem Ziel</h3>
       <p>Sobald deine Stunden heute das Ziel erreichen, wechselt ein laufender Arbeitsblock von selbst zu Extra, geteilt genau in der Minute, in der du es erreicht hast, und du bekommst eine Mitteilung. An Wochenenden und freien Tagen ist jede Arbeit Extra. Wenn du lieber selbst wechselst, deaktiviere das unter Einstellungen → Ziel.</p>
+      <h3>Überstundenfaktor</h3>
+      <p>Werden deine Überstunden mit mehr als einer Stunde pro Stunde bezahlt oder gutgeschrieben, stell <strong>Extra zählt</strong> unter Einstellungen → Ziel auf 1,25×, 1,5× oder 2×. Alle Salden und das Stundenkonto zählen Extra dann mit diesem Faktor; gearbeitete Stunden, Kundenberichte und Abrechnung bleiben, wie gearbeitet.</p>
+      <p>Ein neuer Faktor gilt ab heute, früheres Extra behält also den Faktor, mit dem es entstanden ist. Um auch alles frühere Extra mit dem neuen Faktor neu zu zählen, klick bei <strong>Früheres Extra</strong> auf <strong>Auf alles anwenden…</strong>.</p>
     </section>
 
     <section id="logbook">
@@ -222,7 +225,7 @@
       <table>
         <tbody>
           <tr><td><strong>Allgemein</strong></td><td>Hell oder dunkel, Sprache (English, Español, Português, Français, Deutsch, Italiano, 日本語, 简体中文), was die Menüleiste zeigt, das farbige Menüleistensymbol, Bei der Anmeldung öffnen und die globalen Kurzbefehle.</td></tr>
-          <tr><td><strong>Ziel</strong></td><td>Das Tagesziel, was dazu zählt, das Stundenkonto und Extra nach dem Ziel.</td></tr>
+          <tr><td><strong>Ziel</strong></td><td>Das Tagesziel, was dazu zählt, das Stundenkonto, Extra nach dem Ziel und der Faktor, mit dem Extra zählt.</td></tr>
           <tr><td><strong>Kunden</strong></td><td>Kunden hinzufügen, umbenennen und entfernen.</td></tr>
           <tr><td><strong>Fokus</strong></td><td>Die Dauern des Pomodoro-Timers, die Dehnerinnerung und die Erinnerung bei langen Timern.</td></tr>
           <tr><td><strong>Updates</strong></td><td>Nach Updates suchen und Beta-Updates aktivieren.</td></tr>
@@ -264,6 +267,19 @@
         </tbody>
       </table>
       <p>Die globalen Kurzbefehle kannst du unter Einstellungen → Allgemein deaktivieren, wenn sie mit einer anderen App kollidieren.</p>
+    </section>
+
+    <section id="windows">
+      <h2>Outatime für Windows</h2>
+      <p>Outatime läuft auch unter Windows 10 (Version 2004) und neuer, im Infobereich neben der Uhr. Es liest und schreibt dieselbe <code>data.json</code> wie die Mac-App, du kannst dein Logbuch also von einem zum anderen mitnehmen. Lade es von der <a href="https://github.com/mrbarkan/Outatime/releases/tag/windows-v1.0">Windows-Version</a>: Entpacke den Installer und doppelklicke <code>Install.cmd</code>. Es vertraut dem Testzertifikat von Outatime (Windows fragt einmal nach der Erlaubnis) und installiert die App. Oder entpacke eine portable Version und starte <code>Outatime.exe</code>.</p>
+      <p>Alles in diesem Handbuch funktioniert genauso, mit ein paar Unterschieden:</p>
+      <ul>
+        <li><strong>Symbol im Infobereich.</strong> Linksklick öffnet das Panel, Rechtsklick ein kleines Menü. Im Infobereich ist kein Platz für Text, deshalb stehen die laufende Zeit, die verbleibende Zeit heute oder der Tomaten-Countdown im Tooltip des Symbols.</li>
+        <li><strong>Tasten.</strong> <kbd>Strg</kbd> ersetzt <kbd>⌘</kbd> und <kbd>Alt</kbd> ersetzt <kbd>⌥</kbd>. Die globalen Kurzbefehle sind <kbd>Strg Alt Umschalt W</kbd> für Arbeit und <kbd>Strg Alt Umschalt B</kbd> für Pause.</li>
+        <li><strong>Deine Daten.</strong> Settings → General (die Windows-App gibt es auf Englisch, Spanisch und Portugiesisch) hat <strong>Export Data…</strong>, <strong>Import Data…</strong> und <strong>Open Data Folder</strong>. Exportiere vor dem Deinstallieren: Windows löscht die Daten einer installierten App mit ihr.</li>
+        <li><strong>Sprachen.</strong> English, Español und Português (Brasil).</li>
+        <li><strong>Updates.</strong> Es gibt keinen Tab „Updates“; neue Versionen erscheinen auf der Release-Seite.</li>
+      </ul>
     </section>
 
     <section id="help">

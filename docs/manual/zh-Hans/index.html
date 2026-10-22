@@ -147,6 +147,9 @@
       <p>点按一行即可修改。休息日在日志中显示为持平，而不是落后；这些时长从工时结余中扣除。</p>
       <h3>达标后计为加班</h3>
       <p>当今天的时长达到目标时，正在运行的工作时段会自动切换为加班，切换点精确到达标的那一分钟，同时你会收到通知。在周末和休息日，所有工作都计为加班。如果你更喜欢手动切换，可在“设置”→“目标”中关闭此功能。</p>
+      <h3>加班倍率</h3>
+      <p>如果你的加班按每小时超过一小时来支付或累计，可在“设置”→“目标”中把<strong>加班折算</strong>设为 1.25×、1.5× 或 2×。这样所有结余和工时结余都会按该倍率计算加班；已工作时长、客户报告和计费保持实际时长。</p>
+      <p>新的倍率从今天起生效，之前的加班保留当时的倍率。要把以往所有加班也按新倍率重新计算，请点按<strong>以往加班</strong>旁的<strong>全部应用…</strong>。</p>
     </section>
 
     <section id="logbook">
@@ -223,7 +226,7 @@
       <table>
         <tbody>
           <tr><td><strong>通用</strong></td><td>浅色或深色外观、语言（English、Español、Português、Français、Deutsch、Italiano、日本語、简体中文）、菜单栏显示内容、彩色菜单栏图标、登录时打开，以及全局快捷键。</td></tr>
-          <tr><td><strong>目标</strong></td><td>每日目标、计入目标的活动、工时结余和达标后计为加班。</td></tr>
+          <tr><td><strong>目标</strong></td><td>每日目标、计入目标的活动、工时结余、达标后计为加班，以及加班的折算倍率。</td></tr>
           <tr><td><strong>客户</strong></td><td>添加、重命名和移除客户。</td></tr>
           <tr><td><strong>专注</strong></td><td>番茄钟的各项时长、伸展提醒和长时计时提醒。</td></tr>
           <tr><td><strong>更新</strong></td><td>检查更新，以及选择接收 Beta 版更新。</td></tr>
@@ -265,6 +268,19 @@
         </tbody>
       </table>
       <p>如果全局快捷键与其他 App 冲突，可在“设置”→“通用”中将其关闭。</p>
+    </section>
+
+    <section id="windows">
+      <h2>Windows 版 Outatime</h2>
+      <p>Outatime 也能在 Windows 10（2004 版）及更高版本上运行，位于时钟旁的通知区域。它读写与 Mac 版相同的 <code>data.json</code>，因此你可以把日志在两者之间带来带去。请从 <a href="https://github.com/mrbarkan/Outatime/releases/tag/windows-v1.0">Windows 版发布页</a>下载：解压安装程序并双击 <code>Install.cmd</code>，它会信任 Outatime 的测试证书（Windows 会请求一次权限）并安装应用；或者解压便携版并运行 <code>Outatime.exe</code>。</p>
+      <p>本手册介绍的一切用法都相同，只有几处不同：</p>
+      <ul>
+        <li><strong>通知区域图标。</strong>左键点按打开面板，右键点按打开一个小菜单。通知区域放不下文字，所以已用时长、今天剩余时长或番茄倒计时会显示在图标的提示中。</li>
+        <li><strong>按键。</strong><kbd>Ctrl</kbd> 代替 <kbd>⌘</kbd>，<kbd>Alt</kbd> 代替 <kbd>⌥</kbd>。全局快捷键是 <kbd>Ctrl Alt Shift W</kbd>（工作）和 <kbd>Ctrl Alt Shift B</kbd>（休息）。</li>
+        <li><strong>你的数据。</strong>“Settings”→“General”（Windows 版提供英语、西班牙语和葡萄牙语界面）中有 <strong>Export Data…</strong>、<strong>Import Data…</strong> 和 <strong>Open Data Folder</strong>。卸载前请先导出：Windows 会随已安装的应用一起删除它的数据。</li>
+        <li><strong>语言。</strong>English、Español 和 Português (Brasil)。</li>
+        <li><strong>更新。</strong>没有“更新”标签页；新版本会发布在发布页面上。</li>
+      </ul>
     </section>
 
     <section id="help">

@@ -146,6 +146,9 @@
       <p>Clique em uma linha para alterá-la. Uma folga aparece no Diário de bordo como em dia, não em atraso; as horas saem do banco.</p>
       <h3>Extra após a meta</h3>
       <p>Quando as horas de hoje atingem a meta, um bloco de Trabalho em andamento muda sozinho para Extra, cortado no minuto exato em que você chegou lá, e você recebe uma notificação. Em fins de semana e folgas, todo trabalho é Extra. Desative “Mudar para Extra após a meta” em Ajustes → Meta se preferir trocar manualmente.</p>
+      <h3>Fator de hora extra</h3>
+      <p>Se suas horas extras são pagas ou acumuladas a mais de uma hora por hora, escolha <strong>Extra conta como</strong> em Ajustes → Meta: 1,25×, 1,5× ou 2×. Todos os saldos e o banco de horas passam a contar o Extra com esse fator; as horas trabalhadas, os relatórios de clientes e o faturamento ficam como trabalhados.</p>
+      <p>Um novo fator vale a partir de hoje, então o Extra anterior mantém o fator com que foi feito. Para recalcular também todo o Extra anterior com o novo fator, clique em <strong>Aplicar a tudo…</strong> ao lado de <strong>Extra anterior</strong>.</p>
     </section>
 
     <section id="logbook">
@@ -222,7 +225,7 @@
       <table>
         <tbody>
           <tr><td><strong>Geral</strong></td><td>Claro ou escuro, idioma (English, Español, Português, Français, Deutsch, Italiano, 日本語, 简体中文), o que a barra de menus mostra, o ícone colorido na barra de menus, Abrir ao iniciar sessão e os atalhos globais.</td></tr>
-          <tr><td><strong>Meta</strong></td><td>A meta diária, o que conta para ela, o banco de horas e Extra após a meta.</td></tr>
+          <tr><td><strong>Meta</strong></td><td>A meta diária, o que conta para ela, o banco de horas, Extra após a meta e o fator com que o Extra conta.</td></tr>
           <tr><td><strong>Clientes</strong></td><td>Adicione, renomeie e remova clientes.</td></tr>
           <tr><td><strong>Foco</strong></td><td>As durações do timer Pomodoro, o lembrete de alongamento e o aviso de cronômetro longo.</td></tr>
           <tr><td><strong>Atualizações</strong></td><td>Verificar atualizações e optar por receber versões beta.</td></tr>
@@ -264,6 +267,19 @@
         </tbody>
       </table>
       <p>Os atalhos globais podem ser desativados em Ajustes → Geral se entrarem em conflito com outro app.</p>
+    </section>
+
+    <section id="windows">
+      <h2>Outatime para Windows</h2>
+      <p>O Outatime também roda no Windows 10 (versão 2004) ou posterior, na área de notificação ao lado do relógio. Ele lê e grava o mesmo <code>data.json</code> do app de Mac, então você pode levar seu diário de bordo de um para o outro. Baixe na <a href="https://github.com/mrbarkan/Outatime/releases/tag/windows-v1.0">versão para Windows</a>: descompacte o instalador e clique duas vezes em <code>Install.cmd</code>, que confia no certificado de teste do Outatime (o Windows pede permissão uma vez) e instala o app; ou descompacte uma versão portátil e execute <code>Outatime.exe</code>.</p>
+      <p>Tudo o que este manual descreve funciona do mesmo jeito, com algumas diferenças:</p>
+      <ul>
+        <li><strong>Ícone da bandeja.</strong> Clique com o botão esquerdo para o painel e com o direito para um menu pequeno. A área de notificação não tem espaço para texto, então o tempo decorrido, o que falta hoje ou a contagem do tomate aparecem na dica do ícone.</li>
+        <li><strong>Teclas.</strong> <kbd>Ctrl</kbd> substitui <kbd>⌘</kbd> e <kbd>Alt</kbd> substitui <kbd>⌥</kbd>. Os atalhos globais são <kbd>Ctrl Alt Shift W</kbd> para Trabalho e <kbd>Ctrl Alt Shift B</kbd> para Pausa.</li>
+        <li><strong>Seus dados.</strong> Ajustes → Geral tem <strong>Exportar dados…</strong>, <strong>Importar dados…</strong> e <strong>Abrir pasta de dados</strong>. Exporte antes de desinstalar: o Windows apaga os dados de um app instalado junto com ele.</li>
+        <li><strong>Idiomas.</strong> English, Español e Português (Brasil).</li>
+        <li><strong>Atualizações.</strong> Não há aba de Atualizações; novas versões são publicadas na página de versões.</li>
+      </ul>
     </section>
 
     <section id="help">

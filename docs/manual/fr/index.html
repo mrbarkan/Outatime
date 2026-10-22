@@ -146,6 +146,9 @@
       <p>Cliquez sur une ligne pour la modifier. Un jour de congé apparaît à l’équilibre dans le Journal, pas en retard ; c’est le cumul qui paie les heures.</p>
       <h3>Extra après l’objectif</h3>
       <p>Dès que les heures du jour atteignent l’objectif, un bloc Travail en cours passe de lui-même en Extra, coupé à la minute exacte où vous l’avez atteint, et vous recevez une notification. Le week-end et les jours de congé, tout le travail est en Extra. Désactivez cette option dans Réglages → Objectif si vous préférez changer vous-même.</p>
+      <h3>Taux des heures sup</h3>
+      <p>Si vos heures sup sont payées ou cumulées à plus d’une heure par heure, réglez <strong>Extra compte pour</strong> dans Réglages → Objectif sur 1,25×, 1,5× ou 2×. Tous les soldes et le cumul d’heures comptent alors l’Extra à ce taux ; les heures travaillées, les rapports clients et la facturation restent tels quels.</p>
+      <p>Un nouveau taux s’applique à partir d’aujourd’hui : l’Extra antérieur garde le taux auquel il a été fait. Pour recompter aussi tout l’Extra passé au nouveau taux, cliquez sur <strong>Appliquer à tout…</strong> à côté de <strong>Extra passé</strong>.</p>
     </section>
 
     <section id="logbook">
@@ -222,7 +225,7 @@
       <table>
         <tbody>
           <tr><td><strong>Général</strong></td><td>Clair ou sombre, la langue (English, Español, Português, Français, Deutsch, Italiano, 日本語, 简体中文), ce qu’affiche la barre des menus, l’icône en couleur dans la barre des menus, Ouvrir à l’ouverture de session et les raccourcis globaux.</td></tr>
-          <tr><td><strong>Objectif</strong></td><td>L’objectif quotidien, ce qui compte dans cet objectif, le cumul d’heures et Extra après l’objectif.</td></tr>
+          <tr><td><strong>Objectif</strong></td><td>L’objectif quotidien, ce qui compte dans cet objectif, le cumul d’heures, Extra après l’objectif et le taux auquel compte l’Extra.</td></tr>
           <tr><td><strong>Clients</strong></td><td>Ajouter, renommer et retirer des clients.</td></tr>
           <tr><td><strong>Concentration</strong></td><td>Les durées du minuteur Pomodoro, le rappel d’étirement et le rappel de suivi long.</td></tr>
           <tr><td><strong>Mises à jour</strong></td><td>Rechercher les mises à jour et choisir de recevoir les versions bêta.</td></tr>
@@ -264,6 +267,19 @@
         </tbody>
       </table>
       <p>Les raccourcis globaux peuvent être désactivés dans Réglages → Général s’ils entrent en conflit avec une autre app.</p>
+    </section>
+
+    <section id="windows">
+      <h2>Outatime pour Windows</h2>
+      <p>Outatime fonctionne aussi sous Windows 10 (version 2004) et ultérieur, dans la zone de notification à côté de l’horloge. Il lit et écrit le même <code>data.json</code> que l’app Mac : vous pouvez emporter votre journal de l’une à l’autre. Téléchargez-le depuis la <a href="https://github.com/mrbarkan/Outatime/releases/tag/windows-v1.0">version Windows</a> : décompressez le programme d’installation et double-cliquez sur <code>Install.cmd</code>, qui fait confiance au certificat de test d’Outatime (Windows demande l’autorisation une fois) et installe l’app ; ou décompressez une version portable et lancez <code>Outatime.exe</code>.</p>
+      <p>Tout ce que décrit ce manuel fonctionne de la même façon, à quelques différences près :</p>
+      <ul>
+        <li><strong>Icône de la zone de notification.</strong> Clic gauche pour le panneau, clic droit pour un petit menu. La zone de notification n’a pas de place pour du texte : le temps écoulé, le temps restant aujourd’hui ou le compte à rebours de la tomate s’affichent dans l’info-bulle de l’icône.</li>
+        <li><strong>Touches.</strong> <kbd>Ctrl</kbd> remplace <kbd>⌘</kbd> et <kbd>Alt</kbd> remplace <kbd>⌥</kbd>. Les raccourcis globaux sont <kbd>Ctrl Alt Maj W</kbd> pour Travail et <kbd>Ctrl Alt Maj B</kbd> pour Pause.</li>
+        <li><strong>Vos données.</strong> Settings → General (l’app Windows est en anglais, espagnol ou portugais) propose <strong>Export Data…</strong>, <strong>Import Data…</strong> et <strong>Open Data Folder</strong>. Exportez avant de désinstaller : Windows supprime les données d’une app installée avec elle.</li>
+        <li><strong>Langues.</strong> English, Español et Português (Brasil).</li>
+        <li><strong>Mises à jour.</strong> Pas d’onglet Mises à jour : les nouvelles versions sont publiées sur la page des versions.</li>
+      </ul>
     </section>
 
     <section id="help">

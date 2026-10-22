@@ -147,6 +147,9 @@
       <p>行をクリックすると変更できます。休みの日は日誌で不足ではなく差し引きゼロとして表示され、その時間はバンクから引かれます。</p>
       <h3>目標達成後は残業</h3>
       <p>今日の時間が目標に達すると、実行中の仕事ブロックは達成したちょうどその分で区切られて残業に切り替わり、通知が届きます。週末と休日の作業はすべて残業です。手動で切り替えたい場合は、設定 → 目標でオフにできます。</p>
+      <h3>残業の倍率</h3>
+      <p>残業が1時間あたり1時間より多く支払われたり積み立てられたりする場合は、設定 → 目標の<strong>残業の換算</strong>を1.25×、1.5×、2×のいずれかにします。すべての過不足と時間バンクでは、残業がその倍率で換算されます。勤務時間、クライアントレポート、請求は実際の時間のままです。</p>
+      <p>新しい倍率は今日から適用されるので、それ以前の残業は当時の倍率のままです。過去の残業もすべて新しい倍率で換算し直すには、<strong>過去の残業</strong>の<strong>すべてに適用…</strong>をクリックします。</p>
     </section>
 
     <section id="logbook">
@@ -223,7 +226,7 @@
       <table>
         <tbody>
           <tr><td><strong>一般</strong></td><td>ライトまたはダーク、言語（English、Español、Português、Français、Deutsch、Italiano、日本語、简体中文）、メニューバーの表示内容、メニューバーアイコンのカラー表示、ログイン時に開く、グローバルショートカット。</td></tr>
-          <tr><td><strong>目標</strong></td><td>1日の目標、目標に含めるもの、時間バンク、目標達成後は残業。</td></tr>
+          <tr><td><strong>目標</strong></td><td>1日の目標、目標に含めるもの、時間バンク、目標達成後は残業、残業の換算倍率。</td></tr>
           <tr><td><strong>クライアント</strong></td><td>クライアントの追加、名前の変更、取り除き。</td></tr>
           <tr><td><strong>集中</strong></td><td>トマトタイマーの各時間の長さ、ストレッチの通知、長時間タイマーの通知。</td></tr>
           <tr><td><strong>アップデート</strong></td><td>アップデートの確認、ベータ版のアップデートの受け取り。</td></tr>
@@ -265,6 +268,19 @@
         </tbody>
       </table>
       <p>ほかのアプリと重なる場合は、設定 → 一般でグローバルショートカットをオフにできます。</p>
+    </section>
+
+    <section id="windows">
+      <h2>Windows版Outatime</h2>
+      <p>OutatimeはWindows 10（バージョン2004）以降でも、時計の横の通知領域で動作します。Mac版と同じ<code>data.json</code>を読み書きするので、日誌をどちらにも持っていけます。<a href="https://github.com/mrbarkan/Outatime/releases/tag/windows-v1.0">Windows版のリリース</a>からダウンロードしてください。インストーラーを展開して<code>Install.cmd</code>をダブルクリックすると、Outatimeのテスト証明書を信頼して（Windowsが一度だけ許可を求めます）アプリをインストールします。ポータブル版を展開して<code>Outatime.exe</code>を実行することもできます。</p>
+      <p>このマニュアルの内容はすべて同じように使えますが、いくつか違いがあります。</p>
+      <ul>
+        <li><strong>通知領域のアイコン。</strong>左クリックでパネル、右クリックで小さなメニューが開きます。通知領域には文字を表示する場所がないため、経過時間、今日の残り時間、トマトタイマーのカウントダウンはアイコンのツールチップに表示されます。</li>
+        <li><strong>キー。</strong><kbd>⌘</kbd>の代わりに<kbd>Ctrl</kbd>、<kbd>⌥</kbd>の代わりに<kbd>Alt</kbd>を使います。グローバルショートカットは、仕事が<kbd>Ctrl Alt Shift W</kbd>、休憩が<kbd>Ctrl Alt Shift B</kbd>です。</li>
+        <li><strong>データ。</strong>Settings → General（Windows版は英語・スペイン語・ポルトガル語）に<strong>Export Data…</strong>、<strong>Import Data…</strong>、<strong>Open Data Folder</strong>があります。アンインストールする前に書き出してください。インストールしたアプリをアンインストールすると、Windowsはそのデータも削除します。</li>
+        <li><strong>言語。</strong>English、Español、Português (Brasil)。</li>
+        <li><strong>アップデート。</strong>アップデートのタブはありません。新しいバージョンはリリースページで公開されます。</li>
+      </ul>
     </section>
 
     <section id="help">

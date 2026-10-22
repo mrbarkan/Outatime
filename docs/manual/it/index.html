@@ -146,6 +146,9 @@
       <p>Fai clic su una riga per modificarla. Un giorno libero appare in pari nel Diario, non in ritardo: le ore le paga la banca.</p>
       <h3>Extra dopo l'obiettivo</h3>
       <p>Quando le ore di oggi raggiungono l'obiettivo, un blocco Lavoro in corso passa da solo a Extra, tagliato al minuto esatto in cui ci sei arrivato, e ricevi una notifica. Nei weekend e nei giorni liberi tutto il lavoro è Extra. Disattiva l'opzione in Impostazioni → Obiettivo se preferisci cambiare a mano.</p>
+      <h3>Fattore straordinari</h3>
+      <p>Se gli straordinari ti vengono pagati o accreditati a più di un'ora per ora, imposta <strong>Extra vale</strong> in Impostazioni → Obiettivo su 1,25×, 1,5× o 2×. Tutti i saldi e la banca ore contano allora l'Extra con quel fattore; ore lavorate, report dei clienti e fatturazione restano come lavorate.</p>
+      <p>Un nuovo fattore vale da oggi in poi, quindi l'Extra precedente mantiene il fattore con cui è stato fatto. Per ricalcolare anche tutto l'Extra passato con il nuovo fattore, fai clic su <strong>Applica a tutto…</strong> accanto a <strong>Extra passato</strong>.</p>
     </section>
 
     <section id="logbook">
@@ -222,7 +225,7 @@
       <table>
         <tbody>
           <tr><td><strong>Generali</strong></td><td>Chiaro o scuro, lingua (English, Español, Português, Français, Deutsch, Italiano, 日本語, 简体中文), cosa mostra la barra dei menu, l'icona colorata nella barra dei menu, Apri al login e le abbreviazioni globali.</td></tr>
-          <tr><td><strong>Obiettivo</strong></td><td>L'obiettivo giornaliero, cosa conta per raggiungerlo, la banca ore ed Extra dopo l'obiettivo.</td></tr>
+          <tr><td><strong>Obiettivo</strong></td><td>L'obiettivo giornaliero, cosa conta per raggiungerlo, la banca ore, Extra dopo l'obiettivo e il fattore con cui vale l'Extra.</td></tr>
           <tr><td><strong>Clienti</strong></td><td>Aggiungi, rinomina e rimuovi clienti.</td></tr>
           <tr><td><strong>Concentrazione</strong></td><td>Le durate del timer Pomodoro, il promemoria stretching e l'avviso timer lungo.</td></tr>
           <tr><td><strong>Aggiornamenti</strong></td><td>Verifica aggiornamenti e scegli di ricevere le versioni beta.</td></tr>
@@ -264,6 +267,19 @@
         </tbody>
       </table>
       <p>Le abbreviazioni globali si possono disattivare in Impostazioni → Generali se entrano in conflitto con un'altra app.</p>
+    </section>
+
+    <section id="windows">
+      <h2>Outatime per Windows</h2>
+      <p>Outatime funziona anche su Windows 10 (versione 2004) e successivi, nell'area di notifica accanto all'orologio. Legge e scrive lo stesso <code>data.json</code> dell'app per Mac, quindi puoi portare il tuo diario dall'una all'altra. Scaricalo dalla <a href="https://github.com/mrbarkan/Outatime/releases/tag/windows-v1.0">versione per Windows</a>: estrai il programma di installazione e fai doppio clic su <code>Install.cmd</code>, che considera attendibile il certificato di prova di Outatime (Windows chiede il permesso una volta) e installa l'app; oppure estrai una versione portatile ed esegui <code>Outatime.exe</code>.</p>
+      <p>Tutto ciò che descrive questo manuale funziona allo stesso modo, con alcune differenze:</p>
+      <ul>
+        <li><strong>Icona nell'area di notifica.</strong> Clic sinistro per il pannello, clic destro per un piccolo menu. Nell'area di notifica non c'è spazio per il testo, quindi il tempo trascorso, il tempo rimasto oggi o il conto alla rovescia del pomodoro compaiono nel suggerimento dell'icona.</li>
+        <li><strong>Tasti.</strong> <kbd>Ctrl</kbd> sostituisce <kbd>⌘</kbd> e <kbd>Alt</kbd> sostituisce <kbd>⌥</kbd>. Le scorciatoie globali sono <kbd>Ctrl Alt Maiusc W</kbd> per Lavoro e <kbd>Ctrl Alt Maiusc B</kbd> per Pausa.</li>
+        <li><strong>I tuoi dati.</strong> Settings → General (l'app per Windows è in inglese, spagnolo e portoghese) ha <strong>Export Data…</strong>, <strong>Import Data…</strong> e <strong>Open Data Folder</strong>. Esporta prima di disinstallare: Windows elimina i dati di un'app installata insieme all'app.</li>
+        <li><strong>Lingue.</strong> English, Español e Português (Brasil).</li>
+        <li><strong>Aggiornamenti.</strong> Non c'è la scheda Aggiornamenti; le nuove versioni vengono pubblicate nella pagina delle release.</li>
+      </ul>
     </section>
 
     <section id="help">

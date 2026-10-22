@@ -146,6 +146,9 @@
       <p>Click a row to change it. A day off shows as even in the Logbook, not short; the bank is where the hours go.</p>
       <h3>Extra after the target</h3>
       <p>Once today's hours reach the target, a running Work block switches itself to Extra, cut at the exact minute you got there, and you get a notification. On weekends and days off, all work is Extra. Turn this off in Settings → Target if you prefer to switch by hand.</p>
+      <h3>Overtime rate</h3>
+      <p>If your overtime is paid or banked at more than an hour per hour, set <strong>Extra counts as</strong> in Settings → Target to 1.25×, 1.5× or 2×. Every balance and the hours bank then count Extra at that rate; worked hours, client reports and billing stay as worked.</p>
+      <p>A new rate applies from today on, so earlier Extra keeps the rate it was earned at. To recount all past Extra at the new rate too, click <strong>Apply to All…</strong> under <strong>Past Extra</strong>.</p>
     </section>
 
     <section id="logbook">
@@ -222,7 +225,7 @@
       <table>
         <tbody>
           <tr><td><strong>General</strong></td><td>Light or dark, language (English, Español, Português, Français, Deutsch, Italiano, 日本語, 简体中文), what the menu bar shows, the colored menu bar icon, Open at Login and the global shortcuts.</td></tr>
-          <tr><td><strong>Target</strong></td><td>The daily target, what counts toward it, the hours bank and Extra after the target.</td></tr>
+          <tr><td><strong>Target</strong></td><td>The daily target, what counts toward it, the hours bank, Extra after the target and the rate Extra counts at.</td></tr>
           <tr><td><strong>Clients</strong></td><td>Add, rename and remove clients.</td></tr>
           <tr><td><strong>Focus</strong></td><td>The tomato timer's durations, the stretch reminder and the long-timer reminder.</td></tr>
           <tr><td><strong>Updates</strong></td><td>Check for updates and opt into beta updates.</td></tr>
@@ -264,6 +267,19 @@
         </tbody>
       </table>
       <p>The global shortcuts can be turned off in Settings → General if they clash with another app.</p>
+    </section>
+
+    <section id="windows">
+      <h2>Outatime for Windows</h2>
+      <p>Outatime also runs on Windows 10 (version 2004) and later, in the notification area next to the clock. It reads and writes the same <code>data.json</code> as the Mac app, so you can carry your logbook from one to the other. Download it from the <a href="https://github.com/mrbarkan/Outatime/releases/tag/windows-v1.0">Windows release</a>: unzip the installer and double-click <code>Install.cmd</code>, which trusts Outatime's test certificate (Windows asks for permission once) and installs the app; or unzip a portable version and run <code>Outatime.exe</code>.</p>
+      <p>Everything in this manual works the same way, with a few differences:</p>
+      <ul>
+        <li><strong>Tray icon.</strong> Left-click it for the panel, right-click it for a small menu. The notification area has no room for text, so the elapsed time, the time left today or the tomato countdown is the icon's tooltip.</li>
+        <li><strong>Keys.</strong> <kbd>Ctrl</kbd> takes the place of <kbd>⌘</kbd> and <kbd>Alt</kbd> of <kbd>⌥</kbd>. The global shortcuts are <kbd>Ctrl Alt Shift W</kbd> for Work and <kbd>Ctrl Alt Shift B</kbd> for Break.</li>
+        <li><strong>Your data.</strong> Settings → General has <strong>Export Data…</strong>, <strong>Import Data…</strong> and <strong>Open Data Folder</strong>. Export before uninstalling: Windows deletes an installed app's data with it.</li>
+        <li><strong>Languages.</strong> English, Español and Português (Brasil).</li>
+        <li><strong>Updates.</strong> There's no Updates tab; new versions are posted on the releases page.</li>
+      </ul>
     </section>
 
     <section id="help">

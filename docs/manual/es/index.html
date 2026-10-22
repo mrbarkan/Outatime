@@ -146,6 +146,9 @@
       <p>Haz clic en una fila para cambiarla. Un día libre aparece en la Bitácora en equilibrio, no atrasado; las horas salen del banco.</p>
       <h3>Extra después de la meta</h3>
       <p>Cuando las horas de hoy alcanzan la meta, un bloque de Trabajo en marcha pasa solo a Extra, cortado en el minuto exacto en que llegaste, y recibes una notificación. En fines de semana y días libres, todo el trabajo es Extra. Desactiva “Pasar a Extra al cumplir la meta” en Ajustes → Meta si prefieres cambiar a mano.</p>
+      <h3>Factor de horas extra</h3>
+      <p>Si tus horas extra se pagan o acumulan a más de una hora por hora, elige <strong>Extra cuenta como</strong> en Ajustes → Meta: 1,25×, 1,5× o 2×. Todos los saldos y el banco de horas cuentan entonces el Extra a ese factor; las horas trabajadas, los informes de clientes y la facturación quedan tal como se trabajaron.</p>
+      <p>Un nuevo factor vale desde hoy, así que el Extra anterior conserva el factor con que se ganó. Para recalcular también todo el Extra anterior con el nuevo factor, haz clic en <strong>Aplicar a todo…</strong> junto a <strong>Extra anterior</strong>.</p>
     </section>
 
     <section id="logbook">
@@ -222,7 +225,7 @@
       <table>
         <tbody>
           <tr><td><strong>General</strong></td><td>Claro u oscuro, idioma (English, Español, Português, Français, Deutsch, Italiano, 日本語, 简体中文), lo que muestra la barra de menús, el icono de la barra de menús en color, Abrir al iniciar sesión y los atajos globales.</td></tr>
-          <tr><td><strong>Meta</strong></td><td>La meta diaria, qué cuenta para ella, el banco de horas y Extra después de la meta.</td></tr>
+          <tr><td><strong>Meta</strong></td><td>La meta diaria, qué cuenta para ella, el banco de horas, Extra después de la meta y el factor al que cuenta el Extra.</td></tr>
           <tr><td><strong>Clientes</strong></td><td>Añade, renombra y quita clientes.</td></tr>
           <tr><td><strong>Enfoque</strong></td><td>Las duraciones del temporizador Pomodoro, el recordatorio de estiramiento y el aviso de temporizador largo.</td></tr>
           <tr><td><strong>Actualizaciones</strong></td><td>Buscar actualizaciones y apuntarse a las versiones beta.</td></tr>
@@ -264,6 +267,19 @@
         </tbody>
       </table>
       <p>Puedes desactivar los atajos globales en Ajustes → General si chocan con otra app.</p>
+    </section>
+
+    <section id="windows">
+      <h2>Outatime para Windows</h2>
+      <p>Outatime también funciona en Windows 10 (versión 2004) y posteriores, en el área de notificaciones junto al reloj. Lee y escribe el mismo <code>data.json</code> que la app de Mac, así que puedes llevar tu bitácora de una a otra. Descárgalo de la <a href="https://github.com/mrbarkan/Outatime/releases/tag/windows-v1.0">versión para Windows</a>: descomprime el instalador y haz doble clic en <code>Install.cmd</code>, que confía en el certificado de prueba de Outatime (Windows pide permiso una vez) e instala la app; o descomprime una versión portátil y ejecuta <code>Outatime.exe</code>.</p>
+      <p>Todo lo que cuenta este manual funciona igual, con algunas diferencias:</p>
+      <ul>
+        <li><strong>Icono de la bandeja.</strong> Clic izquierdo para el panel, clic derecho para un menú pequeño. El área de notificaciones no tiene sitio para texto, así que el tiempo transcurrido, lo que falta hoy o la cuenta atrás del tomate aparecen en la información sobre el icono.</li>
+        <li><strong>Teclas.</strong> <kbd>Ctrl</kbd> sustituye a <kbd>⌘</kbd> y <kbd>Alt</kbd> a <kbd>⌥</kbd>. Los atajos globales son <kbd>Ctrl Alt Mayús W</kbd> para Trabajo y <kbd>Ctrl Alt Mayús B</kbd> para Pausa.</li>
+        <li><strong>Tus datos.</strong> Ajustes → General tiene <strong>Exportar datos…</strong>, <strong>Importar datos…</strong> y <strong>Abrir carpeta de datos</strong>. Exporta antes de desinstalar: Windows borra los datos de una app instalada junto con ella.</li>
+        <li><strong>Idiomas.</strong> English, Español y Português (Brasil).</li>
+        <li><strong>Actualizaciones.</strong> No hay pestaña de Actualizaciones; las nuevas versiones se publican en la página de versiones.</li>
+      </ul>
     </section>
 
     <section id="help">
