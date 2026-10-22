@@ -210,6 +210,47 @@ nonisolated struct OutatimeTests {
         #expect(Store.bank(entries, carried: carried, target: target, since: d(4), now: now).balance == -6 * 3600)
     }
 
+    /// Thu 3 Sep 9h of Work and 2h of Extra, Fri 4 8h of Work and 2h of Extra; 1.5× from Fri on.
+    @Test func extraCountsAtItsRate() {
+        let entries = [Entry(activity: .work, start: at(9), end: at(18)), Entry(activity: .extra, start: at(20), end: at(22)),
+                       Entry(activity: .work, start: d(4) + 9 * 3600, end: d(4) + 17 * 3600),
+                       Entry(activity: .extra, start: d(4) + 20 * 3600, end: d(4) + 22 * 3600)]
+        let target = Target(seconds: 8 * 3600, since: day, extraRates: [ExtraRate(since: "2026-09-04", rate: 1.5)])
+        let now = d(5) + 12 * 3600
+        #expect(target.extraRate(on: day) == 1 && target.extraRate(on: d(4)) == 1.5 && target.extraRate(on: d(30)) == 1.5)
+        // Worked stays as worked; the balance counts Fri's Extra as 3h: +3 on Thu, +3 on Fri.
+        let b = Store.balance(entries, in: DateInterval(start: day, end: now), target: target, now: now)
+        #expect(b.worked == 21 * 3600 && b.balance == 6 * 3600)
+        #expect(Store.bank(entries, carried: [], target: target, since: day, now: now).balance == 6 * 3600)
+        let days = DaySummary.days([day, d(4)], entries, target: target, now: now)
+        #expect(days.map(\.worked) == [11 * 3600, 10 * 3600] && days.map(\.balance) == [3 * 3600, 3 * 3600])
+        // From the start, Thu's Extra counts 1.5× too.
+        var all = target
+        all.extraRates = [ExtraRate(rate: 1.5)]
+        #expect(Store.balance(entries, in: DateInterval(start: day, end: now), target: all, now: now).balance == 7 * 3600)
+    }
+
+    @Test @MainActor func extraRateStartsTodayUntilAppliedToAll() throws {
+        let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        let store = Store(url: url)
+        #expect(store.extraRate == 1 && store.extraRateCoversAll)
+        store.setExtraRate(1.5, now: d(4))
+        store.setExtraRate(2, now: d(4))  // the same day: a correction
+        #expect(store.extraRates == [ExtraRate(since: "2026-09-04", rate: 2)] && !store.extraRateCoversAll)
+        store.setExtraRate(1.25, now: d(10))
+        store.setExtraRate(1.25, now: d(11))  // unchanged: no new rate
+        #expect(store.extraRates.map(\.rate) == [2, 1.25] && store.extraRate == 1.25)
+        #expect(store.target(hours: 8, excluded: "").extraRate(on: d(8)) == 2)
+        store.applyExtraRateToAll()
+        #expect(store.extraRates == [ExtraRate(rate: 1.25)] && store.extraRateCoversAll)
+        #expect(Store(url: url).extraRates == store.extraRates)
+        // Back to 1× from the start: nothing to store.
+        store.setExtraRate(1, now: d(12))
+        store.applyExtraRateToAll()
+        #expect(store.extraRates.isEmpty)
+    }
+
     @Test @MainActor func bankRecordsRoundTrip() throws {
         let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
         defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
@@ -234,6 +275,7 @@ nonisolated struct OutatimeTests {
         try FileManager.default.copyItem(at: fixture, to: url)
         let store = Store(url: url)
         #expect(store.timeOff.count == 2 && store.carried.count == 1)
+        #expect(store.extraRates == [ExtraRate(rate: 1.25), ExtraRate(since: "2026-09-04", rate: 2)])
         store.daysOff = store.daysOff
         // The fixture ends in a newline, as text files do; JSONEncoder doesn't write one.
         let expected = try String(contentsOf: fixture, encoding: .utf8).trimmingCharacters(in: .newlines)

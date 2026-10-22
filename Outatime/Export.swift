@@ -5,7 +5,7 @@ import UniformTypeIdentifiers
 nonisolated struct DaySummary {
     var date: Date
     var hours: [Activity: TimeInterval]
-    /// The hours that count toward the target, and what the day owed.
+    /// The hours that count toward the target, and what the day owed. The balance counts Extra at its rate.
     var worked, owed, balance: TimeInterval
     /// Taken off from the hours bank.
     var timeOff: TimeInterval
@@ -18,7 +18,7 @@ nonisolated struct DaySummary {
             let owed = target.owed(on: date, now: now), off = target.booked[date.dayKey] ?? 0
             guard !es.isEmpty || owed > 0 || off > 0 else { return nil }
             let t = Store.totals(es), worked = t.worked(excluding: target.excluded)
-            return DaySummary(date: date, hours: t, worked: worked, owed: owed, balance: target.balance(worked: worked, on: date, now: now),
+            return DaySummary(date: date, hours: t, worked: worked, owed: owed, balance: target.balance(worked: target.credited(t, on: date), on: date, now: now),
                               timeOff: off, notes: es.flatMap(\.notes).joined(separator: "; "))
         }
     }

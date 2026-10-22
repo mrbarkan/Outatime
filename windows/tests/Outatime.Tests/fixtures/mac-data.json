@@ -32,6 +32,15 @@
       "start" : "2026-09-03T16:00:00Z"
     }
   ],
+  "extraRates" : [
+    {
+      "rate" : 1.25
+    },
+    {
+      "rate" : 2,
+      "since" : "2026-09-04"
+    }
+  ],
   "objectives" : [
     {
       "amount" : 8000,

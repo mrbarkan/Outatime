@@ -108,7 +108,7 @@ struct MenuBarLabel: View {
                 }
             } else if style == .remaining {
                 let t = store.target(hours: targetHours, excluded: excluded)
-                let left = store.totals(on: .now).worked(excluding: excluded) - t.owed(on: .now)
+                let left = t.credited(store.totals(on: .now), on: .now) - t.owed(on: .now)
                 HStack(spacing: 4) {
                     icon(store.running?.activity)
                     Text((left >= 0 ? "+" : "−") + abs(left).hm)

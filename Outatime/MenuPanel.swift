@@ -121,7 +121,7 @@ struct MenuPanel: View {
             Grid(alignment: .trailing, horizontalSpacing: 12, verticalSpacing: 4) {
                 // Today is still in progress: a shortfall isn't alarming yet.
                 let worked = t.worked(excluding: excluded)
-                row("Today", worked: worked, balance: worked - target.owed(on: .now), shortfall: .secondary)
+                row("Today", worked: worked, balance: target.credited(t, on: .now) - target.owed(on: .now), shortfall: .secondary)
                 row("This Week", worked: week.worked, balance: week.balance, shortfall: .red)
                 row("This Month", worked: month.worked, balance: month.balance, shortfall: .red)
                 row("Since \(since, format: .dateTime.day().month(.abbreviated))", worked: bank.worked, balance: bank.balance,

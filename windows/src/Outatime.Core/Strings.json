@@ -99,6 +99,14 @@
   "es": "Apariencia",
   "pt-BR": "Aparência"
  },
+ "Apply to All": {
+  "es": "Aplicar a todo",
+  "pt-BR": "Aplicar a tudo"
+ },
+ "Apply to All…": {
+  "es": "Aplicar a todo…",
+  "pt-BR": "Aplicar a tudo…"
+ },
  "Apply to This Day": {
   "es": "Aplicar a este día",
   "pt-BR": "Aplicar a este dia"
@@ -126,6 +134,14 @@
  "Balance %@%@": {
   "es": "Saldo %1$@%2$@",
   "pt-BR": "Saldo %1$@%2$@"
+ },
+ "Balances and the hours bank are recounted. Worked hours and client reports don't change.": {
+  "es": "Los saldos y el banco de horas se recalculan. Las horas trabajadas y los informes de clientes no cambian.",
+  "pt-BR": "Os saldos e o banco de horas são recalculados. As horas trabalhadas e os relatórios de clientes não mudam."
+ },
+ "Balances and the hours bank count Extra at this rate from today on; worked hours and client reports stay as worked.": {
+  "es": "Los saldos y el banco de horas cuentan el Extra a este factor desde hoy; las horas trabajadas y los informes de clientes quedan tal como se trabajaron.",
+  "pt-BR": "Os saldos e o banco de horas contam o Extra com este fator a partir de hoje; as horas trabalhadas e os relatórios de clientes ficam como trabalhadas."
  },
  "Block edges": {
   "es": "Bordes de los bloques",
@@ -179,9 +195,17 @@
   "es": "Continuar",
   "pt-BR": "Continuar"
  },
+ "Count all past Extra as %@?": {
+  "es": "¿Contar todo el Extra anterior como %@?",
+  "pt-BR": "Contar todo o Extra anterior como %@?"
+ },
  "Counting since": {
   "es": "Contando desde",
   "pt-BR": "Contando desde"
+ },
+ "Counts at this rate too": {
+  "es": "También cuenta a este factor",
+  "pt-BR": "Também conta com este fator"
  },
  "Counts toward the target": {
   "es": "Cuenta para la meta",
@@ -295,6 +319,10 @@
   "es": "Extra después de la meta",
   "pt-BR": "Extra após a meta"
  },
+ "Extra counts as": {
+  "es": "Extra cuenta como",
+  "pt-BR": "Extra conta como"
+ },
  "Fixed": {
   "es": "Corregido",
   "pt-BR": "Corrigido"
@@ -370,6 +398,10 @@
  "It opened empty after the last update. It now lists what changed, including everything new in 1.1.": {
   "es": "Se abría vacía tras la última actualización. Ahora muestra los cambios, incluido todo lo nuevo de la 1.1.",
   "pt-BR": "Abria vazia após a última atualização. Agora mostra o que mudou, incluindo tudo o que chegou na 1.1."
+ },
+ "Keeps the rate it had": {
+  "es": "Conserva el factor que tenía",
+  "pt-BR": "Mantém o fator que tinha"
  },
  "Language": {
   "es": "Idioma",
@@ -522,6 +554,10 @@
  "Overtime in the hours bank buys days off, one daily target each. Settings → Target sets where the bank starts.": {
   "es": "Las horas de más del banco de horas compran días libres, una meta diaria cada uno. En Ajustes → Meta eliges desde cuándo cuenta el banco.",
   "pt-BR": "As horas a mais do banco de horas compram folgas, uma meta diária cada. Em Ajustes → Meta você define desde quando o banco conta."
+ },
+ "Past Extra": {
+  "es": "Extra anterior",
+  "pt-BR": "Extra anterior"
  },
  "Paused": {
   "es": "En pausa",

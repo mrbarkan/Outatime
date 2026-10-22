@@ -103,12 +103,20 @@ public record struct Carried(Guid Id, string Date, double Hours, string Note = "
     public Carried(string date, double hours, string note = "") : this(Guid.NewGuid(), date, hours, note) { }
 }
 
+/// What an hour of Extra counts for in balances and the hours bank, from `Since` (a day key; null: from the start)
+/// until the next rate. Changing the rate starts a new one today, so past Extra keeps what it counted for.
+public record struct ExtraRate(double Rate, string? Since = null)
+{
+    public static readonly double[] Choices = [1, 1.25, 1.5, 2];
+}
+
 /// What the hours bank holds, the time worked behind it, and how much of it is already booked as time off ahead.
 public readonly record struct HoursBank(double Balance, double Worked, double BookedAhead);
 
 /// The daily target and which days owe it. `Booked`: seconds of each day taken off from the bank, by day key; see Book.
+/// `ExtraRates`: oldest first; none: Extra counts as it's worked.
 public record struct Target(double Seconds, DateTimeOffset Since, string Excluded = Activities.DefaultExcluded, IReadOnlySet<string>? DaysOff = null,
-                            IReadOnlyDictionary<string, double>? Booked = null)
+                            IReadOnlyDictionary<string, double>? Booked = null, IReadOnlyList<ExtraRate>? ExtraRates = null)
 {
     readonly IReadOnlySet<string> Off => DaysOff ?? new HashSet<string>();
 
@@ -127,6 +135,17 @@ public record struct Target(double Seconds, DateTimeOffset Since, string Exclude
 
     /// Not a weekend or a holiday.
     public readonly bool IsWorkday(DateTimeOffset day) => !Cal.IsWeekend(day) && !Off.Contains(day.DayKey());
+
+    /// What Extra counts for on a day: the last rate started by then.
+    public readonly double ExtraRate(DateTimeOffset day)
+    {
+        var key = day.DayKey();
+        return ExtraRates?.LastOrDefault(r => string.CompareOrdinal(r.Since ?? "", key) <= 0) is { Rate: > 0 } r ? r.Rate : 1;
+    }
+
+    /// A day's worked time as balances count it: Extra at its rate.
+    public readonly double Credited(IReadOnlyDictionary<Activity, double> totals, DateTimeOffset day) =>
+        totals.Worked(Excluded) + (ExtraRate(day) - 1) * totals.Get(Activity.Extra);
 
     /// What a day adds to a week/month balance. Today is still in progress: it can add a surplus, not a shortfall yet.
     public readonly double Balance(double worked, DateTimeOffset day, DateTimeOffset? now = null)

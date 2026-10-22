@@ -229,6 +229,51 @@ public class CoreTests
         Assert.Equal(-6 * 3600, Store.BankOf(entries, carried, target, D(4), now).Balance);
     }
 
+    /// Thu 3 Sep 9h of Work and 2h of Extra, Fri 4 8h of Work and 2h of Extra; 1.5× from Fri on.
+    [Fact]
+    public void ExtraCountsAtItsRate()
+    {
+        var entries = new[] { E(A.Work, At(9), At(18)), E(A.Extra, At(20), At(22)),
+                              E(A.Work, Cal.Setting(D(4), 9), Cal.Setting(D(4), 17)), E(A.Extra, Cal.Setting(D(4), 20), Cal.Setting(D(4), 22)) };
+        var target = new Target(8 * 3600, Day, ExtraRates: [new ExtraRate(1.5, "2026-09-04")]);
+        var now = Cal.Setting(D(5), 12);
+        Assert.Equal((1.0, 1.5, 1.5), (target.ExtraRate(Day), target.ExtraRate(D(4)), target.ExtraRate(D(30))));
+        // Worked stays as worked; the balance counts Fri's Extra as 3h: +3 on Thu, +3 on Fri.
+        var b = Store.BalanceOf(entries, new Interval(Day, now), target, now);
+        Assert.Equal((21 * 3600.0, 6 * 3600.0), (b.Worked, b.Balance));
+        Assert.Equal(6 * 3600, Store.BankOf(entries, [], target, Day, now).Balance);
+        var days = DaySummary.Days([Day, D(4)], entries, target, now);
+        Assert.Equal([11 * 3600.0, 10 * 3600], days.Select(d => d.Worked));
+        Assert.Equal([3 * 3600.0, 3 * 3600], days.Select(d => d.Balance));
+        // From the start, Thu's Extra counts 1.5× too.
+        var all = target with { ExtraRates = [new ExtraRate(1.5)] };
+        Assert.Equal(7 * 3600, Store.BalanceOf(entries, new Interval(Day, now), all, now).Balance);
+    }
+
+    [Fact]
+    public void ExtraRateStartsTodayUntilAppliedToAll()
+    {
+        var store = NewStore();
+        Assert.True(store.ExtraRate == 1 && store.ExtraRateCoversAll);
+        store.SetExtraRate(1.5, D(4));
+        store.SetExtraRate(2, D(4));  // the same day: a correction
+        Assert.Equal([new ExtraRate(2, "2026-09-04")], store.ExtraRates);
+        Assert.False(store.ExtraRateCoversAll);
+        store.SetExtraRate(1.25, D(10));
+        store.SetExtraRate(1.25, D(11));  // unchanged: no new rate
+        Assert.Equal([2, 1.25], store.ExtraRates.Select(r => r.Rate));
+        Assert.Equal(1.25, store.ExtraRate);
+        Assert.Equal(2, store.Target(8, "").ExtraRate(D(8)));
+        store.ApplyExtraRateToAll();
+        Assert.Equal([new ExtraRate(1.25)], store.ExtraRates);
+        Assert.True(store.ExtraRateCoversAll);
+        Assert.Equal(store.ExtraRates, new Store(store.Path).ExtraRates);
+        // Back to 1× from the start: nothing to store.
+        store.SetExtraRate(1, D(12));
+        store.ApplyExtraRateToAll();
+        Assert.Empty(store.ExtraRates);
+    }
+
     [Fact]
     public void BankRecordsRoundTrip()
     {

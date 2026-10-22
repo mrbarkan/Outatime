@@ -180,14 +180,28 @@ public sealed class SettingsWindow : AppWindow
         {
             if (since.SelectedDate is { } d && Cal.At(d.Date) != Settings.BankSince) Settings.Set(s => s.BankSince = Cal.At(d.Date));
         };
-        return Section(
+        // "1.5×", in the language's digits.
+        static string Rate(double r) => r.ToString("0.##", Loc.Culture) + "×";
+        var extra = Section(
+            Labeled(Loc.T("Extra counts as"), Picker(ExtraRate.Choices, Store.ExtraRate, Rate, r => Store.SetExtraRate(r))),
+            Spread(V(2, Text(Loc.T("Past Extra")), Caption(Loc.T(Store.ExtraRateCoversAll ? "Counts at this rate too" : "Keeps the rate it had"))),
+                   Button(Loc.T("Apply to All…"), () => _ = ApplyExtraRateToAll(Rate(Store.ExtraRate))).With(b => b.IsEnabled = !Store.ExtraRateCoversAll)),
+            Caption(Loc.T("Balances and the hours bank count Extra at this rate from today on; worked hours and client reports stay as worked.")));
+        return V(12, Section(
             Stepper(Loc.T("Daily target %@h", hours.ToString("0.#", Loc.Culture)),
                     () => Settings.Set(s => s.TargetHours = Math.Max(0, hours - 0.5)), () => Settings.Set(s => s.TargetHours = Math.Min(16, hours + 0.5)),
                     hours > 0, hours < 16),
             Labeled(Loc.T("Counts toward the target"), counts),
             Labeled(Loc.T("Hours bank since"), since),
             Toggle(Loc.T("Switch to Extra after the target"), Settings.AutoExtra, on => Settings.Set(s => s.AutoExtra = on)),
-            Caption(Loc.T("Weekends and holidays owe nothing; log holidays and time off in the Logbook's Hours Bank.")));
+            Caption(Loc.T("Weekends and holidays owe nothing; log holidays and time off in the Logbook's Hours Bank."))), extra);
+    }
+
+    async Task ApplyExtraRateToAll(string rate)
+    {
+        var message = Loc.T("Count all past Extra as %@?", rate) + "\n\n"
+                      + Loc.T("Balances and the hours bank are recounted. Worked hours and client reports don't change.");
+        if (await Dialogs.Confirm(this, message, Loc.T("Apply to All"), destructive: false)) Store.ApplyExtraRateToAll();
     }
 
     /// The tomato timer and the reminders that get you out of the chair.

@@ -1154,6 +1154,98 @@
         }
       }
     },
+    "Apply to All": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf alles anwenden"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplicar a todo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appliquer à tout"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Applica a tutto"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "すべてに適用"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplicar a tudo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部应用"
+          }
+        }
+      }
+    },
+    "Apply to All…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf alles anwenden…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplicar a todo…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appliquer à tout…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Applica a tutto…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "すべてに適用…"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplicar a tudo…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部应用…"
+          }
+        }
+      }
+    },
     "Apply to This Day": {
       "localizations": {
         "de": {
@@ -1472,6 +1564,98 @@
           "stringUnit": {
             "state": "translated",
             "value": "结余 %1$@%2$@"
+          }
+        }
+      }
+    },
+    "Balances and the hours bank are recounted. Worked hours and client reports don't change.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salden und Stundenkonto werden neu berechnet. Gearbeitete Stunden und Kundenberichte ändern sich nicht."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los saldos y el banco de horas se recalculan. Las horas trabajadas y los informes de clientes no cambian."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les soldes et le cumul d’heures sont recalculés. Les heures travaillées et les rapports clients ne changent pas."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saldi e banca ore vengono ricalcolati. Ore lavorate e report dei clienti non cambiano."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "過不足と時間バンクが再計算されます。勤務時間とクライアントレポートは変わりません。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os saldos e o banco de horas são recalculados. As horas trabalhadas e os relatórios de clientes não mudam."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "结余和工时结余将重新计算。已工作时长和客户报告不变。"
+          }
+        }
+      }
+    },
+    "Balances and the hours bank count Extra at this rate from today on; worked hours and client reports stay as worked.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salden und Stundenkonto zählen Extra ab heute mit diesem Faktor; gearbeitete Stunden und Kundenberichte bleiben, wie gearbeitet."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los saldos y el banco de horas cuentan el Extra a este factor desde hoy; las horas trabajadas y los informes de clientes quedan tal como se trabajaron."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les soldes et le cumul d’heures comptent l’Extra à ce taux à partir d’aujourd’hui ; les heures travaillées et les rapports clients restent tels quels."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saldi e banca ore contano l’Extra con questo fattore da oggi in poi; ore lavorate e report dei clienti restano come lavorate."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今日以降の残業は、過不足と時間バンクでこの倍率で換算されます。勤務時間とクライアントレポートは実際の時間のままです。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os saldos e o banco de horas contam o Extra com este fator a partir de hoje; as horas trabalhadas e os relatórios de clientes ficam como trabalhadas."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从今天起，结余和工时结余按此倍率折算加班；已工作时长和客户报告保持实际时长。"
           }
         }
       }
@@ -2074,6 +2258,52 @@
         }
       }
     },
+    "Count all past Extra as %@?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alles frühere Extra mit %@ zählen?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Contar todo el Extra anterior como %@?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compter tout l’Extra passé à %@ ?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contare tutto l’Extra passato a %@?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "過去の残業をすべて%@で換算しますか？"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contar todo o Extra anterior como %@?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将以往所有加班按 %@ 折算？"
+          }
+        }
+      }
+    },
     "Counting since": {
       "localizations": {
         "es": {
@@ -2116,6 +2346,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "统计起始日"
+          }
+        }
+      }
+    },
+    "Counts at this rate too": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zählt auch mit diesem Faktor"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "También cuenta a este factor"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compte aussi à ce taux"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vale anche con questo fattore"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この倍率で換算済み"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Também conta com este fator"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "也按此倍率折算"
           }
         }
       }
@@ -3414,6 +3690,52 @@
         }
       }
     },
+    "Extra counts as": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra zählt"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra cuenta como"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra compte pour"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra vale"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "残業の換算"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra conta como"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加班折算"
+          }
+        }
+      }
+    },
     "Fixed": {
       "localizations": {
         "de": {
@@ -4284,6 +4606,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "上次更新后，此窗口打开时为空白。现在它会列出更改内容，包括 1.1 版的所有新功能。"
+          }
+        }
+      }
+    },
+    "Keeps the rate it had": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Behält seinen bisherigen Faktor"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conserva el factor que tenía"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Garde le taux qu’il avait"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantiene il fattore che aveva"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当時の倍率のまま"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantém o fator que tinha"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保留当时的倍率"
           }
         }
       }
@@ -6035,6 +6403,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "工时结余中多出的时间可以换休息日，每个休息日按一个每日目标计算。在“设置”→“目标”中设置结余的起算日期。"
+          }
+        }
+      }
+    },
+    "Past Extra": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Früheres Extra"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra anterior"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra passé"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra passato"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "過去の残業"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra anterior"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "以往加班"
           }
         }
       }

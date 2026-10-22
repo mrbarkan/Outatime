@@ -34,7 +34,8 @@ struct EditorView: View {
                     Section {
                         ForEach(days, id: \.self) { d in
                             let totals = store.totals(on: d)
-                            DayRow(day: d, totals: totals, worked: totals.worked(excluding: excluded), scale: scale,
+                            DayRow(day: d, totals: totals, worked: totals.worked(excluding: excluded),
+                                   credited: target.credited(totals, on: d), scale: scale,
                                    owed: target.owed(on: d),
                                    off: target.daysOff.contains(d.dayKey) ? .holiday : (target.booked[d.dayKey] ?? 0) > 0 ? .timeOff : nil,
                                    // The highlight is only accent-coloured while the list is focused in the active window;
@@ -181,7 +182,8 @@ struct EditorView: View {
 
     private func summary(_ entries: [Entry]) -> some View {
         let t = Store.totals(entries)
-        let balance = t.worked(excluding: excluded) - store.target(hours: targetHours, excluded: excluded).owed(on: day)
+        let target = store.target(hours: targetHours, excluded: excluded)
+        let balance = target.credited(t, on: day) - target.owed(on: day)
         return HStack(spacing: 14) {
             ForEach(Activity.allCases.filter { $0 == .work || t[$0, default: 0] > 0 }) { a in
                 Label(t[a, default: 0].hm, systemImage: a.symbol).foregroundStyle(a.color)
@@ -207,6 +209,7 @@ private struct DayRow: View {
     let day: Date
     let totals: [Activity: TimeInterval]
     let worked: TimeInterval
+    let credited: TimeInterval  // worked, Extra at its rate
     let scale: TimeInterval  // the month's longest bar
     let owed: TimeInterval
     let off: LogKind?  // a holiday, or time off from the bank
@@ -215,7 +218,7 @@ private struct DayRow: View {
     var body: some View {
         let cal = Calendar.current
         let today = cal.isDateInToday(day)
-        let balance = worked - owed
+        let balance = credited - owed
         HStack(spacing: 10) {
             Text(day, format: .dateTime.weekday(.abbreviated).day())
                 .fontWeight(today ? .bold : .regular)

@@ -156,7 +156,7 @@ public sealed class LogbookWindow : AppWindow
         var dayOff = target.DaysOff?.Contains(d.DayKey()) == true;
         var today = Cal.IsToday(d);
         var selected = Cal.SameDay(d, day);
-        var balance = worked - owed;
+        var balance = target.Credited(totals, d) - owed;
         IBrush? White(IBrush? other) => selected ? Brushes.White : other;
 
         var label = Ui.Text(d.Format("ddd d"), 13, today ? FontWeight.Bold : FontWeight.Normal,
@@ -316,7 +316,8 @@ public sealed class LogbookWindow : AppWindow
     Control Summary()
     {
         var t = Store.TotalsOf(store.EntriesOn(day));
-        var balance = t.Worked(settings.ExcludedFromTarget) - settings.Target(store).Owed(day);
+        var target = settings.Target(store);
+        var balance = target.Credited(t, day) - target.Owed(day);
         var totals = Ui.H(14);
         foreach (var a in Activities.All.Where(a => a == Activity.Work || t.Get(a) > 0))
             totals.Children.Add(Ui.H(4, Ui.Icon(a.Symbol(), 14, a.Fill()), Ui.Text(t.Get(a).Hm(), color: a.Fill(), tabular: true)));

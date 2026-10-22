@@ -131,8 +131,11 @@ private struct TargetSettings: View {
     @AppStorage("excludedFromTarget") private var excluded = Activity.defaultExcluded
     @AppStorage("bankSince") private var bankSince = 0.0  // 0: since the first entry
     @AppStorage("autoExtra") private var autoExtra = true
+    @State private var recounting = false
 
     var body: some View {
+        // "1.5×", in the locale's digits.
+        let rate = "\(store.extraRate.formatted())×"
         Form {
             Section {
                 Stepper("Daily target \(targetHours.formatted())h", value: $targetHours, in: 0...16, step: 0.5)
@@ -158,8 +161,28 @@ private struct TargetSettings: View {
                 Text("Weekends and holidays owe nothing; log holidays and time off in the Logbook's Hours Bank.")
                     .font(.caption).foregroundStyle(.secondary)
             }
+            Section {
+                Picker("Extra counts as", selection: Binding(get: { store.extraRate }, set: { store.setExtraRate($0) })) {
+                    ForEach(ExtraRate.choices, id: \.self) { Text(verbatim: "\($0.formatted())×") }
+                }
+                .pickerStyle(.segmented)
+                LabeledContent {
+                    Button("Apply to All…") { recounting = true }.disabled(store.extraRateCoversAll)
+                } label: {
+                    Text("Past Extra")
+                    Text(store.extraRateCoversAll ? "Counts at this rate too" : "Keeps the rate it had")
+                }
+            } footer: {
+                Text("Balances and the hours bank count Extra at this rate from today on; worked hours and client reports stay as worked.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
         }
         .settingsForm()
+        .confirmationDialog("Count all past Extra as \(rate)?", isPresented: $recounting) {
+            Button("Apply to All") { store.applyExtraRateToAll() }
+        } message: {
+            Text("Balances and the hours bank are recounted. Worked hours and client reports don't change.")
+        }
     }
 }
 

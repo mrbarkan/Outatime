@@ -142,7 +142,8 @@ public sealed class Shell
             return $"Outatime — {(round.Phase == Pomodoro.Phase.Focus ? Loc.T("Round %lld", round.Number) : Loc.T("Break"))} · {round.Countdown(now)}";
         if (settings.TrayStyle == TrayStyle.Remaining)
         {
-            var left = store.TotalsOn(now).Worked(settings.ExcludedFromTarget) - settings.Target(store).Owed(now, now);
+            var target = settings.Target(store);
+            var left = target.Credited(store.TotalsOn(now), now) - target.Owed(now, now);
             return $"Outatime — {left.Signed()}";
         }
         if (store.Running is { } r)

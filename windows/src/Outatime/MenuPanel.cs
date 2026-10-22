@@ -260,7 +260,7 @@ public sealed class MenuPanel : AppWindow
                 Text(balance.Signed(), 11, tabular: true, color: balance >= 0 ? Green : shortfall, secondary: balance < 0 && shortfall != Red));
         // Today is still in progress: a shortfall isn't alarming yet.
         var today = t.Worked(Settings.ExcludedFromTarget);
-        Balance(Label(Loc.T("Today")), today, today - target.Owed(now, now), Brushes.Gray);
+        Balance(Label(Loc.T("Today")), today, target.Credited(t, now) - target.Owed(now, now), Brushes.Gray);
         Balance(Label(Loc.T("This Week")), week.Worked, week.Balance, Red);
         Balance(Label(Loc.T("This Month")), month.Worked, month.Balance, Red);
         // The bank's row opens the Logbook and its Hours Bank, as on the Mac.

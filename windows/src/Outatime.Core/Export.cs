@@ -4,7 +4,8 @@ using Style = Outatime.Xlsx.Style;
 
 namespace Outatime;
 
-/// One row of a report: a day with entries, owed hours or time off. Summed, the balances match the app's balances.
+/// One row of a report: a day with entries, owed hours or time off. Summed, the balances match the app's balances; they
+/// count Extra at its rate, Worked as worked.
 public sealed record DaySummary(DateTimeOffset Date, Dictionary<Activity, double> Hours, double Worked, double Owed, double Balance, double TimeOff,
                                 string Notes)
 {
@@ -21,7 +22,7 @@ public sealed record DaySummary(DateTimeOffset Date, Dictionary<Activity, double
             if (es.Count == 0 && owed <= 0 && off <= 0) continue;
             var t = Store.TotalsOf(es);
             var worked = t.Worked(target.Excluded);
-            days.Add(new DaySummary(date, t, worked, owed, target.Balance(worked, date, n), off, string.Join("; ", es.SelectMany(e => e.Notes))));
+            days.Add(new DaySummary(date, t, worked, owed, target.Balance(target.Credited(t, date), date, n), off, string.Join("; ", es.SelectMany(e => e.Notes))));
         }
         return days;
     }

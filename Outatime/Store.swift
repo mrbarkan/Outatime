@@ -13,6 +13,7 @@ final class Store {
     var objectives: [Objective] = [] { didSet { if loaded { save() } } }
     var timeOff: [TimeOff] = [] { didSet { if loaded { save() } } }
     var carried: [Carried] = [] { didSet { if loaded { save() } } }
+    var extraRates: [ExtraRate] = [] { didSet { if loaded { save() } } }
     /// The menu asks the Logbook to open its Hours Bank sheet.
     var editingBank = false
     /// The menu asks the Logbook to open its Objectives sheet.
@@ -34,6 +35,7 @@ final class Store {
         var objectives: [Objective]?  // added in 1.3
         var timeOff: [TimeOff]?  // added in 1.3
         var carried: [Carried]?  // added in 1.3
+        var extraRates: [ExtraRate]?  // added in 1.3
     }
 
     static let defaultURL = FileManager.default
@@ -54,6 +56,7 @@ final class Store {
                 objectives = file.objectives ?? []
                 timeOff = file.timeOff ?? []
                 carried = file.carried ?? []
+                extraRates = file.extraRates ?? []
             } else {
                 // Unreadable file: keep it aside so the next save can't silently destroy it.
                 try? FileManager.default.moveItem(at: url, to: url.appendingPathExtension("broken-\(Int(Date.now.timeIntervalSince1970))"))
@@ -69,7 +72,7 @@ final class Store {
         encoder.dateEncodingStrategy = .iso8601
         guard let data = try? encoder.encode(File(entries: entries, templates: templates, daysOff: daysOff.sorted(),
                                                 profiles: profiles, current: currentProfile, objectives: objectives,
-                                                timeOff: timeOff, carried: carried)) else { return }
+                                                timeOff: timeOff, carried: carried, extraRates: extraRates)) else { return }
         try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         try? data.write(to: url, options: .atomic)
     }
@@ -229,6 +232,24 @@ final class Store {
         entries += added  // one save
     }
 
+    /// What Extra counts for from today on.
+    var extraRate: Double { extraRates.last?.rate ?? 1 }
+    /// No Extra keeps an older rate.
+    var extraRateCoversAll: Bool { extraRates.allSatisfy { $0.since == nil } }
+
+    /// Extra counts `rate` from today on; earlier days keep the rate they had.
+    func setExtraRate(_ rate: Double, now: Date = .now) {
+        let today = now.dayKey
+        var rates = extraRates.filter { ($0.since ?? "") < today }
+        if (rates.last?.rate ?? 1) != rate { rates.append(ExtraRate(since: today, rate: rate)) }
+        extraRates = rates
+    }
+
+    /// Every Extra block, past ones too, counts at today's rate.
+    func applyExtraRateToAll() {
+        extraRates = extraRate == 1 ? [] : [ExtraRate(rate: extraRate)]
+    }
+
     // MARK: Exports
 
     func monthReport(_ month: Date, target: Target, now: Date = .now) -> Data {
@@ -270,7 +291,8 @@ final class Store {
     }
 
     func target(hours: Double, excluded: String) -> Target {
-        var t = Target(seconds: hours * 3600, excluded: excluded, daysOff: daysOff, since: entries.map(\.start).min() ?? .now)
+        var t = Target(seconds: hours * 3600, excluded: excluded, daysOff: daysOff, since: entries.map(\.start).min() ?? .now,
+                       extraRates: extraRates)
         t.book(timeOff)
         return t
     }
@@ -301,7 +323,7 @@ final class Store {
         return HoursBank(balance: days.balance - off + brought, worked: days.worked, bookedAhead: ahead)
     }
 
-    /// Worked time over the days in `interval`, and their balance against what each day owes.
+    /// Worked time over the days in `interval`, and their balance against what each day owes, Extra at its rate.
     nonisolated static func balance(_ entries: [Entry], in interval: DateInterval, target: Target, now: Date = .now)
         -> (worked: TimeInterval, balance: TimeInterval) {
         let cal = Calendar.current
@@ -309,9 +331,9 @@ final class Store {
         var worked = 0.0, balance = 0.0
         var d = cal.startOfDay(for: interval.start)
         while d < interval.end {
-            let w = byDay[d].map { totals($0).worked(excluding: target.excluded) } ?? 0
-            worked += w
-            balance += target.balance(worked: w, on: d, now: now)
+            let t = byDay[d].map { totals($0) } ?? [:]
+            worked += t.worked(excluding: target.excluded)
+            balance += target.balance(worked: target.credited(t, on: d), on: d, now: now)
             d = cal.date(byAdding: .day, value: 1, to: d)!
         }
         return (worked, balance)

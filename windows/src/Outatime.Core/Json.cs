@@ -12,7 +12,8 @@ namespace Outatime;
 public static class DataFile
 {
     public sealed record Contents(List<Entry> Entries, List<DayTemplate> Templates, HashSet<string> DaysOff, List<Profile> Profiles,
-                                  Guid? Current, List<Objective> Objectives, List<TimeOff>? TimeOff = null, List<Carried>? Carried = null);
+                                  Guid? Current, List<Objective> Objectives, List<TimeOff>? TimeOff = null, List<Carried>? Carried = null,
+                                  List<ExtraRate>? ExtraRates = null);
 
     // MARK: Reading
 
@@ -27,7 +28,8 @@ public static class DataFile
             OptGuid(root, "current"),
             Array(root, "objectives", false).Select(ReadObjective).ToList(),  // added in 1.3
             Array(root, "timeOff", false).Select(ReadTimeOff).ToList(),  // added in 1.3
-            Array(root, "carried", false).Select(ReadCarried).ToList());  // added in 1.3
+            Array(root, "carried", false).Select(ReadCarried).ToList(),  // added in 1.3
+            Array(root, "extraRates", false).Select(ReadExtraRate).ToList());  // added in 1.3
     }
 
     static IEnumerable<JsonNode> Array(JsonObject o, string key, bool required)
@@ -84,6 +86,8 @@ public static class DataFile
 
     static Carried ReadCarried(JsonNode o) => new(ReqGuid(o, "id"), Str(Req(o, "date")), Num(Req(o, "hours")), Str(Req(o, "note")));
 
+    static ExtraRate ReadExtraRate(JsonNode o) => new(Num(Req(o, "rate")), o["since"] is { } s ? Str(s) : null);
+
     // MARK: Writing
 
     public static string Write(Contents c)
@@ -101,6 +105,7 @@ public static class DataFile
             ["timeOff"] = (c.TimeOff ?? []).Select(t => Obj(("id", G(t.Id)), ("start", t.Start), ("end", t.End), ("hours", t.Hours),
                 ("note", t.Note))).ToList(),
             ["carried"] = (c.Carried ?? []).Select(x => Obj(("id", G(x.Id)), ("date", x.Date), ("hours", x.Hours), ("note", x.Note))).ToList(),
+            ["extraRates"] = (c.ExtraRates ?? []).Select(r => Obj(("rate", r.Rate), ("since", r.Since))).ToList(),
         };
         if (c.Current is { } current) root["current"] = G(current);
         var sb = new StringBuilder();
