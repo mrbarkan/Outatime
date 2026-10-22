@@ -23,6 +23,10 @@ enum WhatsNew {
                  detail: "Set goals under Objectives in the Logbook: days off to bank for a vacation, or a client's package of hours or pay. The menu counts one down next to Export."),
             Item(symbol: "building.columns", color: .green, title: "Hours Bank",
                  detail: "Log time off, holidays and overtime carried over in the Logbook's Hours Bank. Travel and Out of Office are logged by the day instead of timed in the menu. Older versions drop time off and carried hours when they save."),
+            Item(symbol: Activity.extra.symbol, color: Activity.extra.color, title: "Overtime rate",
+                 detail: "Extra can count 1.25×, 1.5× or 2× toward your balances and the hours bank. Set it in Settings → Target, from today on or for all past Extra too."),
+            Item(symbol: "delete.left", color: .gray, title: "Delete selected blocks",
+                 detail: "Press Delete in the Logbook to remove the blocks you've selected."),
         ]),
         Release(version: "1.2.3", new: [
             Item(symbol: "info.circle", color: .gray, title: "About Outatime",

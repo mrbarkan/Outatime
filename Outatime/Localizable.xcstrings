@@ -2994,6 +2994,52 @@
         }
       }
     },
+    "Delete selected blocks": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausgewählte Blöcke löschen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar bloques seleccionados"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer les blocs sélectionnés"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elimina i blocchi selezionati"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選択したブロックを削除"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apagar blocos selecionados"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除所选时段"
+          }
+        }
+      }
+    },
     "Done": {
       "localizations": {
         "de": {
@@ -3686,6 +3732,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "达标后计为加班"
+          }
+        }
+      }
+    },
+    "Extra can count 1.25×, 1.5× or 2× toward your balances and the hours bank. Set it in Settings → Target, from today on or for all past Extra too.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra kann in Salden und im Stundenkonto 1,25×, 1,5× oder 2× zählen. Stell es unter Einstellungen → Ziel ein, ab heute oder auch für alles frühere Extra."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El Extra puede contar 1,25×, 1,5× o 2× en tus saldos y el banco de horas. Ajústalo en Ajustes → Meta, desde hoy o también para todo el Extra anterior."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’Extra peut compter 1,25×, 1,5× ou 2× dans vos soldes et le cumul d’heures. Réglez-le dans Réglages → Objectif, à partir d’aujourd’hui ou aussi pour tout l’Extra passé."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’Extra può valere 1,25×, 1,5× o 2× nei saldi e nella banca ore. Impostalo in Impostazioni → Obiettivo, da oggi in poi o anche per tutto l’Extra passato."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "残業を過不足と時間バンクで1.25倍、1.5倍、2倍に換算できます。設定 → 目標で、今日以降または過去の残業すべてに設定できます。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Extra pode contar 1,25×, 1,5× ou 2× nos seus saldos e no banco de horas. Ajuste em Ajustes → Meta, a partir de hoje ou também para todo o Extra anterior."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加班可在结余和工时结余中按 1.25×、1.5× 或 2× 折算。在设置 → 目标中设定，从今天起，或也应用到以往所有加班。"
           }
         }
       }
@@ -6407,6 +6499,52 @@
         }
       }
     },
+    "Overtime rate": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Überstundenfaktor"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Factor de horas extra"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taux des heures sup"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fattore straordinari"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "残業の倍率"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fator de hora extra"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加班倍率"
+          }
+        }
+      }
+    },
     "Past Extra": {
       "localizations": {
         "de": {
@@ -6547,6 +6685,52 @@
     },
     "Português (Brasil)": {
       "shouldTranslate": false
+    },
+    "Press Delete in the Logbook to remove the blocks you've selected.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drück im Logbuch die Löschtaste, um die ausgewählten Blöcke zu entfernen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pulsa Suprimir en la Bitácora para quitar los bloques seleccionados."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appuyez sur Supprimer dans le Journal pour retirer les blocs sélectionnés."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Premi Elimina nel Diario per rimuovere i blocchi selezionati."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日誌でDeleteキーを押すと、選択したブロックを削除できます。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pressione Delete no Diário de bordo para remover os blocos selecionados."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在日志中按删除键即可移除所选时段。"
+          }
+        }
+      }
     },
     "Previous Day": {
       "localizations": {

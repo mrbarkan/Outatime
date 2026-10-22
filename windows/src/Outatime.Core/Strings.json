@@ -259,6 +259,10 @@
   "es": "Eliminar plantilla",
   "pt-BR": "Excluir modelo"
  },
+ "Delete selected blocks": {
+  "es": "Eliminar bloques seleccionados",
+  "pt-BR": "Apagar blocos selecionados"
+ },
  "Done": {
   "es": "Completada",
   "pt-BR": "Concluída"
@@ -318,6 +322,10 @@
  "Extra after the target": {
   "es": "Extra después de la meta",
   "pt-BR": "Extra após a meta"
+ },
+ "Extra can count 1.25×, 1.5× or 2× toward your balances and the hours bank. Set it in Settings → Target, from today on or for all past Extra too.": {
+  "es": "El Extra puede contar 1,25×, 1,5× o 2× en tus saldos y el banco de horas. Ajústalo en Ajustes → Meta, desde hoy o también para todo el Extra anterior.",
+  "pt-BR": "O Extra pode contar 1,25×, 1,5× ou 2× nos seus saldos e no banco de horas. Ajuste em Ajustes → Meta, a partir de hoje ou também para todo o Extra anterior."
  },
  "Extra counts as": {
   "es": "Extra cuenta como",
@@ -555,6 +563,10 @@
   "es": "Las horas de más del banco de horas compran días libres, una meta diaria cada uno. En Ajustes → Meta eliges desde cuándo cuenta el banco.",
   "pt-BR": "As horas a mais do banco de horas compram folgas, uma meta diária cada. Em Ajustes → Meta você define desde quando o banco conta."
  },
+ "Overtime rate": {
+  "es": "Factor de horas extra",
+  "pt-BR": "Fator de hora extra"
+ },
  "Past Extra": {
   "es": "Extra anterior",
   "pt-BR": "Extra anterior"
@@ -566,6 +578,10 @@
  "Pick the client in the menu. Work, Extra and Travel are tracked for it.": {
   "es": "Elige el cliente en el menú. Trabajo, Extra y Viaje se registran para él.",
   "pt-BR": "Escolha o cliente no menu. Trabalho, Extra e Deslocamento são registrados para ele."
+ },
+ "Press Delete in the Logbook to remove the blocks you've selected.": {
+  "es": "Pulsa Suprimir en la Bitácora para quitar los bloques seleccionados.",
+  "pt-BR": "Pressione Delete no Diário de bordo para remover os blocos selecionados."
  },
  "Previous Day": {
   "es": "Día anterior",

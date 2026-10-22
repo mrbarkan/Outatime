@@ -18,6 +18,8 @@ public static class WhatsNew
                 "Everything from the Mac: the tray panel, the Logbook, clients, objectives, the tomato timer and Excel reports. Your data.json moves between the two."),
             new("BuildingBank", "#34C759", "Hours Bank",
                 "Log time off, holidays and overtime carried over in the Logbook's Hours Bank. Travel and Out of Office are logged by the day instead of timed in the menu. Older versions drop time off and carried hours when they save."),
+            new("WeatherMoon", "#BF5AF2", "Overtime rate",
+                "Extra can count 1.25×, 1.5× or 2× toward your balances and the hours bank. Set it in Settings → Target, from today on or for all past Extra too."),
         ], []),
     ];
 
