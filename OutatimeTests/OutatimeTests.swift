@@ -525,6 +525,19 @@ nonisolated struct OutatimeTests {
         #expect(vacation.used == nil && !vacation.renews)
     }
 
+    /// As the Objectives sheet's Delete button does it, through the section's binding.
+    @Test @MainActor func deletingAnObjectiveThroughItsBinding() throws {
+        let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        let store = Store(url: url)
+        store.objectives = [Objective(kind: .hours, amount: 80), Objective(kind: .daysOff, amount: 5)]
+        let keep = store.objectives[1].id
+        let o = store.binding(for: store.objectives[0])
+        store.deleteObjective(o.wrappedValue.id)
+        #expect(store.objectives.map(\.id) == [keep])
+        #expect(Store(url: url).objectives.map(\.id) == [keep])
+    }
+
     @Test @MainActor func objectivesRoundTrip() throws {
         let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
         defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }

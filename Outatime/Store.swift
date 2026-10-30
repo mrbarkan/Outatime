@@ -378,6 +378,11 @@ final class Store {
         return met
     }
 
+    /// Takes the id, not a binding: reading a binding from `removeAll`'s closure is a second access to `objectives`, and aborts.
+    func deleteObjective(_ id: Objective.ID) {
+        objectives.removeAll { $0.id == id }
+    }
+
     func renewObjective(_ id: Objective.ID) {
         if let i = objectives.firstIndex(where: { $0.id == id }) { objectives[i].renew() }
     }

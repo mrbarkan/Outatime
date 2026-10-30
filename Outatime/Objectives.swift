@@ -237,7 +237,7 @@ struct ObjectivesView: View {
                 }
                 .foregroundStyle(shown ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
                 .labelStyle(.iconOnly).help("Show in Menu")
-                Button("Delete", systemImage: "trash", role: .destructive) { store.objectives.removeAll { $0.id == o.wrappedValue.id } }
+                Button("Delete", systemImage: "trash", role: .destructive) { store.deleteObjective(o.wrappedValue.id) }
                     .labelStyle(.iconOnly).help("Delete")
             }
             .buttonStyle(.borderless)
