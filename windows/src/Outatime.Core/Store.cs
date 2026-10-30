@@ -388,6 +388,25 @@ public sealed class Store
         Commit();
     }
 
+    /// The objectives that have reached their goal since the last look, each once until it falls short again.
+    public List<Objective> ObjectivesJustMet(Func<Objective, Objective.ProgressInfo> progress)
+    {
+        var met = new List<Objective>();
+        var updated = objectives.Select(o =>
+        {
+            var done = progress(o).IsDone;
+            if (done && o.Celebrated != true) met.Add(o);
+            return o with { Celebrated = done ? true : null };
+        }).ToList();
+        if (!updated.SequenceEqual(objectives)) Objectives = updated;
+        return met;
+    }
+
+    public void RenewObjective(Guid id)
+    {
+        if (objectives.FindIndex(o => o.Id == id) is >= 0 and var i) Update(objectives[i].Renewed());
+    }
+
     public void Update(Objective objective)
     {
         var i = objectives.FindIndex(o => o.Id == objective.Id);

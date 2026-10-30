@@ -80,6 +80,8 @@ public static class DataFile
         Currency = Str(Req(o, "currency")),
         Profile = OptGuid(o, "profile"),
         Since = ReqDate(o, "since"),
+        Used = o["used"] is { } u ? Num(u) : null,
+        Celebrated = o["celebrated"]?.GetValue<bool>(),
     };
 
     static TimeOff ReadTimeOff(JsonNode o) =>
@@ -102,7 +104,8 @@ public static class DataFile
             ["daysOff"] = c.DaysOff.Order(StringComparer.Ordinal).ToList(),
             ["profiles"] = c.Profiles.Select(p => Obj(("id", G(p.Id)), ("name", p.Name), ("archived", p.Archived))).ToList(),
             ["objectives"] = c.Objectives.Select(o => Obj(("id", G(o.Id)), ("kind", o.Kind.Raw()), ("name", o.Name), ("amount", o.Amount),
-                ("rate", o.Rate), ("currency", o.Currency), ("profile", o.Profile is { } p ? G(p) : null), ("since", FormatDate(o.Since)))).ToList(),
+                ("rate", o.Rate), ("currency", o.Currency), ("profile", o.Profile is { } p ? G(p) : null), ("since", FormatDate(o.Since)),
+                ("used", o.Used), ("celebrated", o.Celebrated))).ToList(),
             ["timeOff"] = (c.TimeOff ?? []).Select(t => Obj(("id", G(t.Id)), ("start", t.Start), ("end", t.End), ("hours", t.Hours),
                 ("note", t.Note))).ToList(),
             ["carried"] = (c.Carried ?? []).Select(x => Obj(("id", G(x.Id)), ("date", x.Date), ("hours", x.Hours), ("note", x.Note))).ToList(),

@@ -33,7 +33,7 @@ Most time trackers want a project, a client, a billing rate and an account. Outa
 - **Clients** — pick a client from the grid in the menu and Work, Extra and Travel are tracked for them. Switching clients splits the running block right there.
 - **Logbook** — a calendar-style day view. Drag a block to move it, drag an edge to resize it (hold ⌥ to move the border between two blocks), click to edit, double-click empty space to add one, double-click inside a block to cut in a break. ⌘- or ⇧-click several blocks and right-click to change their client or activity, or press Delete to remove them. The month sidebar draws every day on one scale, with a tick at the target.
 - **Hours Bank** — time off (days or hours), holidays and overtime carried over; Travel and Out of Office logged by the day. In the Logbook toolbar, or **Log** in the menu.
-- **Objectives** — under Objectives in the Logbook: days off to bank for a vacation, or a client's package of hours or pay (an amount at an hourly rate). The menu counts one down next to Export.
+- **Objectives** — under Objectives in the Logbook: days off to bank for a vacation, or a client's package of hours or pay (an amount at an hourly rate). The menu counts one down next to Export. Reaching one sends a congratulations notification; a package's **Renew** button, there or in the Objectives sheet, starts it over and carries any extra time into the new round.
 - **Daily balance** — worked time against a target you set (by default everything but lunch counts), for today, the week, the month and an hours bank since a date you choose.
 - **Stats** — what's left of this week's goal and how much more to bank for a day off, right in the menu. Averages per week, month and workday, your usual start and finish, and this month's figures in the Logbook.
 - **Extra after the target** — once a day's worked time reaches the target, Work switches itself to Extra, cut at the exact minute. Weekends and days off are all Extra. Can be turned off.
@@ -75,7 +75,7 @@ Everything lives in one file you own:
 ~/Library/Containers/com.dbarkan.Outatime/Data/Library/Application Support/Outatime/data.json
 ```
 
-Back it up, sync it, `jq` it — it's just entries, templates, clients, objectives, holidays, time off, carried hours and Extra rates. On Windows, Settings → General → **Open Data Folder** shows it; copy it across and either app reads it.
+Back it up, sync it, `jq` it — it's just entries, templates, clients, objectives, holidays, time off, carried hours and Extra and Travel rates. On Windows, Settings → General → **Open Data Folder** shows it; copy it across and either app reads it.
 
 ## Export
 

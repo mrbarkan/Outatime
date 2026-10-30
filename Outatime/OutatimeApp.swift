@@ -22,7 +22,7 @@ struct OutatimeApp: App {
         guard !Self.isTestHost else { return }
         HotKeys.install { a in store.running?.activity == a ? store.stop() : store.start(a) }
         HotKeys.setEnabled(UserDefaults.standard.object(forKey: "globalShortcuts") as? Bool ?? true)
-        Notify.install { store.start($0) }
+        Notify.install({ store.start($0) }, renew: { store.renewObjective($0) })
     }
 
     var body: some Scene {
@@ -93,6 +93,7 @@ struct MenuBarLabel: View {
     @AppStorage("coloredIcon") private var colored = true
     @AppStorage("targetHours") private var targetHours = 8.0
     @AppStorage("excludedFromTarget") private var excluded = Activity.defaultExcluded
+    @AppStorage("bankSince") private var bankSince = 0.0
     @AppStorage("remindAfterHours") private var remindAfter = 10.0
     @AppStorage("stretchMinutes") private var stretchEvery = 50
     @AppStorage("autoExtra") private var autoExtra = true
@@ -127,6 +128,9 @@ struct MenuBarLabel: View {
             store.rollOver()
             if autoExtra, store.shiftToExtra(store.target(hours: targetHours, excluded: excluded)) {
                 Notify.post("extra", title: String(localized: "Daily target reached"), body: String(localized: "Now tracking Extra."))
+            }
+            for o in store.objectivesJustMet(target: store.target(hours: targetHours, excluded: excluded), bankSince: bankSince) {
+                Notify.objectiveMet(o, name: store.objectiveName(o))
             }
             Reminder.check(since: store.runningSince, after: remindAfter)
             // The tomato's breaks already get you up.

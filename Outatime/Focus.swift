@@ -105,10 +105,14 @@ enum Stretch {
 final class Notify: NSObject, UNUserNotificationCenterDelegate {
     private static let shared = Notify()
     private static var onAction: (Activity) -> Void = { _ in }
+    private static var onRenew: (Objective.ID) -> Void = { _ in }
+    private nonisolated static let objectivePrefix = "objective-", renewAction = "renew"
 
     /// `action` gets the activity a notification button asks for: Break at the end of a focus round, Work after a break.
-    static func install(_ action: @escaping (Activity) -> Void) {
+    /// `renew` gets the objective whose congratulations asks for another round.
+    static func install(_ action: @escaping (Activity) -> Void, renew: @escaping (Objective.ID) -> Void) {
         onAction = action
+        onRenew = renew
         let center = UNUserNotificationCenter.current()
         center.delegate = shared
         center.setNotificationCategories([
@@ -116,6 +120,8 @@ final class Notify: NSObject, UNUserNotificationCenterDelegate {
                                    title: String(localized: "Start Break"))], intentIdentifiers: []),
             UNNotificationCategory(identifier: "break-done", actions: [UNNotificationAction(identifier: Activity.work.rawValue,
                                    title: String(localized: "Back to Work"))], intentIdentifiers: []),
+            UNNotificationCategory(identifier: "objective-met", actions: [UNNotificationAction(identifier: renewAction,
+                                   title: String(localized: "Renew"))], intentIdentifiers: []),
         ])
     }
 
@@ -137,6 +143,14 @@ final class Notify: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
+    /// Congratulations on reaching an objective, with a button to renew a package.
+    static func objectiveMet(_ o: Objective, name: String) {
+        post(objectivePrefix + o.id.uuidString, title: String(localized: "Congratulations!"),
+             body: o.renews ? String(localized: "Objective reached: \(name). Renew it to start counting again.")
+                            : String(localized: "You've banked enough for \(name). Log the days in the Hours Bank when you take them."),
+             category: o.renews ? "objective-met" : nil)
+    }
+
     static func cancel(_ id: String) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
     }
@@ -145,6 +159,11 @@ final class Notify: NSObject, UNUserNotificationCenterDelegate {
         -> UNNotificationPresentationOptions { [.banner, .sound] }
 
     nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+        if response.actionIdentifier == Notify.renewAction {
+            guard let id = UUID(uuidString: String(response.notification.request.identifier.dropFirst(Notify.objectivePrefix.count))) else { return }
+            await MainActor.run { Notify.onRenew(id) }
+            return
+        }
         guard let activity = Activity(rawValue: response.actionIdentifier) else { return }
         await MainActor.run { Notify.onAction(activity) }
     }

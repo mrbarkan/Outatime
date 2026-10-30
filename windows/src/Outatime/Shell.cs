@@ -32,6 +32,7 @@ public sealed class Shell
         this.settings = settings;
         this.notifier = notifier;
         notifier.Action += a => Dispatcher.UIThread.Post(() => store.Start(a));
+        notifier.Renew += id => Dispatcher.UIThread.Post(() => store.RenewObjective(id));
 
         if (showTray)
         {
@@ -67,6 +68,12 @@ public sealed class Shell
         store.RollOver(now);
         if (settings.AutoExtra && store.ShiftToExtra(settings.Target(store), now))
             notifier.Post("extra", Loc.T("Daily target reached"), Loc.T("Now tracking Extra."));
+        foreach (var o in store.ObjectivesJustMet(o => ObjectiveInfo.Progress(store, settings, o)))
+        {
+            var name = ObjectiveInfo.Title(store, o);
+            if (o.Renews) notifier.PostRenewal($"objective-{o.Id}", Loc.T("Congratulations!"), Loc.T("Objective reached: %@. Renew it to start counting again.", name), o.Id, Loc.T("Renew"));
+            else notifier.Post($"objective-{o.Id}", Loc.T("Congratulations!"), Loc.T("You've banked enough for %@. Log the days in the Hours Bank when you take them.", name));
+        }
         // One notification per running stretch once it passes the limit — the timer was probably forgotten.
         if (store.RunningSince is { } since && settings.RemindAfterHours > 0 && now.Since(since) >= settings.RemindAfterHours * 3600 && longTimerSent != since)
         {

@@ -19,6 +19,10 @@ public record struct Objective
     public Guid? Profile { get; set; }
     /// A package counts the client's billable time from this day on.
     public DateTimeOffset Since { get; set; }
+    /// Seconds of that time spent on the package's earlier rounds; see Renewed.
+    public double? Used { get; set; }
+    /// Its congratulations went out; reset once it's short of the goal again.
+    public bool? Celebrated { get; set; }
 
     public Objective(ObjectiveKind kind, double amount, double rate = 0, string? currency = null, Guid? profile = null, DateTimeOffset? since = null, string name = "")
     {
@@ -51,10 +55,17 @@ public record struct Objective
                 var start = Cal.StartOfDay(Since);
                 var profile = Profile;
                 var done = entries.Where(e => e.Activity.Billable() && e.Profile == profile && e.Start >= start).Sum(e => e.Duration);
-                var hours = Kind == ObjectiveKind.Hours ? Amount : Rate > 0 ? Amount / Rate : 0;
-                return new(done, hours * 3600);
+                return new(done - (Used ?? 0), PackageSeconds);
         }
     }
+
+    readonly double PackageSeconds => (Kind == ObjectiveKind.Hours ? Amount : Rate > 0 ? Amount / Rate : 0) * 3600;
+
+    /// Days off need no renewing: logging them draws the bank down, and the objective fills up again from there.
+    public readonly bool Renews => Kind != ObjectiveKind.DaysOff;
+
+    /// The package started over; time past its goal carries into the new round.
+    public readonly Objective Renewed() => Renews ? this with { Used = (Used ?? 0) + PackageSeconds, Celebrated = null } : this;
 }
 
 public static class ObjectiveKinds

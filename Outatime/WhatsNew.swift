@@ -21,6 +21,8 @@ enum WhatsNew {
         Release(version: "1.4", new: [
             Item(symbol: Activity.travel.symbol, color: Activity.travel.color, title: "Travel rate",
                  detail: "Travel can count 0.5×, 0.75×, 1.5× or 2× toward your balances and the hours bank. Set it in Settings → Target, from today on or for all past Travel too."),
+            Item(symbol: "flag.pattern.checkered", color: .indigo, title: "Congratulations and renewal",
+                 detail: "Reaching an objective now sends a congratulations notification. Renew a client's package from the notification or under Objectives; extra time carries over."),
         ]),
         Release(version: "1.3", new: [
             Item(symbol: "flag.pattern.checkered", color: .indigo, title: "Objectives",

@@ -16,9 +16,13 @@ nonisolated struct Objective: Codable, Identifiable, Hashable {
     /// Money per hour; turns a money package into hours.
     var rate = 0.0
     var currency = Locale.current.currency?.identifier ?? "USD"
-    var profile: Profile.ID?
+    var profile: Profile.ID? { didSet { used = nil } }
     /// A package counts the client's billable time from this day on.
-    var since = Calendar.current.startOfDay(for: .now)
+    var since = Calendar.current.startOfDay(for: .now) { didSet { used = nil } }
+    /// Seconds of that time spent on the package's earlier rounds; see `renew`.
+    var used: TimeInterval?
+    /// Its congratulations went out; reset once it's short of the goal again.
+    var celebrated: Bool?
 
     struct Progress {
         var done: TimeInterval, goal: TimeInterval
@@ -36,9 +40,20 @@ nonisolated struct Objective: Codable, Identifiable, Hashable {
         case .hours, .money:
             let start = Calendar.current.startOfDay(for: since)
             let done = entries.filter { $0.activity.billable && $0.profile == profile && $0.start >= start }.map(\.duration).reduce(0, +)
-            let hours = kind == .hours ? amount : rate > 0 ? amount / rate : 0
-            return Progress(done: done, goal: hours * 3600)
+            return Progress(done: done - (used ?? 0), goal: packageSeconds)
         }
+    }
+
+    private var packageSeconds: TimeInterval { (kind == .hours ? amount : rate > 0 ? amount / rate : 0) * 3600 }
+
+    /// Days off need no renewing: logging them draws the bank down, and the objective fills up again from there.
+    var renews: Bool { kind != .daysOff }
+
+    /// Starts a package over; time past its goal carries into the new round.
+    mutating func renew() {
+        guard renews else { return }
+        used = (used ?? 0) + packageSeconds
+        celebrated = nil
     }
 }
 
@@ -82,10 +97,7 @@ private struct ObjectiveContext: DynamicProperty {
     }
 
     func progress(_ o: Objective) -> Objective.Progress {
-        let target = store.target(hours: targetHours, excluded: excluded)
-        let since = bankSince > 0 ? Date(timeIntervalSinceReferenceDate: bankSince) : target.since
-        let bank = o.kind == .daysOff ? store.bank(target, since: since).balance : 0
-        return o.progress(store.entries, bank: bank, dayTarget: target.seconds)
+        store.progress(o, target: store.target(hours: targetHours, excluded: excluded), bankSince: bankSince)
     }
 
     func title(_ o: Objective) -> Text {
@@ -257,6 +269,7 @@ struct ObjectivesView: View {
                     Text("Nothing to count yet").foregroundStyle(.secondary)
                 } else if p.isDone {
                     Text("Done").foregroundStyle(.green)
+                    if o.renews { Button("Renew") { store.renewObjective(o.id) } }
                 } else {
                     Text("\(p.left.hm) left of \(p.goal.hm)")
                 }

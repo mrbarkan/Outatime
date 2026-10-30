@@ -2212,6 +2212,98 @@
         }
       }
     },
+    "Congratulations and renewal": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Glückwunsch und Erneuerung"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Felicitaciones y renovación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Félicitations et renouvellement"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Congratulazioni e rinnovo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "お祝いと更新"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parabéns e renovação"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "祝贺与续订"
+          }
+        }
+      }
+    },
+    "Congratulations!": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Glückwunsch!"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¡Felicidades!"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Félicitations !"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Congratulazioni!"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "おめでとうございます！"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parabéns!"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恭喜！"
+          }
+        }
+      }
+    },
     "Contact Support": {
       "localizations": {
         "es": {
@@ -6174,6 +6266,52 @@
         }
       }
     },
+    "Objective reached: %@. Renew it to start counting again.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorhaben geschafft: %@. Erneuere es, um wieder von vorn zu zählen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objetivo alcanzado: %@. Renuévalo para volver a contar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "But atteint : %@. Renouvelez-le pour recommencer à compter."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Traguardo raggiunto: %@. Rinnovalo per ricominciare a contare."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ゴールを達成しました：%@。更新すると、もう一度カウントを始めます。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objetivo alcançado: %@. Renove para voltar a contar."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "计划已达成：%@。续订后将重新开始计算。"
+          }
+        }
+      }
+    },
     "Objectives": {
       "localizations": {
         "es": {
@@ -7054,6 +7192,52 @@
         }
       }
     },
+    "Reaching an objective now sends a congratulations notification. Renew a client's package from the notification or under Objectives; extra time carries over.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wenn du ein Vorhaben schaffst, kommt jetzt eine Glückwunsch-Mitteilung. Erneuere das Paket eines Kunden dort oder unter Vorhaben; zusätzliche Zeit wird übernommen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Al alcanzar un objetivo ahora recibes una notificación de felicitación. Renueva el paquete de un cliente desde ella o en Objetivos; el tiempo de más se traslada."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atteindre un but envoie maintenant une notification de félicitations. Renouvelez le forfait d’un client depuis celle-ci ou dans Buts ; le temps en plus est reporté."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raggiungere un traguardo ora invia una notifica di congratulazioni. Rinnova il pacchetto di un cliente da lì o in Traguardi; il tempo in più viene riportato."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ゴールを達成すると、お祝いの通知が届くようになりました。クライアントのパッケージは通知または「ゴール」から更新でき、超過した時間は繰り越されます。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alcançar um objetivo agora envia uma notificação de parabéns. Renove o pacote de um cliente por ela ou em Objetivos; o tempo a mais é transferido."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "达成计划时现在会发送祝贺通知。可在通知或“计划”中续订客户的套餐，多出的时长会结转。"
+          }
+        }
+      }
+    },
     "Ready for round %lld?": {
       "localizations": {
         "de": {
@@ -7326,6 +7510,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "移除"
+          }
+        }
+      }
+    },
+    "Renew": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erneuern"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renovar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renouveler"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rinnova"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更新"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renovar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "续订"
           }
         }
       }
@@ -11054,6 +11284,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "已工作"
+          }
+        }
+      }
+    },
+    "You've banked enough for %@. Log the days in the Hours Bank when you take them.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du hast genug für %@ angespart. Trag die Tage im Stundenkonto ein, wenn du sie nimmst."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acumulaste suficiente para %@. Registra los días en el banco de horas cuando los tomes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous avez cumulé assez pour %@. Saisissez les jours dans le cumul d’heures quand vous les prendrez."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hai accumulato abbastanza per %@. Registra i giorni nella banca ore quando li prendi."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@に必要な時間が貯まりました。休みを取るときは時間バンクに記録してください。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Você acumulou o suficiente para %@. Registre os dias no banco de horas quando os tirar."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已为 %@ 攒够时长。休假时请在工时结余中记录这些天。"
           }
         }
       }

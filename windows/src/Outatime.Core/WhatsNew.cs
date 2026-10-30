@@ -13,6 +13,12 @@ public static class WhatsNew
     /// Newest first.
     public static readonly IReadOnlyList<Release> Releases =
     [
+        new("1.1", [
+            new("VehicleCar", "#30B0C7", "Travel rate",
+                "Travel can count 0.5×, 0.75×, 1.5× or 2× toward your balances and the hours bank. Set it in Settings → Target, from today on or for all past Travel too."),
+            new("Flag", "#5E5CE6", "Congratulations and renewal",
+                "Reaching an objective now sends a congratulations notification. Renew a client's package from the notification or under Objectives; extra time carries over."),
+        ], []),
         new("1.0", [
             new("Window", "#0A84FF", "Outatime for Windows",
                 "Everything from the Mac: the tray panel, the Logbook, clients, objectives, the tomato timer and Excel reports. Your data.json moves between the two."),

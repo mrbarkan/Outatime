@@ -131,7 +131,7 @@ public sealed class ObjectivesWindow : AppWindow
                                    SelectedIndex = Math.Max(0, clients.FindIndex(c => c.Id == o.Profile)) };
         combo.SelectionChanged += (_, _) =>
         {
-            if (combo.SelectedIndex >= 0 && clients[combo.SelectedIndex].Id != o.Profile) Edit(o.Id, x => x with { Profile = clients[combo.SelectedIndex].Id });
+            if (combo.SelectedIndex >= 0 && clients[combo.SelectedIndex].Id != o.Profile) Edit(o.Id, x => x with { Profile = clients[combo.SelectedIndex].Id, Used = null });
         };
         return Labeled(Loc.T("Client"), combo);
     }
@@ -154,14 +154,15 @@ public sealed class ObjectivesWindow : AppWindow
         var picker = new CalendarDatePicker { SelectedDate = Cal.Date(o.Since) };
         picker.SelectedDateChanged += (_, _) =>
         {
-            if (picker.SelectedDate is { } d && Cal.At(d.Date) != Cal.StartOfDay(o.Since)) Edit(o.Id, x => x with { Since = Cal.At(d.Date) });
+            if (picker.SelectedDate is { } d && Cal.At(d.Date) != Cal.StartOfDay(o.Since)) Edit(o.Id, x => x with { Since = Cal.At(d.Date), Used = null });
         };
         return picker;
     }
 
-    static Control ProgressRow(Objective o, Objective.ProgressInfo p)
+    Control ProgressRow(Objective o, Objective.ProgressInfo p)
     {
         Control status = p.Goal <= 0 ? Text(Loc.T("Nothing to count yet"), 12, secondary: true)
+            : p.IsDone && o.Renews ? H(8, Text(Loc.T("Done"), 12, color: Green), Button(Loc.T("Renew"), () => Store.RenewObjective(o.Id)))
             : p.IsDone ? Text(Loc.T("Done"), 12, color: Green)
             : Text(Loc.T("%@ left of %@", p.Left.Hm(), p.Goal.Hm()), 12, secondary: true, tabular: true);
         Control? detail = o.Kind switch

@@ -28,6 +28,7 @@ public class CompatibilityTests
         Assert.Equal(ObjectiveKind.Money, c.Objectives[0].Kind);
         Assert.Equal(8000, c.Objectives[0].Amount);
         Assert.Equal("BRL", c.Objectives[0].Currency);
+        Assert.Equal((3600.0, true), (c.Objectives[0].Used, c.Objectives[0].Celebrated));
         Assert.Null(c.Objectives[1].Profile);
         Assert.Equal(2, c.Templates[0].Slots.Count);
         Assert.Equal(540, c.Templates[0].Slots[0].StartMinute);

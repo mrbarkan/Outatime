@@ -359,6 +359,40 @@ final class Store {
                 set: { new in if let i = self.entries.firstIndex(where: { $0.id == entry.id }) { self.entries[i] = new } })
     }
 
+    /// An objective's progress, with the hours bank behind it. `bankSince`: the setting; 0: since the first entry.
+    func progress(_ o: Objective, target: Target, bankSince: Double) -> Objective.Progress {
+        let since = bankSince > 0 ? Date(timeIntervalSinceReferenceDate: bankSince) : target.since
+        let bank = o.kind == .daysOff ? self.bank(target, since: since).balance : 0
+        return o.progress(entries, bank: bank, dayTarget: target.seconds)
+    }
+
+    /// The objectives that have reached their goal since the last look, each once until it falls short again.
+    func objectivesJustMet(target: Target, bankSince: Double) -> [Objective] {
+        var met: [Objective] = [], updated = objectives
+        for i in updated.indices {
+            let done = progress(updated[i], target: target, bankSince: bankSince).isDone
+            if done, updated[i].celebrated != true { met.append(updated[i]) }
+            updated[i].celebrated = done ? true : nil
+        }
+        if updated != objectives { objectives = updated }
+        return met
+    }
+
+    func renewObjective(_ id: Objective.ID) {
+        if let i = objectives.firstIndex(where: { $0.id == id }) { objectives[i].renew() }
+    }
+
+    /// What an objective goes by in a notification.
+    func objectiveName(_ o: Objective) -> String {
+        if !o.name.isEmpty { return o.name }
+        if o.kind != .daysOff, let name = o.profile.flatMap({ profileNames[$0] }) { return name }
+        return switch o.kind {
+        case .daysOff: String(localized: "Vacation")
+        case .hours: String(localized: "Hours Package")
+        case .money: String(localized: "Salary")
+        }
+    }
+
     func binding(for objective: Objective) -> Binding<Objective> {
         Binding(get: { self.objectives.first { $0.id == objective.id } ?? objective },
                 set: { new in if let i = self.objectives.firstIndex(where: { $0.id == objective.id }) { self.objectives[i] = new } })

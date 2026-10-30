@@ -106,6 +106,24 @@ public class UiTests
         Assert.Equal(Activity.Break, store.Running?.Activity);
     }
 
+    /// Reaching a package congratulates once, and the notification's button renews it.
+    [AvaloniaFact]
+    public void ReachingAnObjectiveCongratulatesAndRenews()
+    {
+        var (shell, store, notifier) = Start();
+        var acme = store.AddProfile("Acme")!.Value;
+        var start = Clock.Now.Plus(-3 * 3600);
+        store.Entries = [new Entry(Activity.Work, start, start.Plus(3 * 3600), [], acme)];
+        store.Objectives = [new Objective(ObjectiveKind.Hours, 2, profile: acme, since: Cal.StartOfDay(start))];
+        var id = store.Objectives[0].Id;
+        shell.Tick();
+        shell.Tick();
+        Assert.Single(notifier.Sent, n => n.Id == $"objective-{id}");
+        notifier.PressRenew(id);
+        Avalonia.Threading.Dispatcher.UIThread.RunJobs();
+        Assert.Equal(2 * 3600, store.Objectives[0].Used);
+    }
+
     static Window Window(string type)
     {
         var windows = typeof(Shell).GetField("windows", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!

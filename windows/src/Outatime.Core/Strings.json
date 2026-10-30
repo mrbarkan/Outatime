@@ -191,6 +191,14 @@
   "es": "Icono de la barra de menús en color",
   "pt-BR": "Ícone colorido na barra de menus"
  },
+ "Congratulations and renewal": {
+  "es": "Felicitaciones y renovación",
+  "pt-BR": "Parabéns e renovação"
+ },
+ "Congratulations!": {
+  "es": "¡Felicidades!",
+  "pt-BR": "Parabéns!"
+ },
  "Contact Support": {
   "es": "Contactar con soporte",
   "pt-BR": "Falar com o suporte"
@@ -535,6 +543,10 @@
   "es": "Ahora registrando Extra.",
   "pt-BR": "Agora registrando Extra."
  },
+ "Objective reached: %@. Renew it to start counting again.": {
+  "es": "Objetivo alcanzado: %@. Renuévalo para volver a contar.",
+  "pt-BR": "Objetivo alcançado: %@. Renove para voltar a contar."
+ },
  "Objectives": {
   "es": "Objetivos",
   "pt-BR": "Objetivos"
@@ -611,6 +623,10 @@
   "es": "Salir",
   "pt-BR": "Sair"
  },
+ "Reaching an objective now sends a congratulations notification. Renew a client's package from the notification or under Objectives; extra time carries over.": {
+  "es": "Al alcanzar un objetivo ahora recibes una notificación de felicitación. Renueva el paquete de un cliente desde ella o en Objetivos; el tiempo de más se traslada.",
+  "pt-BR": "Alcançar um objetivo agora envia uma notificação de parabéns. Renove o pacote de um cliente por ela ou em Objetivos; o tempo a mais é transferido."
+ },
  "Ready for round %lld?": {
   "es": "¿Listo para la ronda %lld?",
   "pt-BR": "Pronto para a rodada %lld?"
@@ -634,6 +650,10 @@
  "Remove": {
   "es": "Quitar",
   "pt-BR": "Remover"
+ },
+ "Renew": {
+  "es": "Renovar",
+  "pt-BR": "Renovar"
  },
  "Replace": {
   "es": "Reemplazar",
@@ -958,6 +978,10 @@
  "Worked": {
   "es": "Trabajado",
   "pt-BR": "Trabalhado"
+ },
+ "You've banked enough for %@. Log the days in the Hours Bank when you take them.": {
+  "es": "Acumulaste suficiente para %@. Registra los días en el banco de horas cuando los tomes.",
+  "pt-BR": "Você acumulou o suficiente para %@. Registre os dias no banco de horas quando os tirar."
  },
  "You've been at it for %@. Get up and move a little.": {
   "es": "Llevas %@ seguido. Levántate y muévete un poco.",

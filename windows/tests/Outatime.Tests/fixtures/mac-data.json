@@ -44,13 +44,15 @@
   "objectives" : [
     {
       "amount" : 8000,
+      "celebrated" : true,
       "currency" : "BRL",
       "id" : "A1B2C3D4-E5F6-4A7B-8C9D-0E1F2A3B4C05",
       "kind" : "money",
       "name" : "Retainer",
       "profile" : "6B1E5C1A-3F1D-4C2B-9E60-2E8F7E0C9A11",
       "rate" : 100,
-      "since" : "2026-09-01T03:00:00Z"
+      "since" : "2026-09-01T03:00:00Z",
+      "used" : 3600
     },
     {
       "amount" : 5,

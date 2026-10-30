@@ -302,6 +302,7 @@ nonisolated struct OutatimeTests {
         #expect(store.timeOff.count == 2 && store.carried.count == 1)
         #expect(store.extraRates == [HourRate(rate: 1.25), HourRate(since: "2026-09-04", rate: 2)])
         #expect(store.travelRates == [HourRate(since: "2026-09-04", rate: 0.5)])
+        #expect(store.objectives[0].used == 3600 && store.objectives[0].celebrated == true)
         store.daysOff = store.daysOff
         // The fixture ends in a newline, as text files do; JSONEncoder doesn't write one.
         let expected = try String(contentsOf: fixture, encoding: .utf8).trimmingCharacters(in: .newlines)
@@ -488,6 +489,40 @@ nonisolated struct OutatimeTests {
         #expect(vacation.progress([], bank: -3600, dayTarget: 8 * 3600).done == 0)
 
         #expect((42.2 * 3600).short == "43h" && (6 * 3600 + 720.0).short == "6h 12m" && 2050.0.short == "35m")
+    }
+
+    /// 3h of Acme's Work on Thu 3 Sep against a 2h package.
+    @Test @MainActor func objectiveCongratulatesOnceAndRenews() throws {
+        let url = FileManager.default.temporaryDirectory.appending(path: "outatime-test-\(UUID().uuidString)/data.json")
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        let store = Store(url: url), acme = UUID()
+        store.entries = [Entry(activity: .work, start: at(9), end: at(12), profile: acme)]
+        store.objectives = [Objective(kind: .hours, amount: 2, profile: acme, since: day)]
+        let target = store.target(hours: 8, excluded: "")
+        let id = store.objectives[0].id
+        #expect(store.objectivesJustMet(target: target, bankSince: 0).map(\.id) == [id])
+        #expect(store.objectivesJustMet(target: target, bankSince: 0).isEmpty)  // once
+        #expect(Store(url: url).objectives[0].celebrated == true)  // a restart doesn't congratulate again
+
+        // The extra hour carries into the new round, which isn't met yet.
+        store.renewObjective(id)
+        let renewed = store.progress(store.objectives[0], target: target, bankSince: 0)
+        #expect(renewed.done == 3600 && renewed.goal == 2 * 3600 && !renewed.isDone)
+        #expect(store.objectivesJustMet(target: target, bankSince: 0).isEmpty)
+        #expect(Store(url: url).objectives[0].used == TimeInterval(2 * 3600))
+
+        // Another hour meets it again.
+        store.entries.append(Entry(activity: .work, start: at(13), end: at(14), profile: acme))
+        #expect(store.objectivesJustMet(target: target, bankSince: 0).map(\.id) == [id])
+
+        // Counting from another day starts over.
+        store.objectives[0].since = at(0)
+        #expect(store.objectives[0].used == nil)
+
+        // Days off don't renew; spending them reopens the objective.
+        var vacation = Objective(kind: .daysOff, amount: 1)
+        vacation.renew()
+        #expect(vacation.used == nil && !vacation.renews)
     }
 
     @Test @MainActor func objectivesRoundTrip() throws {

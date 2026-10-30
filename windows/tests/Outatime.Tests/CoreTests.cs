@@ -527,6 +527,37 @@ public class CoreTests
         Assert.Equal("35m", 2050.0.Short());
     }
 
+    /// 3h of Acme's Work on Thu 3 Sep against a 2h package.
+    [Fact]
+    public void ObjectiveCongratulatesOnceAndRenews()
+    {
+        var store = NewStore();
+        var acme = Guid.NewGuid();
+        store.Entries = [E(A.Work, At(9), At(12), profile: acme)];
+        store.Objectives = [new Objective(ObjectiveKind.Hours, 2, profile: acme, since: Day)];
+        Objective.ProgressInfo Progress(Objective o) => o.Progress(store.Entries, 0, 8 * 3600);
+        var id = store.Objectives[0].Id;
+        Assert.Equal([id], store.ObjectivesJustMet(Progress).Select(o => o.Id));
+        Assert.Empty(store.ObjectivesJustMet(Progress));  // once
+        Assert.True(new Store(store.Path).Objectives[0].Celebrated);  // a restart doesn't congratulate again
+
+        // The extra hour carries into the new round, which isn't met yet.
+        store.RenewObjective(id);
+        var renewed = Progress(store.Objectives[0]);
+        Assert.True(renewed.Done == 3600 && renewed.Goal == 2 * 3600 && !renewed.IsDone);
+        Assert.Empty(store.ObjectivesJustMet(Progress));
+        Assert.Equal(2 * 3600, new Store(store.Path).Objectives[0].Used);
+
+        // Another hour meets it again.
+        store.Entries = [.. store.Entries, E(A.Work, At(13), At(14), profile: acme)];
+        Assert.Equal([id], store.ObjectivesJustMet(Progress).Select(o => o.Id));
+
+        // Days off don't renew; spending them reopens the objective.
+        var vacation = new Objective(ObjectiveKind.DaysOff, 1);
+        Assert.False(vacation.Renews);
+        Assert.Null(vacation.Renewed().Used);
+    }
+
     [Fact]
     public void ObjectivesRoundTrip()
     {
