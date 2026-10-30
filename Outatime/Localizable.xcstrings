@@ -1660,6 +1660,52 @@
         }
       }
     },
+    "Balances and the hours bank count Travel at this rate from today on; worked hours and client reports stay as worked.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salden und Stundenkonto zählen Fahrten ab heute mit diesem Faktor; gearbeitete Stunden und Kundenberichte bleiben, wie gearbeitet."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los saldos y el banco de horas cuentan el Viaje a este factor desde hoy; las horas trabajadas y los informes de clientes quedan tal como se trabajaron."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les soldes et le cumul d’heures comptent le Déplacement à ce taux à partir d’aujourd’hui ; les heures travaillées et les rapports clients restent tels quels."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saldi e banca ore contano la Trasferta con questo fattore da oggi in poi; ore lavorate e report dei clienti restano come lavorate."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今日以降の移動は、過不足と時間バンクでこの倍率で換算されます。勤務時間とクライアントレポートは実際の時間のままです。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os saldos e o banco de horas contam o Deslocamento com este fator a partir de hoje; as horas trabalhadas e os relatórios de clientes ficam como trabalhadas."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从今天起，结余和工时结余按此倍率折算出差；已工作时长和客户报告保持实际时长。"
+          }
+        }
+      }
+    },
     "Block edges": {
       "localizations": {
         "de": {
@@ -2300,6 +2346,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "将以往所有加班按 %@ 折算？"
+          }
+        }
+      }
+    },
+    "Count all past Travel as %@?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle früheren Fahrten mit %@ zählen?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Contar todo el Viaje anterior como %@?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compter tout le Déplacement passé à %@ ?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contare tutta la Trasferta passata a %@?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "過去の移動をすべて%@で換算しますか？"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contar todo o Deslocamento anterior como %@?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将以往所有出差按 %@ 折算？"
           }
         }
       }
@@ -6591,6 +6683,52 @@
         }
       }
     },
+    "Past Travel": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frühere Fahrten"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Viaje anterior"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déplacement passé"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trasferta passata"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "過去の移動"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deslocamento anterior"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "以往出差"
+          }
+        }
+      }
+    },
     "Paused": {
       "localizations": {
         "de": {
@@ -9904,6 +10042,144 @@
           "stringUnit": {
             "state": "translated",
             "value": "出差"
+          }
+        }
+      }
+    },
+    "Travel can count 0.5×, 0.75×, 1.5× or 2× toward your balances and the hours bank. Set it in Settings → Target, from today on or for all past Travel too.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fahrten können mit 0,5×, 0,75×, 1,5× oder 2× in deine Salden und dein Stundenkonto eingehen. Stell es unter Einstellungen → Ziel ein, ab heute oder auch für alle früheren Fahrten."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El Viaje puede contar 0,5×, 0,75×, 1,5× o 2× para tus saldos y el banco de horas. Ajústalo en Ajustes → Meta, desde hoy o también para todo el Viaje anterior."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le Déplacement peut compter 0,5×, 0,75×, 1,5× ou 2× dans vos soldes et le cumul d’heures. Réglez-le dans Réglages → Objectif, à partir d’aujourd’hui ou aussi pour tout le Déplacement passé."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La Trasferta può valere 0,5×, 0,75×, 1,5× o 2× per i saldi e la banca ore. Impostalo in Impostazioni → Obiettivo, da oggi in poi o anche per tutta la Trasferta passata."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移動を過不足と時間バンクで0.5×、0.75×、1.5×、2×に換算できます。設定 → 目標で、今日以降または過去の移動すべてに設定できます。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Deslocamento pode contar 0,5×, 0,75×, 1,5× ou 2× nos seus saldos e no banco de horas. Ajuste em Ajustes → Meta, a partir de hoje ou também para todo o Deslocamento anterior."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出差可按 0.5×、0.75×、1.5× 或 2× 计入结余和工时结余。可在“设置”→“目标”中设置，从今天起生效，也可应用于以往所有出差。"
+          }
+        }
+      }
+    },
+    "Travel counts as": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fahrt zählt"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Viaje cuenta como"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déplacement compte pour"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trasferta vale"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移動の換算"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deslocamento conta como"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出差折算"
+          }
+        }
+      }
+    },
+    "Travel rate": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fahrtfaktor"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Factor de viaje"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taux des déplacements"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fattore trasferta"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移動の倍率"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fator de deslocamento"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出差倍率"
           }
         }
       }

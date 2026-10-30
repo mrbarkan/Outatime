@@ -5,7 +5,7 @@ import UniformTypeIdentifiers
 nonisolated struct DaySummary {
     var date: Date
     var hours: [Activity: TimeInterval]
-    /// The hours that count toward the target, and what the day owed. The balance counts Extra at its rate.
+    /// The hours that count toward the target, and what the day owed. The balance counts Extra and Travel at their rates.
     var worked, owed, balance: TimeInterval
     /// Taken off from the hours bank.
     var timeOff: TimeInterval

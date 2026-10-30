@@ -147,13 +147,39 @@ nonisolated struct Carried: Codable, Identifiable, Hashable {
     var note = ""
 }
 
-/// What an hour of Extra counts for in balances and the hours bank, from `since` (a day key; nil: from the start)
-/// until the next rate. Changing the rate starts a new one today, so past Extra keeps what it counted for.
-nonisolated struct ExtraRate: Codable, Hashable {
+/// What an hour of Extra or Travel counts for in balances and the hours bank, from `since` (a day key; nil: from the
+/// start) until the next rate. Changing the rate starts a new one today, so past blocks keep what they counted for.
+nonisolated struct HourRate: Codable, Hashable {
     var since: String?
     var rate: Double
 
-    static let choices = [1, 1.25, 1.5, 2.0]
+    static let extraChoices = [1, 1.25, 1.5, 2.0]
+    static let travelChoices = [0.5, 0.75, 1, 1.5, 2.0]
+}
+
+/// One activity's rates, oldest first; none: it counts as it's worked.
+nonisolated extension [HourRate] {
+    /// What the activity counts for on a day: the last rate started by then.
+    func rate(on day: Date) -> Double {
+        let key = day.dayKey
+        return last { ($0.since ?? "") <= key }?.rate ?? 1
+    }
+
+    /// What the activity counts for from today on.
+    var current: Double { last?.rate ?? 1 }
+    /// No block keeps an older rate.
+    var coversAll: Bool { allSatisfy { $0.since == nil } }
+
+    /// `rate` from today on; earlier days keep the rate they had.
+    func starting(_ rate: Double, now: Date) -> [HourRate] {
+        let today = now.dayKey
+        var rates = filter { ($0.since ?? "") < today }
+        if rates.current != rate { rates.append(HourRate(since: today, rate: rate)) }
+        return rates
+    }
+
+    /// Every block, past ones too, at today's rate.
+    var appliedToAll: [HourRate] { current == 1 ? [] : [HourRate(rate: current)] }
 }
 
 /// What the hours bank holds, the time worked behind it, and how much of it is already booked as time off ahead.
@@ -180,8 +206,8 @@ nonisolated struct Target {
     var since: Date  // tracking began; nothing is owed before it
     /// Seconds of each day taken off from the bank, by day key; see `book`.
     var booked: [String: TimeInterval] = [:]
-    /// Oldest first; none: Extra counts as it's worked.
-    var extraRates: [ExtraRate] = []
+    var extraRates: [HourRate] = []
+    var travelRates: [HourRate] = []
 
     /// Weekends, days off, days before tracking began and days still ahead owe nothing.
     // ponytail: workdays are the locale's weekdays; a per-weekday schedule when someone works Saturdays.
@@ -201,15 +227,10 @@ nonisolated struct Target {
         !Calendar.current.isDateInWeekend(day) && !daysOff.contains(day.dayKey)
     }
 
-    /// What Extra counts for on a day: the last rate started by then.
-    func extraRate(on day: Date) -> Double {
-        let key = day.dayKey
-        return extraRates.last { ($0.since ?? "") <= key }?.rate ?? 1
-    }
-
-    /// A day's worked time as balances count it: Extra at its rate.
+    /// A day's worked time as balances count it: Extra and, if it counts toward the target, Travel at their rates.
     func credited(_ totals: [Activity: TimeInterval], on day: Date) -> TimeInterval {
-        totals.worked(excluding: excluded) + (extraRate(on: day) - 1) * totals[.extra, default: 0]
+        totals.worked(excluding: excluded) + (extraRates.rate(on: day) - 1) * totals[.extra, default: 0]
+            + (travelRates.rate(on: day) - 1) * totals.filter { $0.key == .travel }.worked(excluding: excluded)
     }
 
     /// What a day adds to a week/month balance. Today is still in progress: it can add a surplus, not a shortfall yet.

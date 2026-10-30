@@ -38,6 +38,7 @@ Most time trackers want a project, a client, a billing rate and an account. Outa
 - **Stats** — what's left of this week's goal and how much more to bank for a day off, right in the menu. Averages per week, month and workday, your usual start and finish, and this month's figures in the Logbook.
 - **Extra after the target** — once a day's worked time reaches the target, Work switches itself to Extra, cut at the exact minute. Weekends and days off are all Extra. Can be turned off.
 - **Overtime rate** — Extra can count 1×, 1.25×, 1.5× or 2× toward balances and the hours bank (Settings → Target). A new rate applies from today on; **Apply to All…** recounts past Extra at it too. Worked hours and client reports stay as worked.
+- **Travel rate** — Travel can count 0.5×, 0.75×, 1×, 1.5× or 2× the same way, while it counts toward the target (Settings → Target).
 - **Tomato timer** — turn it on from the menu for 25-minute focus rounds and 5-minute breaks (15 after every fourth). Each round ends with a notification whose button switches Work ↔ Break for you, and the menu bar counts down the round.
 - **Stretch reminder** — a nudge to get up every 50 minutes of unbroken work (adjustable, or off).
 - **Colored menu bar** — the icon takes the activity's color: blue for Work, green for Break, orange for Lunch…

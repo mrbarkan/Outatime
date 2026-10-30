@@ -209,7 +209,7 @@ private struct DayRow: View {
     let day: Date
     let totals: [Activity: TimeInterval]
     let worked: TimeInterval
-    let credited: TimeInterval  // worked, Extra at its rate
+    let credited: TimeInterval  // worked, Extra and Travel at their rates
     let scale: TimeInterval  // the month's longest bar
     let owed: TimeInterval
     let off: LogKind?  // a holiday, or time off from the bank

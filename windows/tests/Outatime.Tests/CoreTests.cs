@@ -235,9 +235,9 @@ public class CoreTests
     {
         var entries = new[] { E(A.Work, At(9), At(18)), E(A.Extra, At(20), At(22)),
                               E(A.Work, Cal.Setting(D(4), 9), Cal.Setting(D(4), 17)), E(A.Extra, Cal.Setting(D(4), 20), Cal.Setting(D(4), 22)) };
-        var target = new Target(8 * 3600, Day, ExtraRates: [new ExtraRate(1.5, "2026-09-04")]);
+        var target = new Target(8 * 3600, Day, ExtraRates: [new HourRate(1.5, "2026-09-04")]);
         var now = Cal.Setting(D(5), 12);
-        Assert.Equal((1.0, 1.5, 1.5), (target.ExtraRate(Day), target.ExtraRate(D(4)), target.ExtraRate(D(30))));
+        Assert.Equal((1.0, 1.5, 1.5), (target.ExtraRates.On(Day), target.ExtraRates.On(D(4)), target.ExtraRates.On(D(30))));
         // Worked stays as worked; the balance counts Fri's Extra as 3h: +3 on Thu, +3 on Fri.
         var b = Store.BalanceOf(entries, new Interval(Day, now), target, now);
         Assert.Equal((21 * 3600.0, 6 * 3600.0), (b.Worked, b.Balance));
@@ -246,7 +246,7 @@ public class CoreTests
         Assert.Equal([11 * 3600.0, 10 * 3600], days.Select(d => d.Worked));
         Assert.Equal([3 * 3600.0, 3 * 3600], days.Select(d => d.Balance));
         // From the start, Thu's Extra counts 1.5× too.
-        var all = target with { ExtraRates = [new ExtraRate(1.5)] };
+        var all = target with { ExtraRates = [new HourRate(1.5)] };
         Assert.Equal(7 * 3600, Store.BalanceOf(entries, new Interval(Day, now), all, now).Balance);
     }
 
@@ -254,24 +254,50 @@ public class CoreTests
     public void ExtraRateStartsTodayUntilAppliedToAll()
     {
         var store = NewStore();
-        Assert.True(store.ExtraRate == 1 && store.ExtraRateCoversAll);
-        store.SetExtraRate(1.5, D(4));
-        store.SetExtraRate(2, D(4));  // the same day: a correction
-        Assert.Equal([new ExtraRate(2, "2026-09-04")], store.ExtraRates);
-        Assert.False(store.ExtraRateCoversAll);
-        store.SetExtraRate(1.25, D(10));
-        store.SetExtraRate(1.25, D(11));  // unchanged: no new rate
+        Assert.True(store.ExtraRates.Current() == 1 && store.ExtraRates.CoversAll());
+        store.ExtraRates = store.ExtraRates.Starting(1.5, D(4));
+        store.ExtraRates = store.ExtraRates.Starting(2, D(4));  // the same day: a correction
+        Assert.Equal([new HourRate(2, "2026-09-04")], store.ExtraRates);
+        Assert.False(store.ExtraRates.CoversAll());
+        store.ExtraRates = store.ExtraRates.Starting(1.25, D(10));
+        store.ExtraRates = store.ExtraRates.Starting(1.25, D(11));  // unchanged: no new rate
         Assert.Equal([2, 1.25], store.ExtraRates.Select(r => r.Rate));
-        Assert.Equal(1.25, store.ExtraRate);
-        Assert.Equal(2, store.Target(8, "").ExtraRate(D(8)));
-        store.ApplyExtraRateToAll();
-        Assert.Equal([new ExtraRate(1.25)], store.ExtraRates);
-        Assert.True(store.ExtraRateCoversAll);
+        Assert.Equal(1.25, store.ExtraRates.Current());
+        Assert.Equal(2, store.Target(8, "").ExtraRates.On(D(8)));
+        store.ExtraRates = store.ExtraRates.AppliedToAll();
+        Assert.Equal([new HourRate(1.25)], store.ExtraRates);
+        Assert.True(store.ExtraRates.CoversAll());
         Assert.Equal(store.ExtraRates, new Store(store.Path).ExtraRates);
         // Back to 1× from the start: nothing to store.
-        store.SetExtraRate(1, D(12));
-        store.ApplyExtraRateToAll();
+        store.ExtraRates = store.ExtraRates.Starting(1, D(12));
+        store.ExtraRates = store.ExtraRates.AppliedToAll();
         Assert.Empty(store.ExtraRates);
+    }
+
+    /// Thu 3 Sep and Fri 4: 8h of Work and 2h of Travel each; 0.5× from Fri on.
+    [Fact]
+    public void TravelCountsAtItsRate()
+    {
+        var entries = new[] { E(A.Work, At(9), At(17)), E(A.Travel, At(18), At(20)),
+                              E(A.Work, Cal.Setting(D(4), 9), Cal.Setting(D(4), 17)), E(A.Travel, Cal.Setting(D(4), 18), Cal.Setting(D(4), 20)) };
+        var target = new Target(8 * 3600, Day, TravelRates: [new HourRate(0.5, "2026-09-04")]);
+        var now = Cal.Setting(D(5), 12);
+        // Worked stays as worked; the balance counts Fri's Travel as 1h: +2 on Thu, +1 on Fri.
+        var b = Store.BalanceOf(entries, new Interval(Day, now), target, now);
+        Assert.Equal((20 * 3600.0, 3 * 3600.0), (b.Worked, b.Balance));
+        Assert.Equal(3 * 3600, Store.BankOf(entries, [], target, Day, now).Balance);
+        // Left out of the target, Travel adds nothing, whatever its rate.
+        var left = target with { Excluded = "travel" };
+        Assert.Equal(0, Store.BalanceOf(entries, new Interval(Day, now), left, now).Balance);
+    }
+
+    [Fact]
+    public void TravelRatesPersist()
+    {
+        var store = NewStore();
+        store.TravelRates = store.TravelRates.Starting(0.5, D(4));
+        Assert.Equal([new HourRate(0.5, "2026-09-04")], new Store(store.Path).TravelRates);
+        Assert.Equal(0.5, store.Target(8, "").TravelRates.On(D(8)));
     }
 
     [Fact]

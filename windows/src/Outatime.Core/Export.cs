@@ -5,7 +5,7 @@ using Style = Outatime.Xlsx.Style;
 namespace Outatime;
 
 /// One row of a report: a day with entries, owed hours or time off. Summed, the balances match the app's balances; they
-/// count Extra at its rate, Worked as worked.
+/// count Extra and Travel at their rates, Worked as worked.
 public sealed record DaySummary(DateTimeOffset Date, Dictionary<Activity, double> Hours, double Worked, double Owed, double Balance, double TimeOff,
                                 string Notes)
 {

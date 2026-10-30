@@ -18,6 +18,10 @@ enum WhatsNew {
 
     /// Newest first.
     static let releases = [
+        Release(version: "1.4", new: [
+            Item(symbol: Activity.travel.symbol, color: Activity.travel.color, title: "Travel rate",
+                 detail: "Travel can count 0.5×, 0.75×, 1.5× or 2× toward your balances and the hours bank. Set it in Settings → Target, from today on or for all past Travel too."),
+        ]),
         Release(version: "1.3", new: [
             Item(symbol: "flag.pattern.checkered", color: .indigo, title: "Objectives",
                  detail: "Set goals under Objectives in the Logbook: days off to bank for a vacation, or a client's package of hours or pay. The menu counts one down next to Export."),

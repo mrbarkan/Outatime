@@ -143,6 +143,10 @@
   "es": "Los saldos y el banco de horas cuentan el Extra a este factor desde hoy; las horas trabajadas y los informes de clientes quedan tal como se trabajaron.",
   "pt-BR": "Os saldos e o banco de horas contam o Extra com este fator a partir de hoje; as horas trabalhadas e os relatórios de clientes ficam como trabalhadas."
  },
+ "Balances and the hours bank count Travel at this rate from today on; worked hours and client reports stay as worked.": {
+  "es": "Los saldos y el banco de horas cuentan el Viaje a este factor desde hoy; las horas trabajadas y los informes de clientes quedan tal como se trabajaron.",
+  "pt-BR": "Os saldos e o banco de horas contam o Deslocamento com este fator a partir de hoje; as horas trabalhadas e os relatórios de clientes ficam como trabalhadas."
+ },
  "Block edges": {
   "es": "Bordes de los bloques",
   "pt-BR": "Bordas dos blocos"
@@ -198,6 +202,10 @@
  "Count all past Extra as %@?": {
   "es": "¿Contar todo el Extra anterior como %@?",
   "pt-BR": "Contar todo o Extra anterior como %@?"
+ },
+ "Count all past Travel as %@?": {
+  "es": "¿Contar todo el Viaje anterior como %@?",
+  "pt-BR": "Contar todo o Deslocamento anterior como %@?"
  },
  "Counting since": {
   "es": "Contando desde",
@@ -571,6 +579,10 @@
   "es": "Extra anterior",
   "pt-BR": "Extra anterior"
  },
+ "Past Travel": {
+  "es": "Viaje anterior",
+  "pt-BR": "Deslocamento anterior"
+ },
  "Paused": {
   "es": "En pausa",
   "pt-BR": "Pausado"
@@ -858,6 +870,18 @@
  "Travel": {
   "es": "Viaje",
   "pt-BR": "Deslocamento"
+ },
+ "Travel can count 0.5×, 0.75×, 1.5× or 2× toward your balances and the hours bank. Set it in Settings → Target, from today on or for all past Travel too.": {
+  "es": "El Viaje puede contar 0,5×, 0,75×, 1,5× o 2× para tus saldos y el banco de horas. Ajústalo en Ajustes → Meta, desde hoy o también para todo el Viaje anterior.",
+  "pt-BR": "O Deslocamento pode contar 0,5×, 0,75×, 1,5× ou 2× nos seus saldos e no banco de horas. Ajuste em Ajustes → Meta, a partir de hoje ou também para todo o Deslocamento anterior."
+ },
+ "Travel counts as": {
+  "es": "Viaje cuenta como",
+  "pt-BR": "Deslocamento conta como"
+ },
+ "Travel rate": {
+  "es": "Factor de viaje",
+  "pt-BR": "Fator de deslocamento"
  },
  "Turn it on from the menu for focus rounds and breaks. A notification at the end of each round switches Work and Break for you.": {
   "es": "Actívalo desde el menú para rondas de enfoque y pausas. Una notificación al final de cada ronda cambia entre Trabajo y Pausa por ti.",

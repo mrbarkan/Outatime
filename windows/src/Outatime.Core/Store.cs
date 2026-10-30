@@ -12,7 +12,8 @@ public sealed class Store
     List<Objective> objectives = [];
     List<TimeOff> timeOff = [];
     List<Carried> carried = [];
-    List<ExtraRate> extraRates = [];
+    List<HourRate> extraRates = [];
+    List<HourRate> travelRates = [];
     DateTimeOffset? tomatoSince;
 
     public List<Entry> Entries { get => entries; set { entries = value; Commit(); } }
@@ -24,7 +25,8 @@ public sealed class Store
     public List<Objective> Objectives { get => objectives; set { objectives = value; Commit(); } }
     public List<TimeOff> TimeOff { get => timeOff; set { timeOff = value; Commit(); } }
     public List<Carried> Carried { get => carried; set { carried = value; Commit(); } }
-    public List<ExtraRate> ExtraRates { get => extraRates; set { extraRates = value; Commit(); } }
+    public List<HourRate> ExtraRates { get => extraRates; set { extraRates = value; Commit(); } }
+    public List<HourRate> TravelRates { get => travelRates; set { travelRates = value; Commit(); } }
     /// When the tomato timer was turned on; null while it's off. Not saved: quitting turns it off.
     public DateTimeOffset? TomatoSince { get => tomatoSince; set { tomatoSince = value; Changed?.Invoke(); } }
     /// A block added in the Logbook opens its editor once it appears.
@@ -71,10 +73,10 @@ public sealed class Store
     {
         entries = c.Entries; templates = c.Templates; daysOff = c.DaysOff; profiles = c.Profiles;
         currentProfile = c.Current; objectives = c.Objectives; timeOff = c.TimeOff ?? []; carried = c.Carried ?? [];
-        extraRates = c.ExtraRates ?? [];
+        extraRates = c.ExtraRates ?? []; travelRates = c.TravelRates ?? [];
     }
 
-    public DataFile.Contents Contents => new(entries, templates, daysOff, profiles, currentProfile, objectives, timeOff, carried, extraRates);
+    public DataFile.Contents Contents => new(entries, templates, daysOff, profiles, currentProfile, objectives, timeOff, carried, extraRates, travelRates);
 
     public void Commit()
     {
@@ -269,23 +271,6 @@ public sealed class Store
         Commit();
     }
 
-    /// What Extra counts for from today on.
-    public double ExtraRate => extraRates.Count > 0 ? extraRates[^1].Rate : 1;
-    /// No Extra keeps an older rate.
-    public bool ExtraRateCoversAll => extraRates.All(r => r.Since == null);
-
-    /// Extra counts `rate` from today on; earlier days keep the rate they had.
-    public void SetExtraRate(double rate, DateTimeOffset? now = null)
-    {
-        var today = (now ?? Clock.Now).DayKey();
-        var rates = extraRates.Where(r => string.CompareOrdinal(r.Since ?? "", today) < 0).ToList();
-        if ((rates.Count > 0 ? rates[^1].Rate : 1) != rate) rates.Add(new ExtraRate(rate, today));
-        ExtraRates = rates;
-    }
-
-    /// Every Extra block, past ones too, counts at today's rate.
-    public void ApplyExtraRateToAll() => ExtraRates = ExtraRate == 1 ? [] : [new ExtraRate(ExtraRate)];
-
     // MARK: Exports
 
     public byte[] MonthReport(DateTimeOffset month, Target target, DateTimeOffset? now = null) =>
@@ -317,12 +302,12 @@ public sealed class Store
         entries.GroupBy(e => e.Activity).ToDictionary(g => g.Key, g => g.Sum(e => e.Duration));
 
     public Target Target(double hours, string excluded) =>
-        new Target(hours * 3600, entries.Count > 0 ? entries.Min(e => e.Start) : Clock.Now, excluded, daysOff, ExtraRates: extraRates).Book(timeOff);
+        new Target(hours * 3600, entries.Count > 0 ? entries.Min(e => e.Start) : Clock.Now, excluded, daysOff, ExtraRates: extraRates, TravelRates: travelRates).Book(timeOff);
 
     public (double Worked, double Balance) Balance(Interval interval, Target target, DateTimeOffset? now = null) =>
         BalanceOf(entries, interval, target, now);
 
-    /// Worked time over the days in `interval`, and their balance against what each day owes, Extra at its rate.
+    /// Worked time over the days in `interval`, and their balance against what each day owes, Extra and Travel at their rates.
     public static (double Worked, double Balance) BalanceOf(IEnumerable<Entry> entries, Interval interval, Target target, DateTimeOffset? now = null)
     {
         var n = now ?? Clock.Now;

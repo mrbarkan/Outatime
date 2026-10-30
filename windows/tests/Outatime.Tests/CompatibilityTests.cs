@@ -36,7 +36,8 @@ public class CompatibilityTests
         Assert.Equal(2, c.TimeOff!.Count);
         Assert.Null(c.TimeOff[0].Hours);
         Assert.Equal((4.0, "Dentist"), (c.TimeOff[1].Hours, c.TimeOff[1].Note));
-        Assert.Equal([new ExtraRate(1.25), new ExtraRate(2, "2026-09-04")], c.ExtraRates);
+        Assert.Equal([new HourRate(1.25), new HourRate(2, "2026-09-04")], c.ExtraRates);
+        Assert.Equal([new HourRate(0.5, "2026-09-04")], c.TravelRates);
     }
 
     /// Written back, it's the Mac's file again: same keys, same formats, same values.
@@ -71,6 +72,7 @@ public class CompatibilityTests
         Assert.Empty(c.TimeOff!);
         Assert.Empty(c.Carried!);
         Assert.Empty(c.ExtraRates!);
+        Assert.Empty(c.TravelRates!);
     }
 
     /// An unreadable file is set aside, never overwritten.

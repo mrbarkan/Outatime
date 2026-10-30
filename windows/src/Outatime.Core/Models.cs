@@ -103,20 +103,48 @@ public record struct Carried(Guid Id, string Date, double Hours, string Note = "
     public Carried(string date, double hours, string note = "") : this(Guid.NewGuid(), date, hours, note) { }
 }
 
-/// What an hour of Extra counts for in balances and the hours bank, from `Since` (a day key; null: from the start)
-/// until the next rate. Changing the rate starts a new one today, so past Extra keeps what it counted for.
-public record struct ExtraRate(double Rate, string? Since = null)
+/// What an hour of Extra or Travel counts for in balances and the hours bank, from `Since` (a day key; null: from the
+/// start) until the next rate. Changing the rate starts a new one today, so past blocks keep what they counted for.
+public record struct HourRate(double Rate, string? Since = null)
 {
-    public static readonly double[] Choices = [1, 1.25, 1.5, 2];
+    public static readonly double[] ExtraChoices = [1, 1.25, 1.5, 2];
+    public static readonly double[] TravelChoices = [0.5, 0.75, 1, 1.5, 2];
+}
+
+/// One activity's rates, oldest first; none: it counts as it's worked.
+public static class HourRates
+{
+    /// What the activity counts for on a day: the last rate started by then.
+    public static double On(this IReadOnlyList<HourRate>? rates, DateTimeOffset day)
+    {
+        var key = day.DayKey();
+        return rates?.LastOrDefault(r => string.CompareOrdinal(r.Since ?? "", key) <= 0) is { Rate: > 0 } r ? r.Rate : 1;
+    }
+
+    /// What the activity counts for from today on.
+    public static double Current(this IReadOnlyList<HourRate> rates) => rates.Count > 0 ? rates[^1].Rate : 1;
+    /// No block keeps an older rate.
+    public static bool CoversAll(this IReadOnlyList<HourRate> rates) => rates.All(r => r.Since == null);
+
+    /// `rate` from today on; earlier days keep the rate they had.
+    public static List<HourRate> Starting(this IReadOnlyList<HourRate> rates, double rate, DateTimeOffset? now = null)
+    {
+        var today = (now ?? Clock.Now).DayKey();
+        var kept = rates.Where(r => string.CompareOrdinal(r.Since ?? "", today) < 0).ToList();
+        if (kept.Current() != rate) kept.Add(new HourRate(rate, today));
+        return kept;
+    }
+
+    /// Every block, past ones too, at today's rate.
+    public static List<HourRate> AppliedToAll(this IReadOnlyList<HourRate> rates) => rates.Current() == 1 ? [] : [new HourRate(rates.Current())];
 }
 
 /// What the hours bank holds, the time worked behind it, and how much of it is already booked as time off ahead.
 public readonly record struct HoursBank(double Balance, double Worked, double BookedAhead);
 
 /// The daily target and which days owe it. `Booked`: seconds of each day taken off from the bank, by day key; see Book.
-/// `ExtraRates`: oldest first; none: Extra counts as it's worked.
 public record struct Target(double Seconds, DateTimeOffset Since, string Excluded = Activities.DefaultExcluded, IReadOnlySet<string>? DaysOff = null,
-                            IReadOnlyDictionary<string, double>? Booked = null, IReadOnlyList<ExtraRate>? ExtraRates = null)
+                            IReadOnlyDictionary<string, double>? Booked = null, IReadOnlyList<HourRate>? ExtraRates = null, IReadOnlyList<HourRate>? TravelRates = null)
 {
     readonly IReadOnlySet<string> Off => DaysOff ?? new HashSet<string>();
 
@@ -136,16 +164,10 @@ public record struct Target(double Seconds, DateTimeOffset Since, string Exclude
     /// Not a weekend or a holiday.
     public readonly bool IsWorkday(DateTimeOffset day) => !Cal.IsWeekend(day) && !Off.Contains(day.DayKey());
 
-    /// What Extra counts for on a day: the last rate started by then.
-    public readonly double ExtraRate(DateTimeOffset day)
-    {
-        var key = day.DayKey();
-        return ExtraRates?.LastOrDefault(r => string.CompareOrdinal(r.Since ?? "", key) <= 0) is { Rate: > 0 } r ? r.Rate : 1;
-    }
-
-    /// A day's worked time as balances count it: Extra at its rate.
+    /// A day's worked time as balances count it: Extra and, if it counts toward the target, Travel at their rates.
     public readonly double Credited(IReadOnlyDictionary<Activity, double> totals, DateTimeOffset day) =>
-        totals.Worked(Excluded) + (ExtraRate(day) - 1) * totals.Get(Activity.Extra);
+        totals.Worked(Excluded) + (ExtraRates.On(day) - 1) * totals.Get(Activity.Extra)
+        + (TravelRates.On(day) - 1) * totals.Where(kv => kv.Key == Activity.Travel).ToDictionary().Worked(Excluded);
 
     /// What a day adds to a week/month balance. Today is still in progress: it can add a surplus, not a shortfall yet.
     public readonly double Balance(double worked, DateTimeOffset day, DateTimeOffset? now = null)

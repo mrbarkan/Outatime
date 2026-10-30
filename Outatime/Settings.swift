@@ -131,11 +131,14 @@ private struct TargetSettings: View {
     @AppStorage("excludedFromTarget") private var excluded = Activity.defaultExcluded
     @AppStorage("bankSince") private var bankSince = 0.0  // 0: since the first entry
     @AppStorage("autoExtra") private var autoExtra = true
-    @State private var recounting = false
+    @State private var recountingExtra = false
+    @State private var recountingTravel = false
 
     var body: some View {
         // "1.5×", in the locale's digits.
-        let rate = "\(store.extraRate.formatted())×"
+        let extraRate = "\(store.extraRates.current.formatted())×", travelRate = "\(store.travelRates.current.formatted())×"
+        // Left out of the target, Travel adds nothing for a rate to scale.
+        let travelCounts = !excluded.split(separator: ",").contains(Substring(Activity.travel.rawValue))
         Form {
             Section {
                 Stepper("Daily target \(targetHours.formatted())h", value: $targetHours, in: 0...16, step: 0.5)
@@ -162,24 +165,45 @@ private struct TargetSettings: View {
                     .font(.caption).foregroundStyle(.secondary)
             }
             Section {
-                Picker("Extra counts as", selection: Binding(get: { store.extraRate }, set: { store.setExtraRate($0) })) {
-                    ForEach(ExtraRate.choices, id: \.self) { Text(verbatim: "\($0.formatted())×") }
+                Picker("Extra counts as", selection: Binding(get: { store.extraRates.current }, set: { store.extraRates = store.extraRates.starting($0, now: .now) })) {
+                    ForEach(HourRate.extraChoices, id: \.self) { Text(verbatim: "\($0.formatted())×") }
                 }
                 .pickerStyle(.segmented)
                 LabeledContent {
-                    Button("Apply to All…") { recounting = true }.disabled(store.extraRateCoversAll)
+                    Button("Apply to All…") { recountingExtra = true }.disabled(store.extraRates.coversAll)
                 } label: {
                     Text("Past Extra")
-                    Text(store.extraRateCoversAll ? "Counts at this rate too" : "Keeps the rate it had")
+                    Text(store.extraRates.coversAll ? "Counts at this rate too" : "Keeps the rate it had")
                 }
             } footer: {
                 Text("Balances and the hours bank count Extra at this rate from today on; worked hours and client reports stay as worked.")
                     .font(.caption).foregroundStyle(.secondary)
             }
+            Section {
+                Picker("Travel counts as", selection: Binding(get: { store.travelRates.current }, set: { store.travelRates = store.travelRates.starting($0, now: .now) })) {
+                    ForEach(HourRate.travelChoices, id: \.self) { Text(verbatim: "\($0.formatted())×") }
+                }
+                .pickerStyle(.segmented)
+                .disabled(!travelCounts)
+                LabeledContent {
+                    Button("Apply to All…") { recountingTravel = true }.disabled(!travelCounts || store.travelRates.coversAll)
+                } label: {
+                    Text("Past Travel")
+                    Text(store.travelRates.coversAll ? "Counts at this rate too" : "Keeps the rate it had")
+                }
+            } footer: {
+                Text("Balances and the hours bank count Travel at this rate from today on; worked hours and client reports stay as worked.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
         }
         .settingsForm()
-        .confirmationDialog("Count all past Extra as \(rate)?", isPresented: $recounting) {
-            Button("Apply to All") { store.applyExtraRateToAll() }
+        .confirmationDialog("Count all past Extra as \(extraRate)?", isPresented: $recountingExtra) {
+            Button("Apply to All") { store.extraRates = store.extraRates.appliedToAll }
+        } message: {
+            Text("Balances and the hours bank are recounted. Worked hours and client reports don't change.")
+        }
+        .confirmationDialog("Count all past Travel as \(travelRate)?", isPresented: $recountingTravel) {
+            Button("Apply to All") { store.travelRates = store.travelRates.appliedToAll }
         } message: {
             Text("Balances and the hours bank are recounted. Worked hours and client reports don't change.")
         }
