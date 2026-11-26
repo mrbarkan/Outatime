@@ -4,6 +4,9 @@
 
     .\scripts\package.ps1                 # x64 + arm64 → artifacts\
     .\scripts\package.ps1 -Sign           # also sign with a local test certificate, to install the .msix by hand
+
+  With Inno Setup 6 installed it also makes Outatime-<version>-Setup.exe, a per-user installer for people who
+  aren't on the Store (package\Outatime.iss).
 #>
 param(
     [string[]] $Architectures = @('x64', 'arm64'),
@@ -46,6 +49,16 @@ foreach ($arch in $Architectures) {
     & $makeappx pack /o /d $out /p $msix
     if ($LASTEXITCODE) { throw "makeappx pack $arch failed" }
     $packages += $msix
+}
+
+# Setup.exe: the portable exes in a Next-Next-Finish installer, no admin or certificate needed.
+$iscc = @("${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe", "$env:ProgramFiles\Inno Setup 6\ISCC.exe", "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe") |
+    Where-Object { Test-Path $_ } | Select-Object -First 1
+if ($iscc -and $Architectures -contains 'x64' -and $Architectures -contains 'arm64') {
+    & $iscc /Q "/DAppVersion=$($props.Project.PropertyGroup.Version)" "/DArtifacts=$artifacts" (Join-Path $root 'package\Outatime.iss')
+    if ($LASTEXITCODE) { throw 'Inno Setup failed' }
+} else {
+    Write-Warning 'Skipping Setup.exe: needs Inno Setup 6 (winget install JRSoftware.InnoSetup) and both architectures.'
 }
 
 # One bundle for the Store: it serves each PC its architecture.

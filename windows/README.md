@@ -15,7 +15,8 @@ src/Outatime.Core/    the Mac app's logic, ported one-to-one (Store, Stats, Obje
 src/Outatime/         the app: tray icon and panel, Logbook, Hours Bank and Log, Settings, Objectives, About, What's New
   Platform/           toasts, global shortcuts, open at login, the drawn tray icons, single instance
 package/              MSIX manifest and tile images
-scripts/package.ps1   portable exes + MSIX bundle
+package/Outatime.iss  Inno Setup script for Outatime-<v>-Setup.exe, the per-user installer
+scripts/package.ps1   portable exes, Setup.exe + MSIX bundle
 tests/Outatime.Tests/ the Mac test suite ported, data.json compatibility, translations, headless UI
 ```
 
@@ -47,12 +48,19 @@ dotnet publish src/Outatime -c Release -r win-x64 --self-contained -o artifacts/
 
 ## Package (on Windows)
 
-Needs the Windows SDK for `makeappx`/`signtool`.
+Needs the Windows SDK for `makeappx`/`signtool`, and [Inno Setup 6](https://jrsoftware.org/isinfo.php) for Setup.exe
+(`winget install JRSoftware.InnoSetup`; without it the script skips Setup.exe).
 
 ```powershell
 .\scripts\package.ps1          # artifacts\: Outatime_<v>.msixbundle, per-arch .msix, portable zips
 .\scripts\package.ps1 -Sign    # also signs with a self-signed test certificate
 ```
+
+`Outatime-<version>-Setup.exe` is the easiest thing to hand someone: one file, Next-Next-Finish, no administrator
+and no certificate. It installs the right exe for x64 or Arm64 under `%LOCALAPPDATA%\Programs\Outatime`, adds a
+Start menu shortcut, can turn on Open at Login, and shows up in Settings → Apps to uninstall. The data stays in
+`%LOCALAPPDATA%\Outatime`, so uninstalling or upgrading keeps the logbook. It isn't code-signed, so SmartScreen says
+"Windows protected your PC" the first time: **More info → Run anyway**.
 
 To install a signed test build by hand, keep `Install.cmd`, `Install.ps1`, `Outatime-test.cer` and the
 `.msixbundle` together and double-click `Install.cmd`. It trusts the test certificate (Windows asks for admin
@@ -64,7 +72,9 @@ Import-Certificate -FilePath artifacts\Outatime-test.cer -CertStoreLocation Cert
 ```
 
 The GitHub Actions workflow (`.github/workflows/windows.yml`) runs the tests, packages, launches the portable exe
-once with sample data as a smoke test, and uploads everything as the `outatime-windows` artifact.
+once with sample data as a smoke test, installs the MSIX bundle with Install.ps1, then installs Setup.exe silently,
+runs the installed app, reinstalls over a running copy and uninstalls it (checking the data survives). It uploads
+Setup.exe on its own as the `Outatime-Setup` artifact, and everything as `outatime-windows`.
 
 ## Microsoft Store
 
