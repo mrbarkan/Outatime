@@ -62,7 +62,8 @@ Requires macOS 26 (Tahoe) or later.
 
 Download from the [Windows release](https://github.com/mrbarkan/Outatime/releases/tag/windows-v1.0):
 
-- **Installer** — unzip `Outatime-1.0.0.0-installer.zip` and double-click `Install.cmd`. It trusts Outatime's test certificate (Windows asks for admin once), installs the app for x64 or Arm64 and opens it.
+- **Setup** — run `Outatime-<version>-Setup.exe`. No administrator needed; it installs for you only, adds Outatime to the Start menu and can open it at sign-in. It isn't code-signed yet, so Windows SmartScreen may say "Windows protected your PC": click **More info**, then **Run anyway**. Uninstall it from Settings → Apps; your data stays.
+- **Installer (MSIX)** — unzip `Outatime-1.0.0.0-installer.zip` and double-click `Install.cmd`. It trusts Outatime's test certificate (Windows asks for admin once), installs the app for x64 or Arm64 and opens it.
 - **Portable** — unzip `Outatime-1.0.0.0-x64-portable.zip` (or the `arm64` one) and run `Outatime.exe`. Nothing to install.
 
 Requires Windows 10 (version 2004) or later, x64 or Arm64. English, Español and Português (Brasil). It sits in the notification area: left-click for the panel, right-click for a small menu; the tooltip shows the elapsed time or what's left today. Shortcuts are Ctrl+Alt+Shift+W / B. Everything else — Logbook, Hours Bank, Objectives, clients, tomato timer, Excel reports — works as on the Mac. Settings → General has **Export Data…** and **Import Data…**: export before uninstalling, since Windows deletes an installed app's data with it.

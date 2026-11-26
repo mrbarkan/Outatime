@@ -20,9 +20,15 @@ jobs:
           dotnet-version: '10.0.x'
       - name: Test
         run: dotnet test tests/Outatime.Tests -c Release
+      - name: Inno Setup
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe")) { choco install innosetup -y --no-progress }
       - name: Package
         shell: pwsh
-        run: ./scripts/package.ps1 -Sign
+        run: |
+          ./scripts/package.ps1 -Sign
+          if (-not (Get-ChildItem artifacts -Filter 'Outatime-*-Setup.exe')) { throw 'No Setup.exe was built' }
       - name: Smoke test the portable exe
         shell: pwsh
         run: |
@@ -42,6 +48,51 @@ jobs:
           $env:OUTATIME_NO_LAUNCH = '1'
           ./artifacts/Install.ps1
           Get-AppxPackage -Name 'DavidBarkan.Outatime' | Format-List Name, Version, Architecture, PackageFamilyName
+      - name: Install, run and uninstall Setup.exe
+        shell: pwsh
+        run: |
+          $setup = (Get-ChildItem artifacts -Filter 'Outatime-*-Setup.exe').FullName
+          $p = Start-Process $setup -ArgumentList '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', '/TASKS=startup', "/LOG=$env:RUNNER_TEMP\setup.log" -PassThru -Wait
+          if ($p.ExitCode -ne 0) { Get-Content "$env:RUNNER_TEMP\setup.log"; throw "Setup exited with $($p.ExitCode)" }
+
+          $exe = Join-Path $env:LOCALAPPDATA 'Programs\Outatime\Outatime.exe'
+          if (-not (Test-Path $exe)) { throw "Setup didn't put Outatime.exe at $exe" }
+          if (-not (Test-Path (Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\Outatime.lnk'))) { throw 'No Start menu shortcut' }
+          $run = (Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run').Outatime
+          if ($run -ne "`"$exe`"") { throw "Open at login is '$run'" }
+          $entry = Get-ChildItem 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall' | Get-ItemProperty | Where-Object DisplayName -eq 'Outatime'
+          if (-not $entry) { throw 'Outatime is not in Settings → Apps' }
+          "Installed Outatime $($entry.DisplayVersion) at $exe"
+
+          # The installed copy opens every window and renders it, like the portable smoke test.
+          $env:OUTATIME_HOME = Join-Path $env:RUNNER_TEMP 'outatime-installed'
+          $env:OUTATIME_SAMPLE = '1'
+          $env:OUTATIME_OPEN = 'panel,logbook,settings'
+          $env:OUTATIME_SNAPSHOT = Join-Path $env:RUNNER_TEMP 'outatime-installed-shots'
+          $app = Start-Process $exe -PassThru
+          if (-not $app.WaitForExit(60000)) { $app.Kill(); throw 'The installed Outatime did not finish its snapshot run in 60 s' }
+          if ($app.ExitCode -ne 0) { throw "The installed Outatime exited with $($app.ExitCode)" }
+          if (-not (Get-ChildItem $env:OUTATIME_SNAPSHOT -Filter *.png)) { throw 'The installed Outatime rendered no windows' }
+          Remove-Item Env:OUTATIME_SAMPLE, Env:OUTATIME_OPEN, Env:OUTATIME_SNAPSHOT
+
+          # An upgrade over a running copy: Setup closes it and installs.
+          $running = Start-Process $exe -PassThru
+          Start-Sleep 5
+          if ($running.HasExited) { throw "Outatime quit on its own with $($running.ExitCode)" }
+          $p = Start-Process $setup -ArgumentList '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART' -PassThru -Wait
+          if ($p.ExitCode -ne 0) { throw "Reinstalling over a running Outatime exited with $($p.ExitCode)" }
+          Get-Process Outatime -ErrorAction SilentlyContinue | Stop-Process -Force
+
+          $p = Start-Process $entry.UninstallString.Trim('"') -ArgumentList '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART' -PassThru -Wait
+          Start-Sleep 3
+          if (Test-Path $exe) { throw 'Uninstalling left Outatime.exe behind' }
+          if ((Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run').Outatime) { throw 'Uninstalling left Open at login on' }
+          if (-not (Test-Path (Join-Path $env:OUTATIME_HOME 'data.json'))) { throw 'Uninstalling took the data with it' }
+          'Uninstalled; data.json kept'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Outatime-Setup
+          path: windows/artifacts/Outatime-*-Setup.exe
       - uses: actions/upload-artifact@v4
         with:
           name: outatime-windows
@@ -49,6 +100,7 @@ jobs:
             windows/artifacts/*.msixbundle
             windows/artifacts/*.msix
             windows/artifacts/*.zip
+            windows/artifacts/*-Setup.exe
             windows/artifacts/*.cer
             windows/artifacts/Install.*
             windows/artifacts/*.png
